@@ -1,0 +1,27 @@
+<div class="component-background">
+  <div #imageWrapper><img class="img-fluid mx-auto d-block pt-2"
+         [src]="imgUrls[selectedIndex]"
+         [imageZoom]="imgUrls[selectedIndex]"
+         [lensWidth]="600"
+         [lensHeight]="400"
+         [maxZoomLevel]=".6">
+  </div>
+  <div>
+    <div class="gallery-container row">
+      <div class="col arrow left text-primary"
+           (click)="backward(imageWrapper)">
+        <fa-icon [icon]="faAngleLeft"></fa-icon>
+      </div>
+      <div class="col gallery-item"
+           [ngClass]="{'active' : isSelected(url) }"
+           *ngFor="let url of  getGallery()"
+           (click)="select(url)">
+        <img [src]="url">
+      </div>
+      <div class="col arrow text-primary"
+           (click)="forward()">
+        <fa-icon [icon]="faAngleRight"></fa-icon>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="accepted-cards mb-2">
+    <fa-icon [icon]="faCcVisa" size="2x"></fa-icon>
+    <fa-icon [icon]="faCcMastercard" size="2x"></fa-icon>
+    <fa-icon [icon]="faCcDiscover" size="2x"></fa-icon>
+</div>
+<form (ngSubmit)="onSubmit()"
+      novalidate
+      [formGroup]="cardForm"
+      name="CardForm"
+      class="add-card-form">
+    <div class="form-group">
+      <label class="sr-only"
+             for="cardNumber">Card Number</label>
+      <input type="text"
+             formControlName="CardNumber"
+             class="form-control"
+             style="max-width:190px;"
+             id="cardNumber"
+             placeholder="Card Number"
+             autofocus="true"
+             autocomplete="off" />
+      <span *ngIf="hasRequiredError('CardNumber')"
+            class="error-message">Card Number is required</span>
+    </div>
+    <div class="form-group">
+      <label class="sr-only"
+             for="name">Name on Card</label>
+      <input type="text"
+             formControlName="CardholderName"
+             class="form-control"
+             id="name"
+             style="max-width:190px;"
+             placeholder="Name on Card"
+             autocomplete="off" />
+      <span *ngIf="hasRequiredError('CardholderName')"
+            class="error-message">Cardholder name is required</span>
+    </div>
+    <div class="form-group mr-2">
+      <label class="sr-only"
+             for="month">Expiration Month</label>
+      <select formControlName="expMonth"
+              class="form-control"
+              style="max-width:65px;"
+              id="state">
+            <option *ngFor="let month of monthOptions" [value]="month">{{ month }}</option>
+      </select>
+      <span *ngIf="hasRequiredError('expMonth')"
+            class="error-message">Month is required</span>
+    </div>
+    <div class="form-group">
+      <label class="sr-only"
+             for="year">Expiration Year</label>
+      <select formControlName="expYear"
+              class="form-control"
+              style="max-width:85px;"
+              id="state">
+             <option *ngFor="let year of yearOptions" [value]="year.slice(-2)">{{ year }}</option>
+      </select>
+      <span *ngIf="hasRequiredError('expYear')"
+            class="error-message">Year is Required</span>
+    </div>
+    <div class="form-group">
+      <label class="sr-only"
+             for="ccv">CCV</label>
+      <input type="text"
+             formControlName="CardCode"
+             class="form-control"
+             id="ccv"
+             style="max-width:60px;"
+             placeholder="CCV"
+             autocomplete="off" />
+      <span *ngIf="hasRequiredError('CardCode')"
+            class="error-message">CCV is required</span>
+    </div>
+  <button type="submit"
+          class="btn btn-primary float-right" [disabled]="!cardForm.valid"><fa-icon [icon]="faPlus"></fa-icon> Add</button>
+</form>

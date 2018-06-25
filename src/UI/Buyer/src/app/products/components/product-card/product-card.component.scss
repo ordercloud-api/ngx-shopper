@@ -1,0 +1,25 @@
+.card-title { 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+// TODO: make this highly reusable to work
+// similar to bootstrap's input-group but with
+// quantity-input component's highly nested structure
+.input-group__quantity-input-group {
+    .input-group__button {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .input-group__quantity-input {
+        form {
+            .form-group {
+                input {
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+            }
+        }
+    }
+}

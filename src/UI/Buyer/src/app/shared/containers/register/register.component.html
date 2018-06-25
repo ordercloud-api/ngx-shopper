@@ -1,0 +1,102 @@
+<div *ngIf="!shouldAllowUpdate"
+     class="text-center mt-3">
+  <p>Already have an account? <button type="button"
+            class="btn btn-link"
+            routerLink="/login">Login</button></p>
+  <h1 class="display-4">{{appConfig.appname}}</h1>
+</div>
+<div class="row">
+  <div class="col-lg-6"
+       [ngClass]="{'mx-auto': !shouldAllowUpdate}"
+       [ngStyle]="{'max-width': !shouldAllowUpdate ? '350px' : ''}">
+    <h3 *ngIf="!shouldAllowUpdate"
+        class="text-center headline-text mb-3">Sign Up</h3>
+    <form (ngSubmit)="onSubmit()"
+          novalidate
+          [formGroup]="form"
+          name="RegisterForm">
+      <div class="form-group">
+        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+               for="FirstName">First Name</label>
+        <input type="text"
+               formControlName="FirstName"
+               class="form-control"
+               id="FirstName"
+               placeholder="First Name"
+               autofocus="true"
+               autocomplete="off" />
+        <span *ngIf="hasRequiredError('FirstName')"
+              class="error-message">First Name is required</span>
+      </div>
+      <div class="form-group">
+        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+               for="LastName">Last Name</label>
+        <input type="text"
+               formControlName="LastName"
+               class="form-control"
+               id="LastName"
+               placeholder="Last Name"
+               autocomplete="off" />
+        <span *ngIf="hasRequiredError('LastName')"
+              class="error-message">Last Name is required</span>
+      </div>
+      <div class="form-group">
+        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+               for="Email">Email</label>
+        <input type="email"
+               formControlName="Email"
+               class="form-control"
+               id="Email"
+               placeholder="Email"
+               autocomplete="off" />
+        <span *ngIf="hasValidEmailError()"
+              class="error-message">Please enter valid Email</span>
+      </div>
+      <div class="form-group">
+        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+               for="Phone">Phone Number</label>
+        <input type="text"
+               formControlName="Phone"
+               class="form-control"
+               PhoneInput
+               id="Phone"
+               placeholder="Phone Number"
+               autocomplete="off" />
+      </div>
+      <div *ngIf="!shouldAllowUpdate"
+           class="form-group">
+        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+               for="Password">Password</label>
+        <input type="password"
+               formControlName="Password"
+               class="form-control"
+               id="Password"
+               placeholder="Password"
+               autocomplete="off" />
+        <span *ngIf="hasRequiredError('Password')"
+              class="error-message">Password is required</span>
+      </div>
+      <div *ngIf="!shouldAllowUpdate"
+           class="form-group">
+        <label class="sr-only"
+               for="ConfirmPassword">Confirm Password</label>
+        <input type="password"
+               formControlName="ConfirmPassword"
+               class="form-control"
+               id="ConfirmPassword"
+               placeholder="Confirm Password"
+               autocomplete="off" />
+        <span *ngIf="hasRequiredError('ConfirmPassword')"
+              class="error-message">Confirm is required</span>
+        <span *ngIf="passwordMismatchError()"
+              class="error-message">Passwords must match</span>
+      </div>
+      <button type="submit"
+              class="btn btn-primary w-50">{{ shouldAllowUpdate ? 'Save Changes' : 'Register' }}</button>
+    </form>
+    <button *ngIf="!shouldAllowUpdate"
+            type="button"
+            class="btn btn-link btn-block"
+            routerLink="/forgot-password">Forgot Password</button>
+  </div>
+</div>

@@ -1,0 +1,213 @@
+// angular
+import { NgModule, ErrorHandler, ModuleWithProviders } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+
+// 3rd party UI
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TextMaskModule } from 'angular2-text-mask';
+
+// ngx-bootstrap modules
+import { BsDropdownModule } from 'ngx-bootstrap';
+
+// ng-bootstrap modules
+import {
+  NgbCollapseModule,
+  NgbDatepickerModule,
+  NgbTabsetModule,
+  NgbPaginationModule,
+  NgbPopoverModule,
+  NgbAccordionModule,
+  NgbModalModule,
+} from '@ng-bootstrap/ng-bootstrap';
+
+// app services
+import { AppErrorHandler } from '../config/error-handling.config';
+import { AppStateService } from './services/app-state/app-state.service';
+import { AvalaraTaxService } from './services/avalara-tax/avalara-tax.service';
+import { applicationConfiguration, ocAppConfig } from '../config/app.config';
+import { BaseResolve } from '../shared/resolves/base.resolve';
+import { SharedRoutingModule } from './shared-routing.module';
+import { BaseResolveService } from './services/base-resolve/base-resolve.service';
+import { GeolocatorService } from './services/geolocator/geolocator.service';
+import { OcLineItemService } from './services/oc-line-item/oc-line-item.service';
+import { AuthorizeNetService } from './services/authorize-net/authorize-net.service';
+import { OcFormErrorService } from './services/oc-form-error/oc-form-error.service';
+
+// pipes
+import { NavBrandsPipe } from './pipes/navigation/nav-brands.pipe';
+import { PhoneFormatPipe } from './pipes/phone-format/phone-format.pipe';
+import { OrderStatusPipe } from './pipes/order-status/order-status.pipe';
+
+// directives
+import { PhoneInputDirective } from './directives/phone-input/phone-input.directive';
+
+// guards
+import { HasTokenGuard } from './guards/has-token/has-token.guard';
+import { IsLoggedInGuard } from './guards/is-logged-in/is-logged-in.guard';
+
+import { NgbDateCustomParserFormatter } from '@app/config/date-picker.config';
+
+// components
+import { AddressFormComponent } from './components/address-form/address-form.component';
+import { CreditCardFormComponent } from '@app/shared/components/credit-card-form/credit-card-form.component';
+import { CreditCardIconComponent } from './components/credit-card-icon/credit-card-icon.component';
+import { SearchComponent } from './components/search/search.component';
+import { PageTitleComponent } from './components/page-title/page-title.component';
+import { AddressDisplayComponent } from './components/address-display/address-display.component';
+import { CreditCardDisplayComponent } from './components/credit-card-display/credit-card-display.component';
+import { LineItemCardComponent } from '@app/shared/components/line-item-card/line-item-card.component';
+import { LineItemListWrapperComponent } from './components/lineitem-list-wrapper/lineitem-list-wrapper.component';
+
+// containers
+import { RegisterComponent } from '../shared/containers/register/register.component';
+import { ShipperTrackingPipe, ShipperTrackingSupportedPipe } from '@app/shared/pipes/shipperTracking/shipperTracking.pipe';
+import { QuantityInputComponent } from './components/quantity-input/quantity-input.component';
+import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
+
+@NgModule({
+  imports: [
+    SharedRoutingModule,
+    // angular
+    CommonModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+
+    // 3rd party UI
+    FontAwesomeModule,
+    TextMaskModule,
+
+    /**
+     * ngx-bootstrap modules
+     * only those that are used by app
+     * should be imported to reduce bundle size
+     * keep commented out modules for reference
+     */
+    // AlertModule,
+    // AlertModule,
+    // ModalModule,
+    // AccordionModule,
+    // BsDatepickerModule,
+    BsDropdownModule,
+    // ButtonsModule,
+    // CarouselModule,
+    // CollapseModule,
+    // DatepickerModule,
+    // PaginationModule,
+    // PopoverModule,
+    // ProgressbarModule,
+    // RatingModule,
+    // SortableModule,
+    // TabsModule,
+    // TimepickerModule,
+    // TooltipModule,
+    // TypeaheadModule
+
+    /**
+     * ng-bootstrap modules
+     * only those that are used by app
+     * should be imported to reduce bundle size
+     */
+    NgbDatepickerModule.forRoot(),
+    NgbCollapseModule.forRoot(),
+    NgbModalModule.forRoot(),
+    NgbTabsetModule.forRoot(),
+    NgbPaginationModule.forRoot(),
+    NgbPopoverModule.forRoot(),
+    NgbAccordionModule.forRoot()
+  ],
+  exports: [
+    // angular
+    CommonModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+
+    // 3rd party UI
+    FontAwesomeModule,
+    TextMaskModule,
+
+    // ngx-bootstrap
+    BsDropdownModule,
+
+    NgbDatepickerModule,
+    NgbCollapseModule,
+    NgbModalModule,
+    NgbTabsetModule,
+    NgbPaginationModule,
+    NgbPopoverModule,
+    NgbAccordionModule,
+
+    SearchComponent,
+    RegisterComponent,
+    PageTitleComponent,
+    PhoneFormatPipe,
+    OrderStatusPipe,
+    CreditCardIconComponent,
+    AddressDisplayComponent,
+    CreditCardDisplayComponent,
+    CreditCardFormComponent,
+    LineItemListWrapperComponent,
+    PhoneInputDirective,
+    LineItemCardComponent,
+    ShipperTrackingPipe,
+    ShipperTrackingSupportedPipe,
+    AddressFormComponent,
+    QuantityInputComponent,
+    ToggleFavoriteComponent
+  ],
+  declarations: [
+    RegisterComponent,
+    PhoneFormatPipe,
+    OrderStatusPipe,
+    PageTitleComponent,
+    AddressDisplayComponent,
+    CreditCardDisplayComponent,
+    CreditCardFormComponent,
+    PhoneInputDirective,
+    SearchComponent,
+    CreditCardIconComponent,
+    LineItemCardComponent,
+    ShipperTrackingPipe,
+    ShipperTrackingSupportedPipe,
+    AddressFormComponent,
+    LineItemListWrapperComponent,
+    QuantityInputComponent,
+    ToggleFavoriteComponent
+  ],
+
+  /**
+   * DO NOT define providers here
+   * define providers in the static forRoot below to ensure
+   * lazy-loaded modules define services as singletons
+   * https://angular-2-training-book.rangle.io/handout/modules/shared-di-tree.html
+   */
+  providers: [NavBrandsPipe],
+
+})
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        AppStateService,
+        AvalaraTaxService,
+        AuthorizeNetService,
+        BaseResolve,
+        BaseResolveService,
+        GeolocatorService,
+        OcFormErrorService,
+        OcLineItemService,
+        PhoneFormatPipe,
+        OrderStatusPipe,
+        AppErrorHandler,
+        HasTokenGuard,
+        IsLoggedInGuard,
+        DatePipe,
+        NgbDateCustomParserFormatter,
+        { provide: applicationConfiguration, useValue: ocAppConfig },
+        { provide: ErrorHandler, useClass: AppErrorHandler }
+      ]
+    };
+  }
+}

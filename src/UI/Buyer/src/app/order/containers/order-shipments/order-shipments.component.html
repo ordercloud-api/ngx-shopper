@@ -1,0 +1,62 @@
+<div *ngIf="shipments">
+  <div class="row">
+    <div class="col-lg-5">
+      <ul class="nav flex-column nav-pills">
+        <li *ngFor="let shipment of shipments.Items; let i = index"
+            class="nav-item">
+          <button class="btn btn-link btn-block nav-link text-left"
+                  (click)="selectShipment(shipment)"
+                  [ngClass]="{active: selectedShipment.ID === shipment.ID}">Shipment {{shipment.count}}</button>
+        </li>
+      </ul>
+    </div>
+    <div class="col-lg-7">
+      <div *ngIf="selectedShipment">
+        <header>
+          <h3>Shipment {{selectedShipment.count}}</h3>
+        </header>
+        <div class="card">
+          <div class="card-body">
+            <ul class="oc-list-items">
+              <li>
+                <b>Shipper:</b> {{selectedShipment.Shipper}}
+              </li>
+              <li *ngIf="!(selectedShipment.Shipper | shipperTrackingSupported)">
+                <b>Tracking Number:</b> {{selectedShipment.TrackingNumber || 'N/A'}}
+              </li>
+              <li *ngIf="(selectedShipment.Shipper | shipperTrackingSupported)">
+                <a href="{{selectedShipment.TrackingNumber | shipperTracking:selectedShipment.Shipper}}"
+                   target="_blank">{{selectedShipment.TrackingNumber}}</a>
+              </li>
+              <li>
+                <b>Date Shipped:</b> {{selectedShipment.DateShipped | date: 'short'}}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="table-responsive"
+             *ngIf="shipmentItems$ | async; let shipmentItems">
+          <table class="table">
+            <caption class="sr-only">List of line items in this shipment</caption>
+            <thead>
+              <tr>
+                <th>Qty Shipped</th>
+                <th>Product</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of shipmentItems.Items">
+                <td>{{item.QuantityShipped + ' of ' + item.LineItem.Quantity}}</td>
+                <td>{{item.LineItem.xp.product.name}} <small class="text-muted">{{item.LineItem.xp.product.id}}</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card bg-light p-3 flex-row justify-content-center"
+     *ngIf="shipments?.Items.length">
+  <p class="mb-0">There are currently no shipments for this order</p>
+</div>

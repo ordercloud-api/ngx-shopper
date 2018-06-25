@@ -1,0 +1,37 @@
+<div *ngIf="userHasSavedCards()">
+  <div class="saved-cards-row">
+    <h6 class="mb-2 mt-2 font-weight-bold float-left">Pay with a saved card</h6>
+    <form (ngSubmit)="saveAddress()"
+          novalidate
+          [formGroup]="existingCardsForm"
+          name="ExistingCardForm"
+          class="float-left ml-4">
+      <div class="form-group">
+        <select class="form-control"
+                style="max-width: 250px;"
+                formControlName="existingCardId"
+                (change)="setSelectedCard($event.target.value)">
+                    <option [ngValue]="null" disabled>Choose a saved card...</option>
+                    <option [ngValue]="card.ID" *ngFor="let card of existingCards?.Items">
+                        {{ card.CardType }} ending in: {{ card.PartialAccountNumber }}
+                    </option>
+        </select>
+      </div>
+    </form>
+  </div>
+</div>
+<div *ngIf="selectedCard" class="mb-4">
+  <shared-credit-card-display [hideDelete]="true" [card]="selectedCard"></shared-credit-card-display>
+</div>
+<div *ngIf="showAdd">
+  <h6 class="mb-2 mt-3 font-weight-bold">Pay with a new card</h6>
+  <shared-credit-card-form (formSubmitted)="onAddClicked($event)"></shared-credit-card-form>
+</div>
+<div class="saved-cards-row">
+  <button class="btn btn-primary float-left"
+          [disabled]="!selectedCard"
+          (click)="onContinueClicked()">Save and Continue</button>
+  <button *ngIf="!showAdd"
+          class="btn btn-secondary float-right"
+          (click)="showAdd = true"><fa-icon [icon]="faPlus"></fa-icon> Use New Card</button>
+</div>

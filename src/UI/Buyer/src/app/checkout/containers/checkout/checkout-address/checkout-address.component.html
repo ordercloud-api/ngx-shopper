@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-8">
+    <form novalidate
+          [formGroup]="addressForm"
+          name="RegisterForm">
+      <div class="form-group"
+           *ngIf="!isAnon && existingAddresses && existingAddresses.Items.length > 0">
+        <select class="form-control"
+                formControlName="existingAddressId"
+                (change)="existingAddressSelected()">
+                <option [ngValue]="null" disabled>Choose a saved address...</option>
+                <option [ngValue]="address.ID" *ngFor="let address of  existingAddresses?.Items">
+                {{address.Street1}}, {{address.State}} {{address.Zip}}
+                </option>
+        </select>
+      </div>
+    </form>
+    <shared-address-form [existingAddress]="selectedAddress"
+                         (formSubmitted)="saveAddress($event)"
+                         btnText="Save and Continue"></shared-address-form>
+  </div>
+  <div class="col-4 text-center">
+    <div class="bg-warning">
+      <h4 class="p-2">PLEASE NOTE</h4>
+      <p class="p-2">It is our policy to only ship products to the billing address used in the order.</p>
+      <p class="p-2">Shipping is only offered within the United States. For international orders, contact stores directly.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div *ngIf="order$ | async; let order">
+  <div class="row mb-5">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body pb-0">
+          <b>Shipping Address</b>
+          <shared-address-display [address]="(lineItems$ | async)?.Items[0].ShippingAddress"
+                                  *ngIf="order?.ShippingAddressID">
+          </shared-address-display>
+        </div>
+        <div class="card-body pb-0">
+          <b>Billing Address</b>
+          <shared-address-display [address]="order.BillingAddress"
+                                  *ngIf="order?.BillingAddress">
+          </shared-address-display>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div *ngIf="order.Comments"
+           class="alert alert-secondary small">
+        <strong>Comments: </strong> {{order.Comments}}
+      </div>
+      <strong>Subtotal</strong> <span class="float-right">{{order.Subtotal | currency}}</span><br>
+      <strong>Shipping</strong> <span class="float-right">{{order.ShippingCost | currency}}</span><br>
+      <strong>Tax</strong> <span class="float-right">{{order.TaxCost | currency}}</span><br>
+      <div *ngIf="order.PromotionDiscount">
+        <strong class="text-danger">Promo Discount</strong> <span class="float-right text-danger">-{{order.PromotionDiscount | currency}}</span>
+      </div>
+
+      <strong>Total</strong> <span class="float-right">{{order.Total | currency}}</span>
+      <hr>
+      <order-payment-list *ngIf="payments$ | async; let payments"
+                          [payments]="payments"></order-payment-list>
+    </div>
+  </div>
+    <shared-line-item-card *ngFor="let li of (lineItems$ | async)?.Items"
+                             [lineitem]="li"
+                             readOnly="true"></shared-line-item-card>
+</div>

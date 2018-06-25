@@ -1,0 +1,31 @@
+<div class="container"
+     *ngIf="order$ | async; let order">
+  <nav class="breadcrumb"
+       aria-label="breadcrumb">
+    <a class="breadcrumb-item link-text"
+       [routerLink]="['/profile', 'orders']">All Orders</a>
+    <a class="breadcrumb-item link-text"
+       aria-current="page">{{order.ID}}</a>
+  </nav>
+  <div class="pb-2 mt-4 mb-2">
+    <h2> <span class="text-muted">Order:</span> {{order.ID}}</h2>
+    <small>Submitted on {{order.DateSubmitted | date: 'short'}}</small>
+  </div>
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <button class="btn btn-link nav-link"
+              [routerLink]="['/profile', 'orders', order.ID]">
+            <fa-icon [icon]="faCube"></fa-icon>
+            Details
+        </button>
+    </li>
+    <li class="nav-item">
+      <button class="btn btn-link nav-link"
+              [routerLink]="['/profile', 'orders', order.ID, 'shipments']">
+                <fa-icon [icon]="faTruck"></fa-icon>
+                Shipments
+            </button>
+    </li>
+  </ul>
+</div>
+<router-outlet></router-outlet>

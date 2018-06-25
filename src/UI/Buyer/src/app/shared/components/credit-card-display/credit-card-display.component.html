@@ -1,0 +1,20 @@
+<div class="credit-card-display p-3 bg-white">
+  <div class="mb-3">
+    <fa-icon class="logo mr-3"
+             [icon]="cardIcon" size="2x"></fa-icon>
+    <span class="card-number">{{ card?.CardType }} ending in:</span>
+    <span class="card-number font-weight-bold">{{ card?.PartialAccountNumber }}</span>
+    <span class="float-right text-danger delete"
+          title="Delete"
+          *ngIf="!hideDelete"
+          (click)="deleteCard()"><fa-icon [icon]="faTrashAlt"></fa-icon></span>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      {{ card?.CardholderName }}
+    </div>
+    <div class="col-md-6">
+      Expires: <span class="font-weight-bold">{{ card?.ExpirationDate | date:'MM/yy':'UTC' }}</span>
+    </div>
+  </div>
+</div>

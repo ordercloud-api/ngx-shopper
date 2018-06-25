@@ -1,0 +1,69 @@
+<div class="table-responsive"
+     *ngIf="orders.Items.length">
+  <table class="table table-striped table-bordered table-hover bg-light">
+    <caption class="sr-only">List of Orders</caption>
+    <thead>
+      <tr>
+        <th (click)="updateSort('ID')"
+            *ngIf="columns.indexOf('ID') > -1">
+          <button class="btn btn-link font-weight-bold">
+              ID
+              <fa-icon *ngIf="sortBy === 'ID' || sortBy === '!ID'"
+                       [icon]="sortBy === 'ID' ? faCaretDown : faCaretUp"></fa-icon>
+          </button>
+        </th>
+        <th (click)="updateSort('Status')"
+            *ngIf="columns.indexOf('Status') > -1">
+          <button class="btn btn-link font-weight-bold">
+                Status
+                <fa-icon *ngIf="sortBy === 'Status' || sortBy === '!Status'"
+                         [icon]="sortBy === 'Status' ? faCaretDown : faCaretUp"></fa-icon>
+            </button>
+        </th>
+        <th (click)="updateSort('DateSubmitted')"
+            *ngIf="columns.indexOf('DateSubmitted') > -1">
+          <button class="btn btn-link font-weight-bold">
+                Date Submitted
+                <fa-icon *ngIf="sortBy === 'DateSubmitted' || sortBy === '!DateSubmitted'"
+                         [icon]="sortBy === 'DateSubmitted' ? faCaretDown : faCaretUp"></fa-icon>
+            </button>
+        </th>
+        <th *ngIf="columns.indexOf('SubmittedBy') > -1">
+          <button class="btn btn-link font-weight-bold">
+                Submitted By
+            </button>
+        </th>
+        <th (click)="updateSort('Total')"
+            *ngIf="columns.indexOf('Total') > -1">
+          <button class="btn btn-link font-weight-bold">
+                Total
+                <fa-icon *ngIf="sortBy === 'Total' || sortBy === '!Total'"
+                         [icon]="sortBy === 'Total' ? faCaretDown : faCaretUp"></fa-icon>
+            </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders.Items"
+          [routerLink]="['/profile', 'orders', order.ID]">
+        <td *ngIf="columns.indexOf('ID') > -1">{{order.ID}}</td>
+        <td *ngIf="columns.indexOf('Status') > -1">
+          <order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}
+        </td>
+        <td *ngIf="columns.indexOf('DateSubmitted') > -1">{{order.DateSubmitted | date: 'short' || 'N/A'}}</td>
+        <td *ngIf="columns.indexOf('SubmittedBy') > -1">{{order.FromUser.FirstName}} {{order.FromUser.LastName}}</td>
+        <td *ngIf="columns.indexOf('Total') > -1">{{order.Total}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="card bg-light p-3 flex-row justify-content-center"
+     *ngIf="!orders.Items.length">
+  <p class="mb-0">No orders found</p>
+</div>
+<ngb-pagination *ngIf="orders.Meta.TotalPages > 1"
+                class="d-flex justify-content-center"
+                [collectionSize]="orders.Meta.TotalCount"
+                [pageSize]="orders.Meta.PageSize"
+                [(page)]="orders.Meta.Page"
+                (pageChange)="changePage($event)"></ngb-pagination>

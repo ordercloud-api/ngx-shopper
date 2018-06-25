@@ -1,0 +1,39 @@
+nav {
+    text-transform: uppercase;
+    ul {
+        list-style: none;
+        -webkit-padding-start: 0;
+        li {
+            .dropdown-item {
+                padding: .25em;
+            }
+        }
+    }
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.header-text-not-link {
+    color: rgba(255, 255, 255, 0.5)
+}
+
+.dropdown-menu {
+    z-index: 1030;
+}
+
+:host {
+    /deep/ .popover {
+      background-color: #28a745;
+      
+      .arrow:after {
+        border-bottom-color: #28a745;
+      }
+
+      .popover-body {
+        color: white;
+      }
+    }
+ }

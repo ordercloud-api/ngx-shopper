@@ -1,0 +1,8 @@
+// -----------------------------------------------------------------------------
+// When having several themes, this file contains everything related to the
+// default one.
+// -----------------------------------------------------------------------------
+$light: black;
+$theme-colors: map-merge((
+ "light":      black
+), $theme-colors)

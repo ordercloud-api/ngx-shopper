@@ -1,0 +1,76 @@
+<div class="container mt-4"
+     *ngIf="product$ | async; let product">
+  <nav class="breadcrumb"
+       aria-label="breadcrumb">
+    <a class="breadcrumb-item link-text"
+       [routerLink]="['/products']"
+       [queryParams]="{ category: product.category }">{{ product.category }}</a>
+    <a class="breadcrumb-item link-text"
+       [routerLink]="['/products']"
+       [queryParams]="{ category: product.category, subcategory: product.subCategory }">{{ product.subCategory }}</a>
+    <a class="breadcrumb-item link-text"
+       aria-current="page">{{ product.Name }}</a>
+  </nav>
+  <div class="row mb-5">
+    <div class="col-md-6">
+      <div class="position-relative d-block">
+        <div class="ribbon ribbon-top-left bg-secondary text-white"
+             [innerHtml]="product.ID"></div>
+        <products-additional-image-gallery [imgUrls]="imageUrls"></products-additional-image-gallery>
+      </div>
+    </div>
+    <div class="col-md-6 component-background">
+      <h1 class="h1 my-0">{{ product.Name }}</h1>
+      <span class="text-muted">ID: {{ product.ID }}</span>
+      <hr>
+      <h3 class="mt-4 headline-text">{{ product.price | currency }}</h3>
+      <div *ngIf="product.PriceSchedule && product.PriceSchedule.PriceBreaks[0].Price > 1; else viewOnly">
+        <shared-quantity-input class="d-inline-block"
+                               style="max-width: 100px"
+                               [product]="product"
+                               (addedToCart)="addToCart($event)">
+        </shared-quantity-input>
+        <button class="btn btn-primary"
+                type="submit"
+                (click)="quantityInputComponent.addToCart()">Add to Cart</button>
+      </div>
+      <ng-template #viewOnly>
+        <div class="alert alert-info">
+          This is a view-only product and cannot be ordered
+        </div>
+      </ng-template>
+      <div class="mt-5">
+        <ngb-tabset>
+          <ngb-tab title="Details">
+            <ng-template ngbTabContent>
+              <p class="mt-4">This is the active tab: product details raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
+                butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle>Specs</ng-template>
+            <ng-template ngbTabContent>
+              <p class="mt-4">Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress,
+                commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny
+                pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Lorem Ipsum"
+                   [disabled]="true">
+            <ng-template ngbTabContent>
+              <p class="mt-4">Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi. Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget tincidunt eu, congue et odio. Duis pharetra
+                et nisl at faucibus. Quisque luctus pulvinar arcu, et molestie lectus ultrices et. Sed diam urna, egestas ut ipsum vel, volutpat volutpat neque. Praesent fringilla tortor arcu. Vivamus faucibus nisl enim, nec tristique ipsum euismod facilisis.
+                Morbi ut bibendum est, eu tincidunt odio. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris aliquet odio ac lorem aliquet ultricies in eget neque. Phasellus nec tortor vel tellus pulvinar feugiat.</p>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="relatedProducts$ | async; let relatedProducts">
+    <product-carousel *ngIf="relatedProducts.length > 0"
+                      title="Related Products"
+                      [products]="relatedProducts">
+    </product-carousel>
+  </div>
+</div>

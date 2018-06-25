@@ -1,0 +1,18 @@
+<shared-search class="mt-1"
+               placeholderText="Search Orders"
+               (searched)="filterBySearch($event)"></shared-search>
+<div class="row mt-3">
+  <div class="col-4">
+    <order-status-filter (selectedStatus)="filterByStatus($event)"></order-status-filter>
+  </div>
+  <div class="col-8">
+    <order-date-filter (selectedDate)="filterByDate($event)"></order-date-filter>
+  </div>
+</div>
+<order-order-list *ngIf="orders$ | async; let orders"
+                  [orders]="orders"
+                  [columns]="['ID', 'Status', 'DateSubmitted', 'Total']"
+                  [sortBy]="sortBy"
+                  (updatedSort)="sortOrders($event)"
+                  (changedPage)="changePage($event)">
+</order-order-list>

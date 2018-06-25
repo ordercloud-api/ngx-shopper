@@ -1,0 +1,17 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+/// Relative or absolute URL where all assets are served from
+/// @type String
+/// @example scss - When using a CDN
+///   $base-url: 'http://cdn.example.com/assets/';
+$base-url: '/assets/' !default;
+$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+$grid-gutter-width: 20px;
+$light: #e9ecef;
+
+// used by nav header
+$display4-weight: 100;
+
+// dont auto-bold headings so we can bold if we want
+$headings-font-weight: 300;

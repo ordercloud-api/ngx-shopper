@@ -1,0 +1,14 @@
+<form [formGroup]="form">
+  <div class="form-group">
+    <label for="status">Status</label>
+    <select id="status"
+            (change)="selectStatus()"
+            class="form-control"
+            formControlName="status">
+          <option value="!Unsubmitted">All</option>
+          <option *ngFor="let status of statuses" [ngValue]="status">
+            {{status | orderStatus}}
+          </option>
+      </select>
+  </div>
+</form>

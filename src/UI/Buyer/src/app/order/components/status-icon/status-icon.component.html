@@ -1,0 +1,7 @@
+<fa-icon [ngClass]="{
+  'text-success': status === 'Completed',
+  'text-warning': status === 'AwaitingApproval',
+  'text-info': status === 'Open',
+  'text-danger': status === 'Declined'
+}"
+         [icon]="statusIconMapping[status]"></fa-icon>

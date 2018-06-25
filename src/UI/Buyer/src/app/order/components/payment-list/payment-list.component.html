@@ -1,0 +1,12 @@
+<div *ngFor="let payment of payments.Items">
+  <span *ngIf="payment.Type === 'CreditCard'">
+      <strong><shared-credit-card-icon [card]="payment.Details"></shared-credit-card-icon> ending in {{payment.Details.PartialAccountNumber}}</strong>
+  </span>
+  <span *ngIf="payment.Type === 'PurchaseOrder'">
+    Purchase Order <small *ngIf="payment.Details.PONumber">{{Payment.Details.PONumber}}</small>
+  </span>
+  <span *ngIf="payment.Type === 'SpendingAccount'">
+    Spending Account: {{Payment.Details.Name}}
+  </span>
+  <span class="float-right">-{{payment.Amount | currency}}</span>
+</div>

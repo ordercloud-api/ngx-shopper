@@ -1,0 +1,3 @@
+.product-list-grid { 
+    @include make-grid-columns($grid-columns, 1rem, $grid-breakpoints);
+  }

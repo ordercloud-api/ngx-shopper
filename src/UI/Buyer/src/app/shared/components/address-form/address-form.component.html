@@ -1,0 +1,119 @@
+<form (ngSubmit)="onSubmit()"
+      novalidate
+      [formGroup]="addressForm"
+      name="RegisterForm">
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <label class="sr-only"
+             for="firstName">First Name</label>
+      <input type="text"
+             formControlName="firstName"
+             class="form-control"
+             id="firstName"
+             placeholder="First Name"
+             autofocus="true"
+             autocomplete="off" />
+      <span *ngIf="hasRequiredError('firstName')"
+            class="error-message">First Name is required</span>
+    </div>
+    <div class="col-md-6 form-group">
+      <label class="sr-only"
+             for="lastName">Last Name</label>
+      <input type="text"
+             formControlName="lastName"
+             class="form-control"
+             id="lastName"
+             placeholder="Last Name"
+             autocomplete="off" />
+      <span *ngIf="hasRequiredError('lastName')"
+            class="error-message">Last Name is required</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="sr-only"
+           for="address1">Address 1</label>
+    <input type="text"
+           formControlName="street1"
+           class="form-control"
+           id="address1"
+           placeholder="Address 1"
+           autocomplete="off" />
+    <span *ngIf="hasRequiredError('street1')"
+          class="error-message">Address 1 is required</span>
+  </div>
+  <div class="form-group">
+    <label class="sr-only"
+           for="street2">Address 2</label>
+    <input type="text"
+           formControlName="street2"
+           class="form-control"
+           id="address2"
+           placeholder="Address 2"
+           autocomplete="off" />
+  </div>
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <label class="sr-only"
+             for="city">City</label>
+      <input type="text"
+             formControlName="city"
+             class="form-control"
+             id="city"
+             placeholder="City"
+             autocomplete="off" />
+      <span *ngIf="hasRequiredError('city')"
+            class="error-message">City is required</span>
+    </div>
+    <div class="col-md-3 form-group">
+      <label class="sr-only"
+             for="state">State</label>
+      <select formControlName="state"
+              class="form-control"
+              id="state">
+          <option [ngValue]="null" disabled>State</option>
+          <option *ngFor="let state of stateOptions" [value]="state">{{ state }}</option>
+        </select>
+    </div>
+    <div class="col-md-3 form-group">
+      <label class="sr-only"
+             for="zipCode">Zip Code</label>
+      <input type="text"
+             formControlName="zip"
+             class="form-control"
+             id="zipCode"
+             placeholder="Zip Code"
+             autocomplete="off" />
+      <span *ngIf="hasRequiredError('zip')"
+            class="error-message">Zip Code is required</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <label class="sr-only"
+             for="phone">Phone Number</label>
+      <input type="text"
+             formControlName="phone"
+             class="form-control"
+             id="phone"
+             phoneInput
+             placeholder="Phone Number"
+             autocomplete="off" />
+      <span *ngIf="hasRequiredError('phone')"
+            class="error-message">Phone is required</span>
+    </div>
+    <div class="col-md-6 form-group">
+      <label class="sr-only"
+             for="email">Email</label>
+      <input type="email"
+             formControlName="email"
+             class="form-control"
+             id="email"
+             placeholder="Email"
+             autocomplete="off" />
+      <span *ngIf="hasValidEmailError('email')"
+            class="error-message">Please enter valid email</span>
+    </div>
+  </div>
+  <button type="submit"
+          class="btn btn-primary">{{ btnText }}</button>
+</form>

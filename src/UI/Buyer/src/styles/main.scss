@@ -1,0 +1,55 @@
+@charset 'UTF-8';
+
+// 1. Configuration and helpers
+@import
+'abstracts/variables',
+'abstracts/functions',
+'abstracts/mixins';
+
+// 2. Bootstrap Variable Overrides (must come before bootstrap)
+ @import
+  'themes/theme.variables.scss';
+
+// 3. Vendors
+@import
+  'vendor/bootstrap',
+  'vendor/normalize',
+  'vendor/ngx-toastr';
+
+  
+  
+  
+// 4. Base stuff
+@import
+'base/base',
+'base/fonts',
+'base/typography',
+'base/helpers';
+
+// 5. Layout-related sections
+@import
+'layout/header',
+'layout/footer';
+  
+  // 6. Components
+@import
+'components/button',
+'components/_forms',
+'components/_product-list',
+  'components/_card-ribbon',
+  'components/_card-hover',
+  'components/_list-items.scss';
+  
+  // 7. Page-specific styles
+  @import
+  'pages/home';
+  
+@import 'shame';
+
+// 8. Themes
+@import
+'themes/default',
+'themes/_theme';
+
+// 9. 3rd party libraries
+@import '~angular-tree-component/dist/angular-tree-component.css';

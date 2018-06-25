@@ -1,0 +1,51 @@
+<div class="container"
+     *ngIf="lineItems$ | async; let lineItems">
+  <div class="pb-2 mt-4 mb-2 border-bottom">
+    <h2><strong>Order Submitted</strong></h2>
+    <h4 class="text-muted">Thank you for your order. Check your order history to track your delivery!</h4>
+  </div>
+  <div class="row my-5"
+       *ngIf="order$ | async; let order">
+    <div class="col-lg-6">
+      <strong>Order ID</strong> <span class="float-right">{{order.ID}}</span><br>
+      <strong>Date Submitted</strong> <span class="float-right">{{order.DateSubmitted | date:'short'}}</span><br>
+      <strong>Subtotal</strong> <span class="float-right">{{order.Subtotal | currency}}</span><br>
+      <strong>Tax</strong> <span class="float-right">{{order.TaxCost | currency}}</span><br>
+      <div *ngFor="let promotion of (promotions$ | async)?.Items">
+        <strong>{{promotion.Name}}</strong> <span class="float-right text-primary">- {{promotion.Amount | currency}}</span>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5>Delivery Address</h5>
+            </div>
+            <div class="card-body">
+              <shared-address-display [address]="lineItems.Items[0].ShippingAddress"></shared-address-display>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5>Billing Address</h5>
+            </div>
+            <div class="card-body">
+              <shared-address-display [address]="order.BillingAddress"></shared-address-display>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb-2 mt-4 mb-2 border-bottom">
+    <h4>Line Item Summary</h4>
+  </div>
+    <shared-line-item-card *ngFor="let li of lineItems.Items"
+                             [lineitem]="supplierLineItems"
+                             [readOnly]="true"
+                             (deletedLineItem)="deleteLineItem($event)"></shared-line-item-card>
+</div>

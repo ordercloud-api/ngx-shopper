@@ -1,0 +1,32 @@
+<shared-page-title title="Shopping Cart"></shared-page-title>
+<div class="container">
+  <div *ngIf="(currentOrder$ | async) as order">
+    <div class="my-3 d-flex justify-content-between">
+      <button class="btn btn-outline-dark"
+              [routerLink]="['/home']">Continue Shopping</button>
+      <button class="btn btn-outline-danger"
+              *ngIf="order.LineItemCount"
+              (click)="cancelOrder()">Cancel Order</button>
+    </div>
+    <div class="card bg-light p-3 flex-row justify-content-center"
+         *ngIf="!order.LineItemCount">
+      <p class="mb-0">You do not have any items in your cart</p>
+    </div>
+    <div class="row flex-lg-row-reverse"
+         *ngIf="order.LineItemCount">
+      <div class="col-lg-4">
+        <checkout-order-summary [order]="order"></checkout-order-summary>
+      </div>
+      <div class="col-lg-8" *ngIf="productsSet">
+        <lineitem-list-wrapper>
+          <shared-line-item-card *ngFor="let li of lineItems.Items"
+                                 [lineitem]="li"
+                                 [readOnly]="false"
+                                 [productDetails]="getProduct(li)"
+                                 (deletedLineItem)="deleteLineItem($event)"
+                                 (lineItemUpdated)="updateLineItem($event)"></shared-line-item-card>
+        </lineitem-list-wrapper>
+      </div>
+    </div>
+  </div>
+</div>

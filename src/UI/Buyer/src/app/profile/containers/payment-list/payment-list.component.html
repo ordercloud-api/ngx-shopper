@@ -1,0 +1,18 @@
+<div>
+  <div class="mb-5">
+    <div class="font-weight-bold">
+      Your credit and debit cards
+    </div>
+    <div class="mt-3"
+         *ngFor="let card of (cards | async)?.Items">
+      <shared-credit-card-display [card]="card"
+                                  (delete)="deleteCard($event)"></shared-credit-card-display>
+    </div>
+  </div>
+  <button (click)="showAdd()"
+          *ngIf="!showCardForm"
+          class="btn btn-primary m-3"><fa-icon [icon]="faPlus"></fa-icon> Add a Card</button>
+  <shared-credit-card-form *ngIf="showCardForm"
+                           submitText="Add"
+                           (formSubmitted)="addCard($event)"></shared-credit-card-form>
+</div>

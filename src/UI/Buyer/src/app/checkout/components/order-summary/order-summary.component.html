@@ -1,0 +1,12 @@
+<div class="card mb-1">
+  <h5 class="card-header">Order Summary</h5>
+  <div class="card-body">
+    <h6 class="card-title">{{order.LineItemCount}} Items in Your Cart</h6>
+    <div class="text-right"><b class="float-left">Subtotal</b><span class="sub-total">{{order.Subtotal | currency}}</span></div>
+    <div class="text-right"><b class="float-left">Shipping</b><span class="shipping-cost">{{ display('ShippingCost') }}</span></div>
+    <div class="text-right"><b class="float-left">Tax</b><span class="tax-cost">{{ display('TaxCost') }}</span></div>
+    <hr>
+    <div class="text-right lead"><b class="float-left">Total</b><span class="order-total">{{order.Total | currency}}</span></div>
+  </div>
+</div>
+<button class="btn btn-primary btn-block mb-4 font-weight-bold" routerLink="/checkout">CHECKOUT</button>

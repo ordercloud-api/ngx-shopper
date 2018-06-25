@@ -1,0 +1,43 @@
+<div class="m-2 row align-items-center">
+  <div class="col-sm-7">
+    <div class="row align-items-sm-center">
+      <div class="col-3 p-0">
+        <img class="img-thumbnail"
+             [src]="productDetails.xp?.image?.URL || 'http://placehold.it/300x300'">
+      </div>
+      <div class="col-9">
+        <h6>
+          <a routerLink="/products/detail"
+             [queryParams]="{ID: lineitem.Product.ID}"
+             class="link-text">{{lineitem.Product.Name}}</a>
+
+          <small class="text-muted d-block">{{lineitem.Product.ID}}</small>
+        </h6>
+        <a class="text-danger btn btn-link px-0 delete-lineitem"
+           *ngIf="!readOnly"
+           (click)="deleteLineItem()">Remove Item</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-5">
+    <div class="row align-items-center pt-3 pt-sm-0">
+      <div class="col-4 text-center">
+        <span class="d-block d-sm-none">Unit Price</span>
+        <span class="text-nowrap">{{lineitem.UnitPrice | currency}}</span>
+      </div>
+      <div class="col-4 text-center">
+        <span class="d-block d-sm-none">Quantity</span>
+        <shared-quantity-input *ngIf="!readOnly"
+                               [product]="productDetails"
+                               [existingQty]="lineitem.Quantity"
+                               (qtyChanged)="updateQuantity($event)"></shared-quantity-input>
+        <span class="text-nowrap"
+              *ngIf="readOnly">&times;{{ lineitem.Quantity | number }}</span>
+      </div>
+      <div class="col-4 text-right">
+        <span class="d-block d-sm-none">Total</span>
+        <span class="text-nowrap">{{ lineitem.LineTotal | currency }}</span>
+      </div>
+    </div>
+  </div>
+</div>
