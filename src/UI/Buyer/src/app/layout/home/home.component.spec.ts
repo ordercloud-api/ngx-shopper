@@ -1,18 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
 import { Configuration } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 import { InjectionToken } from '@angular/core';
-import { GeolocatorService } from '@app/shared';
 import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
+import { HomeComponent } from '@app/layout/home/home.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  const geoLocatorService = { saveClientLocation: jasmine.createSpy('saveClientLocation').and.returnValue(of({})) };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,7 +19,6 @@ describe('HomeComponent', () => {
         CookieModule.forRoot()
       ],
       providers: [
-        { provide: GeolocatorService, useValue: geoLocatorService },
         { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
@@ -42,9 +39,6 @@ describe('HomeComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       component.ngOnInit();
-    });
-    it('should set users location in cookies', () => {
-      expect(geoLocatorService.saveClientLocation).toHaveBeenCalled();
     });
   });
 });

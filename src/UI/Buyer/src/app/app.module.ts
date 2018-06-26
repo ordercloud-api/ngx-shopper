@@ -26,8 +26,6 @@ import { AuthModule } from './auth/auth.module';
 // app components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HomeComponent } from './home/home.component';
-
 // interceptors
 import { AutoAppendTokenInterceptor, RefreshTokenInterceptor } from '@app/auth';
 
@@ -37,8 +35,7 @@ import { NgbDateNativeAdapter } from './config/date-picker.config';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent
+    AppComponent
   ],
   imports: [
     /**

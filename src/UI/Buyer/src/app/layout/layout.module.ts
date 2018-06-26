@@ -6,6 +6,7 @@ import { MainComponent } from './main/main.component';
 import { FooterComponent } from './footer/footer.component';
 
 import { SharedModule, NavBrandsPipe } from '@app/shared';
+import { HomeComponent } from '@app/layout/home/home.component';
 
 @NgModule({
   imports: [
@@ -15,13 +16,15 @@ import { SharedModule, NavBrandsPipe } from '@app/shared';
   exports: [
     HeaderComponent,
     MainComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent
   ],
   declarations: [
     HeaderComponent,
     MainComponent,
     FooterComponent,
-    NavBrandsPipe
+    NavBrandsPipe,
+    HomeComponent
   ]
 })
 export class LayoutModule { }

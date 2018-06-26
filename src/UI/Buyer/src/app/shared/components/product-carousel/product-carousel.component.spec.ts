@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { ProductCarouselComponent } from './product-carousel.component';
-import { MapToIterablePipe } from '@app/shared';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -21,8 +20,7 @@ describe('ProductCarouselComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ProductCarouselComponent,
-        MapToIterablePipe
+        ProductCarouselComponent
       ],
       providers: [
         RouterTestingModule,
