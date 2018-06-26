@@ -1,3 +1,34 @@
-<p>
-    Placeholder for home screen. Put Carosel and Featured products here.
-</p>
+<div class="container">
+  <ngb-carousel>
+    <ng-template ngbSlide>
+      <img class="img-fluid"
+           style="width:100%;"
+           src="../../../assets/carousel1.jpg"
+           alt="Random first slide">
+      <div class="carousel-caption">
+        <h3>OrderCloud</h3>
+        <p>Welcome to the OrderCloud application</p>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <img src="../../../assets/carousel2.jpg"
+           alt="Random first slide"
+           style="width:100%;"
+           class="img-fluid">
+      <div class="carousel-caption">
+        <h3>Carousel Image Two</h3>
+        <p>This is the second image</p>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <img src="../../../assets/carousel3.jpg"
+           alt="Random first slide"
+           style="width:100%;"
+           class="img-fluid">
+      <div class="carousel-caption">
+        <h3>Carousel Image Three</h3>
+        <p>This is the third image</p>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+</div>

@@ -20,6 +20,7 @@ import {
   NgbPopoverModule,
   NgbAccordionModule,
   NgbModalModule,
+  NgbCarouselModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
 // app services
@@ -116,7 +117,8 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
     NgbTabsetModule.forRoot(),
     NgbPaginationModule.forRoot(),
     NgbPopoverModule.forRoot(),
-    NgbAccordionModule.forRoot()
+    NgbAccordionModule.forRoot(),
+    NgbCarouselModule.forRoot()
   ],
   exports: [
     // angular
@@ -138,6 +140,7 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
     NgbPaginationModule,
     NgbPopoverModule,
     NgbAccordionModule,
+    NgbCarouselModule,
 
     SearchComponent,
     RegisterComponent,

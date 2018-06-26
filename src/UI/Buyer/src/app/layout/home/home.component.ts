@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  // TODO: This is a placeholder component
-  // Find a good spot to include this.  Perhaps a module of it's own or included in a module called Static for static pages like this
-  constructor() { }
+
+  constructor(private config: NgbCarouselConfig) { }
 
   ngOnInit() {
+    this.config.interval = 5000;
+    this.config.wrap = true;
   }
 }
