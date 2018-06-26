@@ -45,7 +45,8 @@ export class QuantityInputComponent implements OnInit {
    *  use ViewChild to call this method
    *  from parent component, see product-details component as example
    */
-  addToCart() {
+  addToCart(event) {
+    event.stopPropagation();
     if (this.form.valid && !isNaN(this.form.value.quantity)) {
       return this.addedToCart.emit({ product: this.product, quantity: this.form.value.quantity });
     }

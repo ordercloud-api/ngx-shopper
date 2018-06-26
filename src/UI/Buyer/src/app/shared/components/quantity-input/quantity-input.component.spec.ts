@@ -85,12 +85,12 @@ describe('QuantityInputComponent', () => {
     })
     it('should emit addedToCart event if form is valid', () => {
       component.form.controls['quantity'].setValue(6);
-      component.addToCart();
+      component.addToCart({ stopPropagation: () => { } });
       expect(component.addedToCart.emit).toHaveBeenCalledWith({ product: component.product, quantity: 6 })
     })
     it('should not emit addedToCart if form is valid', () => {
       component.form.controls['quantity'].setValue(3);
-      component.addToCart();
+      component.addToCart({ stopPropagation: () => { } });
       expect(component.addedToCart.emit).not.toHaveBeenCalled();
       expect(toastrService.error).toHaveBeenCalled();
     })

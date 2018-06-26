@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { Order, OrderService, PaymentService, ListPayment } from '@ordercloud/angular-sdk';
-import { AppStateService, AuthorizeNetService, BaseResolveService } from '@app/shared';
+import { Order, OrderService, PaymentService } from '@ordercloud/angular-sdk';
+import { AppStateService, BaseResolveService } from '@app/shared';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -24,7 +24,11 @@ export class CheckoutComponent implements OnInit {
       valid: false
     },
     {
-      id: 'address',
+      id: 'shippingAddress',
+      valid: false
+    },
+    {
+      id: 'billingAddress',
       valid: false
     },
     {
@@ -41,14 +45,13 @@ export class CheckoutComponent implements OnInit {
     private appStateService: AppStateService,
     private orderService: OrderService,
     private router: Router,
-    private authNetService: AuthorizeNetService,
     private paymentService: PaymentService,
     private baseResolveService: BaseResolveService
   ) { }
 
   ngOnInit() {
     this.isAnon = this.appStateService.isAnonSubject.value;
-    this.currentPanel = this.isAnon ? 'login' : 'address';
+    this.currentPanel = this.isAnon ? 'login' : 'shippingAddress';
     this.setValidation('login', !this.isAnon);
   }
 
@@ -72,7 +75,6 @@ export class CheckoutComponent implements OnInit {
     // TODO - this could be refactored to avoid calling the api to get paymentID.
     this.paymentService.List('outgoing', orderID)
       .pipe(
-        flatMap((payments: ListPayment) => this.authNetService.CaptureTransaction(orderID, payments.Items[0].ID)),
         flatMap(() => this.orderService.Submit('outgoing', orderID))
       )
       .subscribe(() => {
