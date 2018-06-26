@@ -3,115 +3,125 @@
       [formGroup]="addressForm"
       name="RegisterForm">
   <div class="row">
+    <div [hidden]="true"
+         class="col-md-6 form-group">
+      <label class="sr-only"
+             for="ID">ID</label>
+      <input type="text"
+             formControlName="ID"
+             class="form-control"
+             id="ID"
+             placeholder="ID" />
+    </div>
     <div class="col-md-6 form-group">
       <label class="sr-only"
-             for="firstName">First Name</label>
+             for="FirstName">First Name</label>
       <input type="text"
-             formControlName="firstName"
+             formControlName="FirstName"
              class="form-control"
-             id="firstName"
+             id="FirstName"
              placeholder="First Name"
              autofocus="true"
              autocomplete="off" />
-      <span *ngIf="hasRequiredError('firstName')"
+      <span *ngIf="hasRequiredError('FirstName')"
             class="error-message">First Name is required</span>
     </div>
     <div class="col-md-6 form-group">
       <label class="sr-only"
-             for="lastName">Last Name</label>
+             for="LastName">Last Name</label>
       <input type="text"
-             formControlName="lastName"
+             formControlName="LastName"
              class="form-control"
-             id="lastName"
+             id="LastName"
              placeholder="Last Name"
              autocomplete="off" />
-      <span *ngIf="hasRequiredError('lastName')"
+      <span *ngIf="hasRequiredError('LastName')"
             class="error-message">Last Name is required</span>
     </div>
   </div>
   <div class="form-group">
     <label class="sr-only"
-           for="address1">Address 1</label>
+           for="Street1">Address 1</label>
     <input type="text"
-           formControlName="street1"
+           formControlName="Street1"
            class="form-control"
-           id="address1"
+           id="Street1"
            placeholder="Address 1"
            autocomplete="off" />
-    <span *ngIf="hasRequiredError('street1')"
+    <span *ngIf="hasRequiredError('Street1')"
           class="error-message">Address 1 is required</span>
   </div>
   <div class="form-group">
     <label class="sr-only"
-           for="street2">Address 2</label>
+           for="Street2">Address 2</label>
     <input type="text"
-           formControlName="street2"
+           formControlName="Street2"
            class="form-control"
-           id="address2"
+           id="Street2"
            placeholder="Address 2"
            autocomplete="off" />
   </div>
   <div class="row">
     <div class="col-md-6 form-group">
       <label class="sr-only"
-             for="city">City</label>
+             for="City">City</label>
       <input type="text"
-             formControlName="city"
+             formControlName="City"
              class="form-control"
-             id="city"
+             id="City"
              placeholder="City"
              autocomplete="off" />
-      <span *ngIf="hasRequiredError('city')"
+      <span *ngIf="hasRequiredError('City')"
             class="error-message">City is required</span>
     </div>
     <div class="col-md-3 form-group">
       <label class="sr-only"
-             for="state">State</label>
-      <select formControlName="state"
+             for="State">State</label>
+      <select formControlName="State"
               class="form-control"
-              id="state">
+              id="State">
           <option [ngValue]="null" disabled>State</option>
-          <option *ngFor="let state of stateOptions" [value]="state">{{ state }}</option>
+          <option *ngFor="let State of stateOptions" [value]="State">{{ State }}</option>
         </select>
     </div>
     <div class="col-md-3 form-group">
       <label class="sr-only"
              for="zipCode">Zip Code</label>
       <input type="text"
-             formControlName="zip"
+             formControlName="Zip"
              class="form-control"
              id="zipCode"
              placeholder="Zip Code"
              autocomplete="off" />
-      <span *ngIf="hasRequiredError('zip')"
+      <span *ngIf="hasRequiredError('Zip')"
             class="error-message">Zip Code is required</span>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6 form-group">
       <label class="sr-only"
-             for="phone">Phone Number</label>
+             for="Phone">Phone Number</label>
       <input type="text"
-             formControlName="phone"
+             formControlName="Phone"
              class="form-control"
-             id="phone"
+             id="Phone"
              phoneInput
              placeholder="Phone Number"
              autocomplete="off" />
-      <span *ngIf="hasRequiredError('phone')"
+      <span *ngIf="hasRequiredError('Phone')"
             class="error-message">Phone is required</span>
     </div>
     <div class="col-md-6 form-group">
       <label class="sr-only"
-             for="email">Email</label>
+             for="Email">Email</label>
       <input type="email"
-             formControlName="email"
+             formControlName="Email"
              class="form-control"
-             id="email"
+             id="Email"
              placeholder="Email"
              autocomplete="off" />
-      <span *ngIf="hasValidEmailError('email')"
-            class="error-message">Please enter valid email</span>
+      <span *ngIf="hasValidEmailError('Email')"
+            class="error-message">Please enter valid Email</span>
     </div>
   </div>
   <button type="submit"

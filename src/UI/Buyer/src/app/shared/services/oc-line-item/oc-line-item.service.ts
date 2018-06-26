@@ -156,9 +156,7 @@ export class OcLineItemService {
       queue = [...queue, this.getSupplierAddress(supplierID)]
     });
     if (!queue.length) { return of([]) }
-    return forkJoin(queue).pipe(
-      tap(x => console.log(x))
-    )
+    return forkJoin(queue)
   }
 
   getSupplierAddress(supplierID): Observable<Address> {

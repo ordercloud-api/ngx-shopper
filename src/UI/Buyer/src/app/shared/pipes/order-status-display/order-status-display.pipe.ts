@@ -2,9 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { OrderStatus, OrderStatusMap } from '../../../order/models/order-status.model';
 
 @Pipe({
-  name: 'orderStatus'
+  name: 'orderStatusDisplay'
 })
-export class OrderStatusPipe implements PipeTransform {
+export class OrderStatusDisplayPipe implements PipeTransform {
   transform(status: OrderStatus) {
     if (!status) { return null; }
     return OrderStatusMap[status];

@@ -38,7 +38,8 @@ import { OcFormErrorService } from './services/oc-form-error/oc-form-error.servi
 // pipes
 import { NavBrandsPipe } from './pipes/navigation/nav-brands.pipe';
 import { PhoneFormatPipe } from './pipes/phone-format/phone-format.pipe';
-import { OrderStatusPipe } from './pipes/order-status/order-status.pipe';
+import { OrderStatusDisplayPipe } from './pipes/order-status-display/order-status-display.pipe';
+import { PaymentMethodDisplayPipe } from '@app/shared/pipes/payment-method-display/payment-method-display.pipe';
 
 // directives
 import { PhoneInputDirective } from './directives/phone-input/phone-input.directive';
@@ -146,7 +147,8 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
     RegisterComponent,
     PageTitleComponent,
     PhoneFormatPipe,
-    OrderStatusPipe,
+    OrderStatusDisplayPipe,
+    PaymentMethodDisplayPipe,
     CreditCardIconComponent,
     AddressDisplayComponent,
     CreditCardDisplayComponent,
@@ -165,7 +167,8 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
   declarations: [
     RegisterComponent,
     PhoneFormatPipe,
-    OrderStatusPipe,
+    OrderStatusDisplayPipe,
+    PaymentMethodDisplayPipe,
     PageTitleComponent,
     AddressDisplayComponent,
     CreditCardDisplayComponent,
@@ -206,7 +209,8 @@ export class SharedModule {
         OcFormErrorService,
         OcLineItemService,
         PhoneFormatPipe,
-        OrderStatusPipe,
+        OrderStatusDisplayPipe,
+        PaymentMethodDisplayPipe,
         AppErrorHandler,
         HasTokenGuard,
         IsLoggedInGuard,

@@ -15,7 +15,7 @@ import { DatePipe } from '@angular/common';
 import { OrderStatus } from '@app/order/models/order-status.model';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { OrderStatusPipe } from '@app/shared/pipes/order-status/order-status.pipe';
+import { OrderStatusDisplayPipe } from '@app/shared/pipes/order-status-display/order-status-display.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrderHistoryComponent', () => {
@@ -47,7 +47,7 @@ describe('OrderHistoryComponent', () => {
         FaIconComponent,
         SearchComponent,
         OrderHistoryComponent,
-        OrderStatusPipe,
+        OrderStatusDisplayPipe,
       ],
       imports: [
         ReactiveFormsModule,

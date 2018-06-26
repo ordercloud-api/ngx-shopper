@@ -16,5 +16,4 @@ export class CheckoutSectionBaseComponent implements OnInit {
   makeValid() {
     this.continue.emit();
   }
-
 }

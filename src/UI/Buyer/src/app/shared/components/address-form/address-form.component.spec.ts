@@ -42,6 +42,7 @@ describe('AddressFormComponent', () => {
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
     component.existingAddress = {
+      ID: '',
       FirstName: 'Crhistian',
       LastName: 'Ramirez',
       Street1: '404 5th st sw',
@@ -68,15 +69,16 @@ describe('AddressFormComponent', () => {
 
     it('should initialize form correctly', () => {
       expect(component.addressForm.value).toEqual({
-        firstName: 'Crhistian',
-        lastName: 'Ramirez',
-        email: 'cramirez@four51.com',
-        street1: '404 5th st sw',
-        street2: '',
-        city: 'Minneapolis',
-        state: 'MN',
-        zip: '56001',
-        phone: '555-555-5555'
+        ID: '',
+        FirstName: 'Crhistian',
+        LastName: 'Ramirez',
+        Email: 'cramirez@four51.com',
+        Street1: '404 5th st sw',
+        Street2: '',
+        City: 'Minneapolis',
+        State: 'MN',
+        Zip: '56001',
+        Phone: '555-555-5555'
       });
     });
   });
@@ -91,17 +93,18 @@ describe('AddressFormComponent', () => {
       expect(formErrorService.displayFormErrors).toHaveBeenCalled();
     });
     it('should emit formSubmitted event', () => {
-      component.addressForm.controls['email'].setValue('crhistian@gmail.com');
+      component.addressForm.controls['Email'].setValue('crhistian@gmail.com');
       component['onSubmit']();
       expect(component.formSubmitted.emit).toHaveBeenCalledWith({
-        firstName: 'Crhistian',
-        lastName: 'Ramirez',
-        street1: '404 5th st sw',
-        street2: '',
-        city: 'Minneapolis',
-        state: 'MN',
-        zip: '56001',
-        phone: '555-555-5555',
+        ID: '',
+        FirstName: 'Crhistian',
+        LastName: 'Ramirez',
+        Street1: '404 5th st sw',
+        Street2: '',
+        City: 'Minneapolis',
+        State: 'MN',
+        Zip: '56001',
+        Phone: '555-555-5555',
         Country: 'US',
         xp: {
           Email: 'crhistian@gmail.com'
@@ -112,10 +115,10 @@ describe('AddressFormComponent', () => {
 
   describe('hasRequiredError', () => {
     beforeEach(() => {
-      component['hasRequiredError']('firstName');
+      component['hasRequiredError']('FirstName');
     });
     it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasRequiredError).toHaveBeenCalledWith('firstName', component.addressForm);
+      expect(formErrorService.hasRequiredError).toHaveBeenCalledWith('FirstName', component.addressForm);
     });
   });
 
@@ -124,7 +127,7 @@ describe('AddressFormComponent', () => {
       component['hasValidEmailError']();
     });
     it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasValidEmailError).toHaveBeenCalledWith(component.addressForm.get('email'));
+      expect(formErrorService.hasValidEmailError).toHaveBeenCalledWith(component.addressForm.get('Email'));
     });
   });
 

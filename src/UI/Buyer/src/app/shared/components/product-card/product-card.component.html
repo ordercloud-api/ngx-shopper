@@ -23,11 +23,12 @@
       <div class="col-lg-8 px-0">
         <button class="btn btn-primary btn-block input-group__button"
                 type="submit"
-                (click)="quantityInputComponent.addToCart()">Add <span class="d-sm-none d-lg-inline">to Cart</span></button>
+                (click)="quantityInputComponent.addToCart($event)">Add <span class="d-sm-none d-lg-inline">to Cart</span></button>
       </div>
       <div class="col-lg-4 px-0">
         <shared-quantity-input class="input-group__quantity-input"
-                               [product]="product"></shared-quantity-input>
+                               [product]="product"
+                               (addedToCart)="addToCart($event)"></shared-quantity-input>
       </div>
     </div>
     <button *ngIf="isViewOnlyProduct"

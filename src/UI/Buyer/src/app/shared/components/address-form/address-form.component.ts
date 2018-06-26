@@ -36,18 +36,19 @@ export class AddressFormComponent implements OnInit {
 
   setForm() {
     this.addressForm = this.formBuilder.group({
-      firstName: [this._existingAddress.FirstName || '', Validators.required],
-      lastName: [this._existingAddress.LastName || '', Validators.required],
-      email: [
+      FirstName: [this._existingAddress.FirstName || '', Validators.required],
+      LastName: [this._existingAddress.LastName || '', Validators.required],
+      Email: [
         this._existingAddress.xp && this._existingAddress.xp.Email ? this._existingAddress.xp.Email : '',
         [Validators.required, Validators.email]
       ],
-      street1: [this._existingAddress.Street1 || '', Validators.required],
-      street2: [this._existingAddress.Street2 || ''],
-      city: [this._existingAddress.City || '', Validators.required],
-      state: [this._existingAddress.State || null, Validators.required],
-      zip: [this._existingAddress.Zip || '', Validators.required],
-      phone: [this._existingAddress.Phone || '', Validators.required],
+      Street1: [this._existingAddress.Street1 || '', Validators.required],
+      Street2: [this._existingAddress.Street2 || ''],
+      City: [this._existingAddress.City || '', Validators.required],
+      State: [this._existingAddress.State || null, Validators.required],
+      Zip: [this._existingAddress.Zip || '', Validators.required],
+      Phone: [this._existingAddress.Phone || '', Validators.required],
+      ID: this._existingAddress.ID || ''
     });
   }
 
@@ -58,14 +59,14 @@ export class AddressFormComponent implements OnInit {
     const address = {
       ...this.addressForm.value,
       Country: 'US',
-      xp: { Email: this.addressForm.value.email }
+      xp: { Email: this.addressForm.value.Email }
     };
-    delete address.email;
+    delete address.Email;
 
     this.formSubmitted.emit(address);
   }
 
   // control display of error messages
   protected hasRequiredError = (controlName: string) => this.formErrorService.hasRequiredError(controlName, this.addressForm);
-  protected hasValidEmailError = () => this.formErrorService.hasValidEmailError(this.addressForm.get('email'));
+  protected hasValidEmailError = () => this.formErrorService.hasValidEmailError(this.addressForm.get('Email'));
 }

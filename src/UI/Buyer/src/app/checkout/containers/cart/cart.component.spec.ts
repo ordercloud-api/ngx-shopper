@@ -39,7 +39,7 @@ describe('CartComponent', () => {
   const meService = { GetProduct: jasmine.createSpy('GetProduct').and.returnValue(of({})) }
   const appStateService = {
     orderSubject: of({}),
-    lineItemSubject: of({})
+    lineItemSubject: of({ Items: [] })
   };
 
 

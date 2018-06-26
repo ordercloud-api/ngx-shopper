@@ -9,12 +9,12 @@ describe('FavoriteButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToggleFavoriteComponent ],
+      declarations: [ToggleFavoriteComponent],
       imports: [
         FontAwesomeModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

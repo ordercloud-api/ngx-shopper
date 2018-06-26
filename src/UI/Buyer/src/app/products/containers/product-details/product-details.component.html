@@ -32,7 +32,7 @@
         </shared-quantity-input>
         <button class="btn btn-primary"
                 type="submit"
-                (click)="quantityInputComponent.addToCart()">Add to Cart</button>
+                (click)="quantityInputComponent.addToCart($event)">Add to Cart</button>
       </div>
       <ng-template #viewOnly>
         <div class="alert alert-info">

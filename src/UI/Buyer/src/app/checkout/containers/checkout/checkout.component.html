@@ -2,44 +2,76 @@
 <div class="container">
   <div *ngIf="currentOrder$ | async; let order">
     <div class="row flex-lg-row-reverse"
-        *ngIf="order.LineItemCount">
+         *ngIf="order.LineItemCount">
       <div class="col-lg-3">
         <checkout-order-summary [order]="order"></checkout-order-summary>
       </div>
       <div class="col-lg-9">
-        <ngb-accordion [closeOthers]="true" (panelChange)="beforeChange($event)" #acc="ngbAccordion" [activeIds]="currentPanel">
-          <ngb-panel *ngIf="isAnon" id="login">
+        <ngb-accordion [closeOthers]="true"
+                       (panelChange)="beforeChange($event)"
+                       #acc="ngbAccordion"
+                       [activeIds]="currentPanel">
+          <ngb-panel *ngIf="isAnon"
+                     id="login">
             <ng-template ngbPanelTitle>
-              <a class="link-text"> Login </a> <fa-icon class="float-right text-success" *ngIf="getValidation('login')" [icon]="faCheck"></fa-icon>
+              <a class="link-text"> Login </a>
+              <fa-icon class="float-right text-success"
+                       *ngIf="getValidation('login')"
+                       [icon]="faCheck"></fa-icon>
             </ng-template>
             <ng-template ngbPanelContent>
               <div class="row">
                 <div class="col-4">
-                  <button class="btn btn-block btn-primary" routerLink="/login">Login</button>
+                  <button class="btn btn-block btn-primary"
+                          routerLink="/login">Login</button>
                 </div>
                 <div class="col-4">
-                  <button class="btn btn-block btn-primary" routerLink="/register">Create Account</button>
+                  <button class="btn btn-block btn-primary"
+                          routerLink="/register">Create Account</button>
                 </div>
                 <div class="col-4">
-                  <button class="btn btn-block btn-primary" (click)="toSection('address')">Checkout as Guest</button>
+                  <button class="btn btn-block btn-primary"
+                          (click)="toSection('shippingAddress')">Checkout as Guest</button>
                 </div>
               </div>
             </ng-template>
           </ngb-panel>
-          <ngb-panel id="address">
+          <ngb-panel id="shippingAddress">
             <ng-template ngbPanelTitle>
-              <a class="link-text"> Billing and Shiping Address </a><fa-icon class="float-right text-success" *ngIf="getValidation('address')" [icon]="faCheck"></fa-icon>
+              <a class="link-text"> Shipping Address </a>
+              <fa-icon class="float-right text-success"
+                       *ngIf="getValidation('shippingAddress')"
+                       [icon]="faCheck"></fa-icon>
             </ng-template>
             <ng-template ngbPanelContent>
-              <checkout-address [isAnon]="isAnon" (continue)="toSection('delivery')"></checkout-address>
+              <checkout-address [isAnon]="isAnon"
+                                addressType="Shipping"
+                                (continue)="toSection('billingAddress')"></checkout-address>
+            </ng-template>
+          </ngb-panel>
+          <ngb-panel id="billingAddress">
+            <ng-template ngbPanelTitle>
+              <a class="link-text"> Billing Address </a>
+              <fa-icon class="float-right text-success"
+                       *ngIf="getValidation('billingAddress')"
+                       [icon]="faCheck"></fa-icon>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <checkout-address [isAnon]="isAnon"
+                                addressType="Billing"
+                                (continue)="toSection('payment')"></checkout-address>
             </ng-template>
           </ngb-panel>
           <ngb-panel id="payment">
             <ng-template ngbPanelTitle>
-              <a class="link-text"> Payment </a><fa-icon class="float-right text-success" *ngIf="getValidation('payment')" [icon]="faCheck"></fa-icon>
+              <a class="link-text"> Payment </a>
+              <fa-icon class="float-right text-success"
+                       *ngIf="getValidation('payment')"
+                       [icon]="faCheck"></fa-icon>
             </ng-template>
             <ng-template ngbPanelContent>
-              <checkout-payment [isAnon]="isAnon" (continue)="toSection('confirm')"></checkout-payment>
+              <checkout-payment [isAnon]="isAnon"
+                                (continue)="toSection('confirm')"></checkout-payment>
             </ng-template>
           </ngb-panel>
           <ngb-panel id="confirm">
@@ -47,7 +79,8 @@
               <a class="link-text"> Confirm </a>
             </ng-template>
             <ng-template ngbPanelContent>
-              <button class="btn btn-primary" (click)="confirmOrder()">Confirm Order</button>
+              <button class="btn btn-primary"
+                      (click)="confirmOrder()">Confirm Order</button>
             </ng-template>
           </ngb-panel>
         </ngb-accordion>

@@ -7,7 +7,7 @@
             formControlName="status">
           <option value="!Unsubmitted">All</option>
           <option *ngFor="let status of statuses" [ngValue]="status">
-            {{status | orderStatus}}
+            {{status | orderStatusDisplay}}
           </option>
       </select>
   </div>

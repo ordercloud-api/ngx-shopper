@@ -1,12 +1,13 @@
 import { InjectionToken } from '@angular/core';
 export const applicationConfiguration = new InjectionToken<AppConfig>('app.config');
 import { environment } from '../../environments/environment';
+import { PaymentMethod } from '@app/shared/models/payment-method.enum';
 
 export const ocAppConfig: AppConfig = {
     appname: environment.appname,
     clientID: environment.clientID,
     baseUrl: 'localhost:4200', // TODO: replace this with dynamic value (document.location.origin)
-    anonymousShoppingEnabled: true,
+    anonymousShoppingEnabled: false,
     middlewareUrl: environment.middlewareUrl,
     scope: [
         'MeAddressAdmin',
@@ -25,7 +26,8 @@ export const ocAppConfig: AppConfig = {
         'OrderAdmin',
         'OverrideTax',
         'OverrideShipping'
-    ]
+    ],
+    availablePaymentMethods: [PaymentMethod.PurchaseOrder]
 };
 
 export interface AppConfig {
@@ -66,5 +68,11 @@ export interface AppConfig {
      * read [here](https://developer.ordercloud.io/documentation/platform-guides/authentication/security-profiles)
      */
     scope: string[];
+
+    /**
+     * this defines the types of payment methods a user can select
+     * from to complete payment on an order
+     */
+    availablePaymentMethods: PaymentMethod[]
 }
 
