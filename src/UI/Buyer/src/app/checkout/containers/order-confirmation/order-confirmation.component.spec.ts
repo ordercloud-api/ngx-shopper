@@ -14,7 +14,6 @@ describe('OrderConfirmationComponent', () => {
   const mockOrderID = 'MockGetOrder123';
   const appLineItemService = {
     listAll: jasmine.createSpy('listAll').and.returnValue(of(null)),
-    getSupplierAddresses: jasmine.createSpy('getSupplierAddresses').and.returnValue(of(null))
   };
   const orderService = {
     Get: jasmine.createSpy('Get').and.returnValue(of(null)),
@@ -56,7 +55,6 @@ describe('OrderConfirmationComponent', () => {
       spyOn(component as any, 'getOrder');
       spyOn(component as any, 'getLineItems');
       spyOn(component as any, 'getPromotions');
-      spyOn(component as any, 'getSupplierAddresses');
       component.ngOnInit();
     });
     it('should call getOrder', () => {
@@ -67,9 +65,6 @@ describe('OrderConfirmationComponent', () => {
     });
     it('should call getPromotions', () => {
       expect(component['getPromotions']).toHaveBeenCalled();
-    });
-    it('should call getSupplierAddresses', () => {
-      expect(component['getSupplierAddresses']).toHaveBeenCalled();
     });
   });
 
@@ -97,14 +92,6 @@ describe('OrderConfirmationComponent', () => {
         expect(orderService.ListPromotions).toHaveBeenCalledWith('outgoing', mockOrderID);
       });
       paramMap.next(convertToParamMap({ orderID: mockOrderID }));
-    });
-  });
-
-  describe('getSupplierAddresses', () => {
-    it('should call OcLineItemService.getSupplierAddresses', () => {
-      component['getSupplierAddresses']().subscribe(() => {
-        expect(appLineItemService.getSupplierAddresses).toHaveBeenCalled();
-      });
     });
   });
 });

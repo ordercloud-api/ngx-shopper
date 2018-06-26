@@ -32,7 +32,7 @@
         </shared-quantity-input>
         <button class="btn btn-primary"
                 type="submit"
-                (click)="quantityInputComponent.addToCart()">Add to Cart</button>
+                (click)="quantityInputComponent.addToCart($event)">Add to Cart</button>
       </div>
       <ng-template #viewOnly>
         <div class="alert alert-info">
@@ -69,7 +69,7 @@
   </div>
   <div *ngIf="relatedProducts$ | async; let relatedProducts">
     <product-carousel *ngIf="relatedProducts.length > 0"
-                      title="Related Products"
+                      displayTitle="Related Products"
                       [products]="relatedProducts">
     </product-carousel>
   </div>

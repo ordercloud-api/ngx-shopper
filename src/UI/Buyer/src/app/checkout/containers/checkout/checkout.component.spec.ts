@@ -6,13 +6,12 @@ import {
   PhoneFormatPipe,
   AppStateService,
   BaseResolveService,
-  AuthorizeNetService
 } from '@app/shared';
 import { OrderSummaryComponent } from '@app/checkout/components/order-summary/order-summary.component';
-import { NgbAccordion, NgbPanel, NgbAccordionModule, NgbModule, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordion, NgbPanel, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CheckoutAddressComponent } from '@app/checkout/containers/checkout/checkout-address/checkout-address.component';
-import { CheckoutPaymentComponent } from '@app/checkout/containers/checkout/checkout-payment/checkout-payment.component';
+import { CheckoutAddressComponent } from '@app/checkout/containers/checkout-address/checkout-address.component';
+import { CheckoutPaymentComponent } from '@app/checkout/containers/checkout-payment/checkout-payment.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressFormComponent } from '@app/shared/components/address-form/address-form.component';
 import { CreditCardDisplayComponent } from '@app/shared/components/credit-card-display/credit-card-display.component';
@@ -22,6 +21,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, BehaviorSubject } from 'rxjs';
 import { OrderService, PaymentService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
+import { PaymentMethodDisplayPipe } from '@app/shared/pipes/payment-method-display/payment-method-display.pipe';
+import { PaymentPurchaseOrderComponent } from '@app/checkout/components/payment-purchase-order/payment-purchase-order.component';
 
 describe('CheckoutComponent', () => {
   let component: CheckoutComponent;
@@ -31,13 +32,14 @@ describe('CheckoutComponent', () => {
     isAnonSubject: new BehaviorSubject(false)
   };
   const orderService = { Submit: jasmine.createSpy('Submit').and.returnValue(of(null)) };
-  const authNetService = { CaptureTransaction: jasmine.createSpy('CaptureTransaction').and.returnValue(of(null)) };
   const paymentService = { List: jasmine.createSpy('List').and.returnValue(of({ Items: [{ ID: 'paymentID' }] })) };
   const baseResolveService = { resetUser: jasmine.createSpy('restUser').and.returnValue(null) };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        PaymentPurchaseOrderComponent,
+        PaymentMethodDisplayPipe,
         CheckoutComponent,
         PageTitleComponent,
         OrderSummaryComponent,
@@ -61,7 +63,6 @@ describe('CheckoutComponent', () => {
         NgbAccordionConfig,
         { provide: AppStateService, useValue: appStateService },
         { provide: OrderService, useValue: orderService },
-        { provide: AuthorizeNetService, useValue: authNetService },
         { provide: PaymentService, useValue: paymentService },
         { provide: BaseResolveService, useValue: baseResolveService },
       ]
@@ -80,19 +81,60 @@ describe('CheckoutComponent', () => {
   });
 
   describe('ngOnInit()', () => {
-    it('should setup correctly for known users', () => {
+    beforeEach(() => {
+      spyOn(component, 'setValidation');
+    })
+    it('should set panel to shippingAddress if user is profiled', () => {
+      appStateService.isAnonSubject.next(false);
       component.ngOnInit();
-      expect(component.isAnon).toEqual(false);
-      expect(component.currentPanel).toEqual('address');
-      expect(component.sections.find(x => x.id === 'login').valid).toEqual(true);
+      expect(component.currentPanel).toEqual('shippingAddress');
     });
+    it('should validate login panel if user is profiled', () => {
+      appStateService.isAnonSubject.next(false);
+      component.ngOnInit();
+      expect(component.setValidation).toHaveBeenCalledWith('login', true);
+    })
+    it('should set panel to login if user is anonymous', () => {
+      appStateService.isAnonSubject.next(true);
+      component.ngOnInit();
+      component.currentPanel = 'login';
+    })
+    it('should invalidate login panel if user is anonymous', () => {
+      appStateService.isAnonSubject.next(true);
+      component.ngOnInit();
+      expect(component.setValidation).toHaveBeenCalledWith('login', false);
+    })
   });
 
   describe('getValidation()', () => {
+    beforeEach(() => {
+      component.sections = [
+        {
+          id: 'login',
+          valid: true
+        },
+        {
+          id: 'shippingAddress',
+          valid: true
+        },
+        {
+          id: 'billingAddress',
+          valid: false
+        },
+        {
+          id: 'payment',
+          valid: false
+        },
+        {
+          id: 'confirm',
+          valid: false
+        }
+      ];
+    })
     it('should get validation for section', () => {
-      expect(component.sections.find(x => x.id === 'login').valid).toEqual(component.getValidation('login'));
-      expect(component.sections.find(x => x.id === 'address').valid).toEqual(component.getValidation('address'));
-      expect(component.sections.find(x => x.id === 'payment').valid).toEqual(component.getValidation('payment'));
+      component.sections.forEach(section => {
+        expect(component.getValidation(section.id)).toBe(section.valid);
+      });
     });
   });
 
@@ -100,8 +142,8 @@ describe('CheckoutComponent', () => {
     it('should get validation for section', () => {
       component.setValidation('login', true);
       expect(component.sections.find(x => x.id === 'login').valid).toEqual(true);
-      component.setValidation('address', false);
-      expect(component.sections.find(x => x.id === 'address').valid).toEqual(false);
+      component.setValidation('shippingAddress', false);
+      expect(component.sections.find(x => x.id === 'shippingAddress').valid).toEqual(false);
       component.setValidation('payment', false);
       expect(component.sections.find(x => x.id === 'payment').valid).toEqual(false);
     });
@@ -109,8 +151,10 @@ describe('CheckoutComponent', () => {
 
   describe('toSection()', () => {
     it('should go to a valid section', () => {
-      component.setValidation('address', true);
-      component.currentPanel = 'address';
+      // validate previous panels
+      component.setValidation('login', true);
+      component.setValidation('shippingAddress', true);
+      component.currentPanel = 'billingAddress';
 
       component.toSection('payment');
       fixture.detectChanges();
@@ -122,7 +166,6 @@ describe('CheckoutComponent', () => {
   describe('confirmOrder()', () => {
     it('should call necessary services', () => {
       component.confirmOrder();
-      expect(authNetService.CaptureTransaction).toHaveBeenCalled();
       expect(orderService.Submit).toHaveBeenCalled();
       expect(baseResolveService.resetUser).toHaveBeenCalled();
     });

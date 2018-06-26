@@ -8,7 +8,7 @@
   </div>
   <div>
     <div class="gallery-container row">
-      <div class="col arrow left text-primary"
+      <div class="col carousel-arrow"
            (click)="backward(imageWrapper)">
         <fa-icon [icon]="faAngleLeft"></fa-icon>
       </div>
@@ -18,7 +18,7 @@
            (click)="select(url)">
         <img [src]="url">
       </div>
-      <div class="col arrow text-primary"
+      <div class="col carousel-arrow"
            (click)="forward()">
         <fa-icon [icon]="faAngleRight"></fa-icon>
       </div>

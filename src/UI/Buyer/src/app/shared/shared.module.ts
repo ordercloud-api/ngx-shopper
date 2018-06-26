@@ -20,6 +20,7 @@ import {
   NgbPopoverModule,
   NgbAccordionModule,
   NgbModalModule,
+  NgbCarouselModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
 // app services
@@ -30,7 +31,6 @@ import { applicationConfiguration, ocAppConfig } from '../config/app.config';
 import { BaseResolve } from '../shared/resolves/base.resolve';
 import { SharedRoutingModule } from './shared-routing.module';
 import { BaseResolveService } from './services/base-resolve/base-resolve.service';
-import { GeolocatorService } from './services/geolocator/geolocator.service';
 import { OcLineItemService } from './services/oc-line-item/oc-line-item.service';
 import { AuthorizeNetService } from './services/authorize-net/authorize-net.service';
 import { OcFormErrorService } from './services/oc-form-error/oc-form-error.service';
@@ -38,7 +38,8 @@ import { OcFormErrorService } from './services/oc-form-error/oc-form-error.servi
 // pipes
 import { NavBrandsPipe } from './pipes/navigation/nav-brands.pipe';
 import { PhoneFormatPipe } from './pipes/phone-format/phone-format.pipe';
-import { OrderStatusPipe } from './pipes/order-status/order-status.pipe';
+import { OrderStatusDisplayPipe } from './pipes/order-status-display/order-status-display.pipe';
+import { PaymentMethodDisplayPipe } from '@app/shared/pipes/payment-method-display/payment-method-display.pipe';
 
 // directives
 import { PhoneInputDirective } from './directives/phone-input/phone-input.directive';
@@ -64,7 +65,9 @@ import { LineItemListWrapperComponent } from './components/lineitem-list-wrapper
 import { RegisterComponent } from '../shared/containers/register/register.component';
 import { ShipperTrackingPipe, ShipperTrackingSupportedPipe } from '@app/shared/pipes/shipperTracking/shipperTracking.pipe';
 import { QuantityInputComponent } from './components/quantity-input/quantity-input.component';
-import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
+import { ToggleFavoriteComponent } from './components/toggle-favorite/toggle-favorite.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
+import { ProductCarouselComponent } from './components/product-carousel/product-carousel.component';
 
 @NgModule({
   imports: [
@@ -115,7 +118,8 @@ import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/
     NgbTabsetModule.forRoot(),
     NgbPaginationModule.forRoot(),
     NgbPopoverModule.forRoot(),
-    NgbAccordionModule.forRoot()
+    NgbAccordionModule.forRoot(),
+    NgbCarouselModule.forRoot()
   ],
   exports: [
     // angular
@@ -137,12 +141,14 @@ import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/
     NgbPaginationModule,
     NgbPopoverModule,
     NgbAccordionModule,
+    NgbCarouselModule,
 
     SearchComponent,
     RegisterComponent,
     PageTitleComponent,
     PhoneFormatPipe,
-    OrderStatusPipe,
+    OrderStatusDisplayPipe,
+    PaymentMethodDisplayPipe,
     CreditCardIconComponent,
     AddressDisplayComponent,
     CreditCardDisplayComponent,
@@ -154,12 +160,15 @@ import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/
     ShipperTrackingSupportedPipe,
     AddressFormComponent,
     QuantityInputComponent,
-    ToggleFavoriteComponent
+    ToggleFavoriteComponent,
+    ProductCardComponent,
+    ProductCarouselComponent
   ],
   declarations: [
     RegisterComponent,
     PhoneFormatPipe,
-    OrderStatusPipe,
+    OrderStatusDisplayPipe,
+    PaymentMethodDisplayPipe,
     PageTitleComponent,
     AddressDisplayComponent,
     CreditCardDisplayComponent,
@@ -173,7 +182,9 @@ import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/
     AddressFormComponent,
     LineItemListWrapperComponent,
     QuantityInputComponent,
-    ToggleFavoriteComponent
+    ToggleFavoriteComponent,
+    ProductCardComponent,
+    ProductCarouselComponent
   ],
 
   /**
@@ -195,11 +206,11 @@ export class SharedModule {
         AuthorizeNetService,
         BaseResolve,
         BaseResolveService,
-        GeolocatorService,
         OcFormErrorService,
         OcLineItemService,
         PhoneFormatPipe,
-        OrderStatusPipe,
+        OrderStatusDisplayPipe,
+        PaymentMethodDisplayPipe,
         AppErrorHandler,
         HasTokenGuard,
         IsLoggedInGuard,

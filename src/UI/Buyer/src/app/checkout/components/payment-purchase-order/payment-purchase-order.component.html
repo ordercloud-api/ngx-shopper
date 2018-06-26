@@ -1,0 +1,10 @@
+<form novalidate
+      [formGroup]="form">
+  <input (change)="updatePONumber()"
+         type="text"
+         placeholder="PO Number (optional)"
+         formControlName="PONumber"
+         class="form-control">
+</form>
+<button class="btn btn-primary mt-3"
+        (click)="validateAndContinue()">Save and Continue</button>
