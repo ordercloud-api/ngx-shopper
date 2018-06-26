@@ -1,6 +1,6 @@
-<div class="section-title">{{ title }}</div>
+<h3 class="mt-4 text-center">{{ displayTitle }}</h3>
 <div class="row">
-  <div class="col-1 arrow highlighted-text">
+  <div class="col-1 carousel-arrow">
     <fa-icon [icon]="faAngleLeft"
              *ngIf="index > 0"
              (click)="left()"></fa-icon>
@@ -12,7 +12,7 @@
                            [product]="product">
     </products-product-card>
   </div>
-  <div class="col-1 arrow highlighted-text">
+  <div class="col-1 carousel-arrow">
     <fa-icon [icon]="faAngleRight"
              *ngIf="index <= products.length - rowLength - 1"
              (click)="right()"></fa-icon>

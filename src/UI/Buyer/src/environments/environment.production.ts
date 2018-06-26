@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    appname: 'xxxxx',
+    appname: 'OrderCloud Buyer',
     clientID: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
     middlewareUrl: 'my-middleware-url.com/api'
 };

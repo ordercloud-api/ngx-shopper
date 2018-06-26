@@ -10,7 +10,7 @@ import { BuyerProduct } from '@ordercloud/angular-sdk';
 })
 export class ProductCarouselComponent {
   @Input() products: BuyerProduct[];
-  @Input() title: string;
+  @Input() displayTitle: string;
 
   index = 0;
   rowLength = 4;
