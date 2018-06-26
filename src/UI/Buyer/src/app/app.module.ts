@@ -15,7 +15,7 @@ import { OcSDKConfig } from '../app/config/ordercloud-sdk.config';
 
 
 // ngx-bootstrap
-import { BsDropdownModule, CarouselModule } from 'ngx-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap';
 // shared module
 import { SharedModule } from '@app/shared';
 
@@ -67,6 +67,7 @@ import { NgbDateNativeAdapter } from './config/date-picker.config';
      * keep commented out modules for reference
      */
     // AlertModule.forRoot(),
+    // CarouselModule.forRoot(),
     // ModalModule.forRoot(),
     // AccordionModule.forRoot(),
     // BsDatepickerModule.forRoot(),
