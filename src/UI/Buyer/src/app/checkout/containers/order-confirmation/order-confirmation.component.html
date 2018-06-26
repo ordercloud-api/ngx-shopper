@@ -44,8 +44,9 @@
   <div class="pb-2 mt-4 mb-2 border-bottom">
     <h4>Line Item Summary</h4>
   </div>
-    <shared-line-item-card *ngFor="let li of lineItems.Items"
-                             [lineitem]="supplierLineItems"
-                             [readOnly]="true"
-                             (deletedLineItem)="deleteLineItem($event)"></shared-line-item-card>
+  <shared-line-item-card *ngFor="let li of lineItems.Items"
+                         [lineitem]="li"
+                         [productDetails]="li.Product"
+                         [readOnly]="true"
+                         (deletedLineItem)="deleteLineItem($event)"></shared-line-item-card>
 </div>

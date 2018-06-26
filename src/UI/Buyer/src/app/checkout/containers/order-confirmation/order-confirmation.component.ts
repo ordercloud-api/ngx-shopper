@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { Order, OrderService, ListLineItem, ListPromotion, Address } from '@ordercloud/angular-sdk';
+import { Order, OrderService, ListLineItem, ListPromotion } from '@ordercloud/angular-sdk';
 import { OcLineItemService } from '@app/shared';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -15,7 +15,6 @@ export class OrderConfirmationComponent implements OnInit {
   order$: Observable<Order>;
   lineItems$: Observable<ListLineItem>;
   promotions$: Observable<ListPromotion>;
-  supplierAddresses$: Observable<Address[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,7 +26,6 @@ export class OrderConfirmationComponent implements OnInit {
     this.order$ = this.getOrder();
     this.lineItems$ = this.getLineItems();
     this.promotions$ = this.getPromotions();
-    this.supplierAddresses$ = this.getSupplierAddresses();
   }
 
   getOrder(): Observable<Order> {
@@ -49,9 +47,5 @@ export class OrderConfirmationComponent implements OnInit {
       .pipe(
         flatMap((params: ParamMap) => this.orderService.ListPromotions('outgoing', params.get('orderID')))
       );
-  }
-
-  getSupplierAddresses(): Observable<Address[]> {
-    return this.ocLineItemService.getSupplierAddresses();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { LineItem, BuyerProduct } from '@ordercloud/angular-sdk';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,7 +7,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './line-item-card.component.html',
   styleUrls: ['./line-item-card.component.scss']
 })
-export class LineItemCardComponent implements OnInit {
+export class LineItemCardComponent {
   closeIcon = faTimes;
 
   @Input() lineitem: LineItem;
@@ -16,17 +16,13 @@ export class LineItemCardComponent implements OnInit {
   @Output() deletedLineItem = new EventEmitter<LineItem>();
   @Output() lineItemUpdated = new EventEmitter<LineItem>();
 
-  constructor() { }
-
-  ngOnInit() { }
-
   protected deleteLineItem() {
     this.deletedLineItem.emit(this.lineitem);
   }
 
   protected updateQuantity(qty: number) {
-      this.lineitem.Quantity = qty;
-      this.lineItemUpdated.emit(this.lineitem);
+    this.lineitem.Quantity = qty;
+    this.lineItemUpdated.emit(this.lineitem);
   }
 
 }
