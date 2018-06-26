@@ -17,6 +17,7 @@ export class ProductCardComponent implements OnInit {
   @ViewChild(QuantityInputComponent) quantityInputComponent: QuantityInputComponent;
   shouldDisplayAddToCart: boolean;
   isViewOnlyProduct: boolean;
+  isSetFavoriteUsed: boolean;
 
   addToCart(event: AddToCartEvent) {
     this.addedToCart.emit(event);
@@ -27,6 +28,7 @@ export class ProductCardComponent implements OnInit {
      * this will be true if the parent component 
      * is wired up to listen to the outputted event
      */
+    this.isSetFavoriteUsed = this.setFavorite.observers.length > 0;
     const isAddedToCartUsed = this.addedToCart.observers.length > 0;
     this.isViewOnlyProduct = !(this.product.PriceSchedule && this.product.PriceSchedule.PriceBreaks[0].Price > 1);
     this.shouldDisplayAddToCart = isAddedToCartUsed && !this.isViewOnlyProduct;

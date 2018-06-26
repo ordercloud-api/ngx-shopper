@@ -8,7 +8,6 @@ export * from './services/authorize-net/authorize-net.interface';
 
 // pipes
 export * from './pipes/navigation/nav-brands.pipe';
-export * from './pipes/map-to-iterable/map-to-iterable.pipe';
 export * from './pipes/phone-format/phone-format.pipe';
 
 // directives
@@ -26,7 +25,6 @@ export * from './services/app-state/app-state.service';
 export * from './services/authorize-net/authorize-net.service';
 export * from './services/avalara-tax/avalara-tax.service';
 export * from './services/base-resolve/base-resolve.service';
-export * from './services/geolocator/geolocator.service';
 export * from './services/oc-form-error/oc-form-error.service';
 export * from './services/oc-geography/oc-geography.service';
 export * from './services/oc-line-item/oc-line-item.service';

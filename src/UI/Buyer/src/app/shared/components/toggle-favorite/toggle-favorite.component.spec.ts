@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToggleFavoriteComponent } from './toggle-favorite.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-fdescribe('FavoriteButtonComponent', () => {
+describe('FavoriteButtonComponent', () => {
   let component: ToggleFavoriteComponent;
   let fixture: ComponentFixture<ToggleFavoriteComponent>;
 

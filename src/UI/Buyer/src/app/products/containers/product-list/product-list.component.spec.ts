@@ -5,7 +5,6 @@ import {
   PageTitleComponent,
   OcLineItemService,
 } from '@app/shared';
-import { ProductCardComponent } from '@app/products';
 import { NgbPaginationModule, NgbCollapseModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of,  BehaviorSubject } from 'rxjs';
@@ -17,6 +16,7 @@ import { CategoryNavComponent } from '@app/products/components/category-nav/cate
 import { TreeModule } from 'angular-tree-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
+import { ProductCardComponent } from '@app/shared/components/product-card/product-card.component';
 
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
