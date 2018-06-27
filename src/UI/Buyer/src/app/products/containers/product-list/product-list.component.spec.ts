@@ -94,6 +94,19 @@ describe('ProductListComponent', () => {
     });
   });
 
+  fdescribe('getCategories', () => {
+    beforeEach(() => {
+      spyOn(component, 'buildBreadCrumbs');
+      component.getCategories();
+    })
+    it('should list categories', () => {
+      expect(meService.ListCategories).toHaveBeenCalledWith({depth: 'all'})
+    })
+    it('should build breadcrumbs with categoryid from queryparam', () => {
+      expect(component.buildBreadCrumbs).toHaveBeenCalledWith(component['activatedRoute'].snapshot.queryParams.category);
+    })
+  });
+
   describe('changePage', () => {
     const mockPage = 2;
     it('should reload state with page set as query params', () => {

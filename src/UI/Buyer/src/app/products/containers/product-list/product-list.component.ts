@@ -72,11 +72,11 @@ export class ProductListComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.meService.ListCategories({ depth: 'All', catalogID: 'SHARED' })
-      .subscribe(cats => {
-        this.categories = cats;
-        const catID = this.activatedRoute.snapshot.queryParams.category
-        this.categoryCrumbs = this.buildBreadCrumbs(catID);
+    this.meService.ListCategories({ depth: 'all'})
+      .subscribe(categories => {
+        this.categories = categories;
+        const categoryID = this.activatedRoute.snapshot.queryParams.category
+        this.categoryCrumbs = this.buildBreadCrumbs(categoryID);
       });
   }
 
