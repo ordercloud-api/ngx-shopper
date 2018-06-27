@@ -4,7 +4,7 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
 
 @Component({
-  selector: 'product-carousel',
+  selector: 'products-carousel',
   templateUrl: './product-carousel.component.html',
   styleUrls: ['./product-carousel.component.scss']
 })

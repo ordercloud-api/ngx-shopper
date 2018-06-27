@@ -30,13 +30,13 @@ export class CartComponent implements OnInit, OnDestroy {
     this.currentOrder$ = this.appStateService.orderSubject;
     this.appStateService.lineItemSubject.pipe(takeWhile(() => this.alive))
       .subscribe(lis => {
-        this.lineItems = lis; 
+        this.lineItems = lis;
         if (!this.productsSet) {
           const queue = [];
           lis.Items.forEach(li => queue.push(this.meService.GetProduct(li.ProductID)));
           forkJoin(queue).subscribe(prods => {
             this.products = prods;
-            this.productsSet = true
+            this.productsSet = true;
           });
         }
       });
@@ -65,6 +65,6 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.alive= false;
+    this.alive = false;
   }
 }

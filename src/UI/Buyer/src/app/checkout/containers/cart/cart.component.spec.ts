@@ -36,7 +36,7 @@ describe('CartComponent', () => {
   };
   const orderService = { Delete: jasmine.createSpy('Delete').and.returnValue(of({})) };
   const baseResolveService = { ResetUser: jasmine.createSpy('ResetUser').and.returnValue(of(true)) };
-  const meService = { GetProduct: jasmine.createSpy('GetProduct').and.returnValue(of({})) }
+  const meService = { GetProduct: jasmine.createSpy('GetProduct').and.returnValue(of({})) };
   const appStateService = {
     orderSubject: of({}),
     lineItemSubject: of({ Items: [] })

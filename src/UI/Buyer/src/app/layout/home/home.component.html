@@ -32,6 +32,6 @@
     </ng-template>
   </ngb-carousel>
   <div *ngIf="featuredProducts$ | async; let products">
-      <product-carousel displayTitle="Featured Products" [products]="products.Items"></product-carousel>
+      <products-carousel displayTitle="Featured Products" [products]="products.Items"></products-carousel>
   </div>
 </div>

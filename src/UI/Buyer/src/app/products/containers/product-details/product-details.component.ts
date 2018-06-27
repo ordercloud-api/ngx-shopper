@@ -17,6 +17,7 @@ export class ProductDetailsComponent implements OnInit {
   product$: Observable<BuyerProduct>;
   relatedProducts$: Observable<BuyerProduct[]>;
   // TODO - replace with images saved on product xp ( or somewhere else );
+  /* tslint:disable: max-line-length */
   imageUrls: string[] = [
     'https://www.etundra.com/images/products/500x500/commercial-plumbing-supplies/down-hoses-nozzles/chg-khr-5635-e-35-ft-covered-hose-reel-assembly/11410-1.jpg',
     'https://www.etundra.com/images/products/500x500/commercial-plumbing-supplies/down-hoses-nozzles/commercial-25-ft-hot-water-hose/11552-1.jpg',
@@ -24,6 +25,7 @@ export class ProductDetailsComponent implements OnInit {
     'https://www.etundra.com/images/products/500x500/commercial-plumbing-supplies/dipper-wells/faucets/commercial-dipperwell-stem-handle-assembly/13227-1.jpg',
     'https://www.etundra.com/images/products/500x500/commercial-plumbing-supplies/down-hoses-nozzles/commercial-insulated-spray-nozzle/11555-1.jpg'
   ];
+  /* tslint:enable max-line-length */
 
   constructor(
     private meService: MeService,
@@ -45,7 +47,7 @@ export class ProductDetailsComponent implements OnInit {
                 tap(prod => {
                   this.relatedProducts$ = this.getRelatedProducts(prod);
                 })
-              )
+              );
           }
         })
       );

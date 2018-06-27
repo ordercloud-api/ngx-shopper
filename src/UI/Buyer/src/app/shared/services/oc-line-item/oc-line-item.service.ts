@@ -1,5 +1,15 @@
 import { Injectable } from '@angular/core';
-import { LineItemService, ListLineItem, LineItem, OrderService, SupplierService, SupplierAddressService, Address, ListSupplier, BuyerProduct } from '@ordercloud/angular-sdk';
+import {
+  LineItemService,
+  ListLineItem,
+  LineItem,
+  OrderService,
+  SupplierService,
+  SupplierAddressService,
+  Address,
+  ListSupplier,
+  BuyerProduct
+} from '@ordercloud/angular-sdk';
 import { AppStateService } from '../app-state/app-state.service';
 import { Observable, of, BehaviorSubject, forkJoin } from 'rxjs';
 import { tap, flatMap, map } from 'rxjs/operators';
@@ -153,10 +163,10 @@ export class OcLineItemService {
     const supplierIds = _uniq(lineItems.Items.map(li => li.xp.product.id.split('-')[0]));
     let queue = [];
     supplierIds.forEach(supplierID => {
-      queue = [...queue, this.getSupplierAddress(supplierID)]
+      queue = [...queue, this.getSupplierAddress(supplierID)];
     });
-    if (!queue.length) { return of([]) }
-    return forkJoin(queue)
+    if (!queue.length) { return of([]); }
+    return forkJoin(queue);
   }
 
   getSupplierAddress(supplierID): Observable<Address> {

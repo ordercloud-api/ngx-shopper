@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./lineitem-list-wrapper.component.scss']
 })
 export class LineItemListWrapperComponent {
-  
+
   constructor() { }
-  
+
 }

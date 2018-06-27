@@ -21,8 +21,8 @@ import { ProductCardComponent } from '@app/shared/components/product-card/produc
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
   const mockQueryParams = { category: 'CategoryID' };
-  const mockCategoryData = of({ Items: [{ ID: 'CategoryID' }, { ID: 'category2' }], Meta: {} })
-  const mockMe = of({ xp: { FavoriteProducts: [] } })
+  const mockCategoryData = of({ Items: [{ ID: 'CategoryID' }, { ID: 'category2' }], Meta: {} });
+  const mockMe = of({ xp: { FavoriteProducts: [] } });
 
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -32,7 +32,7 @@ describe('ProductListComponent', () => {
     ListCategories: jasmine.createSpy('ListCategories').and.returnValue(mockCategoryData),
     Get: jasmine.createSpy('Get').and.returnValue(mockMe),
     Patch: jasmine.createSpy('Patch').and.returnValue(mockMe)
-  }
+  };
   const ocLineItemService = { create: jasmine.createSpy('create').and.returnValue(of(null)) };
 
 
@@ -88,7 +88,7 @@ describe('ProductListComponent', () => {
     });
     it('should get categories', () => {
       expect(component.getCategories).toHaveBeenCalled();
-    })
+    });
     it('should configure the router', () => {
       expect(component.configureRouter).toHaveBeenCalled();
     });
@@ -98,13 +98,13 @@ describe('ProductListComponent', () => {
     beforeEach(() => {
       spyOn(component, 'buildBreadCrumbs');
       component.getCategories();
-    })
+    });
     it('should list categories', () => {
-      expect(meService.ListCategories).toHaveBeenCalledWith({ depth: 'all' })
-    })
+      expect(meService.ListCategories).toHaveBeenCalledWith({ depth: 'all' });
+    });
     it('should build breadcrumbs with categoryid from queryparam', () => {
       expect(component.buildBreadCrumbs).toHaveBeenCalledWith(component['activatedRoute'].snapshot.queryParams.category);
-    })
+    });
   });
 
   describe('changePage', () => {
@@ -132,7 +132,7 @@ describe('ProductListComponent', () => {
   describe('clearSearch', () => {
     it('should reload state with no search', () => {
       const navigateSpy = spyOn((<any>component).router, 'navigate');
-      component.clearSearch()
+      component.clearSearch();
       expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: { category: 'CategoryID', search: '' } });
     });
   });
@@ -150,12 +150,12 @@ describe('ProductListComponent', () => {
     it('should remove fav correctly', () => {
       component.favoriteProducts = ['a', 'b'];
       component.setProductAsFav(false, 'a');
-      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['b'] } })
+      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['b'] } });
     });
     it('should add fav correctly', () => {
       component.favoriteProducts = ['a', 'b'];
       component.setProductAsFav(true, 'c');
-      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['a', 'b', 'c'] } })
+      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['a', 'b', 'c'] } });
     });
   });
 
@@ -174,19 +174,19 @@ describe('ProductListComponent', () => {
   describe('buildBreadCrumbs', () => {
     it('should return an empty array when id is null', () => {
       expect(component.buildBreadCrumbs(null)).toEqual([]);
-    })
+    });
     it('should return an empty array when categories are null', () => {
       component.categories = null;
       expect(component.buildBreadCrumbs('CategoryID')).toEqual([]);
-    })
+    });
     it('should return a single crumb if no parentID', () => {
       component.categories = { Items: [{ ID: 'CategoryID' }] };
       expect(component.buildBreadCrumbs('CategoryID')).toEqual([{ ID: 'CategoryID' }]);
-    })
+    });
     it('should build a long list of crumbs in correct order', () => {
       component.categories = { Items: [{ ID: 'a', ParentID: 'b' }, { ID: 'b', ParentID: 'c' }, { ID: 'c' }, { ID: 'd' }] };
       expect(component.buildBreadCrumbs('a')).toEqual([{ ID: 'c' }, { ID: 'b', ParentID: 'c' }, { ID: 'a', ParentID: 'b' }]);
-    })
+    });
   });
 
   describe('addToCart', () => {
@@ -197,6 +197,6 @@ describe('ProductListComponent', () => {
     it('should call ocLineItemService.Create', () => {
       expect(ocLineItemService.create).toHaveBeenCalledWith(mockEvent.product, mockEvent.quantity);
     });
-  })
+  });
 
 });

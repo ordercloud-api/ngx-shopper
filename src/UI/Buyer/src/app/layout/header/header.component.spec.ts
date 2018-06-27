@@ -128,12 +128,12 @@ describe('HeaderComponent', () => {
       appStateService.isAnonSubject.next(true);
       component.logout();
       expect(baseResolveService.resetUser).toHaveBeenCalled();
-    })
+    });
     it('should route to login if user is profiled', () => {
       appStateService.isAnonSubject.next(false);
       component.logout();
       expect(router.navigate).toHaveBeenCalledWith(['/login']);
-    })
+    });
   });
 
   describe('addedToCart', () => {
