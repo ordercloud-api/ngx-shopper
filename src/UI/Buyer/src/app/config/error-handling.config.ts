@@ -34,7 +34,7 @@ export class AppErrorHandler extends ErrorHandler {
         } else {
             message = 'An error occurred';
         }
-        if(typeof message === 'object') {
+        if (typeof message === 'object') {
             message = JSON.stringify(message);
         }
         this.toastrService.error(message, 'Error', { onActivateTick: true });

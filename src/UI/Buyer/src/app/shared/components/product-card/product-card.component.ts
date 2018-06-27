@@ -25,7 +25,7 @@ export class ProductCardComponent implements OnInit {
 
   ngOnInit() {
     /**
-     * this will be true if the parent component 
+     * this will be true if the parent component
      * is wired up to listen to the outputted event
      */
     this.isSetFavoriteUsed = this.setFavorite.observers.length > 0;

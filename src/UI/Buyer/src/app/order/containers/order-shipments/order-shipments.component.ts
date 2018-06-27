@@ -33,7 +33,7 @@ export class OrderShipmentsComponent implements OnInit {
       if (this.shipments.Items.length) {
         this.selectShipment(this.shipments.Items[0]);
       }
-    })
+    });
   }
 
   private setShipmentCount(shipments: ListShipment): ListShipment {
@@ -49,7 +49,7 @@ export class OrderShipmentsComponent implements OnInit {
     this.shipmentItems$ = this.meService.ListShipmentItems(shipment.ID)
       .pipe(
         map(shipmentItems => this.setLineItem(shipmentItems))
-      )
+      );
   }
 
   private setLineItem(shipmentItems: ListShipmentItem) {

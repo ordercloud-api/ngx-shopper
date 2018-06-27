@@ -70,7 +70,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.ocTokenService.RemoveAccess();
-    if(this.appStateService.isAnonSubject.value) {
+    if (this.appStateService.isAnonSubject.value) {
       this.baseResolveService.resetUser();
     } else {
       this.router.navigate(['/login']);

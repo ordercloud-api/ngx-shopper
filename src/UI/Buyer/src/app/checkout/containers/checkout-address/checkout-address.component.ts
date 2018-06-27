@@ -81,11 +81,11 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
         this.order = order;
         this.appStateService.orderSubject.next(this.order);
         this.continue.emit();
-      })
+      });
   }
 
   private setOneTimeAddress(address: BuyerAddress): Observable<Order> {
-    return this.orderService[`Set${this.addressType}Address`]('outgoing', this.order.ID, address)
+    return this.orderService[`Set${this.addressType}Address`]('outgoing', this.order.ID, address);
   }
 
   private setSavedAddress(address): Observable<Order> {

@@ -53,7 +53,7 @@ export class BaseResolveService {
           }
           return this.orderService.Create('outgoing', {});
         })
-      )
+      );
   }
 
   private setLineItems(): Observable<ListLineItem> {
@@ -69,7 +69,7 @@ export class BaseResolveService {
   // auth guards have confirmed at this point a token exists
   setUser(): Observable<any> {
     const isAnon = this.appAuthService.isUserAnon();
-    const prevLineItems =this.appStateService.lineItemSubject.value;
+    const prevLineItems = this.appStateService.lineItemSubject.value;
     const transferCart = (
       !isAnon && // user is now logged in
       this.appStateService.isAnonSubject.value && // previously, user was anonymous
@@ -99,11 +99,11 @@ export class BaseResolveService {
 
   transferAnonymousCart(anonLineItems: ListLineItem): Observable<LineItem[]> {
     const q = [];
-    
+
     anonLineItems.Items.forEach(li => {
-      q.push(this.ocLineItemService.create(li.xp.product, li.Quantity))
+      q.push(this.ocLineItemService.create(li.xp.product, li.Quantity));
     });
-    
+
     return forkJoin(q);
   }
 

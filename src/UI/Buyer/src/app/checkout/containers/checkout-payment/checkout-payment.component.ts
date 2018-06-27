@@ -61,7 +61,7 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
   }
 
   onContinueClicked() {
-    this.continue.emit()
+    this.continue.emit();
   }
 
   createPayment(payment: Payment) {
@@ -70,10 +70,10 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
         flatMap(() => {
           return this.paymentService.Create('outgoing', this.order.ID, payment)
             .pipe(
-              tap(payment => {
-                this.existingPayment = payment;
+              tap(paymentResult => {
+                this.existingPayment = paymentResult;
               })
-            )
+            );
         })
       ).subscribe();
   }
@@ -85,19 +85,19 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
           const queue = [];
           paymentList.Items.forEach(payment => {
             queue.push(this.paymentService.Delete('outgoing', this.order.ID, payment.ID));
-          })
+          });
           if (!queue.length) {
             return of([]);
           }
           return forkJoin(queue);
         })
-      )
+      );
   }
 
   patchPayment({ paymentID, payment }: { paymentID: string, payment: PartialPayment }) {
     this.paymentService.Patch('outgoing', this.order.ID, paymentID, payment)
-      .subscribe(payment => {
-        this.existingPayment = payment;
-      })
+      .subscribe(paymentResult => {
+        this.existingPayment = paymentResult;
+      });
   }
 }

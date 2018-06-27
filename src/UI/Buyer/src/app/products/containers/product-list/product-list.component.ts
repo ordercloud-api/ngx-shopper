@@ -52,30 +52,30 @@ export class ProductListComponent implements OnInit {
           this.searchTerm = queryParams.search || null;
           const filter = this.favsFilterOn ? { ID: this.favoriteProducts.join('|') } : '';
           return this.meService.ListProducts({
-            categoryID: queryParams.category, 
-            page: queryParams.page, 
-            search: queryParams.search, 
+            categoryID: queryParams.category,
+            page: queryParams.page,
+            search: queryParams.search,
             filters: <any>filter
           });
         })
-      )
+      );
   }
 
   getFavoriteProducts(): void {
     this.meService.Get().subscribe(me => {
-      if (!me.xp || !me.xp.FavoriteProducts) { 
-        this.favoriteProducts = []; 
+      if (!me.xp || !me.xp.FavoriteProducts) {
+        this.favoriteProducts = [];
       } else {
         this.favoriteProducts = me.xp.FavoriteProducts;
       }
-    }); 
+    });
   }
 
   getCategories(): void {
     this.meService.ListCategories({ depth: 'all'})
       .subscribe(categories => {
         this.categories = categories;
-        const categoryID = this.activatedRoute.snapshot.queryParams.category
+        const categoryID = this.activatedRoute.snapshot.queryParams.category;
         this.categoryCrumbs = this.buildBreadCrumbs(categoryID);
       });
   }
@@ -102,7 +102,7 @@ export class ProductListComponent implements OnInit {
     return this.favoriteProducts.indexOf(prod.ID) > -1;
   }
 
-  setFavsFilter(filterOn: boolean) { 
+  setFavsFilter(filterOn: boolean) {
     this.favsFilterOn = filterOn;
     this.productList$ = this.getProductData();
   }
@@ -127,14 +127,14 @@ export class ProductListComponent implements OnInit {
     }
 
     const recursiveBuild = id => {
-      const cat = this.categories.Items.find(c => c.ID === id)
+      const cat = this.categories.Items.find(c => c.ID === id);
       crumbs.unshift(cat);
       if (!cat.ParentID) {
         return crumbs;
       }
 
       return recursiveBuild(cat.ParentID);
-    }
+    };
 
     return recursiveBuild(catID);
   }

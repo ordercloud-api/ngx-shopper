@@ -83,7 +83,7 @@ describe('CheckoutComponent', () => {
   describe('ngOnInit()', () => {
     beforeEach(() => {
       spyOn(component, 'setValidation');
-    })
+    });
     it('should set panel to shippingAddress if user is profiled', () => {
       appStateService.isAnonSubject.next(false);
       component.ngOnInit();
@@ -93,17 +93,17 @@ describe('CheckoutComponent', () => {
       appStateService.isAnonSubject.next(false);
       component.ngOnInit();
       expect(component.setValidation).toHaveBeenCalledWith('login', true);
-    })
+    });
     it('should set panel to login if user is anonymous', () => {
       appStateService.isAnonSubject.next(true);
       component.ngOnInit();
       component.currentPanel = 'login';
-    })
+    });
     it('should invalidate login panel if user is anonymous', () => {
       appStateService.isAnonSubject.next(true);
       component.ngOnInit();
       expect(component.setValidation).toHaveBeenCalledWith('login', false);
-    })
+    });
   });
 
   describe('getValidation()', () => {
@@ -130,7 +130,7 @@ describe('CheckoutComponent', () => {
           valid: false
         }
       ];
-    })
+    });
     it('should get validation for section', () => {
       component.sections.forEach(section => {
         expect(component.getValidation(section.id)).toBe(section.valid);
