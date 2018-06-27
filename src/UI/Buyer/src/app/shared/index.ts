@@ -23,7 +23,6 @@ export * from './guards/is-logged-in/is-logged-in.guard';
 // services
 export * from './services/app-state/app-state.service';
 export * from './services/authorize-net/authorize-net.service';
-export * from './services/avalara-tax/avalara-tax.service';
 export * from './services/base-resolve/base-resolve.service';
 export * from './services/oc-form-error/oc-form-error.service';
 export * from './services/oc-geography/oc-geography.service';

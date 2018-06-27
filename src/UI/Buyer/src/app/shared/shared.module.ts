@@ -23,7 +23,6 @@ import {
 // app services
 import { AppErrorHandler } from '../config/error-handling.config';
 import { AppStateService } from './services/app-state/app-state.service';
-import { AvalaraTaxService } from './services/avalara-tax/avalara-tax.service';
 import { applicationConfiguration, ocAppConfig } from '../config/app.config';
 import { BaseResolve } from '../shared/resolves/base.resolve';
 import { SharedRoutingModule } from './shared-routing.module';
@@ -170,7 +169,6 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [
         AppStateService,
-        AvalaraTaxService,
         AuthorizeNetService,
         BaseResolve,
         BaseResolveService,
