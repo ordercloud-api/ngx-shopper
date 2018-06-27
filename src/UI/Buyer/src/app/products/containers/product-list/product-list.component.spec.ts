@@ -7,7 +7,7 @@ import {
 } from '@app/shared';
 import { NgbPaginationModule, NgbCollapseModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of,  BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
@@ -21,13 +21,13 @@ import { ProductCardComponent } from '@app/shared/components/product-card/produc
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
   const mockQueryParams = { category: 'CategoryID' };
-  const mockCategoryData = of({ Items: [{ ID: 'CategoryID' }, { ID: 'category2' }], Meta: {} }) 
-  const mockMe = of({ xp: { FavoriteProducts: []}})
+  const mockCategoryData = of({ Items: [{ ID: 'CategoryID' }, { ID: 'category2' }], Meta: {} })
+  const mockMe = of({ xp: { FavoriteProducts: [] } })
 
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   const queryParams = new BehaviorSubject<any>(mockQueryParams);
-  const meService = { 
+  const meService = {
     ListProducts: jasmine.createSpy('ListProducts').and.returnValue(mockProductData),
     ListCategories: jasmine.createSpy('ListCategories').and.returnValue(mockCategoryData),
     Get: jasmine.createSpy('Get').and.returnValue(mockMe),
@@ -58,7 +58,7 @@ describe('ProductListComponent', () => {
         NgbPaginationConfig,
         { provide: OcLineItemService, useValue: ocLineItemService },
         { provide: ActivatedRoute, useValue: { queryParams, snapshot: { queryParams: mockQueryParams } } },
-        { provide: MeService, useValue: meService }      ]
+        { provide: MeService, useValue: meService }]
     })
       .compileComponents();
   }));
@@ -94,6 +94,19 @@ describe('ProductListComponent', () => {
     });
   });
 
+  describe('getCategories', () => {
+    beforeEach(() => {
+      spyOn(component, 'buildBreadCrumbs');
+      component.getCategories();
+    })
+    it('should list categories', () => {
+      expect(meService.ListCategories).toHaveBeenCalledWith({ depth: 'all' })
+    })
+    it('should build breadcrumbs with categoryid from queryparam', () => {
+      expect(component.buildBreadCrumbs).toHaveBeenCalledWith(component['activatedRoute'].snapshot.queryParams.category);
+    })
+  });
+
   describe('changePage', () => {
     const mockPage = 2;
     it('should reload state with page set as query params', () => {
@@ -120,7 +133,7 @@ describe('ProductListComponent', () => {
     it('should reload state with no search', () => {
       const navigateSpy = spyOn((<any>component).router, 'navigate');
       component.clearSearch()
-      expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: { category: 'CategoryID', search: ''}});
+      expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: { category: 'CategoryID', search: '' } });
     });
   });
 
@@ -135,26 +148,26 @@ describe('ProductListComponent', () => {
 
   describe('setProductAsFav', () => {
     it('should remove fav correctly', () => {
-      component.favoriteProducts = ['a','b'];
+      component.favoriteProducts = ['a', 'b'];
       component.setProductAsFav(false, 'a');
-      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['b'] }})
+      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['b'] } })
     });
     it('should add fav correctly', () => {
-      component.favoriteProducts = ['a','b'];
+      component.favoriteProducts = ['a', 'b'];
       component.setProductAsFav(true, 'c');
-      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['a','b','c'] }})
+      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['a', 'b', 'c'] } })
     });
   });
 
   describe('isProductFav', () => {
     beforeEach(() => {
-      component.favoriteProducts = ['a','b','c'];
+      component.favoriteProducts = ['a', 'b', 'c'];
     });
     it('should reutrn true for a favorite', () => {
-      expect(component.isProductFav({ ID: 'a'})).toEqual(true);
+      expect(component.isProductFav({ ID: 'a' })).toEqual(true);
     });
     it('should reutrn false for a non-favorite', () => {
-      expect(component.isProductFav({ ID: 'd'})).toEqual(false);
+      expect(component.isProductFav({ ID: 'd' })).toEqual(false);
     });
   });
 
@@ -167,12 +180,12 @@ describe('ProductListComponent', () => {
       expect(component.buildBreadCrumbs('CategoryID')).toEqual([]);
     })
     it('should return a single crumb if no parentID', () => {
-      component.categories = { Items: [{ID: 'CategoryID'}] };
-      expect(component.buildBreadCrumbs('CategoryID')).toEqual([{ID: 'CategoryID'}]);
+      component.categories = { Items: [{ ID: 'CategoryID' }] };
+      expect(component.buildBreadCrumbs('CategoryID')).toEqual([{ ID: 'CategoryID' }]);
     })
     it('should build a long list of crumbs in correct order', () => {
-      component.categories = { Items: [{ID: 'a', ParentID: 'b'}, {ID: 'b', ParentID: 'c'}, {ID: 'c'}, {ID: 'd'} ] };
-      expect(component.buildBreadCrumbs('a')).toEqual([{ID: 'c'}, {ID: 'b', ParentID: 'c'}, {ID: 'a', ParentID: 'b'}]);
+      component.categories = { Items: [{ ID: 'a', ParentID: 'b' }, { ID: 'b', ParentID: 'c' }, { ID: 'c' }, { ID: 'd' }] };
+      expect(component.buildBreadCrumbs('a')).toEqual([{ ID: 'c' }, { ID: 'b', ParentID: 'c' }, { ID: 'a', ParentID: 'b' }]);
     })
   });
 

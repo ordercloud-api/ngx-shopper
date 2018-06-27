@@ -8,9 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TextMaskModule } from 'angular2-text-mask';
 
-// ngx-bootstrap modules
-import { BsDropdownModule } from 'ngx-bootstrap';
-
 // ng-bootstrap modules
 import {
   NgbCollapseModule,
@@ -26,7 +23,6 @@ import {
 // app services
 import { AppErrorHandler } from '../config/error-handling.config';
 import { AppStateService } from './services/app-state/app-state.service';
-import { AvalaraTaxService } from './services/avalara-tax/avalara-tax.service';
 import { applicationConfiguration, ocAppConfig } from '../config/app.config';
 import { BaseResolve } from '../shared/resolves/base.resolve';
 import { SharedRoutingModule } from './shared-routing.module';
@@ -82,32 +78,6 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
     TextMaskModule,
 
     /**
-     * ngx-bootstrap modules
-     * only those that are used by app
-     * should be imported to reduce bundle size
-     * keep commented out modules for reference
-     */
-    // AlertModule,
-    // AlertModule,
-    // ModalModule,
-    // AccordionModule,
-    // BsDatepickerModule,
-    BsDropdownModule,
-    // ButtonsModule,
-    // CarouselModule,
-    // CollapseModule,
-    // DatepickerModule,
-    // PaginationModule,
-    // PopoverModule,
-    // ProgressbarModule,
-    // RatingModule,
-    // SortableModule,
-    // TabsModule,
-    // TimepickerModule,
-    // TooltipModule,
-    // TypeaheadModule
-
-    /**
      * ng-bootstrap modules
      * only those that are used by app
      * should be imported to reduce bundle size
@@ -130,9 +100,6 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
     // 3rd party UI
     FontAwesomeModule,
     TextMaskModule,
-
-    // ngx-bootstrap
-    BsDropdownModule,
 
     NgbDatepickerModule,
     NgbCollapseModule,
@@ -202,7 +169,6 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [
         AppStateService,
-        AvalaraTaxService,
         AuthorizeNetService,
         BaseResolve,
         BaseResolveService,
