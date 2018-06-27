@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as Avatax from 'avatax';
-import { moment } from 'ngx-bootstrap/chronos/test/chain';
 import { LineItem, Order, Address } from '@ordercloud/angular-sdk';
 import { Observable, Observer } from 'rxjs';
 import {

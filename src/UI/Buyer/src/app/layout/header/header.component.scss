@@ -1,16 +1,3 @@
-nav {
-    text-transform: uppercase;
-    ul {
-        list-style: none;
-        -webkit-padding-start: 0;
-        li {
-            .dropdown-item {
-                padding: .25em;
-            }
-        }
-    }
-}
-
 .nav-item {
     display: flex;
     align-items: center;
