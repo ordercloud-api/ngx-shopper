@@ -7,4 +7,3 @@ export * from './components/additional-image-gallery/additional-image-gallery.co
 
 // models
 export * from './models/product-sort-strats.enum';
-// 

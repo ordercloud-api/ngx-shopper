@@ -69,7 +69,7 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 /**
  * The following is required by algoliasearch-client-javascript,
- * which was broken by angular v6: 
+ * which was broken by angular v6:
  * https://github.com/algolia/algoliasearch-client-javascript/issues/691
  */
 (window as any).process = { env: {} };

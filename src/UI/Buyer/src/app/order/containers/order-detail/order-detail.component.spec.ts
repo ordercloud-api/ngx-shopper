@@ -108,7 +108,7 @@ describe('OrderDetailComponent', () => {
     });
     it('should call paymentService.list', () => {
       expect(paymentService.List).toHaveBeenCalled();
-    })
+    });
     it('should call meService.GetCredit card for each cc payment', () => {
       expect(meService.GetCreditCard).toHaveBeenCalledWith('CreditCardOne');
       expect(meService.GetCreditCard).toHaveBeenCalledWith('CreditCardTwo');

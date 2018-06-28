@@ -31,7 +31,7 @@ describe('ProductCardComponent', () => {
     component.product = {
       ID: '3HQ_lazyboy',
       Name: 'Lazyboy Recliner'
-    }
+    };
     fixture.detectChanges();
   });
 
@@ -43,9 +43,9 @@ describe('ProductCardComponent', () => {
     beforeEach(() => {
       spyOn(component.addedToCart, 'emit');
       component.addToCart({ product: component.product, quantity: 1 });
-    })
+    });
     it('should emit event to parent', () => {
       expect(component.addedToCart.emit).toHaveBeenCalledWith({ product: component.product, quantity: 1 });
-    })
-  })
+    });
+  });
 });

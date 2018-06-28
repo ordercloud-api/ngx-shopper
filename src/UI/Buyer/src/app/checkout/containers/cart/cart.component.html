@@ -18,14 +18,14 @@
         <checkout-order-summary [order]="order"></checkout-order-summary>
       </div>
       <div class="col-lg-8" *ngIf="productsSet">
-        <lineitem-list-wrapper>
+        <shared-lineitem-list-wrapper>
           <shared-line-item-card *ngFor="let li of lineItems.Items"
                                  [lineitem]="li"
                                  [readOnly]="false"
                                  [productDetails]="getProduct(li)"
                                  (deletedLineItem)="deleteLineItem($event)"
                                  (lineItemUpdated)="updateLineItem($event)"></shared-line-item-card>
-        </lineitem-list-wrapper>
+        </shared-lineitem-list-wrapper>
       </div>
     </div>
   </div>

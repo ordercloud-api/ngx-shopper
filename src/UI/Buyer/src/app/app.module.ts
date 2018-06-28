@@ -13,9 +13,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { OrderCloudModule } from '@ordercloud/angular-sdk';
 import { OcSDKConfig } from '../app/config/ordercloud-sdk.config';
 
-
-// ngx-bootstrap
-import { BsDropdownModule } from 'ngx-bootstrap';
 // shared module
 import { SharedModule } from '@app/shared';
 
@@ -59,31 +56,6 @@ import { NgbDateNativeAdapter } from './config/date-picker.config';
     OrderCloudModule.forRoot(OcSDKConfig),
     SharedModule.forRoot(),
     ToastrModule.forRoot(),
-
-    /**
-     * ngx-bootstrap modules
-     * only those that are used by app
-     * should be imported to reduce bundle size
-     * keep commented out modules for reference
-     */
-    // AlertModule.forRoot(),
-    // CarouselModule.forRoot(),
-    // ModalModule.forRoot(),
-    // AccordionModule.forRoot(),
-    // BsDatepickerModule.forRoot(),
-    BsDropdownModule.forRoot()
-    // ButtonsModule.forRoot(),
-    // CollapseModule.forRoot(),
-    // DatepickerModule.forRoot(),
-    // PaginationModule.forRoot(),
-    // PopoverModule.forRoot(),
-    // ProgressbarModule.forRoot(),
-    // RatingModule.forRoot(),
-    // SortableModule.forRoot(),
-    // TabsModule.forRoot(),
-    // TimepickerModule.forRoot(),
-    // TooltipModule.forRoot(),
-    // TypeaheadModule.forRoot(),
   ],
   providers: [
     {

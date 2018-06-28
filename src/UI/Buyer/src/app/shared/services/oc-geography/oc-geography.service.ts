@@ -95,7 +95,7 @@ export class OcGeographyService {
       { 'label': 'Quebec', 'abbreviation': 'QC', 'country': 'CA' },
       { 'label': 'Saskatchewan', 'abbreviation': 'SK', 'country': 'CA' },
       { 'label': 'Yukon', 'abbreviation': 'YT', 'country': 'CA' }
-    ]
+    ];
   }
 
   getCountries(): CountryDefinition[] {
@@ -345,6 +345,6 @@ export class OcGeographyService {
       { 'label': 'Yugoslavia', 'abbreviation': 'YU' },
       { 'label': 'Zambia', 'abbreviation': 'ZM' },
       { 'label': 'Zimbabwe', 'abbreviation': 'ZW' }
-    ]
+    ];
   }
 }

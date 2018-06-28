@@ -28,7 +28,7 @@ describe('CheckoutPaymentComponent', () => {
   };
   const appConfig = {
     availablePaymentMethods: ['PurchaseOrder', 'CreditCard']
-  }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -67,101 +67,101 @@ describe('CheckoutPaymentComponent', () => {
     beforeEach(() => {
       spyOn(component, 'initializePaymentMethod');
       component.ngOnInit();
-    })
+    });
     it('should call initializePaymentMethod', () => {
       expect(component.initializePaymentMethod).toHaveBeenCalled();
-    })
+    });
     it('should set form', () => {
       expect(component.form.value).toEqual({
         selectedPaymentMethod: ''
-      })
-    })
+      });
+    });
   });
 
   describe('initializePaymentMethod', () => {
     beforeEach(() => {
       fixture.detectChanges();
       spyOn(component, 'selectPaymentMethod');
-    })
+    });
     it('should call paymentService.List', () => {
       fixture.detectChanges();
       component.initializePaymentMethod();
       fixture.detectChanges();
       expect(paymentService.List).toHaveBeenCalledWith('outgoing', '1');
       fixture.detectChanges();
-    })
+    });
     it('should use existing payment method if payment exists', () => {
       mockPayments = [{ Type: 'CreditCard' }];
       component.initializePaymentMethod();
       expect(component.selectPaymentMethod).toHaveBeenCalledWith('CreditCard');
-    })
+    });
     it('should use first available payment method if no payment exists', () => {
       mockPayments = [];
       component.initializePaymentMethod();
       expect(component.selectPaymentMethod).toHaveBeenCalledWith('PurchaseOrder');
-    })
-  })
+    });
+  });
 
   describe('selectPaymentMethod', () => {
     beforeEach(() => {
       component.form.controls['selectedPaymentMethod'].setValue('');
       component.selectedPaymentMethod = null;
       component.selectPaymentMethod(PaymentMethod.CreditCard);
-    })
+    });
     it('should set form with method', () => {
       expect(component.form.controls['selectedPaymentMethod'].value).toBe('CreditCard');
-    })
+    });
     it('should set selectedPaymentMethod with method', () => {
       expect(component.selectedPaymentMethod).toBe('CreditCard');
-    })
-  })
+    });
+  });
 
   describe('onContinueClicked', () => {
     beforeEach(() => {
       spyOn(component.continue, 'emit');
       component.onContinueClicked();
-    })
+    });
     it('should emit continue event', () => {
       expect(component.continue.emit).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('createPayment', () => {
     beforeEach(() => {
-      mockPayments = [{}]
+      mockPayments = [{}];
       spyOn(component as any, 'deleteExistingPayments').and.returnValue(of(null));
-      component.createPayment({ID: 'MockPayment'})
-    })
+      component.createPayment({ID: 'MockPayment'});
+    });
     it('should call deleteExistingPayments', () => {
       expect(component['deleteExistingPayments']).toHaveBeenCalled();
-    })
+    });
     it('should call paymentService.Create', () => {
-      expect(paymentService.Create).toHaveBeenCalledWith('outgoing', '1', {ID: 'MockPayment'})
-    })
-  })
+      expect(paymentService.Create).toHaveBeenCalledWith('outgoing', '1', {ID: 'MockPayment'});
+    });
+  });
 
   describe('deleteExistingPayments', () => {
     beforeEach(() => {
       paymentService.Delete.calls.reset();
-      mockPayments = [{ID: 'CCPayment', Type: 'CreditCard'}, {ID: 'POPayment', Type: 'PurchaseOrder'}]
+      mockPayments = [{ID: 'CCPayment', Type: 'CreditCard'}, {ID: 'POPayment', Type: 'PurchaseOrder'}];
       component['deleteExistingPayments']().subscribe();
-    })
+    });
     it('should list payments', () => {
       expect(paymentService.List).toHaveBeenCalledWith('outgoing', '1');
-    })
+    });
     it('should call delete for each payment', () => {
       expect(paymentService.Delete).toHaveBeenCalledWith('outgoing', '1', 'CCPayment');
       expect(paymentService.Delete).toHaveBeenCalledWith('outgoing', '1', 'POPayment');
       expect(paymentService.Delete).toHaveBeenCalledTimes(2);
-    })
-  })
+    });
+  });
 
   describe('patchPayment', () => {
     beforeEach(() => {
-      component.patchPayment({paymentID: 'mockPOPaymentID', payment: {xp: {PONumber: 'new po number'}}})
-    })
+      component.patchPayment({paymentID: 'mockPOPaymentID', payment: {xp: {PONumber: 'new po number'}}});
+    });
     it('should patch the payment', () => {
-      expect(paymentService.Patch).toHaveBeenCalledWith('outgoing', '1', 'mockPOPaymentID', {xp: {PONumber: 'new po number'}})
-    })
-  })
+      expect(paymentService.Patch).toHaveBeenCalledWith('outgoing', '1', 'mockPOPaymentID', {xp: {PONumber: 'new po number'}});
+    });
+  });
 });

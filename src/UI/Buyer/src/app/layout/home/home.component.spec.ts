@@ -19,7 +19,7 @@ describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  const mockProducts = { Items: []}
+  const mockProducts = { Items: [] };
   const meService = { ListProducts: jasmine.createSpy('ListProducts').and.returnValue(of(mockProducts)) };
 
   beforeEach(async(() => {
@@ -64,6 +64,6 @@ describe('HomeComponent', () => {
     });
     it('should call listProducts', () => {
       expect(meService.ListProducts).toHaveBeenCalled();
-    })
+    });
   });
 });

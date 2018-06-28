@@ -38,7 +38,7 @@ export class HasTokenGuard implements CanActivate {
           flatMap(() => {
             return of(true);
           })
-        )
+        );
     }
     return of(isTokenValid);
   }

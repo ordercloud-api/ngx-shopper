@@ -28,7 +28,7 @@ function getMinQty(product: BuyerProduct): number {
 }
 
 /**
- * validate against the max quantity defined by an 
+ * validate against the max quantity defined by an
  * ordercloud product's price schedule
  */
 export function OcMaxProductQty(product: BuyerProduct): ValidatorFn {
@@ -50,7 +50,7 @@ function getMaxQty(product: BuyerProduct): number {
     let permissionLimit = Infinity;
 
     if (product.Inventory && product.Inventory.QuantityAvailable) {
-        quantityAvailable = product.Inventory.QuantityAvailable
+        quantityAvailable = product.Inventory.QuantityAvailable;
     }
     if (product.PriceSchedule && product.PriceSchedule.MaxQuantity) {
         permissionLimit = product.PriceSchedule.MaxQuantity;
