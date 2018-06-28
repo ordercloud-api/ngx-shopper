@@ -70,7 +70,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.ocTokenService.RemoveAccess();
-    this.baseResolveService.resetUser();
+    if (this.appStateService.isAnonSubject.value) {
+      this.baseResolveService.resetUser();
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   // TODO: we should move responsibility for 'showing' up to the parent component instead of hard-coding route-names.

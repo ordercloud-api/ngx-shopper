@@ -12,7 +12,7 @@ import { AddToCartEvent } from '@app/shared/models/add-to-cart-event.interface';
 })
 export class QuantityInputComponent implements OnInit {
   @Input() product: BuyerProduct;
-  @Input() existingQty: number = 1
+  @Input() existingQty = 1;
   @Output() qtyChanged = new EventEmitter<number>();
   @Output() addedToCart = new EventEmitter<AddToCartEvent>();
   form: FormGroup;

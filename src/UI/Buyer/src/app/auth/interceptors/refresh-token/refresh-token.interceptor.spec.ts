@@ -52,21 +52,20 @@ describe('RefreshTokenInterceptor', () => {
             httpClient.get('/data')
                 .pipe(catchError(ex => {
                     thrownError = ex.error;
-                    return 'GoToSubscribe'
+                    return 'GoToSubscribe';
                 }))
                 .subscribe(() => {
                     expect(thrownError).toBe('mockError');
-                })
+                });
             const req = httpMock.expectOne('/data');
             req.flush('mockError', { status: 401, statusText: 'Unauthorized' });
             httpMock.verify();
         });
         it('should rethrow error if status code is not 401', () => {
-            let thrownError = '';
             httpClient.get('https://api.ordercloud.io/v1/me')
                 .pipe(catchError(ex => {
                     thrownError = ex.error;
-                    return 'GoToSubscribe'
+                    return 'GoToSubscribe';
                 }))
                 .subscribe(() => {
                     expect(thrownError).toBe('mockError');

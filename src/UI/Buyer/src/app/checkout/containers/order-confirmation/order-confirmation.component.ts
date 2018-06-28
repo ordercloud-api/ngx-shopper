@@ -32,7 +32,7 @@ export class OrderConfirmationComponent implements OnInit {
     return this.activatedRoute.paramMap
       .pipe(
         flatMap((params: ParamMap) => this.orderService.Get('outgoing', params.get('orderID')))
-      )
+      );
   }
 
   getLineItems(): Observable<ListLineItem> {

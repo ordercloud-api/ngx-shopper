@@ -26,7 +26,7 @@ describe('ProductDetailsComponent', () => {
 
   const queryParams = new BehaviorSubject<any>({ ID: mockProductID });
   const activatedRoute = { navigate: jasmine.createSpy('navigate'), queryParams };
-  const meService = { GetProduct: jasmine.createSpy('GetProduct').and.returnValue(of(mockProduct)) }
+  const meService = { GetProduct: jasmine.createSpy('GetProduct').and.returnValue(of(mockProduct)) };
   const ocLineItemService = { create: jasmine.createSpy('create').and.returnValue(of()) };
 
   beforeEach(
@@ -77,7 +77,7 @@ describe('ProductDetailsComponent', () => {
       expect(component.getProductData).toHaveBeenCalled();
     });
   });
-  
+
   describe('getProductData', () => {
     it('should call meService.getProduct', () => {
       component.getProductData();

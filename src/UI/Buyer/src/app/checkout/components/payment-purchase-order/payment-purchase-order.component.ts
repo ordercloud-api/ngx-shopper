@@ -12,7 +12,7 @@ import { Payment } from '@ordercloud/angular-sdk';
 export class PaymentPurchaseOrderComponent extends PaymentBaseComponent implements OnChanges {
   form: FormGroup = this.formBuilder.group({
     PONumber: _get(this.payment, 'xp.PONumber')
-  })
+  });
   constructor(
     private formBuilder: FormBuilder
   ) {
@@ -58,7 +58,7 @@ export class PaymentPurchaseOrderComponent extends PaymentBaseComponent implemen
           PONumber
         }
       }
-    })
+    });
   }
 
   validateAndContinue() {

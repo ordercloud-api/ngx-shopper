@@ -4,7 +4,7 @@ import { MeService, ListBuyerProduct } from '@ordercloud/angular-sdk';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-home',
+  selector: 'layout-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

@@ -16,7 +16,12 @@ describe('CheckoutAddressComponent', () => {
   let fixture: ComponentFixture<CheckoutAddressComponent>;
 
   const mockAddresses = { Items: [{ ID: 'address1', Name: 'AddressOne' }, { ID: 'address2', Name: 'AddressTwo' }] };
-  const mockOrder = { ID: 'orderid', BillingAddress: { ID: 'mockBillingAddress' }, BillingAddressID: 'mockBillingAddress', ShippingAddressID: 'mockShippingAddress' };
+  const mockOrder = {
+    ID: 'orderid',
+    BillingAddress: { ID: 'mockBillingAddress' },
+    BillingAddressID: 'mockBillingAddress',
+    ShippingAddressID: 'mockShippingAddress'
+  };
 
   const meService = { ListAddresses: jasmine.createSpy('ListAddresses').and.returnValue(of(mockAddresses)) };
   const orderService = {
@@ -66,12 +71,12 @@ describe('CheckoutAddressComponent', () => {
       spyOn(component as any, 'getSavedAddresses');
       spyOn(component as any, 'setSelectedAddress');
       spyOn(component as any, 'setForm');
-    })
+    });
     it('should get saved addresses if user is profiled', () => {
       component.isAnon = false;
       component.ngOnInit();
       expect(component['getSavedAddresses']).toHaveBeenCalled();
-    })
+    });
     it('should not get saved addresses if user is anonymous', () => {
       component.isAnon = true;
       component.ngOnInit();
@@ -80,27 +85,27 @@ describe('CheckoutAddressComponent', () => {
     it('should set selectedAddress', () => {
       component.ngOnInit();
       expect(component['setSelectedAddress']).toHaveBeenCalled();
-    })
+    });
     it('should set form', () => {
       component.ngOnInit();
       expect(component['setForm']).toHaveBeenCalled();
-    })
+    });
   });
 
   describe('getSavedAddresses', () => {
     beforeEach(() => {
       meService.ListAddresses.calls.reset();
-    })
+    });
     it('should call ListAddresses with billing filter if addressType is Billing', () => {
       component.addressType = 'Billing';
       component['getSavedAddresses']();
       expect(meService.ListAddresses).toHaveBeenCalledWith({ filters: { Billing: true } });
-    })
+    });
     it('should call ListAddresses with shiping filter if addressType is Shipping', () => {
       component.addressType = 'Shipping';
       component['getSavedAddresses']();
       expect(meService.ListAddresses).toHaveBeenCalledWith({ filters: { Shipping: true } });
-    })
+    });
   });
 
   describe('setSelectedAddress', () => {
@@ -108,26 +113,26 @@ describe('CheckoutAddressComponent', () => {
       component.addressType = 'Billing';
       component['setSelectedAddress']();
       expect(component.selectedAddress).toEqual(component.order.BillingAddress);
-    })
+    });
     it('should select address from first line item if addressType is Shipping', () => {
       component.addressType = 'Shipping';
       component['setSelectedAddress']();
       expect(component.selectedAddress).toEqual(component.lineItems.Items[0].ShippingAddress);
-    })
-  })
+    });
+  });
 
   describe('setForm', () => {
     it('should set existingAddressId to ShippingAddressID if addressType is Shipping', () => {
       component.addressType = 'Shipping';
       component['setForm']();
       expect(component.addressForm.value.existingAddressId).toBe(component.order.ShippingAddressID);
-    })
+    });
     it('should set existingAddressId to BillingAddresssID if addressType is Billing', () => {
       component.addressType = 'Billing';
       component['setForm']();
       expect(component.addressForm.value.existingAddressId).toBe(component.order.BillingAddressID);
-    })
-  })
+    });
+  });
 
   describe('existingAddressSelected()', () => {
     it('should use existingAddressId from form to select matching address from saved addresses', () => {
@@ -135,7 +140,7 @@ describe('CheckoutAddressComponent', () => {
         component.addressForm.setValue({ existingAddressId: address.ID });
         component.existingAddressSelected();
         expect(component.selectedAddress).toEqual(address);
-      })
+      });
     });
   });
 
@@ -149,63 +154,63 @@ describe('CheckoutAddressComponent', () => {
       component.addressType = 'Shipping';
       component.saveAddress({ ID: 'mockShippingAddress' });
       expect(component['setOneTimeAddress']).toHaveBeenCalledWith({ ID: 'mockShippingAddress' });
-    })
+    });
     it('should set one time address if there is no address.ID', () => {
       component.isAnon = false;
       component.addressType = 'Shipping';
       component.saveAddress({ Street1: 'MyOneTimeAddresss' });
       expect(component['setOneTimeAddress']).toHaveBeenCalledWith({ Street1: 'MyOneTimeAddresss' });
-    })
+    });
     it('should set saved address if user is profiled and address.ID is defined', () => {
-      expect(component.isAnon = false)
+      expect(component.isAnon = false);
       component.addressType = 'Shipping';
       component.saveAddress({ ID: 'MyOneTimeAddresss' });
       expect(component['setOneTimeAddress']).not.toHaveBeenCalled();
       expect(component['setSavedAddress']).toHaveBeenCalledWith({ ID: 'MyOneTimeAddresss' });
-    })
+    });
     it('should set new address on line item if addressType is shipping', (() => {
       component.addressType = 'Shipping';
       component.saveAddress({ ID: 'MyOneTimeAddresss' });
       expect(component.lineItems.Items[0].ShippingAddress).toEqual({ ID: 'MyOneTimeAddresss' });
-    }))
+    }));
     it('should set new order as the order', () => {
       spyOn(appStateService.orderSubject, 'next');
       component.addressType = 'Shipping';
       component.saveAddress({ ID: 'MyOneTimeAddresss' });
       expect(component.order).toEqual({ ID: 'NewOrderWhoDis' });
       expect(appStateService.orderSubject.next).toHaveBeenCalledWith({ ID: 'NewOrderWhoDis' });
-    })
+    });
     it('should emit continue event', () => {
       spyOn(component.continue, 'emit');
       component.addressType = 'Shipping';
       component.saveAddress({ ID: 'MyOneTimeAddresss' });
       expect(component.continue.emit).toHaveBeenCalled();
-    })
+    });
   });
 
   describe('setOneTimeAddress', () => {
     it('should call orderService.SetBillingAddress if addressType is Shipping', () => {
       component.addressType = 'Billing';
       component['setOneTimeAddress']({ ID: 'MockOneTimeAddress' });
-      expect(orderService.SetBillingAddress).toHaveBeenCalledWith('outgoing', component.order.ID, { ID: 'MockOneTimeAddress' })
-    })
+      expect(orderService.SetBillingAddress).toHaveBeenCalledWith('outgoing', component.order.ID, { ID: 'MockOneTimeAddress' });
+    });
     it('should call orderService.SetShippingAddress if addressType is Shipping', () => {
       component.addressType = 'Shipping';
       component['setOneTimeAddress']({ ID: 'MockOneTimeAddress' });
-      expect(orderService.SetShippingAddress).toHaveBeenCalledWith('outgoing', component.order.ID, { ID: 'MockOneTimeAddress' })
-    })
-  })
+      expect(orderService.SetShippingAddress).toHaveBeenCalledWith('outgoing', component.order.ID, { ID: 'MockOneTimeAddress' });
+    });
+  });
 
   describe('setSavedAddress', () => {
     it('should patch order.ShippingAddressID if addressType is Shipping', () => {
       component.addressType = 'Shipping';
       component['setSavedAddress']({ ID: 'MockSavedAddress' });
-      expect(orderService.Patch).toHaveBeenCalledWith('outgoing', component.order.ID, { ShippingAddressID: 'MockSavedAddress' })
-    })
+      expect(orderService.Patch).toHaveBeenCalledWith('outgoing', component.order.ID, { ShippingAddressID: 'MockSavedAddress' });
+    });
     it('should patch order.BillingAddressID if addressType is Billing', () => {
       component.addressType = 'Billing';
       component['setSavedAddress']({ ID: 'MockSavedAddress' });
-      expect(orderService.Patch).toHaveBeenCalledWith('outgoing', component.order.ID, { BillingAddressID: 'MockSavedAddress' })
-    })
-  })
+      expect(orderService.Patch).toHaveBeenCalledWith('outgoing', component.order.ID, { BillingAddressID: 'MockSavedAddress' });
+    });
+  });
 });
