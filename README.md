@@ -1,11 +1,9 @@
 # ngx-shopper
 Four51's starter application for building angular 2+ solutions on the OrderCloud platform.
 
----
-
 ### Building Locally 
 
-1. Navigate to the project root with `cd src/UI/Buyer`.
+1. Navigate to the project root with `cd src/UI/Buyer`
 
 2. If you have not before, install the [Angular CLI](https://github.com/angular/angular-cli/wiki) globally on your machine with `npm install -g @angular/cli` 
 
