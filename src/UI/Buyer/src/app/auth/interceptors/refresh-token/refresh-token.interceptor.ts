@@ -26,7 +26,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
         catchError(error => {
           // rethrow any non auth errors
           if (!this.isAuthError(error)) {
-            return throwError(error)
+            return throwError(error);
           } else {
 
             // if a refresh attempt failed recently then ignore (3 seconds)`
@@ -43,7 +43,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
                     request = request.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
                     return next.handle(request);
                   })
-                )
+                );
             } else {
 
               // attempt refresh for new token
@@ -53,11 +53,11 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
                     request = request.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
                     return next.handle(request);
                   })
-                )
+                );
             }
           }
         })
-      )
+      );
   }
 
   isAuthError(error: any): boolean {

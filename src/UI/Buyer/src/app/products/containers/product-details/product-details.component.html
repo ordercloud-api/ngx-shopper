@@ -68,9 +68,9 @@
     </div>
   </div>
   <div *ngIf="relatedProducts$ | async; let relatedProducts">
-    <product-carousel *ngIf="relatedProducts.length > 0"
+    <products-carousel *ngIf="relatedProducts.length > 0"
                       displayTitle="Related Products"
                       [products]="relatedProducts">
-    </product-carousel>
+    </products-carousel>
   </div>
 </div>

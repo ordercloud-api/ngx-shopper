@@ -30,8 +30,8 @@ describe('FavoriteButtonComponent', () => {
   it('should show red icon when favorite is true', () => {
     component.favorite = true;
     fixture.detectChanges();
-    let el = fixture.nativeElement.querySelector('.favorite');
-    let el2 = fixture.nativeElement.querySelector('.not-favorite');
+    const el = fixture.nativeElement.querySelector('.favorite');
+    const el2 = fixture.nativeElement.querySelector('.not-favorite');
     expect(el).toBeTruthy();
     expect(el2).toBeFalsy();
   });
@@ -39,8 +39,8 @@ describe('FavoriteButtonComponent', () => {
   it('should show clear icon when favorite is false', () => {
     component.favorite = false;
     fixture.detectChanges();
-    let el = fixture.nativeElement.querySelector('.favorite');
-    let el2 = fixture.nativeElement.querySelector('.not-favorite');
+    const el = fixture.nativeElement.querySelector('.favorite');
+    const el2 = fixture.nativeElement.querySelector('.not-favorite');
     expect(el).toBeFalsy();
     expect(el2).toBeTruthy();
   });
@@ -49,7 +49,7 @@ describe('FavoriteButtonComponent', () => {
     spyOn(component.favoriteChanged, 'emit');
     component.favorite = false;
     fixture.detectChanges();
-    let el = fixture.debugElement.nativeElement.querySelector('.not-favorite');
+    const el = fixture.debugElement.nativeElement.querySelector('.not-favorite');
     el.click();
     expect(component.favoriteChanged.emit).toHaveBeenCalledWith(true);
   });
@@ -58,7 +58,7 @@ describe('FavoriteButtonComponent', () => {
     spyOn(component.favoriteChanged, 'emit');
     component.favorite = true;
     fixture.detectChanges();
-    let el = fixture.debugElement.nativeElement.querySelector('.favorite');
+    const el = fixture.debugElement.nativeElement.querySelector('.favorite');
     el.click();
     expect(component.favoriteChanged.emit).toHaveBeenCalledWith(false);
   });

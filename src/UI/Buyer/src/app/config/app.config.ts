@@ -73,6 +73,6 @@ export interface AppConfig {
      * this defines the types of payment methods a user can select
      * from to complete payment on an order
      */
-    availablePaymentMethods: PaymentMethod[]
+    availablePaymentMethods: PaymentMethod[];
 }
 

@@ -15,7 +15,7 @@ export class PaymentBaseComponent {
   @Output() paymentCreated = new EventEmitter<Payment>();
   @Output() paymentPatched = new EventEmitter<{ paymentID: string, payment: PartialPayment }>();
   @Output() continue = new EventEmitter();
-  form: FormGroup
+  form: FormGroup;
 
   constructor() { }
 

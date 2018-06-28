@@ -40,7 +40,7 @@ export class OrderDetailComponent implements OnInit {
     this.order$ = this.activatedRoute.parent.data
       .pipe(
         map(({ orderResolve }) => orderResolve.order)
-      )
+      );
     this.lineItems$ = this.activatedRoute.parent.data
       .pipe(
         map(({ orderResolve }) => orderResolve.lineItems)
@@ -82,7 +82,7 @@ export class OrderDetailComponent implements OnInit {
                           tap(creditCard => {
                             payment['Details'] = creditCard;
                           })
-                        )
+                        );
                     })()];
                   } else if (payment.Type === 'SpendingAccount') {
                     queue = [...queue, (() => {
@@ -91,7 +91,7 @@ export class OrderDetailComponent implements OnInit {
                           tap(spendingAccount => {
                             payment['Details'] = spendingAccount;
                           })
-                        )
+                        );
                     })()];
                   } else {
                     payment['Details'] = { PONumber: payment.xp.PONumber };
@@ -101,10 +101,10 @@ export class OrderDetailComponent implements OnInit {
                 return forkJoin(queue)
                   .pipe(
                     map(() => paymentList)
-                  )
+                  );
               })
-            )
+            );
         })
-      )
+      );
   }
 }

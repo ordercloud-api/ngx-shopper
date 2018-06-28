@@ -29,18 +29,18 @@ describe('PaymentBaseComponent', () => {
       component.order = { Total: 30 };
       const valid = component.paymentValid();
       expect(valid).toBe(false);
-    })
+    });
     it('should be invalid if payment is greater than order total', () => {
       component.payment = { Amount: 30 };
       component.order = { Total: 10 };
       const valid = component.paymentValid();
       expect(valid).toBe(false);
-    })
+    });
     it('should be valid if payment is equal to order total', () => {
       component.payment = { Amount: 10 };
       component.order = { Total: 10 };
       const valid = component.paymentValid();
       expect(valid).toBe(true);
-    })
-  })
+    });
+  });
 });

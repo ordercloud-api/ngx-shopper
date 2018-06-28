@@ -52,6 +52,6 @@ export class LoginComponent implements OnInit {
         }
         this.ocTokenService.SetAccess(response.access_token);
         this.router.navigateByUrl('/home');
-      })
+      });
   }
 }

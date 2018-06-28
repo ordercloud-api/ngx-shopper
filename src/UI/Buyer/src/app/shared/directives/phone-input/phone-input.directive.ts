@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 import { PhoneFormatPipe } from '../../pipes/phone-format/phone-format.pipe';
 
-@Directive({ selector: '[phoneInput]' })
+@Directive({ selector: '[appPhoneInput]' })
 // Directive class
 export class PhoneInputDirective {
     constructor(

@@ -55,7 +55,7 @@ export class AppAuthService {
                 finalize((() => {
                     this.fetchingRefreshToken = false;
                 }))
-            )
+            );
     }
 
     fetchToken(): Observable<string> {
@@ -80,7 +80,7 @@ export class AppAuthService {
                             throwError(error);
                         }
                     })
-                )
+                );
         }
 
         if (this.appConfig.anonymousShoppingEnabled) {
@@ -110,7 +110,7 @@ export class AppAuthService {
                     this.appErrorHandler.displayError(ex);
                     return this.logout();
                 })
-            )
+            );
     }
 
     isUserAnon(): boolean {

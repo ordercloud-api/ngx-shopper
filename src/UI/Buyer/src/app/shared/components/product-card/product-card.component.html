@@ -8,12 +8,12 @@
         title="{{product.Name}}">{{ product.Name }}</h5>
     <p class="card-text text-center headline-text row">
       <span class="col-6">{{ product?.PriceSchedule?.PriceBreaks[0]?.Price || 0 | currency }}</span>
-      <toggle-favorite *ngIf="isSetFavoriteUsed"
+      <shared-toggle-favorite *ngIf="isSetFavoriteUsed"
                        class="col-6"
                        title="Favorite"
                        (click)="$event.stopPropagation()"
                        [favorite]="favorite"
-                       (favoriteChanged)="setFavorite.emit($event)"></toggle-favorite>
+                       (favoriteChanged)="setFavorite.emit($event)"></shared-toggle-favorite>
     </p>
   </div>
   <div class="card-footer">

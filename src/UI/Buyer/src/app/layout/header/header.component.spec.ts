@@ -118,12 +118,21 @@ describe('HeaderComponent', () => {
 
   describe('logout', () => {
     beforeEach(() => {
-      component.logout();
+      router.navigate.calls.reset();
     });
-    it('should remove token and refresh current user', () => {
+    it('should remove token', () => {
       component.logout();
       expect(ocTokenService.RemoveAccess).toHaveBeenCalled();
+    });
+    it('should refresh current user if user is anonymous', () => {
+      appStateService.isAnonSubject.next(true);
+      component.logout();
       expect(baseResolveService.resetUser).toHaveBeenCalled();
+    });
+    it('should route to login if user is profiled', () => {
+      appStateService.isAnonSubject.next(false);
+      component.logout();
+      expect(router.navigate).toHaveBeenCalledWith(['/login']);
     });
   });
 
