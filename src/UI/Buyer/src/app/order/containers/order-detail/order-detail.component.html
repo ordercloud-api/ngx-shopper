@@ -36,5 +36,6 @@
   </div>
     <shared-line-item-card *ngFor="let li of (lineItems$ | async)?.Items"
                              [lineitem]="li"
+                             [productDetails]="li.Product"
                              readOnly="true"></shared-line-item-card>
 </div>
