@@ -64,6 +64,7 @@ import { QuantityInputComponent } from './components/quantity-input/quantity-inp
 import { ToggleFavoriteComponent } from './components/toggle-favorite/toggle-favorite.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ProductCarouselComponent } from './components/product-carousel/product-carousel.component';
+import { MapToIterablePipe } from '@app/shared/pipes/map-to-iterable/map-to-iterable.pipe';
 
 @NgModule({
   imports: [
@@ -116,6 +117,7 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
     PhoneFormatPipe,
     OrderStatusDisplayPipe,
     PaymentMethodDisplayPipe,
+    MapToIterablePipe,
     CreditCardIconComponent,
     AddressDisplayComponent,
     CreditCardDisplayComponent,
@@ -136,6 +138,7 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
     PhoneFormatPipe,
     OrderStatusDisplayPipe,
     PaymentMethodDisplayPipe,
+    MapToIterablePipe,
     PageTitleComponent,
     AddressDisplayComponent,
     CreditCardDisplayComponent,
@@ -177,6 +180,7 @@ export class SharedModule {
         PhoneFormatPipe,
         OrderStatusDisplayPipe,
         PaymentMethodDisplayPipe,
+        MapToIterablePipe,
         AppErrorHandler,
         HasTokenGuard,
         IsLoggedInGuard,
