@@ -6,13 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { of } from 'rxjs';
 
 import { LoginComponent } from './login.component';
-import { applicationConfiguration, AppConfig, ocAppConfig } from '../../../config/app.config';
+import { applicationConfiguration, AppConfig } from '../../../config/app.config';
 
 import { Configuration, AuthService, TokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
-import { Token } from '@angular/compiler';
 import { AppAuthService } from '@app/auth';
 import { AppErrorHandler } from '@app/config/error-handling.config';
+import { AppStateService } from '@app/shared';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -34,6 +34,7 @@ describe('LoginComponent', () => {
         HttpClientModule
       ],
       providers: [
+        AppStateService,
         AppErrorHandler,
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },
