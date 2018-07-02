@@ -24,3 +24,12 @@
       }
     }
  }
+
+ .badge__counter--large {
+    /deep/ .fa-layers-counter {
+        height: 1.5em;
+        top: -10px;
+        right: -12px;
+        font-size: 45px;
+     }
+ }
