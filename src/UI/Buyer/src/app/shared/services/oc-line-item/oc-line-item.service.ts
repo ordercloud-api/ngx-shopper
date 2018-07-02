@@ -13,7 +13,7 @@ import {
 import { AppStateService } from '../app-state/app-state.service';
 import { Observable, of, BehaviorSubject, forkJoin } from 'rxjs';
 import { tap, flatMap, map } from 'rxjs/operators';
-import { isUndefined as _isUndefined, uniq as _uniq, findIndex as _findIndex } from 'lodash';
+import { isUndefined as _isUndefined, uniq as _uniq, findIndex as _findIndex, find as _find } from 'lodash';
 
 @Injectable()
 export class OcLineItemService {
@@ -96,12 +96,7 @@ export class OcLineItemService {
     if (!_isUndefined(order.DateCreated)) {
 
       // order is well defined: we can add line items without issues
-      queue.push((() => {
-        return this.lineItemService.Create('outgoing', order.ID, newLineItem)
-          .pipe(
-            tap(createdLI => this.onLineItemUpdate(createdLI))
-          );
-      })());
+      queue.push(this.addLineItem(newLineItem));
     } else {
       // order is not yet defined
       if (!this.initializingOrder) {
@@ -115,10 +110,7 @@ export class OcLineItemService {
                 this.initializingOrder = false;
                 this.orderIdSubject.next(newOrder.ID);
                 this.appStateService.orderSubject.next(newOrder);
-                return this.lineItemService.Create('outgoing', newOrder.ID, newLineItem)
-                  .pipe(
-                    tap(createdLI => this.onLineItemUpdate(createdLI))
-                  );
+                return this.addLineItem(newLineItem);
               })
             );
         })());
@@ -127,18 +119,33 @@ export class OcLineItemService {
           // initializing order - wait until its done
           return this.orderIdSubject.subscribe(orderID => {
             if (orderID) {
-              return this.lineItemService.Create('outgoing', orderID, newLineItem)
-                .pipe(
-                  tap(createdLI => this.onLineItemUpdate(createdLI))
-                );
+              return this.addLineItem(newLineItem);
             }
           });
         })());
       }
     }
     return forkJoin(queue)
+      .pipe(map(results => results[0]));
+  }
+
+  addLineItem(newLI: LineItem) {
+    // if line item exists simply update quantity, else create
+    const order = this.appStateService.orderSubject.value;
+    const lineItems = this.appStateService.lineItemSubject.value;
+    const existingLI = _find(lineItems.Items, (li: LineItem) => li.ProductID === newLI.ProductID);
+
+    const queue = [];
+    if (existingLI) {
+      newLI.Quantity = newLI.Quantity + existingLI.Quantity;
+      queue.push(this.lineItemService.Patch('outgoing', order.ID, existingLI.ID, newLI));
+    } else {
+      queue.push(this.lineItemService.Create('outgoing', order.ID, newLI));
+    }
+    return forkJoin(queue)
       .pipe(
-        map(results => results[0])
+        map(results => results[0]),
+        tap(createdLI => this.onLineItemUpdate(createdLI))
       );
   }
 
