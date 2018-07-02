@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthService, TokenService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '../../../config/app.config';
 import { AppAuthService } from '../../services/auth.service';
+import { AppStateService } from '@app/shared';
 
 @Component({
   selector: 'auth-login',
@@ -15,6 +16,7 @@ import { AppAuthService } from '../../services/auth.service';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
+  isAnon: boolean;
 
   constructor(
     private ocAuthService: AuthService,
@@ -22,6 +24,7 @@ export class LoginComponent implements OnInit {
     private ocTokenService: TokenService,
     private router: Router,
     private fb: FormBuilder,
+    private appStateService: AppStateService,
     @Inject(applicationConfiguration) private appConfig: AppConfig) { }
 
   ngOnInit() {
@@ -30,6 +33,7 @@ export class LoginComponent implements OnInit {
       password: '',
       rememberMe: false
     });
+    this.isAnon = this.appStateService.isAnonSubject.value;
   }
 
   onSubmit() {
