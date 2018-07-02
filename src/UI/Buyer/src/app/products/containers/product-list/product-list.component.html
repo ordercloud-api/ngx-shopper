@@ -49,8 +49,8 @@
                     formControlName="sortBy"
                     (change)="sortStratChanged()">
               <option [ngValue]="null" disabled>None</option>
-              <option [ngValue]="sortOption" *ngFor="let sortOption of sortOptions">
-                {{ sortOption }}
+              <option [ngValue]="sortOption.key" *ngFor="let sortOption of sortOptions | mapToIterable">
+                {{ sortOption.value }}
               </option>
             </select>
           </div>

@@ -1,7 +1,6 @@
 export enum ProductSortStrats {
-    ID = 'ID',
-    NameAsc = 'Name: A to Z',
-    NameDesc = 'Name: Z to A',
-    PriceAsc = 'Price: Highest to Lowest',
-    PriceDesc = 'Price: Lowest to Highest'
+    ['ID'] = 'ID: A to Z',
+    ['!ID'] = 'ID: Z to A',
+    ['Name'] = 'Name: A to Z',
+    ['!Name'] = 'Name: Z to A',
 }
