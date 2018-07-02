@@ -3,7 +3,7 @@
       <strong><shared-credit-card-icon [card]="payment.Details"></shared-credit-card-icon> ending in {{payment.Details.PartialAccountNumber}}</strong>
   </span>
   <span *ngIf="payment.Type === 'PurchaseOrder'">
-    Purchase Order <small *ngIf="payment.Details.PONumber">{{Payment.Details.PONumber}}</small>
+    Purchase Order <small *ngIf="payment.Details.PONumber">{{payment.Details.PONumber}}</small>
   </span>
   <span *ngIf="payment.Type === 'SpendingAccount'">
     Spending Account: {{Payment.Details.Name}}
