@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ListBuyerProduct, MeService, BuyerProduct, Category, ListCategory } from '@ordercloud/angular-sdk';
@@ -19,7 +19,7 @@ export class ProductListComponent implements OnInit {
   favoriteProducts: string[] = null;
   categories: ListCategory;
   categoryCrumbs: Category[] = [];
-  sortOptions: string[];
+  sortOptions = ProductSortStrats;
   sortForm: FormGroup;
   favsFilterOn = false;
   searchTerm = null;
@@ -35,8 +35,9 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit() {
     this.productList$ = this.getProductData();
-    this.sortOptions = this.getSortOptions();
-    this.sortForm = this.formBuilder.group({ sortBy: null });
+    this.sortForm = this.formBuilder.group({
+      sortBy: this.sortOptions[this.activatedRoute.snapshot.queryParams['sortBy']]
+    });
     this.getCategories();
     this.getFavoriteProducts();
     this.configureRouter();
@@ -50,12 +51,14 @@ export class ProductListComponent implements OnInit {
         }),
         flatMap(queryParams => {
           this.searchTerm = queryParams.search || null;
-          const filter = this.favsFilterOn ? { ID: this.favoriteProducts.join('|') } : '';
+          // set filter to undefined if it doesn't exist so queryParam is ignored entirely
+          const filter = this.favsFilterOn ? { ID: this.favoriteProducts.join('|') } : undefined;
           return this.meService.ListProducts({
             categoryID: queryParams.category,
             page: queryParams.page,
             search: queryParams.search,
-            filters: <any>filter
+            sortBy: queryParams.sortBy,
+            filters: <any>filter,
           });
         })
       );
@@ -72,7 +75,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.meService.ListCategories({ depth: 'all'})
+    this.meService.ListCategories({ depth: 'all' })
       .subscribe(categories => {
         this.categories = categories;
         const categoryID = this.activatedRoute.snapshot.queryParams.category;
@@ -98,6 +101,12 @@ export class ProductListComponent implements OnInit {
     this.router.navigate([], { queryParams: queryParams });
   }
 
+  sortStratChanged() {
+    const queryParams: any = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams.sortBy = this.sortForm.value.sortBy;
+    this.router.navigate([], { queryParams: queryParams });
+  }
+
   isProductFav(prod: BuyerProduct): boolean {
     return this.favoriteProducts.indexOf(prod.ID) > -1;
   }
@@ -114,7 +123,7 @@ export class ProductListComponent implements OnInit {
     } else {
       favs = favs.filter(x => x !== productID);
     }
-    this.meService.Patch({ xp: { FavoriteProducts: favs }}).subscribe(me => {
+    this.meService.Patch({ xp: { FavoriteProducts: favs } }).subscribe(me => {
       this.favoriteProducts = me.xp.FavoriteProducts;
     });
   }
@@ -143,52 +152,9 @@ export class ProductListComponent implements OnInit {
     this.router.navigate(['/products/detail'], { queryParams: { ID: product.ID } });
   }
 
-  getSortOptions(): string[] {
-    const options = [];
-    for (const strat in ProductSortStrats) {
-      if (typeof strat === 'string') {
-        options.push(ProductSortStrats[strat]);
-      }
-    }
-    return options;
-  }
-
-  sortStratChanged() {
-    this.productList$.subscribe(productList => {
-      this.productList$ = of({
-        Meta: productList.Meta,
-        Items: this.sortProducts(productList.Items, this.sortForm.value.sortBy)
-      });
-    });
-  }
-
   addToCart(event: AddToCartEvent) {
     this.ocLineItemService.create(event.product, event.quantity)
       .subscribe();
-  }
-
-  sortProducts(prods: BuyerProduct[], strat: ProductSortStrats): BuyerProduct[] {
-    let compareFnc;
-
-    switch (strat) {
-      case ProductSortStrats.NameAsc:
-        compareFnc = (a, b) => a.Name.toLowerCase().localeCompare(b.Name.toLowerCase());
-        break;
-      case ProductSortStrats.NameDesc:
-        compareFnc = (a, b) => b.Name.toLowerCase().localeCompare(a.Name.toLowerCase());
-        break;
-      case ProductSortStrats.PriceAsc:
-        compareFnc = (a, b) => b.PriceSchedule.PriceBreaks[0].Price - a.PriceSchedule.PriceBreaks[0].Price;
-        break;
-      case ProductSortStrats.PriceDesc:
-        compareFnc = (a, b) => a.PriceSchedule.PriceBreaks[0].Price - b.PriceSchedule.PriceBreaks[0].Price;
-        break;
-      case ProductSortStrats.ID:
-        compareFnc = (a, b) => a.ID.toLowerCase().localeCompare(b.ID.toLowerCase());
-        break;
-    }
-
-    return prods.sort(compareFnc);
   }
 
   configureRouter() {

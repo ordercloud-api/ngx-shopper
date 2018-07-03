@@ -17,6 +17,7 @@ import { TreeModule } from 'angular-tree-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
 import { ProductCardComponent } from '@app/shared/components/product-card/product-card.component';
+import { MapToIterablePipe } from '@app/shared/pipes/map-to-iterable/map-to-iterable.pipe';
 
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
@@ -44,7 +45,8 @@ describe('ProductListComponent', () => {
         ProductCardComponent,
         QuantityInputComponent,
         CategoryNavComponent,
-        ToggleFavoriteComponent
+        ToggleFavoriteComponent,
+        MapToIterablePipe
       ],
       imports: [
         NgbPaginationModule,
@@ -137,12 +139,26 @@ describe('ProductListComponent', () => {
     });
   });
 
-  describe('toProductDetails', () => {
-    const product = { ID: 'mockProductID' };
-    it('should navigate to product detail with product.ID as ID query param', () => {
+  describe('sortStratChanged', () => {
+    it('should reload state with no search', () => {
       const navigateSpy = spyOn((<any>component).router, 'navigate');
-      component.toProductDetails(product);
-      expect(navigateSpy).toHaveBeenCalledWith(['/products/detail'], { queryParams: { ID: product.ID } });
+      const newSort = '!Name';
+      component.sortForm.controls['sortBy'].setValue(newSort);
+      component.sortStratChanged();
+      const newQueryParams = Object.assign({}, mockQueryParams, { sortBy: newSort });
+      expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: newQueryParams });
+    });
+  });
+
+  describe('isProductFav', () => {
+    beforeEach(() => {
+      component.favoriteProducts = ['a', 'b', 'c'];
+    });
+    it('should return true for a favorite', () => {
+      expect(component.isProductFav({ ID: 'a' })).toEqual(true);
+    });
+    it('should return false for a non-favorite', () => {
+      expect(component.isProductFav({ ID: 'd' })).toEqual(false);
     });
   });
 
@@ -156,18 +172,6 @@ describe('ProductListComponent', () => {
       component.favoriteProducts = ['a', 'b'];
       component.setProductAsFav(true, 'c');
       expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['a', 'b', 'c'] } });
-    });
-  });
-
-  describe('isProductFav', () => {
-    beforeEach(() => {
-      component.favoriteProducts = ['a', 'b', 'c'];
-    });
-    it('should reutrn true for a favorite', () => {
-      expect(component.isProductFav({ ID: 'a' })).toEqual(true);
-    });
-    it('should reutrn false for a non-favorite', () => {
-      expect(component.isProductFav({ ID: 'd' })).toEqual(false);
     });
   });
 
@@ -189,6 +193,15 @@ describe('ProductListComponent', () => {
     });
   });
 
+  describe('toProductDetails', () => {
+    const product = { ID: 'mockProductID' };
+    it('should navigate to product detail with product.ID as ID query param', () => {
+      const navigateSpy = spyOn((<any>component).router, 'navigate');
+      component.toProductDetails(product);
+      expect(navigateSpy).toHaveBeenCalledWith(['/products/detail'], { queryParams: { ID: product.ID } });
+    });
+  });
+
   describe('addToCart', () => {
     const mockEvent = { product: { ID: 'MockProduct' }, quantity: 3 };
     beforeEach(() => {
@@ -198,5 +211,4 @@ describe('ProductListComponent', () => {
       expect(ocLineItemService.create).toHaveBeenCalledWith(mockEvent.product, mockEvent.quantity);
     });
   });
-
 });
