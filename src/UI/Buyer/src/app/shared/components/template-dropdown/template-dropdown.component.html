@@ -1,0 +1,29 @@
+<div (click)="toggleItems()"
+     class="row"
+     [ngClass]="{'border rounded p-2 m-1': !value}">
+  <div class="col-11">
+    <div *ngIf="!!value">
+      <ng-template [ngTemplateOutlet]="itemTemplate"
+                   [ngTemplateOutletContext]="{ item: value, index: -1 }">
+      </ng-template>
+    </div>
+    <div *ngIf="!value"
+         class="placeholder">
+      {{ placeholder || "Nothing Selected" }}
+    </div>
+  </div>
+  <div class="col-1">
+    <fa-icon class="dropdown__caret float-right" [icon]="faCaretDown" size="lg"></fa-icon>
+  </div>
+</div>
+<div class="dropdown__list border bg-white" *ngIf="isShowingItems">
+  <div *ngFor="let item of items; let index = index;"
+      (click)="selectItem( item )"
+      class="dropdown__list-item">
+    <div>
+      <ng-template [ngTemplateOutlet]="itemTemplate"
+                   [ngTemplateOutletContext]="{ item: item, index: index }">
+      </ng-template>
+    </div>
+  </div>
+</div>

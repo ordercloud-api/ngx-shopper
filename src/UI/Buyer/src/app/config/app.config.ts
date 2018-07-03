@@ -27,7 +27,7 @@ export const ocAppConfig: AppConfig = {
         'OverrideTax',
         'OverrideShipping'
     ],
-    availablePaymentMethods: [PaymentMethod.PurchaseOrder]
+    availablePaymentMethods: [PaymentMethod.PurchaseOrder, PaymentMethod.SpendingAccount]
 };
 
 export interface AppConfig {
