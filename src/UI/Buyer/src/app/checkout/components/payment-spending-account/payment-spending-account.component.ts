@@ -16,16 +16,16 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
 
   constructor(private meService: MeService) {
     super();
-   }
+  }
 
   ngOnInit() {
     this.spendingAccounts$ = this.meService.ListSpendingAccounts().pipe(
       map(accounts => this.filterByDate(accounts)),
-      tap(accounts => this.selectedSpendingAccount = this.setSavedSpendingAccount(accounts))
+      tap(accounts => this.selectedSpendingAccount = this.getSavedSpendingAccount(accounts))
     );
   }
 
-  setSavedSpendingAccount(accounts: ListSpendingAccount): SpendingAccount  {
+  getSavedSpendingAccount(accounts: ListSpendingAccount): SpendingAccount  {
     if (this.payment && this.payment.SpendingAccountID) {
       const saved = accounts.Items.filter(x => x.ID === this.payment.SpendingAccountID);
       if (saved.length > 0) {
@@ -38,9 +38,9 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
   filterByDate(accounts: ListSpendingAccount): ListSpendingAccount {
     const now = new Date();
     accounts.Items = accounts.Items.filter(x => {
-      const open = !x.EndDate || new Date(x.EndDate) < now;
-      const notExpired = !x.StartDate || now < new Date(x.StartDate);
-      return open && notExpired;
+      const hasOpened = !x.StartDate || now > new Date(x.StartDate);
+      const notExpired = !x.EndDate || now < new Date(x.EndDate);
+      return hasOpened && notExpired;
     });
     return accounts;
   }
@@ -58,10 +58,10 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
 
   validateAndContinue() {
     if (this.selectedSpendingAccount.Balance < this.order.Total) {
-      throw Error(`This spending account has insuficient funds`);
+      throw Error('This spending account has insuficient funds');
     }
-    if (this.selectedSpendingAccount.AllowAsPaymentMethod) {
-      throw Error(`This spending account is not an allowed payment method.`);
+    if (!this.selectedSpendingAccount.AllowAsPaymentMethod) {
+      throw Error('This spending account is not an allowed payment method.');
     }
     this.continue.emit();
   }

@@ -2,27 +2,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CheckoutComponent } from './checkout.component';
 import {
-  PageTitleComponent,
-  PhoneFormatPipe,
   AppStateService,
   BaseResolveService,
 } from '@app/shared';
-import { OrderSummaryComponent } from '@app/checkout/components/order-summary/order-summary.component';
 import { NgbAccordion, NgbPanel, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CheckoutAddressComponent } from '@app/checkout/containers/checkout-address/checkout-address.component';
-import { CheckoutPaymentComponent } from '@app/checkout/containers/checkout-payment/checkout-payment.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AddressFormComponent } from '@app/shared/components/address-form/address-form.component';
-import { CreditCardDisplayComponent } from '@app/shared/components/credit-card-display/credit-card-display.component';
-import { CreditCardFormComponent } from '@app/shared/components/credit-card-form/credit-card-form.component';
-import { LineItemCardComponent } from '@app/shared/components/line-item-card/line-item-card.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, BehaviorSubject } from 'rxjs';
 import { OrderService, PaymentService } from '@ordercloud/angular-sdk';
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
-import { PaymentMethodDisplayPipe } from '@app/shared/pipes/payment-method-display/payment-method-display.pipe';
-import { PaymentPurchaseOrderComponent } from '@app/checkout/components/payment-purchase-order/payment-purchase-order.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CheckoutComponent', () => {
   let component: CheckoutComponent;
@@ -38,21 +27,9 @@ describe('CheckoutComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        PaymentPurchaseOrderComponent,
-        PaymentMethodDisplayPipe,
         CheckoutComponent,
-        PageTitleComponent,
-        OrderSummaryComponent,
         NgbAccordion,
-        NgbPanel,
-        CheckoutAddressComponent,
-        CheckoutPaymentComponent,
-        AddressFormComponent,
-        CreditCardDisplayComponent,
-        CreditCardFormComponent,
-        PhoneFormatPipe,
-        LineItemCardComponent,
-        QuantityInputComponent,
+        NgbPanel
       ],
       imports: [
         FontAwesomeModule,
@@ -65,7 +42,8 @@ describe('CheckoutComponent', () => {
         { provide: OrderService, useValue: orderService },
         { provide: PaymentService, useValue: paymentService },
         { provide: BaseResolveService, useValue: baseResolveService },
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     })
       .compileComponents();
   }));

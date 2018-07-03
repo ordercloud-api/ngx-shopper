@@ -3,21 +3,18 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'shared-template-dropdown',
-  // Query for the template being provided by the calling context.
-  queries: {
-    itemTemplate: new ContentChild(TemplateRef)
-  },
   templateUrl: './template-dropdown.component.html',
   styleUrls: ['./template-dropdown.component.scss']
 })
-export class TemplateDropdownComponent {
+export class TemplateDropdownComponent<T> {
   faCaretDown = faCaretDown;
 
   public isShowingItems = false;
-  @Input() public items: any[];
+  @Input() public items: T[];
   @Input() placeholder: string;
-  @Input() public value: any;
-  @Output() public valueChange = new EventEmitter<any>();
+  @Input() public value: T;
+  @Output() public valueChange = new EventEmitter<T>();
+  @ContentChild(TemplateRef) itemTemplate;
 
   public hideItems(): void {
     this.isShowingItems = false;
@@ -27,7 +24,7 @@ export class TemplateDropdownComponent {
     this.isShowingItems = true;
   }
 
-  public selectItem(item: any): void {
+  public selectItem(item: T): void {
     this.hideItems();
     this.valueChange.emit(item);
   }
