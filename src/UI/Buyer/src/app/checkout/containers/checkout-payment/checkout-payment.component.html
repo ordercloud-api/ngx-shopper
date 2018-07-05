@@ -12,19 +12,25 @@
                   id="paymentMethodSelectId"
                   formControlName="selectedPaymentMethod"
                   (change)="selectPaymentMethod()">
-                <option *ngFor="let method of  availablePaymentMethods" [ngValue]="method">
-                  {{ method | paymentMethodDisplay}}
+                <option *ngFor="let method of availablePaymentMethods" [ngValue]="method">
+                  {{ method | paymentMethodDisplay }}
                 </option>
             </select>
         </div>
       </div>
     </form>
-    <checkout-payment-purchase-order *ngIf="selectedPaymentMethod === 'PurchaseOrder'"
-                                     [payment]="existingPayment"
-                                     [order]="order"
-                                     (paymentCreated)="createPayment($event)"
-                                     (paymentPatched)="patchPayment($event)"
-                                     (continue)="onContinueClicked($event)">
-    </checkout-payment-purchase-order>
   </div>
 </div>
+<checkout-payment-purchase-order *ngIf="selectedPaymentMethod === 'PurchaseOrder'"
+                                 [payment]="existingPayment"
+                                 [order]="order"
+                                 (paymentCreated)="createPayment($event)"
+                                 (paymentPatched)="patchPayment($event)"
+                                 (continue)="onContinueClicked($event)">
+</checkout-payment-purchase-order>
+<checkout-payment-spending-account *ngIf="selectedPaymentMethod === 'SpendingAccount'"
+                                   [payment]="existingPayment"
+                                   [order]="order"
+                                   (paymentCreated)="createPayment($event)"
+                                   (paymentPatched)="patchPayment($event)"
+                                   (continue)="onContinueClicked($event)">></checkout-payment-spending-account>

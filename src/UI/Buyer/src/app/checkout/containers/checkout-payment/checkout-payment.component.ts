@@ -39,6 +39,9 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
   }
 
   initializePaymentMethod(): void {
+    if (this.availablePaymentMethods.length === 1) {
+      this.selectedPaymentMethod = this.availablePaymentMethods[0];
+    }
     this.paymentService.List('outgoing', this.order.ID)
       .subscribe(paymentList => {
         if (paymentList.Items && paymentList.Items.length > 0) {
@@ -56,8 +59,18 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
   }
 
   selectPaymentMethod(method: PaymentMethod): void {
-    this.form.controls['selectedPaymentMethod'].setValue(method);
-    this.selectedPaymentMethod = method;
+    if (method) {
+      this.form.controls['selectedPaymentMethod'].setValue(method);
+    }
+    this.selectedPaymentMethod = this.form.get('selectedPaymentMethod').value;
+    if (
+      this.selectedPaymentMethod !== PaymentMethod.SpendingAccount &&
+      this.existingPayment &&
+      this.existingPayment.SpendingAccountID
+    ) {
+      this.existingPayment = null;
+      this.deleteExistingPayments().subscribe();
+    }
   }
 
   onContinueClicked() {

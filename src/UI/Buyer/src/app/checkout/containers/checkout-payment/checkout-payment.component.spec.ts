@@ -1,18 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CheckoutPaymentComponent } from './checkout-payment.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CreditCardFormComponent } from '@app/shared/components/credit-card-form/credit-card-form.component';
-import { CreditCardDisplayComponent } from '@app/shared/components/credit-card-display/credit-card-display.component';
 import { PaymentService, Payment } from '@ordercloud/angular-sdk';
 import { AppStateService } from '@app/shared';
 import { of } from 'rxjs';
 import { applicationConfiguration } from '@app/config/app.config';
-import { PaymentMethodDisplayPipe } from '@app/shared/pipes/payment-method-display/payment-method-display.pipe';
-import { PaymentPurchaseOrderComponent } from '@app/checkout/components/payment-purchase-order/payment-purchase-order.component';
 import { PaymentMethod } from '@app/shared/models/payment-method.enum';
 import { delay } from 'rxjs/operators';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { PaymentMethodDisplayPipe } from '@app/shared/pipes/payment-method-display/payment-method-display.pipe';
 
 describe('CheckoutPaymentComponent', () => {
   let component: CheckoutPaymentComponent;
@@ -33,11 +30,8 @@ describe('CheckoutPaymentComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        PaymentPurchaseOrderComponent,
-        PaymentMethodDisplayPipe,
         CheckoutPaymentComponent,
-        CreditCardDisplayComponent,
-        CreditCardFormComponent
+        PaymentMethodDisplayPipe
       ],
       imports: [
         FontAwesomeModule,
@@ -48,6 +42,7 @@ describe('CheckoutPaymentComponent', () => {
         { provide: PaymentService, useValue: paymentService },
         { provide: applicationConfiguration, useValue: appConfig },
       ],
+      schemas: [NO_ERRORS_SCHEMA] // Ignore template errors: remove if tests are added to test template
     })
       .compileComponents();
   }));

@@ -1,0 +1,16 @@
+<div *ngIf="spendingAccounts$ | async; let accounts">
+  <shared-template-dropdown [items]="accounts.Items"
+                            [value]="selectedSpendingAccount"
+                            (valueChange)="accountSelected($event)"
+                            placeholder="Select a spending account">
+    <ng-template let-account="item">
+      <div class="border p-2 m-2">
+        <div><b>{{ account.Name }}</b></div>
+        <div>Balance: <b class="text-success">{{ account.Balance | currency }}</b></div>
+      </div>
+    </ng-template>
+
+  </shared-template-dropdown>
+</div>
+<button class="btn btn-primary mt-3"
+        (click)="validateAndContinue()">Save and Continue</button>

@@ -17,6 +17,7 @@ import { SharedModule } from '@app/shared';
 import { CheckoutRoutingModule } from './checkout-routing.module';
 import { CheckoutPaymentComponent } from './containers/checkout-payment/checkout-payment.component';
 import { PaymentPurchaseOrderComponent } from './components/payment-purchase-order/payment-purchase-order.component';
+import { PaymentSpendingAccountComponent } from './components/payment-spending-account/payment-spending-account.component';
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { PaymentPurchaseOrderComponent } from './components/payment-purchase-ord
         OrderSummaryComponent,
         CheckoutPaymentComponent,
         PaymentPurchaseOrderComponent,
+        PaymentSpendingAccountComponent,
     ]
 })
 export class CheckoutModule { }
