@@ -57,7 +57,6 @@ describe('PaymentSpendingAccountComponent', () => {
 
   describe('accountSelected', () => {
     beforeEach(() => {
-      component.order = { Total: 10 };
       spyOn(component.paymentCreated, 'emit');
     });
     it('should emit a payment', () => {
@@ -65,7 +64,6 @@ describe('PaymentSpendingAccountComponent', () => {
       expect(component.paymentCreated.emit).toHaveBeenCalledWith( {
         Type: 'SpendingAccount',
         SpendingAccountID: '1',
-        Amount: 10,
         Accepted: true
       });
     });
