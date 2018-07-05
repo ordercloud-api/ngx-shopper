@@ -55,31 +55,6 @@ describe('PaymentSpendingAccountComponent', () => {
     });
   });
 
-  describe('filterByDate', () => {
-    it('should allow accounts with no startDate or end date', () => {
-      const accounts = { Items: [{ ID: '1' }, { ID: '2' }] };
-      expect(component.filterByDate(accounts)).toEqual(accounts);
-    });
-    it('should remove accounts with startDate in the future', () => {
-      const accounts = {
-        Items: [
-          { StartDate: '2017-11-01T05:00:00+00:00' },
-          { StartDate: '2100-11-01T05:00:00+00:00' }
-        ]
-      };
-      expect(component.filterByDate(accounts)).toEqual({ Items: [{ StartDate: '2017-11-01T05:00:00+00:00' }] });
-    });
-    it('should remove accounts with endDate in the past', () => {
-      const accounts = {
-        Items: [
-          { EndDate: '2017-11-01T05:00:00+00:00' },
-          { EndDate: '2100-11-01T05:00:00+00:00' }
-        ]
-      };
-      expect(component.filterByDate(accounts)).toEqual({ Items: [{ EndDate: '2100-11-01T05:00:00+00:00' }] });
-    });
-  });
-
   describe('accountSelected', () => {
     beforeEach(() => {
       component.order = { Total: 10 };

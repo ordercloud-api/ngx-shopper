@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentBaseComponent } from '@app/checkout/components/payment-base/payment-base.component';
 import { Observable } from 'rxjs';
 import { SpendingAccount, ListSpendingAccount, MeService, Payment } from '@ordercloud/angular-sdk';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'checkout-payment-spending-account',
@@ -19,8 +20,9 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
   }
 
   ngOnInit() {
-    this.spendingAccounts$ = this.meService.ListSpendingAccounts().pipe(
-      map(accounts => this.filterByDate(accounts)),
+    const now = moment().format('YYYY-MM-DD');
+    const dateFilter = { StartDate: `>${now}|!*`, EndDate: `<${now}|!*` };
+    this.spendingAccounts$ = this.meService.ListSpendingAccounts({ filters: dateFilter }).pipe(
       tap(accounts => this.selectedSpendingAccount = this.getSavedSpendingAccount(accounts))
     );
   }
@@ -35,22 +37,11 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
     return null;
   }
 
-  filterByDate(accounts: ListSpendingAccount): ListSpendingAccount {
-    const now = new Date();
-    accounts.Items = accounts.Items.filter(x => {
-      const hasOpened = !x.StartDate || now > new Date(x.StartDate);
-      const notExpired = !x.EndDate || now < new Date(x.EndDate);
-      return hasOpened && notExpired;
-    });
-    return accounts;
-  }
-
   accountSelected(account: SpendingAccount): void {
     this.selectedSpendingAccount = account;
     const payment: Payment = {
       Type: 'SpendingAccount',
       SpendingAccountID: account.ID,
-      Amount: this.order.Total,
       Accepted: true
     };
     this.paymentCreated.emit(payment);
