@@ -25,4 +25,11 @@ html {
  * Basic styles for links
  */
 
+ .icon-button--hover-reative {
+  font-size: 18px;
+  :hover {
+      opacity: 0.5;    
+  }
+}
+
 

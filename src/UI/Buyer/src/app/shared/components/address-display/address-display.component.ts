@@ -15,16 +15,7 @@ export class AddressDisplayComponent implements OnInit {
   }
 
   protected getFullName(address: Address) {
-    let fullName = '';
-    if (address.FirstName || address.LastName) {
-      if (address.FirstName && !address.LastName) {
-        fullName = address.FirstName;
-      } else if (!address.FirstName && address.LastName) {
-        fullName = address.LastName;
-      } else {
-        fullName = `${address.FirstName} ${address.LastName}`;
-      }
-    }
-    return fullName;
+    const fullName = `${address.FirstName || ''} ${address.LastName || ''}`;
+    return fullName.trim();
   }
 }

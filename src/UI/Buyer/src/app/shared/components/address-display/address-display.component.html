@@ -1,9 +1,14 @@
-<address>
-    <div *ngIf="address.AddressName">{{address.AddressName}}</div>
-    <div *ngIf="address.CompanyName">{{address.CompanyName}}</div>
-    <div>{{address.FullName}}</div>
-    <div>{{address.Street1}}</div>
-    <div *ngIf="address.Street2">{{address.Street2}}</div>
-    <div>{{address.City}}, {{address.State}} {{address.Zip}}</div>
-    <div *ngIf="address.Phone">{{address.Phone | tel}}</div>
-  </address>
+<address class="row">
+  <div class="col-md-8">
+      <div *ngIf="address.AddressName">{{address.AddressName}}</div>
+      <div *ngIf="address.CompanyName">{{address.CompanyName}}</div>
+      <div>{{address.FullName}}</div>
+      <div>{{address.Street1}}</div>
+      <div *ngIf="address.Street2">{{address.Street2}}</div>
+      <div>{{address.City}}, {{address.State}} {{address.Zip}}</div>
+      <div *ngIf="address.Phone">{{address.Phone | tel}}</div>
+  </div>
+  <div class="col-md-4 float-right"> 
+      <ng-content select=[actions]></ng-content>
+  </div>
+</address>

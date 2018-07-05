@@ -1,21 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MeService, ListBuyerCreditCard, BuyerCreditCard } from '@ordercloud/angular-sdk';
+import { Component, OnInit } from '@angular/core';
+import { MeService, ListBuyerCreditCard, BuyerCreditCard, ListSpendingAccount } from '@ordercloud/angular-sdk';
 import { Observable } from 'rxjs';
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { AuthorizeNetService, CreateCardDetails } from '@app/shared';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'profile-payment-list',
   templateUrl: './payment-list.component.html',
   styleUrls: ['./payment-list.component.scss']
 })
-export class PaymentListComponent implements OnInit, OnDestroy {
+export class PaymentListComponent implements OnInit {
 
   alive = true;
   showCardForm = false;
   faPlus = faPlus;
   faArrowLeft = faArrowLeft;
-  cards: Observable<ListBuyerCreditCard>;
+  faTrashAlt = faTrashAlt;
+
+  cards$: Observable<ListBuyerCreditCard>;
+  accounts$: Observable<ListSpendingAccount>;
   currentCard: BuyerCreditCard = null;
 
   constructor(
@@ -24,11 +30,18 @@ export class PaymentListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.reloadCards();
+    this.getCards();
+    this.getAccounts();
   }
 
-  reloadCards() {
-    this.cards = this.meService.ListCreditCards();
+  getCards() {
+    this.cards$ = this.meService.ListCreditCards();
+  }
+
+  getAccounts() {
+    const now = moment().format('YYYY-MM-DD');
+    const dateFilter = { StartDate: `>${now}|!*`, EndDate: `<${now}|!*` };
+    this.accounts$ = this.meService.ListSpendingAccounts({ filters: dateFilter });
   }
 
   showEdit(card: BuyerCreditCard) {
@@ -45,7 +58,7 @@ export class PaymentListComponent implements OnInit, OnDestroy {
     this.authorizeNetSerivce.CreateCreditCard(card).subscribe(
       () => {
         this.showCardForm = false;
-        this.reloadCards();
+        this.getCards();
       }, error => {
         throw error;
       });
@@ -54,14 +67,9 @@ export class PaymentListComponent implements OnInit, OnDestroy {
   deleteCard(cardId: string) {
     this.authorizeNetSerivce.DeleteCreditCard(cardId).subscribe(
       () => {
-        this.reloadCards();
+        this.getCards();
       }, error => {
         throw error;
       });
   }
-
-  ngOnDestroy() {
-    this.alive = false;
-  }
-
 }
