@@ -10,7 +10,6 @@
   </div>
 </div>
 <hr>
-
 <div *ngIf="!showEdit">
   <div class="row pt-1 pb-1 mt-3 mb-3 bg-white"
        *ngFor="let address of addresses?.Items">
@@ -19,10 +18,10 @@
         <div class="card-body">
           <shared-address-display [address]="address">
             <div actions>
-              <fa-icon class="text-danger float-right ml-3 icon-button--hover-reative"
+              <fa-icon class="text-danger ml-3 icon-button--hover-reactive"
                        (click)="deleteAddress(address)"
                        [icon]="faTrashAlt"></fa-icon>
-              <fa-icon class="text-primary float-right ml-3 icon-button--hover-reative"
+              <fa-icon class="text-primary ml-3 icon-button--hover-reactive"
                        (click)="showEditAddress(address)"
                        [icon]="faEdit"></fa-icon>
             </div>

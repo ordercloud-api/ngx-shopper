@@ -5,6 +5,10 @@
             routerLink="/login">Login</button></p>
   <h1 class="display-4">{{appConfig.appname}}</h1>
 </div>
+<div *ngIf="shouldAllowUpdate">
+  <h3>Account Details</h3>
+  <hr>
+</div>
 <div class="row">
   <div class="col-lg-6"
        [ngClass]="{'mx-auto': !shouldAllowUpdate}"

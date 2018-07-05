@@ -1,20 +1,15 @@
-<div class="credit-card-display border shadow-sm p-3 bg-white">
-  <div class="mb-3">
-    <shared-credit-card-icon class="mr-3"
-                             [card]="card"
-                             size="2x"></shared-credit-card-icon>
-    <span class="card-number">{{ card?.CardType }} ending in:</span>
-    <span class="card-number font-weight-bold">{{ card?.PartialAccountNumber }}</span>
-    <span class="float-right">
-      <ng-content select=[actions]></ng-content>
-    </span>
+<div class="border shadow-sm p-2 row">
+  <shared-credit-card-icon class="col-md-1"
+                           [card]="card"
+                           size="2x"></shared-credit-card-icon>
+  <div class="col-md-7">
+    <div><b>XXXX-XXXX-XXXX-{{ card?.PartialAccountNumber }}</b></div>
+    <div>{{ card?.CardholderName }}</div>
+    <div><small>Expires: {{ card?.ExpirationDate | date:'MM/yy':'UTC' }}</small></div>
   </div>
-  <div class="row">
-    <div class="col-md-6">
-      {{ card?.CardholderName }}
-    </div>
-    <div class="col-md-6">
-      Expires: <span class="font-weight-bold">{{ card?.ExpirationDate | date:'MM/yy':'UTC' }}</span>
+  <div class="col-md-4">
+    <div class="float-right">
+      <ng-content select=[actions]></ng-content>
     </div>
   </div>
 </div>
