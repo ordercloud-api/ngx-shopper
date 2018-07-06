@@ -4,6 +4,7 @@
     <caption class="sr-only">List of Orders</caption>
     <thead>
       <tr>
+        <th></th>
         <th (click)="updateSort('ID')"
             *ngIf="columns.indexOf('ID') > -1">
           <button class="btn btn-link font-weight-bold">
@@ -46,7 +47,13 @@
     <tbody>
       <tr *ngFor="let order of orders.Items"
           [routerLink]="['/profile', 'orders', order.ID]">
-        <td *ngIf="columns.indexOf('ID') > -1">{{order.ID}}</td>
+        <td (click)="$event.stopPropagation()">
+          <shared-toggle-favorite [favorite]="isFavorite(order.ID)"
+                                  (favoriteChanged)="favoriteChanged.emit({ isFav: $event, orderId: order.ID })">
+          </shared-toggle-favorite>
+        </td>
+        <td *ngIf="columns.indexOf(
+                                  'ID')> -1">{{order.ID}}</td>
         <td *ngIf="columns.indexOf('Status') > -1">
           <order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}
         </td>
