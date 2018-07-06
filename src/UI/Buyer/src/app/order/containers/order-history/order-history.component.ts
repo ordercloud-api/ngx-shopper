@@ -4,7 +4,7 @@ import { MeService, ListOrder } from '@ordercloud/angular-sdk';
 import { MeOrderListOptions } from '@app/order/models/me-order-list-options';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { flatMap } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'order-order-history',
@@ -14,6 +14,8 @@ import { flatMap } from 'rxjs/operators';
 export class OrderHistoryComponent implements OnInit {
   alive = true;
   orders$: Observable<ListOrder>;
+  favoriteOrders: string[] = [];
+  showfavoritesOnly = false;
   sortBy: string;
 
   constructor(
@@ -23,7 +25,8 @@ export class OrderHistoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.orders$ = this.listOrders();
+      this.orders$ = this.listOrders();
+      this.listFavoriteOrders().subscribe(x => this.favoriteOrders = x);
   }
 
   protected sortOrders(sortBy: string): void {
@@ -51,6 +54,28 @@ export class OrderHistoryComponent implements OnInit {
     this.router.navigate([], { queryParams });
   }
 
+  protected filterByFavorite(favoritesOnly) {
+    this.showfavoritesOnly = favoritesOnly;
+    this.orders$ = this.listOrders();
+  }
+
+  protected updateFavorite($event) {
+    if ($event.isFav) {
+      this.favoriteOrders.push($event.orderId);
+    } else {
+      this.favoriteOrders = this.favoriteOrders.filter(x => x !== $event.orderId);
+    }
+    this.meService.Patch({ xp: { FavoriteOrders: this.favoriteOrders } }).subscribe(me => {
+      this.favoriteOrders = me.xp.FavoriteOrders;
+    });
+  }
+
+  protected listFavoriteOrders(): Observable<string[]> {
+    return this.meService.Get().pipe(
+      map(me => me.xp && me.xp.FavoriteOrders ? me.xp.FavoriteOrders : [])
+    );
+  }
+
   protected listOrders(): Observable<ListOrder> {
     return this.activatedRoute.queryParamMap
       .pipe(
@@ -63,7 +88,8 @@ export class OrderHistoryComponent implements OnInit {
             page: parseInt(queryParams.get('page'), 10) || undefined,
             filters: {
               status: queryParams.get('status') || `!${OrderStatus.Unsubmitted}`,
-              datesubmitted: queryParams.getAll('datesubmitted') || undefined
+              datesubmitted: queryParams.getAll('datesubmitted') || undefined,
+              ID: this.showfavoritesOnly ? this.favoriteOrders.join('|') : undefined
             }
           };
           return this.meService.ListOrders(listOptions);

@@ -12,10 +12,12 @@ export class OrderListComponent {
   @Input() orders: ListOrder;
   @Input() columns: OrderListColumn[];
   @Input() sortBy: string;
+  @Input() favoriteOrders: string[];
   faCaretDown = faCaretDown;
   faCaretUp = faCaretUp;
   @Output() updatedSort = new EventEmitter<string>();
   @Output() changedPage = new EventEmitter<number>();
+  @Output() favoriteChanged = new EventEmitter<{ isFav: boolean, orderID: string }>();
 
   protected updateSort(selectedSortBy) {
     let sortBy;
@@ -35,5 +37,9 @@ export class OrderListComponent {
 
   protected changePage(page: number): void {
     this.changedPage.emit(page);
+  }
+
+  protected isFavorite(orderID) {
+    return this.favoriteOrders.indexOf(orderID) > -1;
   }
 }

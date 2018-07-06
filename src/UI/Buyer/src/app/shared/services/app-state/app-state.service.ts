@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { MeUser, Order, ListLineItem, Category } from '@ordercloud/angular-sdk';
+import { MeUser, Order, ListLineItem } from '@ordercloud/angular-sdk';
 
 @Injectable()
 export class AppStateService {
@@ -9,13 +9,11 @@ export class AppStateService {
   public orderSubject: BehaviorSubject<Order>;
   public isAnonSubject: BehaviorSubject<boolean>;
   public lineItemSubject: BehaviorSubject<ListLineItem>;
-  public categoryBreadcrumbs: BehaviorSubject<Category[]>;
 
   constructor() {
     this.userSubject = new BehaviorSubject<MeUser>(null);
     this.orderSubject = new BehaviorSubject<Order>(null);
     this.isAnonSubject = new BehaviorSubject<boolean>(true);
-    this.categoryBreadcrumbs = new BehaviorSubject<Category[]>([]);
     this.lineItemSubject = new BehaviorSubject<ListLineItem>({ Meta: { Page: 1, PageSize: 25, TotalCount: 0, TotalPages: 1 }, Items: [] });
   }
 }
