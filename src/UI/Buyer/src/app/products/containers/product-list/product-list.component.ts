@@ -83,23 +83,16 @@ export class ProductListComponent implements OnInit {
       });
   }
 
-  changePage(page: number) {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, page };
-    this.router.navigate([], { queryParams });
-  }
+  changePage(page: number): void { this.addQueryParam({ page }); }
 
-  changeCategory(category: string) {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, category };
-    this.router.navigate([], { queryParams });
-  }
+  changeCategory(category: string): void { this.addQueryParam({ category }); }
 
-  clearSearch() {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, search: '' };
-    this.router.navigate([], { queryParams });
-  }
+  clearSearch(): void { this.addQueryParam({ search: '' }); }
 
-  sortStratChanged() {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, sortBy: this.sortForm.value.sortBy };
+  sortStratChanged(): void { this.addQueryParam({ sortBy: this.sortForm.value.sortBy }); }
+
+  private addQueryParam(newParam: object): void {
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams, ...newParam};
     this.router.navigate([], { queryParams });
   }
 
