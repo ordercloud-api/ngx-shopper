@@ -20,7 +20,6 @@ export class AppAuthService {
     fetchingRefreshToken = false;
     failedRefreshAttempt = false;
     refreshToken: BehaviorSubject<string>;
-    userRoles: string[];
 
     constructor(
         private tokenService: TokenService,
@@ -73,10 +72,7 @@ export class AppAuthService {
             return this.authService.RefreshToken(refreshToken, this.appConfig.clientID)
                 .pipe(
                     map(authResponse => authResponse.access_token),
-                    tap(token => {
-                        this.tokenService.SetAccess(token);
-                        this.userRoles = jwtDecode(this.tokenService.GetAccess()).role;
-                    }),
+                    tap(token => this.tokenService.SetAccess(token)),
                     catchError(error => {
                         if (this.appConfig.anonymousShoppingEnabled) {
                             return this.authAnonymous();
@@ -109,10 +105,7 @@ export class AppAuthService {
         return this.authService.Anonymous(this.appConfig.clientID, this.appConfig.scope)
             .pipe(
                 map(authResponse => authResponse.access_token),
-                tap((token => {
-                    this.tokenService.SetAccess(token);
-                    this.userRoles = jwtDecode(this.tokenService.GetAccess()).role;
-                })),
+                tap((token => this.tokenService.SetAccess(token))),
                 catchError(ex => {
                     this.appErrorHandler.displayError(ex);
                     return this.logout();
@@ -123,12 +116,6 @@ export class AppAuthService {
     isUserAnon(): boolean {
         const anonOrderID = jwtDecode(this.tokenService.GetAccess()).orderid;
         return !_isUndefined(anonOrderID);
-    }
-
-    /** Note, the OC API will perform its own server-side authorization checks.
-     *  Use this method to change the UI look and feel. */
-    userHasRole(role: string): boolean {
-        return this.userRoles.indexOf(role) > -1;
     }
 
     setRememberStatus(status: boolean): void {
