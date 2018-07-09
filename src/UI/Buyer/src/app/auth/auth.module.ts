@@ -9,7 +9,7 @@ import { ResetPasswordComponent } from './containers/reset-password/reset-passwo
 
 // routing
 import { AuthRoutingModule } from './auth-routing.module';
-import { AppAuthService } from '@app/auth/services/auth.service';
+import { AppAuthService } from '@app/auth/services/app-auth.service';
 
 
 @NgModule({
