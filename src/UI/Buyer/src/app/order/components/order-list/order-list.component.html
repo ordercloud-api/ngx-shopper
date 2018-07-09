@@ -52,8 +52,7 @@
                                   (favoriteChanged)="favoriteChanged.emit({ isFavorite: $event, orderID: order.ID })">
           </shared-toggle-favorite>
         </td>
-        <td *ngIf="columns.indexOf(
-                                  'ID')> -1">{{order.ID}}</td>
+        <td *ngIf="columns.indexOf('ID')> -1">{{order.ID}}</td>
         <td *ngIf="columns.indexOf('Status') > -1">
           <order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}
         </td>
