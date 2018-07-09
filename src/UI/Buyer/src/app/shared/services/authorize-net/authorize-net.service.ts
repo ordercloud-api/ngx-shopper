@@ -10,7 +10,7 @@ import { TokenService, Payment, PaymentService, Order, OrderService, BuyerCredit
  *  OrderCloud does not store full credit card details or process finacial transactions.
  *  An integration with a third party service is required for these features.
  *  This service is an example of such an integration using Authorize.net
- * (https://developer.authorize.net/api/reference/index.html)
+ *  (https://developer.authorize.net/api/reference/index.html)
  *
  *  Note: we strongly recommend doing such integrations server-side. Eventually, a server-side example may be added.
  * */

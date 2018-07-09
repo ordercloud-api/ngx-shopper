@@ -25,8 +25,8 @@ export class OrderHistoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-      this.orders$ = this.listOrders();
-      this.listFavoriteOrders().subscribe(x => this.favoriteOrders = x);
+    this.orders$ = this.listOrders();
+    this.listFavoriteOrders().subscribe(x => this.favoriteOrders = x);
   }
 
   protected sortOrders(sortBy: string): void { this.addQueryParam({ sortBy }); }
@@ -40,7 +40,7 @@ export class OrderHistoryComponent implements OnInit {
   protected filterByDate(datesubmitted: string[]): void { this.addQueryParam({ datesubmitted }); }
 
   private addQueryParam(newParam: object): void {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, ...newParam};
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams, ...newParam };
     this.router.navigate([], { queryParams });
   }
 
