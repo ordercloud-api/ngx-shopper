@@ -74,4 +74,16 @@ describe('OrderListComponent', () => {
       expect(component.changedPage.emit).toHaveBeenCalledWith(2);
     });
   });
+
+  describe('isFavorite', () => {
+    beforeEach(() => {
+      component.favoriteOrders = ['a', 'b'];
+    });
+    it('should return true when arg is a favorite order', () => {
+      expect(component['isFavorite']('a')).toEqual(true);
+    });
+    it('should return false when arg is not a favorite order', () => {
+      expect(component['isFavorite']('c')).toEqual(false);
+    });
+  });
 });

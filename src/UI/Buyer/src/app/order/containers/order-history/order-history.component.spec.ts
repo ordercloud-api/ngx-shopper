@@ -10,7 +10,7 @@ import { OrderListComponent } from '@app/order/components/order-list/order-list.
 
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgbPaginationModule, NgbRootModule } from '@ng-bootstrap/ng-bootstrap';
-import { MeService } from '@ordercloud/angular-sdk';
+import { MeService, OrderService } from '@ordercloud/angular-sdk';
 import { DatePipe } from '@angular/common';
 import { OrderStatus } from '@app/order/models/order-status.model';
 import { of, Subject } from 'rxjs';
@@ -22,9 +22,11 @@ describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
 
+  const mockMe = { xp: { FavoriteOrders: ['a', 'b', 'c'] } };
   const meService = {
     ListOrders: jasmine.createSpy('ListOrders').and.returnValue(of(null)),
-    Get: jasmine.createSpy('Get').and.returnValue(of({ xp: { FavoriteOrders: [] } }))
+    Get: jasmine.createSpy('Get').and.returnValue(of(mockMe)),
+    Patch: jasmine.createSpy('Patch').and.returnValue(of(mockMe))
   };
   const router = { navigate: jasmine.createSpy('navigate') };
   const queryParamMap = new Subject<any>();
@@ -81,10 +83,12 @@ describe('OrderHistoryComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       spyOn(component as any, 'listOrders');
+      spyOn(component as any, 'listFavoriteOrders').and.returnValue(of({}));
       component.ngOnInit();
     });
     it('should call list orders', () => {
       expect(component['listOrders']).toHaveBeenCalled();
+      expect(component['listFavoriteOrders']).toHaveBeenCalled();
     });
   });
 
@@ -147,6 +151,45 @@ describe('OrderHistoryComponent', () => {
         expect(meService.ListOrders).toHaveBeenCalledWith(expected);
       });
       queryParamMap.next(convertToParamMap(activatedRoute.snapshot.queryParams));
+    });
+  });
+
+  describe('listFavoriteOrders', () => {
+    beforeEach(() => {
+      meService.Get.calls.reset();
+    });
+    it('should call meService.get', () => {
+      component['listFavoriteOrders']().pipe(take(1)).subscribe(results => {
+        expect(results).toEqual(mockMe.xp.FavoriteOrders);
+        expect(meService.Get).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('updateFavorite', () => {
+    it('should remove fav correctly', () => {
+      component.favoriteOrders = ['a', 'b'];
+      component['updateFavorite'](false, 'a');
+      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteOrders: ['b'] } });
+    });
+    it('should add fav correctly', () => {
+      component.favoriteOrders = ['a', 'b'];
+      component['updateFavorite'](true, 'c');
+      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteOrders: ['a', 'b', 'c'] } });
+    });
+  });
+
+  describe('filterByFavorite', () => {
+    beforeEach(() => {
+      meService.ListOrders.calls.reset();
+    });
+    it('should show favorites only when true', () => {
+      component['filterByFavorite'](true);
+      expect(component.showfavoritesOnly).toEqual(true);
+    });
+    it('should show all products when false', () => {
+      component['filterByFavorite'](false);
+      expect(component.showfavoritesOnly).toEqual(false);
     });
   });
 });
