@@ -22,7 +22,10 @@ describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
 
-  const meService = { ListOrders: jasmine.createSpy('ListOrders').and.returnValue(of(null)) };
+  const meService = {
+    ListOrders: jasmine.createSpy('ListOrders').and.returnValue(of(null)),
+    Get: jasmine.createSpy('Get').and.returnValue(of({ xp: { FavoriteOrders: [] } }))
+  };
   const router = { navigate: jasmine.createSpy('navigate') };
   const queryParamMap = new Subject<any>();
   const activatedRoute = {
@@ -133,6 +136,7 @@ describe('OrderHistoryComponent', () => {
       filters: {
         status: 'Open',
         datesubmitted: ['5-30-18'],
+        ID: undefined
       }
     };
     beforeEach(() => {

@@ -49,7 +49,7 @@
           [routerLink]="['/profile', 'orders', order.ID]">
         <td (click)="$event.stopPropagation()">
           <shared-toggle-favorite [favorite]="isFavorite(order.ID)"
-                                  (favoriteChanged)="favoriteChanged.emit({ isFav: $event, orderId: order.ID })">
+                                  (favoriteChanged)="favoriteChanged.emit({ isFavorite: $event, orderID: order.ID })">
           </shared-toggle-favorite>
         </td>
         <td *ngIf="columns.indexOf(
