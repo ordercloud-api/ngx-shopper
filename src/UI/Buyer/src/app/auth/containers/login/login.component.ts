@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 // ordercloud
 import { AuthService, TokenService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '../../../config/app.config';
-import { AppAuthService } from '../../services/auth.service';
+import { AppAuthService } from '../../services/app-auth.service';
 import { AppStateService } from '@app/shared';
 
 @Component({

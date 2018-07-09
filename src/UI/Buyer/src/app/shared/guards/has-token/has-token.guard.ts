@@ -4,7 +4,7 @@ import { TokenService } from '@ordercloud/angular-sdk';
 import * as jwtDecode from 'jwt-decode';
 import { DecodedOrderCloudToken } from '@app/shared';
 import { applicationConfiguration, AppConfig } from '@app/config/app.config';
-import { AppAuthService } from '../../../auth/services/auth.service';
+import { AppAuthService } from '../../../auth/services/app-auth.service';
 import { of, Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 

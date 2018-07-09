@@ -7,7 +7,7 @@ import { RefreshTokenInterceptor } from './refresh-token.interceptor';
 import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 import { TokenService, Configuration } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
-import { AppAuthService } from '../../services/auth.service';
+import { AppAuthService } from '../../services/app-auth.service';
 import { of, BehaviorSubject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

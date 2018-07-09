@@ -19,7 +19,7 @@ import * as jwtDecode from 'jwt-decode';
 
 // app
 import { applicationConfiguration, AppConfig } from '../../../config/app.config';
-import { AppAuthService } from '@app/auth/services/auth.service';
+import { AppAuthService } from '@app/auth/services/app-auth.service';
 
 @Injectable()
 export class BaseResolveService {
