@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { faPlus, faArrowLeft, faWindowClose, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 import { MeService, ListBuyerAddress, BuyerAddress } from '@ordercloud/angular-sdk';
+import { faTrashAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'profile-address-list',
@@ -12,7 +13,7 @@ import { MeService, ListBuyerAddress, BuyerAddress } from '@ordercloud/angular-s
 export class AddressListComponent implements OnInit {
   faPlus = faPlus;
   faArrowLeft = faArrowLeft;
-  faWindowClose = faWindowClose;
+  faTrashAlt = faTrashAlt;
   faEdit = faEdit;
   addresses: ListBuyerAddress;
   currentAddress: BuyerAddress;

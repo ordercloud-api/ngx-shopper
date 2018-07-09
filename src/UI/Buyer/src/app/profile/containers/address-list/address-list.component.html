@@ -1,24 +1,35 @@
-<button (click)="showAddAddress()"
-        *ngIf="!showEdit"
-        class="btn btn-primary m-3"><fa-icon [icon]="faPlus"></fa-icon> Add an Address</button>
-<button (click)="hideEditOrAdd()"
-        *ngIf="showEdit"
-        class="btn btn-primary m-3"><fa-icon [icon]="faArrowLeft"></fa-icon> Back To List</button>
+<div class="row">
+  <h3 class="col-6">Addresses</h3>
+  <div class="col-6">
+    <button (click)="showAddAddress()"
+            *ngIf="!showEdit"
+            class="btn btn-primary float-right"><fa-icon [icon]="faPlus"></fa-icon> Add an Address</button>
+    <button (click)="hideEditOrAdd()"
+            *ngIf="showEdit"
+            class="btn btn-primary float-right"><fa-icon [icon]="faArrowLeft"></fa-icon> Back To List</button>
+  </div>
+</div>
+<hr>
 <div *ngIf="!showEdit">
   <div class="row pt-1 pb-1 mt-3 mb-3 bg-white"
        *ngFor="let address of addresses?.Items">
     <div class="col-8">
       <div class="card">
         <div class="card-body">
-          <shared-address-display [address]="address"></shared-address-display>
+          <shared-address-display [address]="address">
+            <div actions>
+              <fa-icon class="text-danger ml-3 icon-button--hover-reactive"
+                       (click)="deleteAddress(address)"
+                       [icon]="faTrashAlt"></fa-icon>
+              <fa-icon class="text-primary ml-3 icon-button--hover-reactive"
+                       (click)="showEditAddress(address)"
+                       [icon]="faEdit"></fa-icon>
+            </div>
+          </shared-address-display>
         </div>
       </div>
     </div>
     <div class="col-4">
-      <button (click)="deleteAddress(address)"
-              class="btn btn-primary float-right ml-2 mt-2 border-danger bg-danger"><fa-icon [icon]="faWindowClose"></fa-icon> Delete</button>
-      <button (click)="showEditAddress(address)"
-              class="btn btn-primary float-right ml-2 mt-2"><fa-icon [icon]="faEdit"></fa-icon>Edit</button>
     </div>
   </div>
 </div>

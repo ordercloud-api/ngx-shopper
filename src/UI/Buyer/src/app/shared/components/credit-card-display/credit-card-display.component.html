@@ -1,20 +1,16 @@
-<div class="credit-card-display p-3 bg-white">
-  <div class="mb-3">
-    <fa-icon class="logo mr-3"
-             [icon]="cardIcon" size="2x"></fa-icon>
-    <span class="card-number">{{ card?.CardType }} ending in:</span>
-    <span class="card-number font-weight-bold">{{ card?.PartialAccountNumber }}</span>
-    <span class="float-right text-danger delete"
-          title="Delete"
-          *ngIf="!hideDelete"
-          (click)="deleteCard()"><fa-icon [icon]="faTrashAlt"></fa-icon></span>
+<div class="border shadow-sm p-2 row">
+  <shared-credit-card-icon class="col-md-1"
+                           [card]="card"
+                           size="2x"></shared-credit-card-icon>
+  <div class="col-md-7">
+    <div><b>XXXX-XXXX-XXXX-{{ card?.PartialAccountNumber }}</b></div>
+    <div>{{ card?.CardholderName }}</div>
+    <div><small>Expires: {{ card?.ExpirationDate | date:'MM/yy':'UTC' }}</small></div>
   </div>
-  <div class="row">
-    <div class="col-md-6">
-      {{ card?.CardholderName }}
-    </div>
-    <div class="col-md-6">
-      Expires: <span class="font-weight-bold">{{ card?.ExpirationDate | date:'MM/yy':'UTC' }}</span>
+  <div class="col-md-4">
+    <div class="float-right">
+      <!-- When creating an instance of this component, you may use transclusion to add action-buttons here -->
+      <ng-content select=[actions]></ng-content>
     </div>
   </div>
 </div>
