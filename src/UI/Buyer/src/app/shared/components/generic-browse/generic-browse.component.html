@@ -1,0 +1,10 @@
+<shared-search class="mt-1"
+               placeholderText="Search {{ searchPlaceholder }}..."
+               (searched)="requestOptionsUpdated.emit({ search: $event, page: undefined })"></shared-search>
+<ng-content></ng-content>
+<ngb-pagination *ngIf="meta?.TotalPages > 1"
+                class="d-flex justify-content-center"
+                [collectionSize]="meta.TotalCount"
+                [pageSize]="meta.PageSize"
+                [(page)]="meta.Page"
+                (pageChange)="requestOptionsUpdated.emit({ page: $event })"></ngb-pagination>

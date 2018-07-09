@@ -66,6 +66,7 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { ProductCarouselComponent } from './components/product-carousel/product-carousel.component';
 import { TemplateDropdownComponent } from './components/template-dropdown/template-dropdown.component';
 import { MapToIterablePipe } from '@app/shared/pipes/map-to-iterable/map-to-iterable.pipe';
+import { GenericBrowseComponent } from './components/generic-browse/generic-browse.component';
 
 @NgModule({
   imports: [
@@ -133,7 +134,8 @@ import { MapToIterablePipe } from '@app/shared/pipes/map-to-iterable/map-to-iter
     ToggleFavoriteComponent,
     ProductCardComponent,
     ProductCarouselComponent,
-    TemplateDropdownComponent
+    TemplateDropdownComponent,
+    GenericBrowseComponent
   ],
   declarations: [
     RegisterComponent,
@@ -157,7 +159,8 @@ import { MapToIterablePipe } from '@app/shared/pipes/map-to-iterable/map-to-iter
     ToggleFavoriteComponent,
     ProductCardComponent,
     ProductCarouselComponent,
-    TemplateDropdownComponent
+    TemplateDropdownComponent,
+    GenericBrowseComponent
   ],
 
   /**
