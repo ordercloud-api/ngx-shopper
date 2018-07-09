@@ -6,6 +6,16 @@ import { flatMap } from 'rxjs/operators';
 import { CreateCardDetails, AuthorizeCardSuccess, CreateCardResponse } from './authorize-net.interface';
 import { TokenService, Payment, PaymentService, Order, OrderService, BuyerCreditCard } from '@ordercloud/angular-sdk';
 
+/**
+ *  OrderCloud does not store full credit card details or process finacial transactions.
+ *  An integration with a third party service is required for these features.
+ *  This service is an example of such an integration using Authorize.net
+ * (https://developer.authorize.net/api/reference/index.html)
+ *
+ *  Note: we strongly recommend doing such integrations server-side. Eventually, a server-side example may be added.
+ * */
+
+
 @Injectable()
 export class AuthorizeNetService {
 
@@ -71,6 +81,10 @@ export class AuthorizeNetService {
     });
   }
 
+  /**
+   * The CaptureTransaction() method should remain commented out until Jeff confirms that the OC Auth.net integration is production-ready.
+   *
+
   CaptureTransaction(orderId: string, paymentId: string) {
     return this.post({
       BuyerID: this.appConfig.appname,
@@ -82,6 +96,9 @@ export class AuthorizeNetService {
       }
     });
   }
+
+  */
+
   /**
     The OC API integration with Authorize.Net is still working through some bugs. One involves existing Payments.
     This function wraps AuthorizeCardOnOrder() with the calls needed to work around this bug.
