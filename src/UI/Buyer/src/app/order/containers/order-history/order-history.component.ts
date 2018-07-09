@@ -29,41 +29,31 @@ export class OrderHistoryComponent implements OnInit {
       this.listFavoriteOrders().subscribe(x => this.favoriteOrders = x);
   }
 
-  protected sortOrders(sortBy: string): void {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, sortBy };
+  protected sortOrders(sortBy: string): void { this.addQueryParam({ sortBy }); }
+
+  protected changePage(page: number): void { this.addQueryParam({ page }); }
+
+  protected filterBySearch(search: string): void { this.addQueryParam({ search, page: undefined }); }
+
+  protected filterByStatus(status: OrderStatus): void { this.addQueryParam({ status }); }
+
+  protected filterByDate(datesubmitted: string[]): void { this.addQueryParam({ datesubmitted }); }
+
+  private addQueryParam(newParam: object): void {
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams, ...newParam};
     this.router.navigate([], { queryParams });
   }
 
-  protected changePage(page: number): void {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, page };
-    this.router.navigate([], { queryParams });
-  }
-
-  protected filterBySearch(search: string): void {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, search, page: undefined };
-    this.router.navigate([], { queryParams });
-  }
-
-  protected filterByStatus(status: OrderStatus): void {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, status };
-    this.router.navigate([], { queryParams });
-  }
-
-  protected filterByDate(datesubmitted: string[]): void {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, datesubmitted };
-    this.router.navigate([], { queryParams });
-  }
-
-  protected filterByFavorite(favoritesOnly) {
+  protected filterByFavorite(favoritesOnly: boolean): void {
     this.showfavoritesOnly = favoritesOnly;
     this.orders$ = this.listOrders();
   }
 
-  protected updateFavorite($event) {
-    if ($event.isFav) {
-      this.favoriteOrders.push($event.orderId);
+  protected updateFavorite(isFavorite: boolean, orderID: string) {
+    if (isFavorite) {
+      this.favoriteOrders.push(orderID);
     } else {
-      this.favoriteOrders = this.favoriteOrders.filter(x => x !== $event.orderId);
+      this.favoriteOrders = this.favoriteOrders.filter(x => x !== orderID);
     }
     this.meService.Patch({ xp: { FavoriteOrders: this.favoriteOrders } }).subscribe(me => {
       this.favoriteOrders = me.xp.FavoriteOrders;

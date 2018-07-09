@@ -30,8 +30,8 @@
 
       <strong>Total</strong> <span class="float-right">{{order.Total | currency}}</span>
       <hr>
-      <!-- <order-payment-list *ngIf="payments$ | async; let payments"
-                          [payments]="payments"></order-payment-list> -->
+      <order-payment-list *ngIf="payments$ | async; let payments"
+                          [payments]="payments"></order-payment-list>
     </div>
   </div>
   <shared-lineitem-list-wrapper>

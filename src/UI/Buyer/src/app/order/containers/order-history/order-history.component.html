@@ -23,5 +23,5 @@
                   [favoriteOrders]="favoriteOrders"
                   (updatedSort)="sortOrders($event)"
                   (changedPage)="changePage($event)"
-                  (favoriteChanged)="updateFavorite($event)">
+                  (favoriteChanged)="updateFavorite($event.isFavorite, $event.orderID)">
 </order-order-list>

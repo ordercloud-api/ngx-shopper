@@ -84,27 +84,23 @@ export class ProductListComponent implements OnInit {
   }
 
   changePage(page: number) {
-    const queryParams: any = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.page = page;
-    this.router.navigate([], { queryParams: queryParams });
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams, page };
+    this.router.navigate([], { queryParams });
   }
 
-  changeCategory(catID: string) {
-    const queryParams: any = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.category = catID;
-    this.router.navigate([], { queryParams: queryParams });
+  changeCategory(category: string) {
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams, category };
+    this.router.navigate([], { queryParams });
   }
 
   clearSearch() {
-    const queryParams: any = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.search = '';
-    this.router.navigate([], { queryParams: queryParams });
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams, search: '' };
+    this.router.navigate([], { queryParams });
   }
 
   sortStratChanged() {
-    const queryParams: any = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.sortBy = this.sortForm.value.sortBy;
-    this.router.navigate([], { queryParams: queryParams });
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams, sortBy: this.sortForm.value.sortBy };
+    this.router.navigate([], { queryParams });
   }
 
   isProductFav(prod: BuyerProduct): boolean {
