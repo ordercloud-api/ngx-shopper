@@ -1,7 +1,8 @@
 <form (ngSubmit)="onSubmit()"
       novalidate
       [formGroup]="addressForm"
-      name="RegisterForm">
+      name="RegisterForm"
+      class="text-center">
   <div class="row">
     <div [hidden]="true"
          class="col-md-6 form-group">
@@ -83,6 +84,8 @@
           <option [ngValue]="null" disabled>State</option>
           <option *ngFor="let State of stateOptions" [value]="State">{{ State }}</option>
         </select>
+      <span *ngIf="hasRequiredError('State')"
+            class="error-message">State is required</span>
     </div>
     <div class="col-md-3 form-group">
       <label class="sr-only"
@@ -100,6 +103,18 @@
   <div class="row">
     <div class="col-md-6 form-group">
       <label class="sr-only"
+             for="country">Country</label>
+      <select formControlName="Country"
+              class="form-control"
+              id="Country">
+         <option [ngValue]="null" disabled>Country</option>
+         <option *ngFor="let country of countryOptions" [value]="country.abbreviation">{{ country.label }}</option>
+       </select>
+      <span *ngIf="hasRequiredError('Country')"
+            class="error-message">Country is required</span>
+    </div>
+    <div class="col-md-6 form-group">
+      <label class="sr-only"
              for="Phone">Phone Number</label>
       <input type="text"
              formControlName="Phone"
@@ -110,18 +125,6 @@
              autocomplete="off" />
       <span *ngIf="hasRequiredError('Phone')"
             class="error-message">Phone is required</span>
-    </div>
-    <div class="col-md-6 form-group">
-      <label class="sr-only"
-             for="Email">Email</label>
-      <input type="email"
-             formControlName="Email"
-             class="form-control"
-             id="Email"
-             placeholder="Email"
-             autocomplete="off" />
-      <span *ngIf="hasValidEmailError('Email')"
-            class="error-message">Please enter valid Email</span>
     </div>
   </div>
   <button type="submit"

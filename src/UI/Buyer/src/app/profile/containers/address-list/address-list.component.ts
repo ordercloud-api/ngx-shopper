@@ -18,9 +18,11 @@ export class AddressListComponent implements OnInit {
   addresses: ListBuyerAddress;
   currentAddress: BuyerAddress;
   showEdit = false;
+  requestOptions: { page?: number, search?: string } = { page: undefined, search: undefined };
 
   constructor(
-    private meService: MeService) { }
+    private meService: MeService
+  ) { }
 
   ngOnInit() {
     this.reloadAddresses();
@@ -71,6 +73,11 @@ export class AddressListComponent implements OnInit {
       });
   }
 
+  protected updateRequestOptions(newOptions: { page?: number, search?: string }) {
+    this.requestOptions = Object.assign(this.requestOptions, newOptions);
+    this.reloadAddresses();
+  }
+
   protected deleteAddress(address: BuyerAddress) {
     this.meService.DeleteAddress(address.ID).subscribe(
       () => {
@@ -81,7 +88,7 @@ export class AddressListComponent implements OnInit {
   }
 
   private reloadAddresses() {
-    this.meService.ListAddresses().subscribe(res => this.addresses = res);
+    this.meService.ListAddresses({ ...this.requestOptions, pageSize: 1 }).subscribe(res => this.addresses = res);
   }
 
 }
