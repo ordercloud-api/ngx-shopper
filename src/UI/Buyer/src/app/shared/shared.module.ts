@@ -30,6 +30,7 @@ import { BaseResolveService } from './services/base-resolve/base-resolve.service
 import { OcLineItemService } from './services/oc-line-item/oc-line-item.service';
 import { AuthorizeNetService } from './services/authorize-net/authorize-net.service';
 import { OcFormErrorService } from './services/oc-form-error/oc-form-error.service';
+import { ModalService } from '@app/shared/services/modal/modal.service';
 
 // pipes
 import { NavBrandsPipe } from './pipes/navigation/nav-brands.pipe';
@@ -67,6 +68,8 @@ import { ProductCarouselComponent } from './components/product-carousel/product-
 import { TemplateDropdownComponent } from './components/template-dropdown/template-dropdown.component';
 import { MapToIterablePipe } from '@app/shared/pipes/map-to-iterable/map-to-iterable.pipe';
 import { GenericBrowseComponent } from './components/generic-browse/generic-browse.component';
+import { ModalComponent } from '@app/shared/components/modal/modal.component';
+
 
 @NgModule({
   imports: [
@@ -135,7 +138,8 @@ import { GenericBrowseComponent } from './components/generic-browse/generic-brow
     ProductCardComponent,
     ProductCarouselComponent,
     TemplateDropdownComponent,
-    GenericBrowseComponent
+    GenericBrowseComponent,
+    ModalComponent
   ],
   declarations: [
     RegisterComponent,
@@ -160,7 +164,8 @@ import { GenericBrowseComponent } from './components/generic-browse/generic-brow
     ProductCardComponent,
     ProductCarouselComponent,
     TemplateDropdownComponent,
-    GenericBrowseComponent
+    GenericBrowseComponent,
+    ModalComponent
   ],
 
   /**
@@ -183,6 +188,7 @@ export class SharedModule {
         BaseResolveService,
         OcFormErrorService,
         OcLineItemService,
+        ModalService,
         PhoneFormatPipe,
         OrderStatusDisplayPipe,
         PaymentMethodDisplayPipe,

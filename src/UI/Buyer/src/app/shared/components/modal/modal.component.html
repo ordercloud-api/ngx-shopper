@@ -1,0 +1,15 @@
+<div class="shared-modal">
+  <div class="shared-modal-body rounded border shadow-lg">
+    <div class="row">
+      <h4 class="col-8">{{ modalTitle }}</h4>
+      <div class="col-4">
+        <fa-icon class="float-right icon-button--hover-reactive"
+                 (click)="close()"
+                 [icon]="faTimes"></fa-icon>
+      </div>
+    </div>
+    <hr>
+    <ng-content></ng-content>
+  </div>
+</div>
+<div class="shared-modal-background"></div>

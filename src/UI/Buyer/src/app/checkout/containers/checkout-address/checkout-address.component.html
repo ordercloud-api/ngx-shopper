@@ -1,23 +1,24 @@
 <div class="row">
   <div class="col-lg-8">
-    <form novalidate
-          [formGroup]="addressForm"
-          name="RegisterForm">
-      <div class="form-group"
-           *ngIf="!isAnon && existingAddresses && existingAddresses.Items.length > 0">
-        <select class="form-control"
-                formControlName="existingAddressId"
-                (change)="existingAddressSelected()">
-      <option [ngValue]="null" disabled>Choose a saved address...</option>
-      <option [ngValue]="address.ID" *ngFor="let address of  existingAddresses?.Items">
-      {{address.Street1}}, {{address.State}} {{address.Zip}}
-      </option>
-</select>
-      </div>
-    </form>
-    <hr>
     <shared-address-form [existingAddress]="selectedAddress"
                          (formSubmitted)="saveAddress($event)"
                          btnText="Save and Continue"></shared-address-form>
   </div>
 </div>
+<button (click)="openModal()">open</button>
+<shared-modal *ngIf="!isAnon && existingAddresses && existingAddresses.Items.length > 0"
+              id="oliver"
+              modalTitle="Select Address">
+  <shared-generic-browse [items]="existingAddresses?.Items"
+                         [meta]="existingAddresses?.Meta"
+                         searchPlaceholder="addresses"
+                         (requestOptionsUpdated)="updateRequestOptions($event)">
+    <ng-template let-address="item">
+      <shared-address-display [address]="address">
+        <div actions>
+          <a (click)="existingAddressSelected(address)">select</a>
+        </div>
+      </shared-address-display>
+    </ng-template>
+  </shared-generic-browse>
+</shared-modal>
