@@ -1,7 +1,14 @@
-<shared-search class="mt-1"
+<shared-search *ngIf="meta?.TotalPages > 1"
+               class="mt-1"
                placeholderText="Search {{ searchPlaceholder }}..."
                (searched)="requestOptionsUpdated.emit({ search: $event, page: undefined })"></shared-search>
-<ng-content></ng-content>
+<div class="my-3">
+  <div *ngFor="let item of items">
+    <ng-template [ngTemplateOutlet]="itemTemplate"
+                 [ngTemplateOutletContext]="{ item: item }">
+    </ng-template>
+  </div>
+</div>
 <ngb-pagination *ngIf="meta?.TotalPages > 1"
                 class="d-flex justify-content-center"
                 [collectionSize]="meta.TotalCount"

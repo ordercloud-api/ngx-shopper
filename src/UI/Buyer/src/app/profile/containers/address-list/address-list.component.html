@@ -11,31 +11,24 @@
 </div>
 <hr>
 <div *ngIf="!showEdit">
-  <shared-generic-browse [meta]="addresses?.Meta"
+  <shared-generic-browse [items]="addresses?.Items"
+                         [meta]="addresses?.Meta"
                          searchPlaceholder="addresses"
                          (requestOptionsUpdated)="updateRequestOptions($event)">
-  <div class="row pt-1 pb-1 mt-3 mb-3 bg-white"
-       *ngFor="let address of addresses?.Items">
-    <div class="col-8">
-      <div class="card">
-        <div class="card-body">
-          <shared-address-display [address]="address">
-            <div actions
-                 *ngIf="address.Editable">
-              <fa-icon class="text-danger ml-3 icon-button--hover-reactive"
-                       (click)="deleteAddress(address)"
-                       [icon]="faTrashAlt"></fa-icon>
-              <fa-icon class="text-primary ml-3 icon-button--hover-reactive"
-                       (click)="showEditAddress(address)"
-                       [icon]="faEdit"></fa-icon>
-            </div>
-          </shared-address-display>
+    <ng-template let-address="item">
+      <shared-address-display [address]="address">
+        <div actions
+             *ngIf="address.Editable">
+          <fa-icon class="text-danger ml-3 icon-button--hover-reactive"
+                   (click)="deleteAddress(address)"
+                   [icon]="faTrashAlt"></fa-icon>
+          <fa-icon class="text-primary ml-3 icon-button--hover-reactive"
+                   (click)="showEditAddress(address)"
+                   [icon]="faEdit"></fa-icon>
         </div>
-      </div>
-    </div>
-    <div class="col-4">
-    </div>
-  </div>
+      </shared-address-display>
+    </ng-template>
+
   </shared-generic-browse>
 </div>
 <div *ngIf="showEdit"

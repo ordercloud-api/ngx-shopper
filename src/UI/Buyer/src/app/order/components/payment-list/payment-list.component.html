@@ -6,7 +6,7 @@
     Purchase Order <small *ngIf="payment.Details.PONumber">{{payment.Details.PONumber}}</small>
   </span>
   <span *ngIf="payment.Type === 'SpendingAccount'">
-    Spending Account: {{Payment.Details.Name}}
+    Spending Account: {{ payment.Details.Name }}
   </span>
   <span class="float-right">-{{payment.Amount | currency}}</span>
 </div>

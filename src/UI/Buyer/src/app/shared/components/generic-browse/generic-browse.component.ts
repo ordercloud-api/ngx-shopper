@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef } from '@angular/core';
 import { Meta } from '@ordercloud/angular-sdk';
 
 @Component({
@@ -6,7 +6,7 @@ import { Meta } from '@ordercloud/angular-sdk';
   templateUrl: './generic-browse.component.html',
   styleUrls: ['./generic-browse.component.scss']
 })
-export class GenericBrowseComponent {
+export class GenericBrowseComponent<T> {
 
   /**
    *  Nearly every endpoint in the OrderCloud API can be passed a common set of options.
@@ -18,8 +18,10 @@ export class GenericBrowseComponent {
 
   constructor() { }
 
+  @Input() items: T[];
   @Input() meta: Meta;
   @Input() searchPlaceholder: string;
   @Output() requestOptionsUpdated = new EventEmitter<{ page?: number, search?: string }>();
+  @ContentChild(TemplateRef) itemTemplate;
 
 }

@@ -1,20 +1,14 @@
 <div *ngIf="order$ | async; let order">
   <div class="row mb-5">
     <div class="col-6">
-      <div class="card">
-        <div class="card-body pb-0">
-          <b>Shipping Address</b>
-          <shared-address-display [address]="(lineItems$ | async)?.Items[0].ShippingAddress"
-                                  *ngIf="order?.ShippingAddressID">
-          </shared-address-display>
-        </div>
-        <div class="card-body pb-0">
-          <b>Billing Address</b>
-          <shared-address-display [address]="order.BillingAddress"
-                                  *ngIf="order?.BillingAddress">
-          </shared-address-display>
-        </div>
-      </div>
+      <shared-address-display [address]="(lineItems$ | async)?.Items[0].ShippingAddress"
+                              addressTitle="Shipping Address"
+                              *ngIf="order?.ShippingAddressID">
+      </shared-address-display>
+      <shared-address-display [address]="order.BillingAddress"
+                              addressTitle="Billing Address"
+                              *ngIf="order?.BillingAddress">
+      </shared-address-display>
     </div>
     <div class="col-6">
       <div *ngIf="order.Comments"
@@ -34,8 +28,10 @@
                           [payments]="payments"></order-payment-list>
     </div>
   </div>
+  <shared-lineitem-list-wrapper>
     <shared-line-item-card *ngFor="let li of (lineItems$ | async)?.Items"
-                             [lineitem]="li"
-                             [productDetails]="li.Product"
-                             readOnly="true"></shared-line-item-card>
+                           [lineitem]="li"
+                           [productDetails]="li.Product"
+                           readOnly="true"></shared-line-item-card>
+  </shared-lineitem-list-wrapper>
 </div>

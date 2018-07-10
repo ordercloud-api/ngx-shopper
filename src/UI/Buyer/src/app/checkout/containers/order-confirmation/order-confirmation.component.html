@@ -18,29 +18,16 @@
     <div class="col-lg-6">
       <div class="row">
         <div class="col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <h5>Delivery Address</h5>
-            </div>
-            <div class="card-body">
-              <shared-address-display [address]="lineItems.Items[0].ShippingAddress"></shared-address-display>
-            </div>
-          </div>
+          <shared-address-display [address]="lineItems.Items[0].ShippingAddress"
+                                  addressTitle="Delivery Address"></shared-address-display>
         </div>
         <div class="col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <h5>Billing Address</h5>
-            </div>
-            <div class="card-body">
-              <shared-address-display [address]="order.BillingAddress"></shared-address-display>
-            </div>
-          </div>
+          <shared-address-display [address]="order.BillingAddress"
+                                  addressTitle="Billing Address"></shared-address-display>
         </div>
       </div>
     </div>
   </div>
-
   <div class="pb-2 mt-4 mb-2 border-bottom">
     <h4>Line Item Summary</h4>
   </div>
