@@ -9,6 +9,7 @@ import { Address } from '@ordercloud/angular-sdk';
 export class AddressDisplayComponent implements OnInit {
 
   @Input() address: Address;
+  @Input() addressTitle?: string;
 
   ngOnInit() {
     this.address['FullName'] = this.getFullName(this.address);
