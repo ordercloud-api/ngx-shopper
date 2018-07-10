@@ -19,6 +19,7 @@ export class AddressListComponent implements OnInit {
   currentAddress: BuyerAddress;
   showEdit = false;
   requestOptions: { page?: number, search?: string } = { page: undefined, search: undefined };
+  resultsPerPage = 8;
 
   constructor(
     private meService: MeService
@@ -88,7 +89,7 @@ export class AddressListComponent implements OnInit {
   }
 
   private reloadAddresses() {
-    this.meService.ListAddresses({ ...this.requestOptions, pageSize: 1 }).subscribe(res => this.addresses = res);
+    this.meService.ListAddresses({ ...this.requestOptions, pageSize: this.resultsPerPage }).subscribe(res => this.addresses = res);
   }
 
 }
