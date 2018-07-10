@@ -87,8 +87,6 @@ export class ProductListComponent implements OnInit {
 
   changeCategory(category: string): void { this.addQueryParam({ category }); }
 
-  clearSearch(): void { this.addQueryParam({ search: '' }); }
-
   sortStratChanged(): void { this.addQueryParam({ sortBy: this.sortForm.value.sortBy }); }
 
   private addQueryParam(newParam: object): void {

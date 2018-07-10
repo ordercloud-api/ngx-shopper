@@ -1,9 +1,9 @@
-<shared-search *ngIf="meta?.TotalPages > 1"
-               class="mt-1 oliver"
+<shared-search class="mt-1"
                placeholderText="Search {{ searchPlaceholder }}..."
                (searched)="requestOptionsUpdated.emit({ search: $event, page: undefined })"></shared-search>
-<div class="my-3">
-  <div *ngFor="let item of items">
+<div class="my-3 row">
+  <div *ngFor="let item of items"
+       class="col-lg-6 col-md-6 col-sm-12">
     <ng-template [ngTemplateOutlet]="itemTemplate"
                  [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
