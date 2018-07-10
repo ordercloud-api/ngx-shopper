@@ -4,10 +4,11 @@ import { GenericBrowseComponent } from './generic-browse.component';
 import {  Directive, Input, Output, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-fdescribe('GenericBrowseComponent', () => {
+describe('GenericBrowseComponent', () => {
   let component: GenericBrowseComponent<any>;
   let fixture: ComponentFixture<GenericBrowseComponent<any>>;
 
+  /* tslint:disable: directive-selector */
   @Directive({
     selector: 'shared-search'
   })
@@ -25,6 +26,7 @@ fdescribe('GenericBrowseComponent', () => {
     @Input() page: number;
     @Output() pageChange = new EventEmitter<number>();
   }
+  /* tslint:enable: directive-selector */
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
