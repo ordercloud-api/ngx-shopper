@@ -2,8 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CheckoutSectionBaseComponent } from '@app/checkout/components/checkout-section-base/checkout-section-base.component';
 import { forkJoin, Observable } from 'rxjs';
 import { MeService, ListBuyerAddress, OrderService, Order, BuyerAddress, ListLineItem } from '@ordercloud/angular-sdk';
-import { AppStateService } from '@app/shared';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { AppStateService, ModalService } from '@app/shared';
 
 @Component({
   selector: 'checkout-address',
@@ -18,13 +17,14 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
   selectedAddress: BuyerAddress;
   order: Order;
   lineItems: ListLineItem;
-  addressForm: FormGroup;
+  resultsPerPage = 8;
+  requestOptions = {page: undefined, search: undefined };
 
   constructor(
     private meService: MeService,
     private orderService: OrderService,
     private appStateService: AppStateService,
-    private formBuilder: FormBuilder
+    private modalService: ModalService
   ) {
     super();
   }
@@ -35,13 +35,21 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
     }
 
     this.setSelectedAddress();
-    this.setForm();
+  }
+
+  openModal() {
+    this.modalService.open('oliver');
+  }
+
+  updateRequestOptions(options: { page: number, search: string }) {
+    this.requestOptions = options;
+    this.getSavedAddresses();
   }
 
   private getSavedAddresses() {
     const filters = {};
     filters[this.addressType] = true;
-    this.meService.ListAddresses({ filters })
+    this.meService.ListAddresses({ filters, ...this.requestOptions, pageSize: this.resultsPerPage })
       .subscribe(addressList => this.existingAddresses = addressList);
   }
 
@@ -54,15 +62,9 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
       this.lineItems.Items[0].ShippingAddress; // shipping address is defined at the line item level
   }
 
-  private setForm() {
-    this.addressForm = this.formBuilder.group({
-      existingAddressId: this.order[`${this.addressType}AddressID`] || null
-    });
-  }
-
-  existingAddressSelected() {
-    const addressId = this.addressForm.value.existingAddressId;
-    this.selectedAddress = this.existingAddresses.Items.find(x => x.ID === addressId);
+  existingAddressSelected(address: BuyerAddress) {
+    this.selectedAddress = address;
+    this.modalService.close('oliver');
   }
 
   saveAddress(address) {

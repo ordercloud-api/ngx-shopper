@@ -27,6 +27,7 @@ export * from './services/base-resolve/base-resolve.service';
 export * from './services/oc-form-error/oc-form-error.service';
 export * from './services/oc-geography/oc-geography.service';
 export * from './services/oc-line-item/oc-line-item.service';
+export * from './services/modal/modal.service';
 
 // validators
 export * from './validators/oc-match-fields/oc-match-fields.validator';
