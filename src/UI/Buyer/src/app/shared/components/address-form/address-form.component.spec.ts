@@ -51,9 +51,7 @@ describe('AddressFormComponent', () => {
       State: 'MN',
       Zip: '56001',
       Phone: '555-555-5555',
-      xp: {
-        Email: 'cramirez@four51.com'
-      }
+      Country: 'US'
     };
     fixture.detectChanges();
   });
@@ -72,13 +70,13 @@ describe('AddressFormComponent', () => {
         ID: '',
         FirstName: 'Crhistian',
         LastName: 'Ramirez',
-        Email: 'cramirez@four51.com',
         Street1: '404 5th st sw',
         Street2: '',
         City: 'Minneapolis',
         State: 'MN',
         Zip: '56001',
-        Phone: '555-555-5555'
+        Phone: '555-555-5555',
+        Country: 'US'
       });
     });
   });
@@ -93,7 +91,6 @@ describe('AddressFormComponent', () => {
       expect(formErrorService.displayFormErrors).toHaveBeenCalled();
     });
     it('should emit formSubmitted event', () => {
-      component.addressForm.controls['Email'].setValue('crhistian@gmail.com');
       component['onSubmit']();
       expect(component.formSubmitted.emit).toHaveBeenCalledWith({
         ID: '',
@@ -106,9 +103,6 @@ describe('AddressFormComponent', () => {
         Zip: '56001',
         Phone: '555-555-5555',
         Country: 'US',
-        xp: {
-          Email: 'crhistian@gmail.com'
-        }
       });
     });
   });

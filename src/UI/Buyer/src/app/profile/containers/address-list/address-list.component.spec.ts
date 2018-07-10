@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
 import { MeService } from '@ordercloud/angular-sdk';
 import { AddressFormComponent } from '@app/shared/components/address-form/address-form.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AddressListComponent', () => {
   let component: AddressListComponent;
@@ -34,7 +35,8 @@ describe('AddressListComponent', () => {
       providers: [
         { provide: MeService, useValue: meService },
         { provide: ToastrService, useValue: toastrService }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     })
       .compileComponents();
   }));
@@ -125,6 +127,22 @@ describe('AddressListComponent', () => {
     });
     it('should call meService.ListAddresses', () => {
       expect(meService.ListAddresses).toHaveBeenCalled();
+    });
+  });
+
+  describe('updateRequestOptions', () => {
+    beforeEach(() => {
+      component.requestOptions = { page: undefined, search: undefined };
+    });
+    it('should pass page parameter', () => {
+      component['updateRequestOptions']({ page: 3 });
+      expect(component.requestOptions).toEqual({ search: undefined, page: 3 });
+      expect(meService.ListAddresses).toHaveBeenCalledWith({ search: undefined, page: 3, pageSize: component.resultsPerPage });
+    });
+    it('should pass search parameter', () => {
+      component['updateRequestOptions']({ search: 'searchTerm' });
+      expect(component.requestOptions).toEqual({ search: 'searchTerm', page: undefined });
+      expect(meService.ListAddresses).toHaveBeenCalledWith({ search: 'searchTerm', page: undefined, pageSize: component.resultsPerPage });
     });
   });
 });
