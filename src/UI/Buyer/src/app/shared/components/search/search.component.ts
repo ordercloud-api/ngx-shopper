@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { debounceTime, takeWhile } from 'rxjs/operators';
 
 @Component({
@@ -13,6 +13,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   @Input() placeholderText?: string;
   @Output() searched = new EventEmitter<string>();
   faSearch = faSearch;
+  faTimes = faTimes;
   form: FormGroup;
 
   constructor(
@@ -42,6 +43,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       searchTerm = undefined;
     }
     this.searched.emit(searchTerm);
+  }
+
+  showClear(): boolean {
+    return this.form.get('search').value !== '';
+  }
+
+  clear(): void {
+    this.form.setValue({ search: ''});
   }
 
   ngOnDestroy() {

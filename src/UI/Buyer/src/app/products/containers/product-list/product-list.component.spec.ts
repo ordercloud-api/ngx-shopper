@@ -131,14 +131,6 @@ describe('ProductListComponent', () => {
     });
   });
 
-  describe('clearSearch', () => {
-    it('should reload state with no search', () => {
-      const navigateSpy = spyOn((<any>component).router, 'navigate');
-      component.clearSearch();
-      expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: { category: 'CategoryID', search: '' } });
-    });
-  });
-
   describe('sortStratChanged', () => {
     it('should reload state with no search', () => {
       const navigateSpy = spyOn((<any>component).router, 'navigate');

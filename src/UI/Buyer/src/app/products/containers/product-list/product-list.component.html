@@ -9,14 +9,6 @@
        [queryParams]="{ category: cat.ID }"
        [routerLink]="['/products']">{{ cat.Name }}</a>
   </nav>
-  <div class="mb-3"
-       *ngIf="searchTerm != null">
-    <h5 class="m-2"><b>Search Results: "{{ searchTerm }}"</b>
-      <fa-icon class="ml-3 text-danger"
-               (click)="clearSearch()"
-               [icon]="closeIcon"></fa-icon>
-    </h5>
-  </div>
   <div class="row">
     <div class="col-md-4 col-lg-3 d-md-block d-sm-none d-none">
       <products-category-nav *ngIf="categories"
