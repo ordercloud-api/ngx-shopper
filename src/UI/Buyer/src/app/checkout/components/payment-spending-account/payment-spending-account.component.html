@@ -1,16 +1,33 @@
-<div *ngIf="spendingAccounts$ | async; let accounts">
-  <shared-template-dropdown [items]="accounts.Items"
-                            [value]="selectedSpendingAccount"
-                            (valueChange)="accountSelected($event)"
-                            placeholder="Select a spending account">
-    <ng-template let-account="item">
-      <div class="border p-2 m-2">
-        <div><b>{{ account.Name }}</b></div>
-        <div>Balance: <b class="text-success">{{ account.Balance | currency }}</b></div>
-      </div>
-    </ng-template>
-
-  </shared-template-dropdown>
+<div *ngIf="spendingAccounts">
+  <div *ngIf="selectedSpendingAccount"
+       class="border p-2 m-2">
+    <div><b>{{ selectedSpendingAccount.Name }}</b></div>
+    <div>Balance: <b class="text-success">{{ selectedSpendingAccount.Balance | currency }}</b></div>
+  </div>
+  <shared-modal id="{{ modalID }}"
+                modalTitle="Select Spending Account">
+    <shared-generic-browse [items]="spendingAccounts.Items"
+                           [meta]="spendingAccounts.Meta"
+                           [numColumns]="1"
+                           searchPlaceholder="accounts"
+                           (requestOptionsUpdated)="updateRequestOptions($event)">
+      <ng-template let-account="item">
+        <div class="border p-2 m-2 row">
+          <div class="col-8">
+            <div><b>{{ account.Name }}</b></div>
+            <div>Balance: <b class="text-success">{{ account.Balance | currency }}</b></div>
+          </div>
+          <div class="col-4">
+            <a href="javascript:void(0)"
+               class="float-right"
+               (click)="accountSelected(account)">Select</a>
+          </div>
+        </div>
+      </ng-template>
+    </shared-generic-browse>
+  </shared-modal>
+  <button class="btn btn-primary mt-3"
+          (click)="validateAndContinue()">Save and Continue</button>
+  <button class="btn btn-secondary mt-3 float-right"
+          (click)="modalService.open(modalID)">Change Account</button>
 </div>
-<button class="btn btn-primary mt-3"
-        (click)="validateAndContinue()">Save and Continue</button>

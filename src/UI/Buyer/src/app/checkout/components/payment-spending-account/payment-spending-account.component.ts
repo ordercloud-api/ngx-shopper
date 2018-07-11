@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentBaseComponent } from '@app/checkout/components/payment-base/payment-base.component';
 import { Observable } from 'rxjs';
 import { SpendingAccount, ListSpendingAccount, MeService, Payment } from '@ordercloud/angular-sdk';
-import { tap } from 'rxjs/operators';
 import * as moment from 'moment';
+import { ModalService } from '@app/shared';
 
 @Component({
   selector: 'checkout-payment-spending-account',
@@ -12,19 +12,31 @@ import * as moment from 'moment';
 })
 export class PaymentSpendingAccountComponent extends PaymentBaseComponent implements OnInit {
 
-  spendingAccounts$: Observable<ListSpendingAccount>;
+  spendingAccounts: ListSpendingAccount;
   selectedSpendingAccount: SpendingAccount = null;
+  requestOptions = { page: undefined, search: undefined };
+  modalID = 'checkout-select-spending-account';
 
-  constructor(private meService: MeService) {
+  constructor(
+    private meService: MeService,
+    private modalService: ModalService) {
     super();
   }
 
   ngOnInit() {
+    this.listSpendingAccounts().subscribe(accounts => {
+      this.spendingAccounts = accounts;
+      this.selectedSpendingAccount = this.getSavedSpendingAccount(accounts);
+      if (!this.selectedSpendingAccount) {
+        this.modalService.open(this.modalID);
+      }
+    });
+  }
+
+  listSpendingAccounts(): Observable<ListSpendingAccount> {
     const now = moment().format('YYYY-MM-DD');
-    const dateFilter = { StartDate: `>${now}|!*`, EndDate: `<${now}|!*` };
-    this.spendingAccounts$ = this.meService.ListSpendingAccounts({ filters: dateFilter }).pipe(
-      tap(accounts => this.selectedSpendingAccount = this.getSavedSpendingAccount(accounts))
-    );
+    const filters = { StartDate: `>${now}|!*`, EndDate: `<${now}|!*` };
+    return this.meService.ListSpendingAccounts({ filters, ...this.requestOptions, pageSize: 6 });
   }
 
   getSavedSpendingAccount(accounts: ListSpendingAccount): SpendingAccount  {
@@ -38,6 +50,7 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
   }
 
   accountSelected(account: SpendingAccount): void {
+    this.modalService.close(this.modalID);
     this.selectedSpendingAccount = account;
     const payment: Payment = {
       Type: 'SpendingAccount',
@@ -55,6 +68,11 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
       throw Error('This spending account is not an allowed payment method.');
     }
     this.continue.emit();
+  }
+
+  updateRequestOptions(options: { search: string, page: number }) {
+    this.requestOptions = options;
+    this.listSpendingAccounts().subscribe(x => this.spendingAccounts = x);
   }
 
 }

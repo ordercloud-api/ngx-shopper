@@ -2,6 +2,18 @@ import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
 import { ModalService } from '@app/shared/services/modal/modal.service';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
+/**
+ * To use this ModalComponent add the following html to your template.
+ *
+ *  <shared-modal id="myId" modalTitle="My Modal">
+ *    <p>Hello World</p>
+ *  </shared-modal>
+ *
+ * Then open the modal with the following Javascript in the controller.
+ *
+ *  ModalService.open('myId')
+ */
+
 @Component({
     selector: 'shared-modal',
     templateUrl: './modal.component.html',
@@ -11,6 +23,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     @Input() id: string;
     @Input() modalTitle: string;
     private element: any;
+    public isOpen: boolean;
 
     faTimes = faTimes;
 
@@ -43,12 +56,14 @@ export class ModalComponent implements OnInit, OnDestroy {
 
     // open modal
     open(): void {
+        this.isOpen = true;
         this.element.style.display = 'block';
         document.body.classList.add('shared-modal-open');
     }
 
     // close modal
     close(): void {
+        this.isOpen = false;
         this.element.style.display = 'none';
         document.body.classList.remove('shared-modal-open');
     }
