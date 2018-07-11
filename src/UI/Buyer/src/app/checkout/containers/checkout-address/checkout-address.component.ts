@@ -19,6 +19,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
   lineItems: ListLineItem;
   resultsPerPage = 8;
   requestOptions = {page: undefined, search: undefined };
+  modalID = 'checkout-select-address';
 
   constructor(
     private meService: MeService,
@@ -38,7 +39,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
   }
 
   openModal() {
-    this.modalService.open('oliver');
+    this.modalService.open(this.modalID);
   }
 
   updateRequestOptions(options: { page: number, search: string }) {
@@ -64,7 +65,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
 
   existingAddressSelected(address: BuyerAddress) {
     this.selectedAddress = address;
-    this.modalService.close('oliver');
+    this.modalService.close(this.modalID);
   }
 
   saveAddress(address) {

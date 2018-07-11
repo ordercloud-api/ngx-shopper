@@ -1,13 +1,16 @@
 <div class="row">
   <div class="col-lg-8">
+    <button class="btn btn-secondary mb-3"
+            (click)="openModal()"
+            *ngIf="!isAnon && existingAddresses && existingAddresses.Items.length > 0">Select a saved address</button>
     <shared-address-form [existingAddress]="selectedAddress"
                          (formSubmitted)="saveAddress($event)"
                          btnText="Save and Continue"></shared-address-form>
   </div>
 </div>
-<button (click)="openModal()">open</button>
+
 <shared-modal *ngIf="!isAnon && existingAddresses && existingAddresses.Items.length > 0"
-              id="oliver"
+              id="{{ modalID }}"
               modalTitle="Select Address">
   <shared-generic-browse [items]="existingAddresses?.Items"
                          [meta]="existingAddresses?.Meta"
@@ -16,7 +19,8 @@
     <ng-template let-address="item">
       <shared-address-display [address]="address">
         <div actions>
-          <a (click)="existingAddressSelected(address)">select</a>
+          <a href="javascript:void(0)"
+             (click)="existingAddressSelected(address)">Select</a>
         </div>
       </shared-address-display>
     </ng-template>

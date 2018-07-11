@@ -19,9 +19,19 @@ export class GenericBrowseComponent<T> {
   constructor() { }
 
   @Input() items: T[];
+
+  // Information about pagination
   @Input() meta: Meta;
+
   @Input() searchPlaceholder: string;
+
+  // Display option - one or two columns. Default is two.
+  @Input() numColumns: 1 | 2 = 2;
+
+  // Event to capture search changes or page changes
   @Output() requestOptionsUpdated = new EventEmitter<{ page?: number, search?: string }>();
+
+  // References the html content inside the instance of the element
   @ContentChild(TemplateRef) itemTemplate;
 
 }
