@@ -94,6 +94,12 @@ export class ProductListComponent implements OnInit {
     this.router.navigate([], { queryParams });
   }
 
+  sortStratChanged() {
+    const queryParams: any = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams.sortBy = this.sortForm.value.sortBy;
+    this.router.navigate([], { queryParams: queryParams });
+  }
+
   isProductFav(prod: BuyerProduct): boolean {
     return this.favoriteProducts.indexOf(prod.ID) > -1;
   }

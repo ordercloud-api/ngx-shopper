@@ -142,6 +142,26 @@ describe('ProductListComponent', () => {
     });
   });
 
+  describe('sortStratChanged', () => {
+    it('should reload state with no search', () => {
+      const navigateSpy = spyOn((<any>component).router, 'navigate');
+      const newSort = '!Name';
+      component.sortForm.controls['sortBy'].setValue(newSort);
+      component.sortStratChanged();
+      const newQueryParams = Object.assign({}, mockQueryParams, { sortBy: newSort });
+      expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: newQueryParams });
+  describe('isProductFav', () => {
+    beforeEach(() => {
+      component.favoriteProducts = ['a', 'b', 'c'];
+    });
+    it('should return true for a favorite', () => {
+      expect(component.isProductFav({ ID: 'a' })).toEqual(true);
+    });
+    it('should return false for a non-favorite', () => {
+      expect(component.isProductFav({ ID: 'd' })).toEqual(false);
+    });
+  });
+
   describe('isProductFav', () => {
     beforeEach(() => {
       component.favoriteProducts = ['a', 'b', 'c'];
