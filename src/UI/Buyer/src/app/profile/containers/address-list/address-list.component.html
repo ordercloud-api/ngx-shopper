@@ -2,39 +2,31 @@
   <h3 class="col-6">Addresses</h3>
   <div class="col-6">
     <button (click)="showAddAddress()"
-            *ngIf="!showEdit"
             class="btn btn-primary float-right"><fa-icon [icon]="faPlus"></fa-icon> Add an Address</button>
-    <button (click)="hideEditOrAdd()"
-            *ngIf="showEdit"
-            class="btn btn-primary float-right"><fa-icon [icon]="faArrowLeft"></fa-icon> Back To List</button>
   </div>
 </div>
 <hr>
-<div *ngIf="!showEdit">
-  <shared-generic-browse [items]="addresses?.Items"
-                         [meta]="addresses?.Meta"
-                         searchPlaceholder="addresses"
-                         (requestOptionsUpdated)="updateRequestOptions($event)">
-    <ng-template let-address="item">
-      <shared-address-display [address]="address">
-        <div actions
-             *ngIf="address.Editable">
-          <fa-icon class="text-danger ml-3 icon-button--hover-reactive"
-                   (click)="deleteAddress(address)"
-                   [icon]="faTrashAlt"></fa-icon>
-          <fa-icon class="text-primary ml-3 icon-button--hover-reactive"
-                   (click)="showEditAddress(address)"
-                   [icon]="faEdit"></fa-icon>
-        </div>
-      </shared-address-display>
-    </ng-template>
-  </shared-generic-browse>
-</div>
-<div *ngIf="showEdit"
-     class="mx-auto "
-     style="max-width:600px;">
-  <h3 class="text-center text-muted mb-3">{{currentAddress ? 'Edit' : 'Add'}} Address</h3>
+<shared-generic-browse [items]="addresses?.Items"
+                       [meta]="addresses?.Meta"
+                       searchPlaceholder="addresses"
+                       (requestOptionsUpdated)="updateRequestOptions($event)">
+  <ng-template let-address="item">
+    <shared-address-display [address]="address">
+      <div actions
+           *ngIf="address.Editable">
+        <fa-icon class="text-danger ml-3 icon-button--hover-reactive"
+                 (click)="deleteAddress(address)"
+                 [icon]="faTrashAlt"></fa-icon>
+        <fa-icon class="text-primary ml-3 icon-button--hover-reactive"
+                 (click)="showEditAddress(address)"
+                 [icon]="faEdit"></fa-icon>
+      </div>
+    </shared-address-display>
+  </ng-template>
+</shared-generic-browse>
+<shared-modal id="{{ modalID }}"
+              modalTitle="{{ currentAddress ? 'Edit' : 'Add'}} Address">
   <shared-address-form (formSubmitted)="addressFormSubmitted($event)"
                        [existingAddress]="currentAddress"
                        [btnText]="currentAddress ? 'Save Changes' : 'Create Address'"></shared-address-form>
-</div>
+</shared-modal>
