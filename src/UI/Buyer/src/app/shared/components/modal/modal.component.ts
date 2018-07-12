@@ -22,17 +22,14 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 export class ModalComponent implements OnInit, OnDestroy {
     @Input() id: string;
     @Input() modalTitle: string;
-    private element: any;
     public isOpen: boolean;
 
     faTimes = faTimes;
 
     constructor(
         private modalService: ModalService,
-        private el: ElementRef
-    ) {
-        this.element = el.nativeElement;
-    }
+        private elementRef: ElementRef
+    ) { }
 
     ngOnInit(): void {
         // ensure id attribute exists
@@ -42,7 +39,7 @@ export class ModalComponent implements OnInit, OnDestroy {
         }
 
         // move element to bottom of page (just before </body>) so it can be displayed above everything else
-        document.body.appendChild(this.element);
+        document.body.appendChild(this.elementRef.nativeElement);
 
         // add self (this modal instance) to the modal service so it's accessible from controllers
         this.modalService.add(this);
@@ -51,20 +48,20 @@ export class ModalComponent implements OnInit, OnDestroy {
     // remove self from modal service when directive is destroyed
     ngOnDestroy(): void {
         this.modalService.remove(this.id);
-        this.element.remove();
+        this.elementRef.nativeElement.remove();
     }
 
     // open modal
     open(): void {
         this.isOpen = true;
-        this.element.style.display = 'block';
+        this.elementRef.nativeElement.style.display = 'block';
         document.body.classList.add('shared-modal-open');
     }
 
     // close modal
     close(): void {
         this.isOpen = false;
-        this.element.style.display = 'none';
+        this.elementRef.nativeElement.style.display = 'none';
         document.body.classList.remove('shared-modal-open');
     }
 }

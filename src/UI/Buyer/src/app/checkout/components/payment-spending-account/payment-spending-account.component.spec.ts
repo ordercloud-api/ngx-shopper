@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaymentSpendingAccountComponent } from './payment-spending-account.component';
-import { TemplateDropdownComponent } from '@app/shared/components/template-dropdown/template-dropdown.component';
 import { of } from 'rxjs';
 import { MeService } from '@ordercloud/angular-sdk';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -14,8 +13,7 @@ describe('PaymentSpendingAccountComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        PaymentSpendingAccountComponent,
-        TemplateDropdownComponent
+        PaymentSpendingAccountComponent
       ],
       imports: [FontAwesomeModule],
       providers: [
