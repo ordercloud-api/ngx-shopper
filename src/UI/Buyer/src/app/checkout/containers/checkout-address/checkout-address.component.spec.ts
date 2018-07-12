@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddressFormComponent } from '@app/shared/components/address-form/address-form.component';
 import { of, BehaviorSubject } from 'rxjs';
 import { MeService, OrderService } from '@ordercloud/angular-sdk';
-import { AppStateService, OcFormErrorService } from '@app/shared';
+import { AppStateService, OcFormErrorService, ModalService } from '@app/shared';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { OcGeographyService } from '@app/shared/services/oc-geography/oc-geography.service';
 import { CheckoutSectionBaseComponent } from '@app/checkout/components/checkout-section-base/checkout-section-base.component';
@@ -32,6 +32,8 @@ describe('CheckoutAddressComponent', () => {
   const mockLineItems = { Items: [{ ShippingAddress: { ID: 'mockShippingAddress' } }], Meta: {} };
   const appStateService = { orderSubject: new BehaviorSubject(mockOrder), lineItemSubject: new BehaviorSubject(mockLineItems) };
 
+  const modalService = { open: jasmine.createSpy('open'), close: jasmine.createSpy('close') };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -44,6 +46,7 @@ describe('CheckoutAddressComponent', () => {
       ],
       providers: [
         OcFormErrorService,
+        { provide: ModalService, useValue: modalService },
         { provide: MeService, useValue: meService },
         { provide: OrderService, useValue: orderService },
         { provide: AppStateService, useValue: appStateService },
@@ -70,7 +73,6 @@ describe('CheckoutAddressComponent', () => {
     beforeEach(() => {
       spyOn(component as any, 'getSavedAddresses');
       spyOn(component as any, 'setSelectedAddress');
-      spyOn(component as any, 'setForm');
     });
     it('should get saved addresses if user is profiled', () => {
       component.isAnon = false;
@@ -86,10 +88,6 @@ describe('CheckoutAddressComponent', () => {
       component.ngOnInit();
       expect(component['setSelectedAddress']).toHaveBeenCalled();
     });
-    it('should set form', () => {
-      component.ngOnInit();
-      expect(component['setForm']).toHaveBeenCalled();
-    });
   });
 
   describe('getSavedAddresses', () => {
@@ -99,12 +97,22 @@ describe('CheckoutAddressComponent', () => {
     it('should call ListAddresses with billing filter if addressType is Billing', () => {
       component.addressType = 'Billing';
       component['getSavedAddresses']();
-      expect(meService.ListAddresses).toHaveBeenCalledWith({ filters: { Billing: true } });
+      expect(meService.ListAddresses).toHaveBeenCalledWith({
+        filters: { Billing: true },
+        page: undefined,
+        search: undefined,
+        pageSize: component.resultsPerPage
+      });
     });
     it('should call ListAddresses with shiping filter if addressType is Shipping', () => {
       component.addressType = 'Shipping';
       component['getSavedAddresses']();
-      expect(meService.ListAddresses).toHaveBeenCalledWith({ filters: { Shipping: true } });
+      expect(meService.ListAddresses).toHaveBeenCalledWith({
+        filters: { Shipping: true },
+        page: undefined,
+        search: undefined,
+        pageSize: component.resultsPerPage
+      });
     });
   });
 
@@ -118,29 +126,6 @@ describe('CheckoutAddressComponent', () => {
       component.addressType = 'Shipping';
       component['setSelectedAddress']();
       expect(component.selectedAddress).toEqual(component.lineItems.Items[0].ShippingAddress);
-    });
-  });
-
-  describe('setForm', () => {
-    it('should set existingAddressId to ShippingAddressID if addressType is Shipping', () => {
-      component.addressType = 'Shipping';
-      component['setForm']();
-      expect(component.addressForm.value.existingAddressId).toBe(component.order.ShippingAddressID);
-    });
-    it('should set existingAddressId to BillingAddresssID if addressType is Billing', () => {
-      component.addressType = 'Billing';
-      component['setForm']();
-      expect(component.addressForm.value.existingAddressId).toBe(component.order.BillingAddressID);
-    });
-  });
-
-  describe('existingAddressSelected()', () => {
-    it('should use existingAddressId from form to select matching address from saved addresses', () => {
-      mockAddresses.Items.forEach(address => {
-        component.addressForm.setValue({ existingAddressId: address.ID });
-        component.existingAddressSelected();
-        expect(component.selectedAddress).toEqual(address);
-      });
     });
   });
 
@@ -213,4 +198,5 @@ describe('CheckoutAddressComponent', () => {
       expect(orderService.Patch).toHaveBeenCalledWith('outgoing', component.order.ID, { BillingAddressID: 'MockSavedAddress' });
     });
   });
+
 });

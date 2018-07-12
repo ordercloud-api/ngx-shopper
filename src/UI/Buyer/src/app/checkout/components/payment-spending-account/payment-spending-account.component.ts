@@ -14,8 +14,9 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
 
   spendingAccounts: ListSpendingAccount;
   selectedSpendingAccount: SpendingAccount = null;
-  requestOptions = { page: undefined, search: undefined };
+  requestOptions: { page?: number, search?: string } = { page: undefined, search: undefined };
   modalID = 'checkout-select-spending-account';
+  resultsPerPage = 6;
 
   constructor(
     private meService: MeService,
@@ -36,7 +37,7 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
   listSpendingAccounts(): Observable<ListSpendingAccount> {
     const now = moment().format('YYYY-MM-DD');
     const filters = { StartDate: `>${now}|!*`, EndDate: `<${now}|!*` };
-    return this.meService.ListSpendingAccounts({ filters, ...this.requestOptions, pageSize: 6 });
+    return this.meService.ListSpendingAccounts({ filters, ...this.requestOptions, pageSize: this.resultsPerPage });
   }
 
   getSavedSpendingAccount(accounts: ListSpendingAccount): SpendingAccount  {
@@ -70,8 +71,8 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
     this.continue.emit();
   }
 
-  updateRequestOptions(options: { search: string, page: number }) {
-    this.requestOptions = options;
+  updateRequestOptions(options: { search?: string, page?: number }) {
+    Object.assign(this.requestOptions, options);
     this.listSpendingAccounts().subscribe(x => this.spendingAccounts = x);
   }
 
