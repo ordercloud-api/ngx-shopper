@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddressListComponent } from './address-list.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AddressDisplayComponent } from '@app/shared/components/address-display/address-display.component';
-import { PhoneFormatPipe } from '@app/shared';
+import { PhoneFormatPipe, ModalService } from '@app/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
@@ -20,19 +20,20 @@ describe('AddressListComponent', () => {
     ListAddresses: jasmine.createSpy('ListAddresses').and.returnValue(of(null))
   };
 
+  const modalService = { open: jasmine.createSpy('open'), close: jasmine.createSpy('close') };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         PhoneFormatPipe,
-        AddressDisplayComponent,
         FaIconComponent,
         AddressListComponent,
-        AddressFormComponent,
       ],
       imports: [
         ReactiveFormsModule,
       ],
       providers: [
+        { provide: ModalService, useValue: modalService },
         { provide: MeService, useValue: meService },
         { provide: ToastrService, useValue: toastrService }
       ],
@@ -63,12 +64,11 @@ describe('AddressListComponent', () => {
 
   describe('showAddress', () => {
     beforeEach(() => {
-      component.showEdit = false;
       component.currentAddress = { ID: 'mockBuyerAddress' };
       component['showAddAddress']();
     });
-    it('should display edit mode', () => {
-      expect(component.showEdit).toBe(true);
+    it('should display modal', () => {
+      expect(modalService.open).toHaveBeenCalledWith(component.modalID);
     });
     it('should clear out current address', () => {
       expect(component.currentAddress).toBe(null);
@@ -78,27 +78,22 @@ describe('AddressListComponent', () => {
   describe('showEditAddress', () => {
     const mockEditAddress = { ID: 'mockEditAddress' };
     beforeEach(() => {
-      component.showEdit = false;
       component.currentAddress = null;
       component['showEditAddress'](mockEditAddress);
     });
-    it('should display edit mode', () => {
-      expect(component.showEdit).toBe(true);
+    it('should display modal', () => {
+      expect(modalService.open).toHaveBeenCalledWith(component.modalID);
     });
     it('should show edit address', () => {
       expect(component.currentAddress).toBe(mockEditAddress);
     });
   });
 
-  describe('hideEditorAdd', () => {
+  describe('refresh()', () => {
     beforeEach(() => {
       spyOn(component as any, 'reloadAddresses');
-      component.showEdit = false;
       component.currentAddress = { ID: 'mockBuyerAddress' };
-      component['hideEditOrAdd']();
-    });
-    it('should hide edit mode', () => {
-      expect(component.showEdit).toBe(false);
+      component['refresh']();
     });
     it('should clear out edit address', () => {
       expect(component.currentAddress).toBe(null);

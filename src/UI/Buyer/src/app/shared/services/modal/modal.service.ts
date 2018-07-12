@@ -29,10 +29,5 @@ export class ModalService {
             modal.close();
         });
     }
-
-    isOpen(id: string): boolean {
-        const modal: any = this.modals.filter(x => x.id === id)[0];
-        return modal ? modal.isOpen : false;
-    }
 }
 

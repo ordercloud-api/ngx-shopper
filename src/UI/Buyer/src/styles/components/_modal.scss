@@ -18,7 +18,7 @@ shared-modal {
         /* enables scrolling for tall modals */
         overflow: auto;
  
-        .shared-modal-body {
+        .shared-modal__body {
             max-width: 750px;
             margin-left: auto;
             margin-right: auto;
@@ -32,7 +32,7 @@ shared-modal {
         }
     }
  
-    .shared-modal-background {
+    .shared-modal__background {
         /* modal background fixed across whole screen */
         position: fixed;
         top: 0;
@@ -49,7 +49,7 @@ shared-modal {
     }
 }
  
-body.shared-modal-open {
+body.shared-modal--open {
     /* body overflow is hidden to hide main scrollbar when modal window is open */
     overflow: hidden;
 }

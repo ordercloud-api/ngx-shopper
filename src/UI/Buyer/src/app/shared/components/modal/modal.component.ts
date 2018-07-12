@@ -22,7 +22,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 export class ModalComponent implements OnInit, OnDestroy {
     @Input() id: string;
     @Input() modalTitle: string;
-    public isOpen: boolean;
+    public isOpen = false;
 
     faTimes = faTimes;
 
@@ -34,8 +34,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         // ensure id attribute exists
         if (!this.id) {
-            console.error('modal must have an id');
-            return;
+            throw Error('modal must have an id');
         }
 
         // move element to bottom of page (just before </body>) so it can be displayed above everything else
@@ -55,13 +54,13 @@ export class ModalComponent implements OnInit, OnDestroy {
     open(): void {
         this.isOpen = true;
         this.elementRef.nativeElement.style.display = 'block';
-        document.body.classList.add('shared-modal-open');
+        document.body.classList.add('shared-modal--open');
     }
 
     // close modal
     close(): void {
         this.isOpen = false;
         this.elementRef.nativeElement.style.display = 'none';
-        document.body.classList.remove('shared-modal-open');
+        document.body.classList.remove('shared-modal--open');
     }
 }

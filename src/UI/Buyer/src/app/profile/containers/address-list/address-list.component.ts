@@ -18,7 +18,6 @@ export class AddressListComponent implements OnInit {
   faEdit = faEdit;
   addresses: ListBuyerAddress;
   currentAddress: BuyerAddress;
-  showEdit = false;
   requestOptions: { page?: number, search?: string } = { page: undefined, search: undefined };
   resultsPerPage = 8;
   modalID = 'add-profile-address';

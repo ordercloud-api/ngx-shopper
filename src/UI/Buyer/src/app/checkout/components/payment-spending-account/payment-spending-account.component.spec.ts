@@ -4,11 +4,14 @@ import { PaymentSpendingAccountComponent } from './payment-spending-account.comp
 import { of } from 'rxjs';
 import { MeService } from '@ordercloud/angular-sdk';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ModalService } from '@app/shared';
 
 describe('PaymentSpendingAccountComponent', () => {
   let component: PaymentSpendingAccountComponent;
   let fixture: ComponentFixture<PaymentSpendingAccountComponent>;
   const meService = { ListSpendingAccounts: jasmine.createSpy('ListSpendingAccounts').and.callFake(() => of({ Items: [] })) };
+  const modalService = { open: jasmine.createSpy('open'), close: jasmine.createSpy('close') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,8 +20,10 @@ describe('PaymentSpendingAccountComponent', () => {
       ],
       imports: [FontAwesomeModule],
       providers: [
+        { provide: ModalService, useValue: modalService },
         { provide: MeService, useValue: meService }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     })
       .compileComponents();
   }));
@@ -58,8 +63,8 @@ describe('PaymentSpendingAccountComponent', () => {
       spyOn(component.paymentCreated, 'emit');
     });
     it('should emit a payment', () => {
-      component.accountSelected({ ID: '1'});
-      expect(component.paymentCreated.emit).toHaveBeenCalledWith( {
+      component.accountSelected({ ID: '1' });
+      expect(component.paymentCreated.emit).toHaveBeenCalledWith({
         Type: 'SpendingAccount',
         SpendingAccountID: '1',
         Accepted: true
@@ -78,15 +83,29 @@ describe('PaymentSpendingAccountComponent', () => {
       expect(() => component.validateAndContinue()).toThrow(new Error('This spending account has insuficient funds'));
     });
     it('should throw error if not allowed', () => {
-      component.selectedSpendingAccount = { AllowAsPaymentMethod: false,  Balance: 100  };
+      component.selectedSpendingAccount = { AllowAsPaymentMethod: false, Balance: 100 };
       fixture.detectChanges();
       expect(() => component.validateAndContinue()).toThrow(new Error('This spending account is not an allowed payment method.'));
     });
     it('should continue if no errors', () => {
-      component.selectedSpendingAccount = { AllowAsPaymentMethod: true,  Balance: 100  };
+      component.selectedSpendingAccount = { AllowAsPaymentMethod: true, Balance: 100 };
       fixture.detectChanges();
       component.validateAndContinue();
       expect(component.continue.emit).toHaveBeenCalled();
+    });
+  });
+
+  describe('updateRequestOptions', () => {
+    beforeEach(() => {
+      component.requestOptions = { page: undefined, search: undefined };
+    });
+    it('should pass page parameter', () => {
+      component['updateRequestOptions']({ page: 3 });
+      expect(component.requestOptions).toEqual({ search: undefined, page: 3 });
+    });
+    it('should pass search parameter', () => {
+      component['updateRequestOptions']({ search: 'searchTerm' });
+      expect(component.requestOptions).toEqual({ search: 'searchTerm', page: undefined });
     });
   });
 
