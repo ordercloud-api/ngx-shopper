@@ -150,77 +150,80 @@ describe('ProductListComponent', () => {
       component.sortStratChanged();
       const newQueryParams = Object.assign({}, mockQueryParams, { sortBy: newSort });
       expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: newQueryParams });
-  describe('isProductFav', () => {
-    beforeEach(() => {
-      component.favoriteProducts = ['a', 'b', 'c'];
     });
-    it('should return true for a favorite', () => {
-      expect(component.isProductFav({ ID: 'a' })).toEqual(true);
-    });
-    it('should return false for a non-favorite', () => {
-      expect(component.isProductFav({ ID: 'd' })).toEqual(false);
-    });
-  });
 
-  describe('isProductFav', () => {
-    beforeEach(() => {
-      component.favoriteProducts = ['a', 'b', 'c'];
+    describe('isProductFav', () => {
+      beforeEach(() => {
+        component.favoriteProducts = ['a', 'b', 'c'];
+      });
+      it('should return true for a favorite', () => {
+        expect(component.isProductFav({ ID: 'a' })).toEqual(true);
+      });
+      it('should return false for a non-favorite', () => {
+        expect(component.isProductFav({ ID: 'd' })).toEqual(false);
+      });
     });
-    it('should return true for a favorite', () => {
-      expect(component.isProductFav({ ID: 'a' })).toEqual(true);
-    });
-    it('should return false for a non-favorite', () => {
-      expect(component.isProductFav({ ID: 'd' })).toEqual(false);
-    });
-  });
 
-  describe('setProductAsFav', () => {
-    it('should remove fav correctly', () => {
-      component.favoriteProducts = ['a', 'b'];
-      component.setProductAsFav(false, 'a');
-      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['b'] } });
+    describe('isProductFav', () => {
+      beforeEach(() => {
+        component.favoriteProducts = ['a', 'b', 'c'];
+      });
+      it('should return true for a favorite', () => {
+        expect(component.isProductFav({ ID: 'a' })).toEqual(true);
+      });
+      it('should return false for a non-favorite', () => {
+        expect(component.isProductFav({ ID: 'd' })).toEqual(false);
+      });
     });
-    it('should add fav correctly', () => {
-      component.favoriteProducts = ['a', 'b'];
-      component.setProductAsFav(true, 'c');
-      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['a', 'b', 'c'] } });
-    });
-  });
 
-  describe('buildBreadCrumbs', () => {
-    it('should return an empty array when id is null', () => {
-      expect(component.buildBreadCrumbs(null)).toEqual([]);
+    describe('setProductAsFav', () => {
+      it('should remove fav correctly', () => {
+        component.favoriteProducts = ['a', 'b'];
+        component.setProductAsFav(false, 'a');
+        expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['b'] } });
+      });
+      it('should add fav correctly', () => {
+        component.favoriteProducts = ['a', 'b'];
+        component.setProductAsFav(true, 'c');
+        expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['a', 'b', 'c'] } });
+      });
     });
-    it('should return an empty array when categories are null', () => {
-      component.categories = null;
-      expect(component.buildBreadCrumbs('CategoryID')).toEqual([]);
-    });
-    it('should return a single crumb if no parentID', () => {
-      component.categories = { Items: [{ ID: 'CategoryID' }] };
-      expect(component.buildBreadCrumbs('CategoryID')).toEqual([{ ID: 'CategoryID' }]);
-    });
-    it('should build a long list of crumbs in correct order', () => {
-      component.categories = { Items: [{ ID: 'a', ParentID: 'b' }, { ID: 'b', ParentID: 'c' }, { ID: 'c' }, { ID: 'd' }] };
-      expect(component.buildBreadCrumbs('a')).toEqual([{ ID: 'c' }, { ID: 'b', ParentID: 'c' }, { ID: 'a', ParentID: 'b' }]);
-    });
-  });
 
-  describe('toProductDetails', () => {
-    const product = { ID: 'mockProductID' };
-    it('should navigate to product detail with product.ID as ID query param', () => {
-      const navigateSpy = spyOn((<any>component).router, 'navigate');
-      component.toProductDetails(product);
-      expect(navigateSpy).toHaveBeenCalledWith(['/products/detail'], { queryParams: { ID: product.ID } });
+    describe('buildBreadCrumbs', () => {
+      it('should return an empty array when id is null', () => {
+        expect(component.buildBreadCrumbs(null)).toEqual([]);
+      });
+      it('should return an empty array when categories are null', () => {
+        component.categories = null;
+        expect(component.buildBreadCrumbs('CategoryID')).toEqual([]);
+      });
+      it('should return a single crumb if no parentID', () => {
+        component.categories = { Items: [{ ID: 'CategoryID' }] };
+        expect(component.buildBreadCrumbs('CategoryID')).toEqual([{ ID: 'CategoryID' }]);
+      });
+      it('should build a long list of crumbs in correct order', () => {
+        component.categories = { Items: [{ ID: 'a', ParentID: 'b' }, { ID: 'b', ParentID: 'c' }, { ID: 'c' }, { ID: 'd' }] };
+        expect(component.buildBreadCrumbs('a')).toEqual([{ ID: 'c' }, { ID: 'b', ParentID: 'c' }, { ID: 'a', ParentID: 'b' }]);
+      });
     });
-  });
 
-  describe('addToCart', () => {
-    const mockEvent = { product: { ID: 'MockProduct' }, quantity: 3 };
-    beforeEach(() => {
-      component.addToCart(mockEvent);
+    describe('toProductDetails', () => {
+      const product = { ID: 'mockProductID' };
+      it('should navigate to product detail with product.ID as ID query param', () => {
+        const navigateSpy = spyOn((<any>component).router, 'navigate');
+        component.toProductDetails(product);
+        expect(navigateSpy).toHaveBeenCalledWith(['/products/detail'], { queryParams: { ID: product.ID } });
+      });
     });
-    it('should call ocLineItemService.Create', () => {
-      expect(ocLineItemService.create).toHaveBeenCalledWith(mockEvent.product, mockEvent.quantity);
+
+    describe('addToCart', () => {
+      const mockEvent = { product: { ID: 'MockProduct' }, quantity: 3 };
+      beforeEach(() => {
+        component.addToCart(mockEvent);
+      });
+      it('should call ocLineItemService.Create', () => {
+        expect(ocLineItemService.create).toHaveBeenCalledWith(mockEvent.product, mockEvent.quantity);
+      });
     });
   });
 });
