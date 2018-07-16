@@ -8,9 +8,10 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 })
 
 export class AdditionalImageGalleryComponent {
-  @Input() imgUrls: string[];
+  // gallerySize can be changed and the component logic + behavior will all work. However, the UI may look wonky.
+  private readonly gallerySize = 5;
 
-  private readonly gallerySize = 6;
+  @Input() imgUrls: string[];
   selectedIndex = 0;
   startIndex = 0;
   endIndex = this.gallerySize - 1;

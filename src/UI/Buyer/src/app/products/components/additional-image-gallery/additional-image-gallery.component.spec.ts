@@ -108,7 +108,7 @@ describe('AdditionalImageGalleryComponent', () => {
         it('should reset gallery to beginning if user forwards to last image', () => {
           expect(component.selectedIndex).toBe(0);
           expect(component.startIndex).toBe(0);
-          expect(component.endIndex).toBe(5);
+          expect(component.endIndex).toBe(component['gallerySize'] - 1);
         });
       });
     });

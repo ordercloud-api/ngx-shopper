@@ -22,12 +22,12 @@ describe('ProductDetailsComponent', () => {
   let fixture: ComponentFixture<ProductDetailsComponent>;
 
   const mockProductID = '41112-S000063105';
-  const mockProduct = of(<BuyerProduct>{ ID: mockProductID, xp: { RelatedProducts: [] }});
+  const mockProduct = of(<BuyerProduct>{ ID: mockProductID, xp: { RelatedProducts: [], additionalImages: [] }});
 
   const queryParams = new BehaviorSubject<any>({ ID: mockProductID });
   const activatedRoute = { navigate: jasmine.createSpy('navigate'), queryParams };
   const meService = { GetProduct: jasmine.createSpy('GetProduct').and.returnValue(of(mockProduct)) };
-  const ocLineItemService = { create: jasmine.createSpy('create').and.returnValue(of()) };
+  const ocLineItemService = { create: jasmine.createSpy('create').and.returnValue(of(null)) };
 
   beforeEach(
     async(() => {
