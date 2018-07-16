@@ -58,4 +58,8 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/home');
       });
   }
+
+  showRegisterLink(): boolean {
+    return this.isAnon && this.appConfig.anonymousShoppingEnabled;
+  }
 }
