@@ -1,6 +1,6 @@
 <section class="login">
   <div class="text-center">
-    <p *ngIf="isAnon">Don't have an account? <button type="button"
+    <p *ngIf="showRegisterLink()">Don't have an account? <button type="button"
               class="btn btn-link"
               routerLink="/register">Sign Up</button></p>
     <h1 class="display-4">{{appConfig.appname}}</h1>
