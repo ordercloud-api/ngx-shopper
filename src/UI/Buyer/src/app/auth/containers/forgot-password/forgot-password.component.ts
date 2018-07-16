@@ -35,7 +35,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.passwordResetService.SendVerificationCode({
       Email: this.resetEmailForm.get('email').value,
       ClientID: this.appConfig.clientID,
-      URL: this.appConfig.baseUrl
+      URL: window.location.origin
     }).subscribe(
       () => {
         this.toasterService.success('Password Reset Email Sent!');
