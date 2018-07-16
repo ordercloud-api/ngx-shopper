@@ -63,7 +63,6 @@ describe('ForgotPasswordComponent', () => {
   describe('onSubmit', () => {
     beforeEach(() => {
       component['appConfig'].clientID = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
-      component['appConfig'].baseUrl = 'test.com';
 
       component.onSubmit();
     });
@@ -71,7 +70,7 @@ describe('ForgotPasswordComponent', () => {
       expect(ocPasswordService.SendVerificationCode).toHaveBeenCalledWith({
         Email: '',
         ClientID: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-        URL: 'test.com'
+        URL: 'http://localhost:9876'
       });
       expect(toastrService.success).toHaveBeenCalledWith('Password Reset Email Sent!');
       expect(router.navigateByUrl).toHaveBeenCalledWith('/login');
