@@ -18,6 +18,7 @@ import { CheckoutPaymentComponent } from '@app/checkout/containers/checkout-paym
 import { PaymentPurchaseOrderComponent } from '@app/checkout/components/payment-purchase-order/payment-purchase-order.component';
 import { PaymentSpendingAccountComponent } from '@app/checkout/components/payment-spending-account/payment-spending-account.component';
 import { OrderConfirmationComponent } from '@app/checkout/containers/order-confirmation/order-confirmation.component';
+import { CheckoutConfirmComponent } from './components/checkout-confirm/checkout-confirm.component';
 
 @NgModule({
     imports: [
@@ -34,7 +35,8 @@ import { OrderConfirmationComponent } from '@app/checkout/containers/order-confi
         CheckoutPaymentComponent,
         PaymentPurchaseOrderComponent,
         PaymentSpendingAccountComponent,
-        OrderConfirmationComponent
+        OrderConfirmationComponent,
+        CheckoutConfirmComponent
     ]
 })
 export class CheckoutModule { }
