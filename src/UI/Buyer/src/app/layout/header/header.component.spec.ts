@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-import { HeaderComponent } from './header.component';
+import { HeaderComponent } from '@app/layout/header/header.component';
 import {
   AppStateService,
   NavBrandsPipe,

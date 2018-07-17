@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductListComponent } from './product-list.component';
+import { ProductListComponent } from '@app/products/containers/product-list/product-list.component';
 import {
   PageTitleComponent,
   OcLineItemService,

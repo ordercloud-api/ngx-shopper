@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CheckoutAddressComponent } from './checkout-address.component';
+import { CheckoutAddressComponent } from '@app/checkout/containers/checkout-address/checkout-address.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressFormComponent } from '@app/shared/components/address-form/address-form.component';
 import { of, BehaviorSubject } from 'rxjs';

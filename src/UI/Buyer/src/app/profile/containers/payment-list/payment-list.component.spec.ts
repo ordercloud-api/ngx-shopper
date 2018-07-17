@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentListComponent } from './payment-list.component';
+import { PaymentListComponent } from '@app/profile/containers/payment-list/payment-list.component';
 import { MeService } from '@ordercloud/angular-sdk';
 import { AuthorizeNetService, CreateCardDetails } from '@app/shared';
 import { NO_ERRORS_SCHEMA } from '@angular/core';

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderShipmentsComponent } from './order-shipments.component';
+import { OrderShipmentsComponent } from '@app/order/containers/order-shipments/order-shipments.component';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MeService } from '@ordercloud/angular-sdk';

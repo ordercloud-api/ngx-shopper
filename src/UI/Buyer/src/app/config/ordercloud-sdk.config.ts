@@ -1,4 +1,4 @@
-import { ocAppConfig } from './app.config';
+import { ocAppConfig } from '@app/config/app.config';
 import { Configuration } from '@ordercloud/angular-sdk';
 
 export function OcSDKConfig() {

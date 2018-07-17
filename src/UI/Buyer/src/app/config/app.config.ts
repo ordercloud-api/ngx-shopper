@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 export const applicationConfiguration = new InjectionToken<AppConfig>('app.config');
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
 import { PaymentMethod } from '@app/shared/models/payment-method.enum';
 
 export const ocAppConfig: AppConfig = {

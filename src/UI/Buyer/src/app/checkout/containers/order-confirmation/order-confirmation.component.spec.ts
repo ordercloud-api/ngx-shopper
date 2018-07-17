@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderConfirmationComponent } from './order-confirmation.component';
+import { OrderConfirmationComponent } from '@app/checkout/containers/order-confirmation/order-confirmation.component';
 import { ParamMap, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { OcLineItemService } from '@app/shared';
 import { OrderService } from '@ordercloud/angular-sdk';

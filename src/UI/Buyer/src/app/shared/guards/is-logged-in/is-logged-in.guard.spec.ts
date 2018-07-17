@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { IsLoggedInGuard } from './is-logged-in.guard';
+import { IsLoggedInGuard } from '@app/shared/guards/is-logged-in/is-logged-in.guard';
 import { AppAuthService } from '@app/auth';
 
 describe('IsLoggedInGuard', () => {

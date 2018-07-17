@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GenericBrowseComponent } from './generic-browse.component';
+import { GenericBrowseComponent } from '@app/shared/components/generic-browse/generic-browse.component';
 import {  Directive, Input, Output, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
