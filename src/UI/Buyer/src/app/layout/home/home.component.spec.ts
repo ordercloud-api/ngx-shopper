@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Configuration, MeService } from '@ordercloud/angular-sdk';
+import { Configuration, MeService, BuyerService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 import { InjectionToken } from '@angular/core';
 import { CookieModule } from 'ngx-cookie';
@@ -20,7 +20,9 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
 
   const mockProducts = { Items: [] };
+  const mockBuyer = { Items: [ { xp: {} }] };
   const meService = { ListProducts: jasmine.createSpy('ListProducts').and.returnValue(of(mockProducts)) };
+  const buyerService = { List: jasmine.createSpy('List').and.returnValue(of(mockBuyer)) };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,6 +43,7 @@ describe('HomeComponent', () => {
       providers: [
         NgbCarouselConfig,
         { provide: MeService, useValue: meService },
+        { provide: BuyerService, useValue: buyerService },
         { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
@@ -64,6 +67,7 @@ describe('HomeComponent', () => {
     });
     it('should call listProducts', () => {
       expect(meService.ListProducts).toHaveBeenCalled();
+      expect(buyerService.List).toHaveBeenCalled();
     });
   });
 });
