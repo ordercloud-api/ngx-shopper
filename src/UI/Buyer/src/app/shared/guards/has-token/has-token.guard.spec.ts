@@ -1,6 +1,6 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
-import { HasTokenGuard } from './has-token.guard';
+import { HasTokenGuard } from '@app/shared/guards/has-token/has-token.guard';
 import { TokenService } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
 import { AppAuthService } from '@app/auth';

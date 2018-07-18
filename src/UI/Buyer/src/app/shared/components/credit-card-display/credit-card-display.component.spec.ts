@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreditCardDisplayComponent } from './credit-card-display.component';
+import { CreditCardDisplayComponent } from '@app/shared/components/credit-card-display/credit-card-display.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { BuyerCreditCard } from '@ordercloud/angular-sdk';
 import { CreditCardIconComponent } from '@app/shared/components/credit-card-icon/credit-card-icon.component';

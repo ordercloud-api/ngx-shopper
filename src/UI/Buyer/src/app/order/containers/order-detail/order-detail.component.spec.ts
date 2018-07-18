@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderDetailComponent } from './order-detail.component';
+import { OrderDetailComponent } from '@app/order/containers/order-detail/order-detail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { OcLineItemService } from '@app/shared';
 import { of, Subject } from 'rxjs';
-import { OrderService, PaymentService, MeService } from '@ordercloud/angular-sdk';
+import { OrderService } from '@ordercloud/angular-sdk';
 import { ParamMap, ActivatedRoute, convertToParamMap } from '@angular/router';
+import { AppPaymentService } from '@app/shared/services/app-payment-service/app-payment.service';
 
 describe('OrderDetailComponent', () => {
   let component: OrderDetailComponent;
@@ -19,22 +20,8 @@ describe('OrderDetailComponent', () => {
     Get: jasmine.createSpy('Get').and.returnValue(of(null)),
     ListPromotions: jasmine.createSpy('ListPromotions').and.returnValue(of(null))
   };
-  const meService = {
-    GetCreditCard: jasmine.createSpy('GetCreditCard').and.callFake(cc => of(cc)),
-    GetSpendingAccount: jasmine.createSpy('GetSpendingAccount').and.callFake(sa => of(sa))
-  };
-  const paymentList = {
-    Items: [
-      { Type: 'CreditCard', CreditCardID: 'CreditCardOne' },
-      { Type: 'CreditCard', CreditCardID: 'CreditCardTwo' },
-      { Type: 'SpendingAccount', SpendingAccountID: 'SpendingAccountOne' },
-      { Type: 'SpendingAccount', SpendingAccountID: 'SpendingAccountTwo' },
-      { Type: 'PurchaseOrder', ID: 'PurchaseOrderOne', xp: { PONumber: '123456' } },
-    ]
-  };
-  const paymentService = {
-    List: jasmine.createSpy('List').and.returnValue(of(paymentList))
-  };
+  const appPaymentService = { getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)) };
+
   const paramMap = new Subject<ParamMap>();
 
   const activatedRoute = {
@@ -50,11 +37,10 @@ describe('OrderDetailComponent', () => {
         OrderDetailComponent,
       ],
       providers: [
-        { provide: PaymentService, useValue: paymentService },
         { provide: OcLineItemService, useValue: appLineItemService },
         { provide: OrderService, useValue: orderService },
         { provide: ActivatedRoute, useValue: activatedRoute },
-        { provide: MeService, useValue: meService },
+        { provide: AppPaymentService, useValue: appPaymentService }
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     })
@@ -103,21 +89,11 @@ describe('OrderDetailComponent', () => {
   });
 
   describe('getPayments', () => {
-    beforeEach(() => {
-      component.getPayments().subscribe();
-    });
-    it('should call paymentService.list', () => {
-      expect(paymentService.List).toHaveBeenCalled();
-    });
-    it('should call meService.GetCredit card for each cc payment', () => {
-      expect(meService.GetCreditCard).toHaveBeenCalledWith('CreditCardOne');
-      expect(meService.GetCreditCard).toHaveBeenCalledWith('CreditCardTwo');
-      expect(meService.GetCreditCard.calls.count()).toBe(2);
-    });
-    it('should call meService.GetSpendingAccount for each spending account payment', () => {
-      expect(meService.GetSpendingAccount).toHaveBeenCalledWith('SpendingAccountOne');
-      expect(meService.GetSpendingAccount).toHaveBeenCalledWith('SpendingAccountTwo');
-      expect(meService.GetSpendingAccount.calls.count()).toBe(2);
+    it('should call AppPaymentService', () => {
+      component['getSupplierAddresses']().subscribe(() => {
+        expect(appPaymentService.getPayments).toHaveBeenCalled();
+      });
     });
   });
+
 });

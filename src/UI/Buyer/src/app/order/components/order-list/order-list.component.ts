@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { ListOrder } from '@ordercloud/angular-sdk';
-import { OrderListColumn } from '../../models/order-list-column';
+import { OrderListColumn } from '@app/order/models/order-list-column';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 @Component({

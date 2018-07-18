@@ -79,8 +79,7 @@
               <a class="link-text"> Confirm </a>
             </ng-template>
             <ng-template ngbPanelContent>
-              <button class="btn btn-primary"
-                      (click)="confirmOrder()">Confirm Order</button>
+              <checkout-confirm (continue)="confirmOrder()"></checkout-confirm>
             </ng-template>
           </ngb-panel>
         </ngb-accordion>

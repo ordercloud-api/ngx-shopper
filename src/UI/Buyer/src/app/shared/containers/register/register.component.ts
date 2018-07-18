@@ -4,9 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MeService, TokenService } from '@ordercloud/angular-sdk';
 import { tap } from 'rxjs/operators';
-import { applicationConfiguration, AppConfig } from '../../../config/app.config';
-import { OcMatchFieldsValidator } from '../../validators/oc-match-fields/oc-match-fields.validator';
-import { AppStateService } from '../../services/app-state/app-state.service';
+import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { OcMatchFieldsValidator } from '@app/shared/validators/oc-match-fields/oc-match-fields.validator';
+import { AppStateService } from '@app/shared/services/app-state/app-state.service';
 import { OcFormErrorService } from '@app/shared/services/oc-form-error/oc-form-error.service';
 
 @Component({

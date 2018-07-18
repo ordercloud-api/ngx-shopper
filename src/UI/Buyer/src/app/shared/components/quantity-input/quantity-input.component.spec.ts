@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuantityInputComponent } from './quantity-input.component';
+import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 

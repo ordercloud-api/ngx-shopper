@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegisterComponent } from './register.component';
+import { RegisterComponent } from '@app/shared/containers/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MeService, TokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';

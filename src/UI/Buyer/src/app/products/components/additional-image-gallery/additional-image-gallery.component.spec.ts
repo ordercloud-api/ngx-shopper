@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdditionalImageGalleryComponent } from './additional-image-gallery.component';
+import { AdditionalImageGalleryComponent } from '@app/products/components/additional-image-gallery/additional-image-gallery.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AdditionalImageGalleryComponent', () => {

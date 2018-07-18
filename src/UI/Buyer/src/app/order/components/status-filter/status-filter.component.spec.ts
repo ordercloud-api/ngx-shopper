@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StatusFilterComponent } from './status-filter.component';
+import { StatusFilterComponent } from '@app/order/components/status-filter/status-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OrderStatus } from '@app/order/models/order-status.model';
 import { OrderStatusDisplayPipe } from '@app/shared/pipes/order-status-display/order-status-display.pipe';

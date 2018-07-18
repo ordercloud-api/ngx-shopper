@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { OrderStatus } from '../../models/order-status.model';
+import { OrderStatus } from '@app/order/models/order-status.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
