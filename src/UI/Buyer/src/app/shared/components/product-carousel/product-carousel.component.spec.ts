@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { ProductCarouselComponent } from './product-carousel.component';
+import { ProductCarouselComponent } from '@app/shared/components/product-carousel/product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';

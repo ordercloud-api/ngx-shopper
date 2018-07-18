@@ -12,7 +12,7 @@ import {
   MeService,
 } from '@ordercloud/angular-sdk';
 
-import { CartComponent } from './cart.component';
+import { CartComponent } from '@app/checkout/containers/cart/cart.component';
 import {
   PageTitleComponent,
   PhoneFormatPipe,

@@ -10,7 +10,7 @@ import {
   OcLineItemService,
   AppStateService
 } from '@app/shared';
-import { ProductDetailsComponent } from './product-details.component';
+import { ProductDetailsComponent } from '@app/products/containers/product-details/product-details.component';
 
 import { CookieService, CookieModule } from 'ngx-cookie';
 import { LineItemService, TokenService, Configuration, OrderService, BuyerProduct, MeService } from '@ordercloud/angular-sdk';

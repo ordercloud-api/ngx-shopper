@@ -10,7 +10,7 @@ import {
   ListSupplier,
   BuyerProduct
 } from '@ordercloud/angular-sdk';
-import { AppStateService } from '../app-state/app-state.service';
+import { AppStateService } from '@app/shared/services/app-state/app-state.service';
 import { Observable, of, BehaviorSubject, forkJoin } from 'rxjs';
 import { tap, flatMap, map } from 'rxjs/operators';
 import { isUndefined as _isUndefined, uniq as _uniq, findIndex as _findIndex, find as _find } from 'lodash';

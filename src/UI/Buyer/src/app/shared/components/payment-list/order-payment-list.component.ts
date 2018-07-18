@@ -3,9 +3,9 @@ import { ListPayment } from '@ordercloud/angular-sdk';
 
 @Component({
   selector: 'order-payment-list',
-  templateUrl: './payment-list.component.html',
-  styleUrls: ['./payment-list.component.scss']
+  templateUrl: './order-payment-list.component.html',
+  styleUrls: ['./order-payment-list.component.scss']
 })
-export class PaymentListComponent {
+export class OrderPaymentListComponent {
   @Input() payments: ListPayment;
 }

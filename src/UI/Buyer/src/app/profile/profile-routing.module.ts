@@ -2,9 +2,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ProfileComponent } from './containers/profile/profile.component';
-import { AddressListComponent } from './containers/address-list/address-list.component';
-import { RegisterComponent } from '../shared/containers/register/register.component';
+import { ProfileComponent } from '@app/profile/containers/profile/profile.component';
+import { AddressListComponent } from '@app/profile/containers/address-list/address-list.component';
+import { RegisterComponent } from '@app/shared/containers/register/register.component';
 import { PaymentListComponent } from '@app/profile/containers/payment-list/payment-list.component';
 
 const routes: Routes = [

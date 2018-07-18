@@ -1,4 +1,5 @@
-<div *ngFor="let payment of payments.Items">
+<div class="lead"><b>Payments</b></div>
+<div class="mb-4" *ngFor="let payment of payments.Items">
   <span *ngIf="payment.Type === 'CreditCard'">
       <strong><shared-credit-card-icon [card]="payment.Details"></shared-credit-card-icon> ending in {{payment.Details.PartialAccountNumber}}</strong>
   </span>

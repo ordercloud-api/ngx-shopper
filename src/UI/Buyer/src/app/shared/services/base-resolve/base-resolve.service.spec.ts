@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { BaseResolveService } from './base-resolve.service';
+import { BaseResolveService } from '@app/shared/services/base-resolve/base-resolve.service';
 import { AppStateService, OcLineItemService } from '@app/shared';
 import { AppAuthService } from '@app/auth/services/app-auth.service';
 import { applicationConfiguration, AppConfig } from '@app/config/app.config';

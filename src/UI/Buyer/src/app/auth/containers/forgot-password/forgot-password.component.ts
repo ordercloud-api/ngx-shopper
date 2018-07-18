@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 // ordercloud
 import { PasswordResetService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '../../../config/app.config';
+import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 
 @Component({
   selector: 'auth-forgot-password',

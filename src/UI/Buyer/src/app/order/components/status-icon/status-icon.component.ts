@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { faCircle, faClock, faBan } from '@fortawesome/free-solid-svg-icons';
-import { OrderStatus } from '../../models/order-status.model';
+import { OrderStatus } from '@app/order/models/order-status.model';
 
 @Component({
   selector: 'order-status-icon',

@@ -5,8 +5,8 @@ import { InjectionToken, DebugElement } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { of, BehaviorSubject } from 'rxjs';
 
-import { LoginComponent } from './login.component';
-import { applicationConfiguration, AppConfig } from '../../../config/app.config';
+import { LoginComponent } from '@app/auth/containers/login/login.component';
+import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 
 import { Configuration, AuthService, TokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';

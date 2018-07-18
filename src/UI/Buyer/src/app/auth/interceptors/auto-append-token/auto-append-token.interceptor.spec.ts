@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { AutoAppendTokenInterceptor } from './auto-append-token.interceptor';
+import { AutoAppendTokenInterceptor } from '@app/auth/interceptors/auto-append-token/auto-append-token.interceptor';
 import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 import { TokenService, Configuration } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
