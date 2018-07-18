@@ -44,7 +44,6 @@ describe('HomeComponent', () => {
         NgbCarouselConfig,
         { provide: MeService, useValue: meService },
         { provide: BuyerService, useValue: buyerService },
-        { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
     })
