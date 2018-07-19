@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 // ordercloud
 import { OcMatchFieldsValidator, OcFormErrorService } from '@app/shared';
-import { applicationConfiguration, AppConfig } from '../../../config/app.config';
+import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 import { PasswordResetService, PasswordReset } from '@ordercloud/angular-sdk';
 
 

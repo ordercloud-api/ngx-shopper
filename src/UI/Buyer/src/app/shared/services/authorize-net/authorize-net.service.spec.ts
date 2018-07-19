@@ -1,6 +1,6 @@
 import { TestBed, inject, async } from '@angular/core/testing';
 
-import { AuthorizeNetService } from './authorize-net.service';
+import { AuthorizeNetService } from '@app/shared/services/authorize-net/authorize-net.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService, Configuration, OrderService, PaymentService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '@app/config/app.config';

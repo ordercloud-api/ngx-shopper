@@ -2,7 +2,7 @@
   <div class="ribbon ribbon-top-left bg-secondary text-white"
        [innerHtml]="product.ID"></div>
   <img class="card-img-top"
-       src="{{ product.xp?.image?.URL || 'http://placehold.it/300x300' }}">
+       src="{{ product.xp?.primaryImageURL || 'http://placehold.it/300x300' }}">
   <div class="card-body d-flex flex-column justify-content-between">
     <h5 class="card-title"
         title="{{product.Name}}">{{ product.Name }}</h5>

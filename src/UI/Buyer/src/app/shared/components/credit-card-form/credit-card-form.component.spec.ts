@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreditCardFormComponent } from './credit-card-form.component';
+import { CreditCardFormComponent } from '@app/shared/components/credit-card-form/credit-card-form.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { OcFormErrorService } from '@app/shared';

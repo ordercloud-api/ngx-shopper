@@ -1,12 +1,11 @@
 import { InjectionToken } from '@angular/core';
 export const applicationConfiguration = new InjectionToken<AppConfig>('app.config');
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
 import { PaymentMethod } from '@app/shared/models/payment-method.enum';
 
 export const ocAppConfig: AppConfig = {
-    appname: environment.appname,
+    appname: 'OrderCloud Shopper',
     clientID: environment.clientID,
-    baseUrl: 'localhost:4200', // TODO: replace this with dynamic value (document.location.origin)
     anonymousShoppingEnabled: false,
     middlewareUrl: environment.middlewareUrl,
     scope: [
@@ -19,8 +18,9 @@ export const ocAppConfig: AppConfig = {
         'ProductReader',
         'SupplierReader',
         'SupplierAddressReader',
+        'BuyerReader',
 
-        // TODO: remove these from base app once have suitable integration endpoints
+        // TODO: remove these from base app once we have suitable integration endpoints
         // to handle shipping tax and cost
         'OverrideUnitPrice',
         'OrderAdmin',
@@ -43,11 +43,6 @@ export interface AppConfig {
      * you own or are a contributor to on the [dashboard](https://developer.ordercloud.io/dashboard)
      */
     clientID: string;
-
-    /**
-     * The base url where the app is hosted. An example use case is to providing return links in emails.
-     */
-    baseUrl: string;
 
     /**
      * If set to true users can browse and submit orders without profiling themselves. This requires

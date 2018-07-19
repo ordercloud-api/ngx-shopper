@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration=local --open",
-    "build": "ng build --configuration=local",
+    "start": "ng serve --open",
+    "build": "ng build",
     "test": "ng test --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -39,7 +39,7 @@
     "angular2-text-mask": "^9.0.0",
     "avatax": "^18.5.1",
     "bootstrap": "^4.0.0-beta.2",
-    "core-js": "^2.5.4",
+    "core-js": "^2.5.7",
     "jquery": "3",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",

@@ -3,10 +3,10 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InjectionToken, DebugElement } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 
-import { LoginComponent } from './login.component';
-import { applicationConfiguration, AppConfig } from '../../../config/app.config';
+import { LoginComponent } from '@app/auth/containers/login/login.component';
+import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 
 import { Configuration, AuthService, TokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
@@ -24,6 +24,7 @@ describe('LoginComponent', () => {
   const response = { access_token: '123456', refresh_token: 'refresh123456' };
   const ocAuthService = { Login: jasmine.createSpy('Login').and.returnValue(of(response)) };
   const appAuthService = { setRememberStatus: jasmine.createSpy('setRememberStatus') };
+  const appStateService = { isAnonSubject: new BehaviorSubject(false) };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -34,8 +35,8 @@ describe('LoginComponent', () => {
         HttpClientModule
       ],
       providers: [
-        AppStateService,
         AppErrorHandler,
+        { provide: AppStateService, useValue: appStateService },
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },
         { provide: TokenService, useValue: ocTokenService },
@@ -58,7 +59,6 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
   describe('ngOnInit', () => {
-    const formbuilder = new FormBuilder;
     beforeEach(() => {
       component.ngOnInit();
     });
@@ -87,6 +87,13 @@ describe('LoginComponent', () => {
       component.onSubmit();
       expect(ocTokenService.SetRefresh).toHaveBeenCalledWith('refresh123456');
       expect(appAuthService.setRememberStatus).toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('showRegisterLink', () => {
+    it('should be false when user is anonymous', () => {
+      appStateService.isAnonSubject.next(true);
+      expect(component.showRegisterLink()).toEqual(false);
     });
   });
 });

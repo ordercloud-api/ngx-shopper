@@ -1,37 +1,21 @@
-<div class="container">
+<div class="container"
+     *ngIf="buyerOrg$ | async; let buyer">
+  <div class="alert alert-info my-3"><b><fa-icon class="pr-3" [icon]="faBullhorn"></fa-icon></b>{{ buyer.xp.Announcement }}</div>
   <ngb-carousel>
-    <ng-template ngbSlide>
+    <ng-template ngbSlide
+                 *ngFor="let slide of buyer.xp.carouselSlides">
       <img class="img-fluid"
            style="width:100%;"
-           src="../../../assets/carousel1.jpg"
+           [src]="slide.URL"
            alt="Random first slide">
       <div class="carousel-caption">
-        <h3>OrderCloud</h3>
-        <p>Welcome to the OrderCloud application</p>
-      </div>
-    </ng-template>
-    <ng-template ngbSlide>
-      <img src="../../../assets/carousel2.jpg"
-           alt="Random first slide"
-           style="width:100%;"
-           class="img-fluid">
-      <div class="carousel-caption">
-        <h3>Carousel Image Two</h3>
-        <p>This is the second image</p>
-      </div>
-    </ng-template>
-    <ng-template ngbSlide>
-      <img src="../../../assets/carousel3.jpg"
-           alt="Random first slide"
-           style="width:100%;"
-           class="img-fluid">
-      <div class="carousel-caption">
-        <h3>Carousel Image Three</h3>
-        <p>This is the third image</p>
+        <h3>{{ slide.HeaderText }}</h3>
+        <p>{{ slide.BodyText }}</p>
       </div>
     </ng-template>
   </ngb-carousel>
   <div *ngIf="featuredProducts$ | async; let products">
-      <products-carousel displayTitle="Featured Products" [products]="products.Items"></products-carousel>
+    <products-carousel displayTitle="Featured Products"
+                       [products]="products.Items"></products-carousel>
   </div>
 </div>

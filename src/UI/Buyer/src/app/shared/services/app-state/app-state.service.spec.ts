@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AppStateService } from './app-state.service';
+import { AppStateService } from '@app/shared/services/app-state/app-state.service';
 
 describe('AppStateService', () => {
   beforeEach(() => {

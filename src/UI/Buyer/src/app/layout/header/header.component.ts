@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { applicationConfiguration, AppConfig } from '../../config/app.config';
+import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 import { Router } from '@angular/router';
 import { faSearch, faShoppingCart, faPhone, faQuestionCircle, faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';

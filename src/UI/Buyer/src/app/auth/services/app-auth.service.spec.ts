@@ -9,7 +9,7 @@ import {
 import { CookieModule, CookieService } from 'ngx-cookie';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppErrorHandler } from '@app/config/error-handling.config';
-import { AppAuthService } from './app-auth.service';
+import { AppAuthService } from '@app/auth/services/app-auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';

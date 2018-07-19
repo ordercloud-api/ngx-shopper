@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import { DateFilterComponent } from './date-filter.component';
+import { DateFilterComponent } from '@app/order/components/date-filter/date-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   NgbCalendar, NgbDateParserFormatter,

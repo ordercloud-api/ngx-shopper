@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddressListComponent } from './address-list.component';
+import { AddressListComponent } from '@app/profile/containers/address-list/address-list.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AddressDisplayComponent } from '@app/shared/components/address-display/address-display.component';
 import { PhoneFormatPipe, ModalService } from '@app/shared';

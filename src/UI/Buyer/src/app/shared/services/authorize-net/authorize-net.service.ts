@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfig, applicationConfiguration } from '@app/config/app.config';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { CreateCardDetails, AuthorizeCardSuccess, CreateCardResponse } from './authorize-net.interface';
+import { CreateCardDetails, AuthorizeCardSuccess, CreateCardResponse } from '@app/shared/services/authorize-net/authorize-net.interface';
 import { TokenService, Payment, PaymentService, Order, OrderService, BuyerCreditCard } from '@ordercloud/angular-sdk';
 
 /**

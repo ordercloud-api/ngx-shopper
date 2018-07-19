@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentPurchaseOrderComponent } from './payment-purchase-order.component';
+import { PaymentPurchaseOrderComponent } from '@app/checkout/components/payment-purchase-order/payment-purchase-order.component';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 
 describe('PaymentPurchaseOrderComponent', () => {
