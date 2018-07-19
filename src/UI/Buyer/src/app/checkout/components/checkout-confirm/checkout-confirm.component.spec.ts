@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CheckoutConfirmComponent } from './checkout-confirm.component';
-import { NO_ERRORS_SCHEMA } from '../../../../../node_modules/@angular/core';
-import { BehaviorSubject, of } from '../../../../../node_modules/rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { BehaviorSubject, of } from 'rxjs';
 import { AppStateService, OcLineItemService } from '@app/shared';
 import { AppPaymentService } from '@app/shared/services/app-payment-service/app-payment.service';
 

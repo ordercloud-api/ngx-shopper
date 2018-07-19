@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CheckoutSectionBaseComponent } from '@app/checkout/components/checkout-section-base/checkout-section-base.component';
 import { AppStateService, OcLineItemService } from '@app/shared';
-import { Order, ListPayment, ListLineItem } from '../../../../../node_modules/@ordercloud/angular-sdk';
-import { Observable } from '../../../../../node_modules/rxjs';
+import { Order, ListPayment, ListLineItem } from '@ordercloud/angular-sdk';
+import { Observable } from 'rxjs';
 import { AppPaymentService } from '@app/shared/services/app-payment-service/app-payment.service';
 
 @Component({

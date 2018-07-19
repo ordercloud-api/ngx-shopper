@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "base-buyer": {
+    "base-seller": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -46,18 +46,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "base-buyer:build"
+            "browserTarget": "base-seller:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "base-buyer:build:production"
+              "browserTarget": "base-seller:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "base-buyer:build"
+            "browserTarget": "base-seller:build"
           }
         },
         "test": {
@@ -91,7 +91,7 @@
         }
       }
     },
-    "base-buyer-e2e": {
+    "base-seller-e2e": {
       "root": "",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -100,7 +100,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "base-buyer:serve"
+            "devServerTarget": "base-seller:serve"
           }
         },
         "lint": {
@@ -117,7 +117,7 @@
       }
     }
   },
-  "defaultProject": "base-buyer",
+  "defaultProject": "base-seller",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
