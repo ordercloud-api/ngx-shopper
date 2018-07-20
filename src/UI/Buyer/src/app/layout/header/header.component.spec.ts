@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from '@app/layout/header/header.component';
 import {
   AppStateService,
-  NavBrandsPipe,
   BaseResolveService,
   OcLineItemService
 } from '@app/shared';
@@ -41,7 +40,7 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderComponent, NavBrandsPipe],
+      declarations: [HeaderComponent],
       imports: [
         CookieModule.forRoot(),
         FontAwesomeModule,
@@ -102,17 +101,6 @@ describe('HeaderComponent', () => {
         expect(order.LineItemCount).toBe(1);
         expect(component.addedToCart).not.toHaveBeenCalled();
       });
-    });
-  });
-
-  describe('search', () => {
-    const mockSearchTerm = 'awesome product';
-    beforeEach(() => {
-      component.searchProductsForm.value.search = mockSearchTerm;
-      component.searchProducts(mockSearchTerm);
-    });
-    it('should navigate to product list component with correct query parameters', () => {
-      expect(router.navigate).toHaveBeenCalledWith(['/products'], { queryParams: { search: mockSearchTerm } });
     });
   });
 

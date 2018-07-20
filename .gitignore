@@ -290,3 +290,6 @@ appSettings.json
 src/Winmark.Integrations.WebJob/*.json
 tests//TestData/*.json
 tests/TestData/output/*
+
+# compiled output
+src/UI/Buyer/dist

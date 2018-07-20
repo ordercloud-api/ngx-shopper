@@ -5,7 +5,7 @@ import { HeaderComponent } from '@app/layout/header/header.component';
 import { MainComponent } from '@app/layout/main/main.component';
 import { FooterComponent } from '@app/layout/footer/footer.component';
 
-import { SharedModule, NavBrandsPipe } from '@app/shared';
+import { SharedModule } from '@app/shared';
 import { HomeComponent } from '@app/layout/home/home.component';
 
 @NgModule({
@@ -23,7 +23,6 @@ import { HomeComponent } from '@app/layout/home/home.component';
     HeaderComponent,
     MainComponent,
     FooterComponent,
-    NavBrandsPipe,
     HomeComponent
   ]
 })

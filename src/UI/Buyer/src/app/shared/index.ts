@@ -7,7 +7,6 @@ export * from '@app/shared/models/decoded-token.interface';
 export * from '@app/shared/services/authorize-net/authorize-net.interface';
 
 // pipes
-export * from '@app/shared/pipes/navigation/nav-brands.pipe';
 export * from '@app/shared/pipes/phone-format/phone-format.pipe';
 
 // directives

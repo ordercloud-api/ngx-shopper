@@ -33,7 +33,6 @@ import { OcFormErrorService } from '@app/shared/services/oc-form-error/oc-form-e
 import { ModalService } from '@app/shared/services/modal/modal.service';
 
 // pipes
-import { NavBrandsPipe } from '@app/shared/pipes/navigation/nav-brands.pipe';
 import { PhoneFormatPipe } from '@app/shared/pipes/phone-format/phone-format.pipe';
 import { OrderStatusDisplayPipe } from '@app/shared/pipes/order-status-display/order-status-display.pipe';
 import { PaymentMethodDisplayPipe } from '@app/shared/pipes/payment-method-display/payment-method-display.pipe';
@@ -174,7 +173,7 @@ import { OrderPaymentListComponent } from '@app/shared/components/payment-list/o
    * lazy-loaded modules define services as singletons
    * https://angular-2-training-book.rangle.io/handout/modules/shared-di-tree.html
    */
-  providers: [NavBrandsPipe],
+  providers: [],
 
 })
 export class SharedModule {
