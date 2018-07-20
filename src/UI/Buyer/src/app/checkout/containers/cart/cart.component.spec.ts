@@ -67,7 +67,6 @@ describe('CartComponent', () => {
         { provide: OrderService, useValue: orderService },
         { provide: OcLineItemService, useValue: ocLineItemService },
         { provide: MeService, useValue: meService },
-        { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
     })

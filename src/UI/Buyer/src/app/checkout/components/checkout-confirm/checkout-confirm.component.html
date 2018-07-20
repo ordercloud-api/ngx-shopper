@@ -1,12 +1,7 @@
 <div *ngIf="lineItems$ | async; let lineItems">
-  <div *ngIf="order.Comments"
-       class="alert alert-secondary small">
-    <strong>Comments: </strong> {{order.Comments}}
-    <hr>
-  </div>
   <order-payment-list *ngIf="payments$ | async; let payments"
                       [payments]="payments"></order-payment-list>
-  <div class="row mb-5">
+  <div class="row">
     <div class="col-6">
       <shared-address-display [address]="lineItems.Items[0].ShippingAddress"
                               addressTitle="Shipping Address"
@@ -26,6 +21,15 @@
                            [productDetails]="li.Product"
                            readOnly="true"></shared-line-item-card>
   </shared-lineitem-list-wrapper>
+  <form *ngIf="!appConfig.anonymousShoppingEnabled"
+        novalidate
+        [formGroup]="form">
+    <textarea type="text"
+              placeholder="Comments (optional)"
+              formControlName="comments"
+              class="form-control">
+    </textarea>
+  </form>
 </div>
-<button class="btn btn-primary"
-        (click)="continue.emit()">Confirm Order</button>
+<button class="btn btn-primary mt-4"
+        (click)="saveComments()">Confirm Order</button>

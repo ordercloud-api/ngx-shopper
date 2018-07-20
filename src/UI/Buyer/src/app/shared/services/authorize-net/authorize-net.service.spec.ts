@@ -18,7 +18,6 @@ describe('Authorize.NetService', () => {
         { provide: TokenService, useValue: tokenService },
         { provide: PaymentService, useValue: payementService },
         { provide: OrderService, useValue: orderService },
-        { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') },
       ],
       imports: [
