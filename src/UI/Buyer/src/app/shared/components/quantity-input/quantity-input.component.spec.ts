@@ -8,7 +8,7 @@ describe('QuantityInputComponent', () => {
   let component: QuantityInputComponent;
   let fixture: ComponentFixture<QuantityInputComponent>;
   const toastrService = {
-    error: jasmine.createSpy('error')
+    error: jasmine.createSpy('error').and.returnValue(null)
   };
 
   beforeEach(async(() => {
