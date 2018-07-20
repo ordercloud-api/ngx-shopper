@@ -1,7 +1,8 @@
 <div class="card mb-5 card-hover">
   <div class="ribbon ribbon-top-left bg-secondary text-white"
        [innerHtml]="product.ID"></div>
-       <img class="card-img-top img-fluid flex-shrink-0"
+  <img class="card-img-top img-fluid flex-shrink-0"
+       (click)="toProductDetails(product)"
        src="{{ product.xp?.primaryImageURL || 'http://placehold.it/300x300' }}"
        alt="{{product.ID}}">
   <div class="card-body d-flex flex-column justify-content-between">
@@ -10,29 +11,33 @@
     <p class="card-text text-center headline-text row">
       <span class="col-6">{{ product?.PriceSchedule?.PriceBreaks[0]?.Price || 0 | currency }}</span>
       <shared-toggle-favorite *ngIf="isSetFavoriteUsed"
-                       class="col-6"
-                       title="Favorite"
-                       (click)="$event.stopPropagation()"
-                       [favorite]="favorite"
-                       (favoriteChanged)="setFavorite.emit($event)"></shared-toggle-favorite>
+                              class="col-6"
+                              title="Favorite"
+                              (click)="$event.stopPropagation()"
+                              [favorite]="favorite"
+                              (favoriteChanged)="setFavorite.emit($event)"></shared-toggle-favorite>
     </p>
   </div>
   <div class="card-footer">
-    <div class="row input-group__quantity-input-group"
-         *ngIf="shouldDisplayAddToCart"
-         (click)="$event.stopPropagation()">
-      <div class="col-lg-8 px-0">
-        <button class="btn btn-primary btn-block input-group__button"
+    <div class="input-group">
+      <div class="input-group-prepend"
+           *ngIf="shouldDisplayAddToCart"
+           (click)="$event.stopPropagation()">
+        <button *ngIf="shouldDisplayAddToCart"
+                (click)="$event.stopPropagation()"
+                class="btn btn-primary btn-block"
                 type="submit"
-                (click)="quantityInputComponent.addToCart($event)">Add <span class="d-sm-none d-lg-inline">to Cart</span></button>
+                (click)="quantityInputComponent.addToCart($event)">
+                  Add <span class="d-sm-none d-lg-inline">to Cart</span>
+              </button>
       </div>
-      <div class="col-lg-4 px-0">
-        <shared-quantity-input class="input-group__quantity-input"
-                               [product]="product"
-                               (addedToCart)="addToCart($event)"></shared-quantity-input>
-      </div>
+      <shared-quantity-input class="c-form-control"
+                             [product]="product"
+                             (addedToCart)="addToCart($event)">
+      </shared-quantity-input>
+      <button *ngIf="isViewOnlyProduct"
+              class="btn btn-default btn-block btn-outline-dark">View <span class="d-sm-none d-lg-inline">Product</span>
+          </button>
     </div>
-    <button *ngIf="isViewOnlyProduct"
-            class="btn btn-default btn-block btn-outline-dark">View <span class="d-sm-none d-lg-inline">Product</span></button>
   </div>
 </div>
