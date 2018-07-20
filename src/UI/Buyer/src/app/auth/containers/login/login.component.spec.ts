@@ -41,7 +41,6 @@ describe('LoginComponent', () => {
         { provide: Router, useValue: router },
         { provide: TokenService, useValue: ocTokenService },
         { provide: AuthService, useValue: ocAuthService },
-        { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') },
       ]
     })

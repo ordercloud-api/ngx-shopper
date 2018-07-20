@@ -62,7 +62,6 @@ describe('HeaderComponent', () => {
         { provide: Router, useValue: router },
         { provide: BaseResolveService, useValue: baseResolveService },
         { provide: TokenService, useValue: ocTokenService },
-        { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
     })

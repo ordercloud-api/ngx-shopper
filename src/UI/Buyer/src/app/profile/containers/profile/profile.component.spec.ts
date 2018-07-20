@@ -33,7 +33,6 @@ describe('ProfileComponent', () => {
         AddressListComponent,
         PhoneFormatPipe,
         { provide: ToastrService, useValue: toastrService },
-        { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') },
       ],
       schemas: [NO_ERRORS_SCHEMA] // Ignore template errors: remove if tests are added to test template
