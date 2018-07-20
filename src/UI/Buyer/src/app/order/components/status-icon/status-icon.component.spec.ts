@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StatusIconComponent } from './status-icon.component';
+import { StatusIconComponent } from '@app/order/components/status-icon/status-icon.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 describe('StatusIconComponent', () => {

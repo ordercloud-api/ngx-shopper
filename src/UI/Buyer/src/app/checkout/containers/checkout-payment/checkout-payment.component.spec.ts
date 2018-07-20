@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CheckoutPaymentComponent } from './checkout-payment.component';
+import { CheckoutPaymentComponent } from '@app/checkout/containers/checkout-payment/checkout-payment.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PaymentService, Payment } from '@ordercloud/angular-sdk';

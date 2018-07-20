@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 
-import { OrderHistoryComponent } from './order-history.component';
+import { OrderHistoryComponent } from '@app/order/containers/order-history/order-history.component';
 import { SearchComponent } from '@app/shared/components/search/search.component';
 import { StatusFilterComponent } from '@app/order/components/status-filter/status-filter.component';
 import { DateFilterComponent } from '@app/order/components/date-filter/date-filter.component';

@@ -21,8 +21,8 @@
       <div *ngIf="order.PromotionDiscount">
         <strong class="text-danger">Promo Discount</strong> <span class="float-right text-danger">-{{order.PromotionDiscount | currency}}</span>
       </div>
-
-      <strong>Total</strong> <span class="float-right">{{order.Total | currency}}</span>
+      <hr>
+      <div class="text-right lead"><b class="float-left">Total:</b><span class="order-total">{{order.Total | currency}}</span></div>
       <hr>
       <order-payment-list *ngIf="payments$ | async; let payments"
                           [payments]="payments"></order-payment-list>

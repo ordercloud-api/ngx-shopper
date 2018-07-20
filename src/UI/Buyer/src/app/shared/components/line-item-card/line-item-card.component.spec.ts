@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LineItemCardComponent } from './line-item-card.component';
+import { LineItemCardComponent } from '@app/shared/components/line-item-card/line-item-card.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterTestingModule } from '@angular/router/testing';
 

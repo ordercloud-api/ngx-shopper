@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // checkout routes
-import { CheckoutComponent } from './containers/checkout/checkout.component';
-import { CartComponent } from './containers/cart/cart.component';
-import { OrderConfirmationComponent } from './containers/order-confirmation/order-confirmation.component';
+import { CheckoutComponent } from '@app/checkout/containers/checkout/checkout.component';
+import { CartComponent } from '@app/checkout/containers/cart/cart.component';
+import { OrderConfirmationComponent } from '@app/checkout/containers/order-confirmation/order-confirmation.component';
 
 const routes: Routes = [
     { path: 'checkout', component: CheckoutComponent },

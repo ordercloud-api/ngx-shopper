@@ -1,4 +1,4 @@
-import { OcMinProductQty, OcMaxProductQty } from './oc-product.quantity.validator';
+import { OcMinProductQty, OcMaxProductQty } from '@app/shared/validators/oc-product-quantity/oc-product.quantity.validator';
 import { FormControl } from '@angular/forms';
 
 describe('OcMinProductQty Validator', () => {

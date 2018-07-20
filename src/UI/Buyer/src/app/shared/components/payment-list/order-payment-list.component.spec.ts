@@ -1,26 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentListComponent } from './payment-list.component';
+import { OrderPaymentListComponent } from '@app/shared/components/payment-list/order-payment-list.component';
 import { CreditCardIconComponent } from '@app/shared/components/credit-card-icon/credit-card-icon.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 describe('Order: PaymentListComponent', () => {
-  let component: PaymentListComponent;
-  let fixture: ComponentFixture<PaymentListComponent>;
+  let component: OrderPaymentListComponent;
+  let fixture: ComponentFixture<OrderPaymentListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         FaIconComponent,
         CreditCardIconComponent,
-        PaymentListComponent
+        OrderPaymentListComponent
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PaymentListComponent);
+    fixture = TestBed.createComponent(OrderPaymentListComponent);
     component = fixture.componentInstance;
     component.payments = { Items: [] };
     fixture.detectChanges();

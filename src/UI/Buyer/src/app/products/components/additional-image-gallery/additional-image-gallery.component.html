@@ -1,6 +1,6 @@
-<div class="component-background">
-  <div #imageWrapper><img class="img-fluid mx-auto d-block pt-2"
-         [src]="imgUrls[selectedIndex]"
+<div class="bg-light">
+  <div #imageWrapper><img class="img-fluid mx-auto d-block pt-2 px-2"
+         [src]="imgUrls[selectedIndex] || 'http://placehold.it/500x500'"
          [imageZoom]="imgUrls[selectedIndex]"
          [lensWidth]="600"
          [lensHeight]="400"

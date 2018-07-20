@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategoryNavComponent } from './category-nav.component';
+import { CategoryNavComponent } from '@app/products/components/category-nav/category-nav.component';
 import { TreeModule } from 'angular-tree-component';
 import { CategoryTreeNode } from '@app/products/models/category-tree-node.class';
 

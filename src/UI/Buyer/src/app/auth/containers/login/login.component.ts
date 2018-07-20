@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 
 // ordercloud
 import { AuthService, TokenService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '../../../config/app.config';
-import { AppAuthService } from '../../services/app-auth.service';
+import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { AppAuthService } from '@app/auth/services/app-auth.service';
 import { AppStateService } from '@app/shared';
 
 @Component({
@@ -57,5 +57,9 @@ export class LoginComponent implements OnInit {
         this.ocTokenService.SetAccess(response.access_token);
         this.router.navigateByUrl('/home');
       });
+  }
+
+  showRegisterLink(): boolean {
+    return this.isAnon && this.appConfig.anonymousShoppingEnabled;
   }
 }

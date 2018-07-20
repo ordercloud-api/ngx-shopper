@@ -2,7 +2,7 @@
      *ngIf="lineItems$ | async; let lineItems">
   <div class="pb-2 mt-4 mb-2 border-bottom">
     <h2><strong>Order Submitted</strong></h2>
-    <h4 class="text-muted">Thank you for your order. Check your order history to track your delivery!</h4>
+    <h4 class="text-muted">Thank you for your order. Check your order history to track next steps!</h4>
   </div>
   <div class="row my-5"
        *ngIf="order$ | async; let order">
@@ -11,9 +11,15 @@
       <strong>Date Submitted</strong> <span class="float-right">{{order.DateSubmitted | date:'short'}}</span><br>
       <strong>Subtotal</strong> <span class="float-right">{{order.Subtotal | currency}}</span><br>
       <strong>Tax</strong> <span class="float-right">{{order.TaxCost | currency}}</span><br>
+      <strong>Shipping</strong> <span class="float-right">{{order.ShippingCost | currency}}</span><br>
       <div *ngFor="let promotion of (promotions$ | async)?.Items">
         <strong>{{promotion.Name}}</strong> <span class="float-right text-primary">- {{promotion.Amount | currency}}</span>
       </div>
+      <hr>
+      <div class="text-right lead"><b class="float-left">Total:</b><span class="order-total">{{order.Total | currency}}</span></div>
+      <hr>
+      <order-payment-list *ngIf="payments$ | async; let payments"
+                          [payments]="payments"></order-payment-list>
     </div>
     <div class="col-lg-6">
       <div class="row">
@@ -28,12 +34,11 @@
       </div>
     </div>
   </div>
-  <div class="pb-2 mt-4 mb-2 border-bottom">
-    <h4>Line Item Summary</h4>
-  </div>
-  <shared-line-item-card *ngFor="let li of lineItems.Items"
-                         [lineitem]="li"
-                         [productDetails]="li.Product"
-                         [readOnly]="true"
-                         (deletedLineItem)="deleteLineItem($event)"></shared-line-item-card>
+  <shared-lineitem-list-wrapper>
+    <shared-line-item-card *ngFor="let li of lineItems.Items"
+                           [lineitem]="li"
+                           [productDetails]="li.Product"
+                           [readOnly]="true"
+                           (deletedLineItem)="deleteLineItem($event)"></shared-line-item-card>
+  </shared-lineitem-list-wrapper>
 </div>

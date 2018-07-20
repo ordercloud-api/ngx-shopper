@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToggleFavoriteComponent } from './toggle-favorite.component';
+import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 describe('FavoriteButtonComponent', () => {

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdditionalImageGalleryComponent } from './additional-image-gallery.component';
+import { AdditionalImageGalleryComponent } from '@app/products/components/additional-image-gallery/additional-image-gallery.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AdditionalImageGalleryComponent', () => {
@@ -108,7 +108,7 @@ describe('AdditionalImageGalleryComponent', () => {
         it('should reset gallery to beginning if user forwards to last image', () => {
           expect(component.selectedIndex).toBe(0);
           expect(component.startIndex).toBe(0);
-          expect(component.endIndex).toBe(5);
+          expect(component.endIndex).toBe(component['gallerySize'] - 1);
         });
       });
     });

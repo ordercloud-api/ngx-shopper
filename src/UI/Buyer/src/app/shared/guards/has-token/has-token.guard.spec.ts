@@ -1,22 +1,31 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
-import { HasTokenGuard } from './has-token.guard';
+import { HasTokenGuard } from '@app/shared/guards/has-token/has-token.guard';
 import { TokenService } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
 import { AppAuthService } from '@app/auth';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { applicationConfiguration } from '@app/config/app.config';
 
 describe('HasTokenGuard', () => {
   let guard: HasTokenGuard;
   let mockAccessToken = null;
+  let rememberMe = false;
   // tslint:disable-next-line:max-line-length
   const validToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3IiOiJhbm9uX3VzZXIiLCJjaWQiOiI4MDIxODkzNi0zNTBiLTQxMDUtYTFmYy05NjJhZjAyM2Q2NjYiLCJvcmRlcmlkIjoiSVlBSnFOWVVpRVdyTy1Lei1TalpqUSIsInVzcnR5cGUiOiJidXllciIsInJvbGUiOlsiQnV5ZXJSZWFkZXIiLCJNZUFkbWluIiwiTWVDcmVkaXRDYXJkQWRtaW4iLCJNZUFkZHJlc3NBZG1pbiIsIk1lWHBBZG1pbiIsIlBhc3N3b3JkUmVzZXQiLCJTaGlwbWVudFJlYWRlciIsIlNob3BwZXIiLCJBZGRyZXNzUmVhZGVyIl0sImlzcyI6Imh0dHBzOi8vYXV0aC5vcmRlcmNsb3VkLmlvIiwiYXVkIjoiaHR0cHM6Ly9hcGkub3JkZXJjbG91ZC5pbyIsImV4cCI6MTUyNzA5Nzc0MywibmJmIjoxNTI2NDkyOTQzfQ.MBV7dqBq8RXSZZ8vEGidcfH8vSwOR55yHzvAq1w2bLc';
+  const mockRefreshToken = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
 
   const appConfig = { anonymousShoppingEnabled: true };
-  const tokenService = { GetAccess: jasmine.createSpy('GetAccess').and.callFake(() => mockAccessToken) };
+  const tokenService = {
+    GetAccess: jasmine.createSpy('GetAccess').and.callFake(() => mockAccessToken),
+    GetRefresh: jasmine.createSpy('GetRefresh').and.returnValue(of(mockRefreshToken))
+   };
   const router = { navigate: jasmine.createSpy('navigate') };
-  const appAuthService = { authAnonymous: jasmine.createSpy('authAnonymous').and.returnValue(of(null)) };
+  const appAuthService = {
+    authAnonymous: jasmine.createSpy('authAnonymous').and.returnValue(of(null)),
+    getRememberStatus: jasmine.createSpy('getRememberStatus').and.callFake(() => rememberMe),
+    refresh: jasmine.createSpy('refresh').and.returnValue(of(null))
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -81,6 +90,16 @@ describe('HasTokenGuard', () => {
         guard.canActivate().subscribe(isTokenValid => {
           expect(appAuthService.authAnonymous).not.toHaveBeenCalled();
           expect(isTokenValid).toBe(false);
+        });
+      });
+    });
+    describe('access token timed out but user has refresh token', () => {
+      it('should call refresh', () => {
+        mockAccessToken = null;
+        rememberMe = true;
+        guard.canActivate().subscribe(isTokenValid => {
+          expect(appAuthService.refresh).toHaveBeenCalled();
+          expect(isTokenValid).toBe(true);
         });
       });
     });

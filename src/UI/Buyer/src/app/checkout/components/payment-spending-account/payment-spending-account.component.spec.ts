@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentSpendingAccountComponent } from './payment-spending-account.component';
+import { PaymentSpendingAccountComponent } from '@app/checkout/components/payment-spending-account/payment-spending-account.component';
 import { of } from 'rxjs';
 import { MeService } from '@ordercloud/angular-sdk';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';

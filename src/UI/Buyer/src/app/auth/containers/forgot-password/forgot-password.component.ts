@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 // ordercloud
 import { PasswordResetService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '../../../config/app.config';
+import { applicationConfiguration, AppConfig } from '@app/config/app.config';
 
 @Component({
   selector: 'auth-forgot-password',
@@ -35,7 +35,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.passwordResetService.SendVerificationCode({
       Email: this.resetEmailForm.get('email').value,
       ClientID: this.appConfig.clientID,
-      URL: this.appConfig.baseUrl
+      URL: window.location.origin
     }).subscribe(
       () => {
         this.toasterService.success('Password Reset Email Sent!');
