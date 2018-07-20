@@ -34,7 +34,6 @@ describe('RefreshTokenInterceptor', () => {
                 { provide: AppAuthService, useValue: appAuthService },
                 { provide: TokenService, useValue: tokenService },
                 { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
-                { provide: Configuration, useValue: new Configuration() },
                 { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
             ],
         });
