@@ -13,3 +13,23 @@ body {
 .flex-shrink-0 {
     flex-shrink: 0;
 }
+
+.c-error-message {
+    position: absolute;
+    z-index: 999;
+    padding: 0.5rem;
+    border-radius: $border-radius;
+    font-size: $small-font-size;
+}
+
+.border-hover {
+    transition: border-color .25s ease;
+    &:hover {
+        border: 1px solid $secondary;
+    }
+}
+
+.ribbon.ribbon-top-right:after {
+    border-top-color: $ribbon-shadow-color;
+    border-left-color: $ribbon-shadow-color;
+}
