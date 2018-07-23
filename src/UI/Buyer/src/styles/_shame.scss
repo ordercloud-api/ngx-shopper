@@ -33,3 +33,7 @@ body {
     border-top-color: $ribbon-shadow-color;
     border-left-color: $ribbon-shadow-color;
 }
+
+.cursor-pointer {
+    cursor: $custom-range-track-cursor;
+}
