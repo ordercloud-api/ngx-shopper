@@ -1,5 +1,7 @@
-<section class="container"
+<section class="container mt-2"
          *ngIf="productList$ | async; let productList">
+         <div class="row">
+           <div class="col-12">
   <nav class="breadcrumb"
        aria-label="breadcrumb">
     <a class="breadcrumb-item link-text"
@@ -9,6 +11,8 @@
        [queryParams]="{ category: cat.ID }"
        [routerLink]="['/products']">{{ cat.Name }}</a>
   </nav>
+</div>
+</div>
   <div class="row">
     <div class="col-md-4 col-lg-3 d-md-block d-sm-none d-none">
       <products-category-nav *ngIf="categories"
@@ -22,7 +26,7 @@
         </div>
         <div class="p-3">
           <shared-toggle-favorite [favorite]="favsFilterOn"
-                           (favoriteChanged)="setFavsFilter($event)"></shared-toggle-favorite> My Favorites
+                           (favoriteChanged)="setFavsFilter($event)"></shared-toggle-favorite> 
         </div>
       </div>
     </div>
@@ -35,6 +39,7 @@
             </span>{{productList.Meta.TotalCount}} results
           </div>
         </div>
+        <div class="col-auto">
         <form [formGroup]="sortForm">
           <div class="form-group float-right">
             <select class="form-control"
@@ -49,6 +54,7 @@
           <div class="float-right mt-1 mr-2">Sort By</div>
         </form>
       </div>
+      </div>
       <div class="card"
            *ngIf="productList.Items.length === 0">
         <b class="card-body text-center">No products found.</b>
@@ -60,7 +66,7 @@
                                  [product]="product"
                                  [favorite]="isProductFav(product)"
                                  (setFavorite)="setProductAsFav($event, product.ID)"
-                                 class="col-lg-3 col-md-4 col-sm-6"
+                                 class="col-sm-6 col-md-4 col-xl-3 d-flex"
                                  (addedToCart)="addToCart($event)">
           </products-product-card>
         </div>
