@@ -1,57 +1,52 @@
 @charset 'UTF-8';
 
-// 1. Configuration and helpers
+// Abstracts
 @import
-'abstracts/variables',
-'abstracts/functions',
-'abstracts/mixins';
+  'abstracts/variables',
+  'abstracts/functions',
+  'abstracts/mixins';
 
-// 2. Bootstrap Variable Overrides (must come before bootstrap)
- @import
-  'themes/theme.variables.scss';
-
-// 3. Vendors
+// Vendors
 @import
   'vendor/bootstrap',
   'vendor/normalize',
   'vendor/ngx-toastr';
 
-  
-  
-  
-// 4. Base stuff
+// Theme Variables
 @import
-'base/base',
-'base/fonts',
-'base/typography',
-'base/helpers';
+'themes/default';
+// 'themes/_theme';
 
-// 5. Layout-related sections
+// Scaffolding
 @import
-'layout/header',
-'layout/footer';
+  'base/base',
+  'base/fonts',
+  'base/typography',
+  'base/helpers';
+
+// Layout
+@import
+  'layout/header',
+  'layout/footer';
   
-  // 6. Components
+// Components
 @import
-'components/button',
-'components/_forms',
-'components/_product-list',
+  'components/button',
+  'components/_forms',
+  'components/_product-list',
   'components/_card-ribbon',
   'components/_card-hover',
   'components/_list-items.scss',
   'components/_carousel-arrow.scss',
   'components/_modal.scss';
   
-  // 7. Page-specific styles
-  @import
-  'pages/home';
-  
-@import 'shame';
-
-// 8. Themes
+// Pages
 @import
-'themes/default',
-'themes/_theme';
+  'pages/_home';
+  
+@import
+  '_shame';
 
-// 9. 3rd party libraries
-@import '~angular-tree-component/dist/angular-tree-component.css';
+// 3rd party libraries
+@import 
+  '~angular-tree-component/dist/angular-tree-component.css';

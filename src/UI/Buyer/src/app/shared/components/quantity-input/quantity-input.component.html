@@ -7,8 +7,10 @@
            type="number"
            formControlName="quantity"
            class="form-control text-center"
-           placeholder="Quantity"
-           (change)="quantityChanged()">
+           placeholder="0"
+           (change)="quantityChanged()"
+           aria-label="Quantity Input Selector"
+           aria-describedby="quantity">
     <select *ngIf="product?.PriceSchedule?.RestrictedQuantity"
             class="form-control text-center"
             formControlName="quantity"
@@ -19,18 +21,18 @@
     </select>
   </div>
 </form>
-<span *ngIf="form.controls['quantity'].getError('required')"
-      class="error-message text-center">
+<small *ngIf="form.controls['quantity'].getError('required')"
+       class="alert alert-danger error-message c-error-message text-center">
     Please enter a quantity
     <br>
-  </span>
-<span *ngIf="form.controls['quantity'].getError('OcMaxProductQty') as error"
-      class="error-message text-center">
+  </small>
+<small *ngIf="form.controls['quantity'].getError('OcMaxProductQty') as error"
+       class="alert alert-danger error-message c-error-message text-center">
         The maximum order quantity is {{error.max}}
     <br>
-  </span>
-<span *ngIf="form.controls['quantity'].getError('OcMinProductQty') as error"
-      class="error-message text-center">
+  </small>
+<small *ngIf="form.controls['quantity'].getError('OcMinProductQty') as error"
+       class="alert alert-danger error-message c-error-message text-center">
     The minimum order quantity is {{error.min}}
 <br>
-</span>
+</small>
