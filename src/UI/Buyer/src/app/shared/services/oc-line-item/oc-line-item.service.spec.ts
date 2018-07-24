@@ -24,7 +24,6 @@
 //         HttpClient,
 //         HttpHandler,
 //         TokenService,
-//         { provide: Configuration, useValue: new Configuration() },
 //         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
 //       ]
 
