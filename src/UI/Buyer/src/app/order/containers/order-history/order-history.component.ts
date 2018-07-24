@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderStatus } from '@app/order/models/order-status.model';
+import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { MeService, ListOrder } from '@ordercloud/angular-sdk';
-import { MeOrderListOptions } from '@app/order/models/me-order-list-options';
+import { MeOrderListOptions } from '@app-buyer/order/models/me-order-list-options';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { flatMap, map } from 'rxjs/operators';

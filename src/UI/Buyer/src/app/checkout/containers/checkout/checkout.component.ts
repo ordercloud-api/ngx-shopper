@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { Order, OrderService, PaymentService } from '@ordercloud/angular-sdk';
-import { AppStateService, BaseResolveService } from '@app/shared';
+import { AppStateService, BaseResolveService } from '@app-buyer/shared';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';

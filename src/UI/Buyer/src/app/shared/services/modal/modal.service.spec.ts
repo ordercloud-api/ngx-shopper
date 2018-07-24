@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ModalService } from '@app/shared/services/modal/modal.service';
+import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
 
 describe('ModalService', () => {
   beforeEach(() => {

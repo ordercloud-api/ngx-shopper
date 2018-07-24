@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 // 3rd party
 import { TokenService, AuthService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { CookieService } from 'ngx-cookie';
 import { keys as _keys } from 'lodash';
-import { AppErrorHandler } from '@app/config/error-handling.config';
+import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
 import * as jwtDecode from 'jwt-decode';
 import { isUndefined as _isUndefined } from 'lodash';
 

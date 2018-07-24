@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegisterComponent } from '@app/shared/containers/register/register.component';
+import { RegisterComponent } from '@app-buyer/shared/containers/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MeService, TokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { InjectionToken } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { PhoneFormatPipe, AppStateService, OcFormErrorService } from '@app/shared';
+import { PhoneFormatPipe, AppStateService, OcFormErrorService } from '@app-buyer/shared';
 import { of, Subject } from 'rxjs';
 
 describe('RegisterComponent', () => {

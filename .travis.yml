@@ -18,10 +18,14 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 before_script:
-  - cd src/UI/Buyer
+  - cd src/UI
   - npm install -g @angular/cli
   - npm install
 
 script:
+  - cd Buyer
+  - ng build --configuration=production
+  - ng test --watch=false
+  - cd ../Seller
   - ng build --configuration=production
   - ng test --watch=false

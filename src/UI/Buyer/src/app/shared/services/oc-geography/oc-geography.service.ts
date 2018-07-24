@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StateDefinition, CountryDefinition } from '@app/shared/services/oc-geography/oc-geography.models';
+import { StateDefinition, CountryDefinition } from '@app-buyer/shared/services/oc-geography/oc-geography.models';
 
 @Injectable({
   providedIn: 'root'

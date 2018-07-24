@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ListBuyerProduct, MeService, BuyerProduct, Category, ListCategory } from '@ordercloud/angular-sdk';
-import { ProductSortStrats } from '@app/products/models/product-sort-strats.enum';
-import { OcLineItemService } from '@app/shared';
-import { AddToCartEvent } from '@app/shared/models/add-to-cart-event.interface';
+import { ProductSortStrats } from '@app-buyer/products/models/product-sort-strats.enum';
+import { OcLineItemService } from '@app-buyer/shared';
+import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
+import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
 
 @Component({
   selector: 'products-list',

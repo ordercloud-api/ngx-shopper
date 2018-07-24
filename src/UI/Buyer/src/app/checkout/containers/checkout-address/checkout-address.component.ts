@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CheckoutSectionBaseComponent } from '@app/checkout/components/checkout-section-base/checkout-section-base.component';
+import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
 import { forkJoin, Observable } from 'rxjs';
 import { MeService, ListBuyerAddress, OrderService, Order, BuyerAddress, ListLineItem } from '@ordercloud/angular-sdk';
-import { AppStateService, ModalService } from '@app/shared';
+import { AppStateService, ModalService } from '@app-buyer/shared';
 
 @Component({
   selector: 'checkout-address',

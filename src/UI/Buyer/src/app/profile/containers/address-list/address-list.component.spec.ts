@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddressListComponent } from '@app/profile/containers/address-list/address-list.component';
+import { AddressListComponent } from '@app-buyer/profile/containers/address-list/address-list.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { AddressDisplayComponent } from '@app/shared/components/address-display/address-display.component';
-import { PhoneFormatPipe, ModalService } from '@app/shared';
+import { AddressDisplayComponent } from '@app-buyer/shared/components/address-display/address-display.component';
+import { PhoneFormatPipe, ModalService } from '@app-buyer/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
 import { MeService } from '@ordercloud/angular-sdk';
-import { AddressFormComponent } from '@app/shared/components/address-form/address-form.component';
+import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AddressListComponent', () => {

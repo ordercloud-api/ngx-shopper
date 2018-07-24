@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddressDisplayComponent } from '@app/shared/components/address-display/address-display.component';
-import { PhoneFormatPipe } from '@app/shared';
+import { AddressDisplayComponent } from '@app-buyer/shared/components/address-display/address-display.component';
+import { PhoneFormatPipe } from '@app-buyer/shared';
 
 describe('AddressDisplayComponent', () => {
   let component: AddressDisplayComponent;

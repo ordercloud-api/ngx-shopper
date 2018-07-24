@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // auth components
-import { LoginComponent } from '@app/auth/containers/login/login.component';
-import { ForgotPasswordComponent } from '@app/auth/containers/forgot-password/forgot-password.component';
-import { RegisterComponent } from '@app/shared';
-import { ResetPasswordComponent } from '@app/auth/containers/reset-password/reset-password.component';
+import { LoginComponent } from '@app-buyer/auth/containers/login/login.component';
+import { ForgotPasswordComponent } from '@app-buyer/auth/containers/forgot-password/forgot-password.component';
+import { RegisterComponent } from '@app-buyer/shared';
+import { ResetPasswordComponent } from '@app-buyer/auth/containers/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },

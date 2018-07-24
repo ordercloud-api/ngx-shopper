@@ -11,24 +11,24 @@ import { CookieModule } from 'ngx-cookie';
 import { ToastrModule } from 'ngx-toastr';
 
 import { OrderCloudModule } from '@ordercloud/angular-sdk';
-import { OcSDKConfig } from '@app/config/ordercloud-sdk.config';
+import { OcSDKConfig } from '@app-buyer/config/ordercloud-sdk.config';
 
 // shared module
-import { SharedModule } from '@app/shared';
+import { SharedModule } from '@app-buyer/shared';
 
 // app modules
-import { LayoutModule } from '@app/layout/layout.module';
-import { AuthModule } from '@app/auth/auth.module';
+import { LayoutModule } from '@app-buyer/layout/layout.module';
+import { AuthModule } from '@app-buyer/auth/auth.module';
 
 // app components
-import { AppComponent } from '@app/app.component';
-import { AppRoutingModule } from '@app/app-routing.module';
+import { AppComponent } from '@app-buyer/app.component';
+import { AppRoutingModule } from '@app-buyer/app-routing.module';
 // interceptors
-import { AutoAppendTokenInterceptor, RefreshTokenInterceptor } from '@app/auth';
+import { AutoAppendTokenInterceptor, RefreshTokenInterceptor } from '@app-buyer/auth';
 
 // date picker config
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateNativeAdapter } from '@app/config/date-picker.config';
+import { NgbDateNativeAdapter } from '@app-buyer/config/date-picker.config';
 
 @NgModule({
   declarations: [

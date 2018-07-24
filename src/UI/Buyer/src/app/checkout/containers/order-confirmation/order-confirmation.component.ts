@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { Order, OrderService, ListLineItem, ListPromotion, ListPayment } from '@ordercloud/angular-sdk';
-import { OcLineItemService } from '@app/shared';
+import { OcLineItemService } from '@app-buyer/shared';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { AppPaymentService } from '@app/shared/services/app-payment-service/app-payment.service';
+import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 
 @Component({
   selector: 'checkout-order-confirmation',

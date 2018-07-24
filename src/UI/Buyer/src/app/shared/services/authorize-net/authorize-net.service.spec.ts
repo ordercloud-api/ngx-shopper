@@ -1,9 +1,9 @@
 import { TestBed, inject, async } from '@angular/core/testing';
 
-import { AuthorizeNetService } from '@app/shared/services/authorize-net/authorize-net.service';
+import { AuthorizeNetService } from '@app-buyer/shared/services/authorize-net/authorize-net.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService, Configuration, OrderService, PaymentService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { InjectionToken } from '@angular/core';
 
 describe('Authorize.NetService', () => {

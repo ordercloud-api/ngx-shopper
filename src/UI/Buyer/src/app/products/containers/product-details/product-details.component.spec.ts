@@ -9,12 +9,12 @@ import {
   PhoneFormatPipe,
   OcLineItemService,
   AppStateService
-} from '@app/shared';
-import { ProductDetailsComponent } from '@app/products/containers/product-details/product-details.component';
+} from '@app-buyer/shared';
+import { ProductDetailsComponent } from '@app-buyer/products/containers/product-details/product-details.component';
 
 import { CookieService, CookieModule } from 'ngx-cookie';
 import { LineItemService, TokenService, Configuration, OrderService, BuyerProduct, MeService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { of } from 'rxjs';
 
 describe('ProductDetailsComponent', () => {

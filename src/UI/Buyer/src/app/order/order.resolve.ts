@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { OrderService } from '@ordercloud/angular-sdk';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OcLineItemService } from '@app/shared';
+import { OcLineItemService } from '@app-buyer/shared';
 
 @Injectable()
 export class OrderResolve implements Resolve<any> {

@@ -1,8 +1,8 @@
 import { Component, Input, ViewChild, EventEmitter, Output, OnInit, ViewEncapsulation } from '@angular/core';
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
-import { AddToCartEvent } from '@app/shared/models/add-to-cart-event.interface';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
+import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
-import { Router } from '../../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'products-product-card',

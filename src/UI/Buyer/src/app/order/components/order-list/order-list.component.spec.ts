@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderListComponent } from '@app/order/components/order-list/order-list.component';
+import { OrderListComponent } from '@app-buyer/order/components/order-list/order-list.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgbPaginationModule, NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateNativeAdapter, NgbDateCustomParserFormatter } from '@app/config/date-picker.config';
+import { NgbDateNativeAdapter, NgbDateCustomParserFormatter } from '@app-buyer/config/date-picker.config';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrderListComponent', () => {

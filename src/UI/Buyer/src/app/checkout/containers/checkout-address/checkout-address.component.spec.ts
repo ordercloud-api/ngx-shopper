@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CheckoutAddressComponent } from '@app/checkout/containers/checkout-address/checkout-address.component';
+import { CheckoutAddressComponent } from '@app-buyer/checkout/containers/checkout-address/checkout-address.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AddressFormComponent } from '@app/shared/components/address-form/address-form.component';
+import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
 import { of, BehaviorSubject } from 'rxjs';
 import { MeService, OrderService } from '@ordercloud/angular-sdk';
-import { AppStateService, OcFormErrorService, ModalService } from '@app/shared';
+import { AppStateService, OcFormErrorService, ModalService } from '@app-buyer/shared';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { OcGeographyService } from '@app/shared/services/oc-geography/oc-geography.service';
-import { CheckoutSectionBaseComponent } from '@app/checkout/components/checkout-section-base/checkout-section-base.component';
+import { OcGeographyService } from '@app-buyer/shared/services/oc-geography/oc-geography.service';
+import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
 
 
 describe('CheckoutAddressComponent', () => {

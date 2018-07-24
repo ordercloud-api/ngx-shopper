@@ -15,10 +15,13 @@
       "es2017",
       "dom"
     ],
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "@app/*": [
-        "app/*"
+      "@app-buyer/*": [
+        "Buyer/src/app/*"
+      ],
+      "@app-seller/*": [
+        "Seller/src/app/*"
       ]
     }
   }

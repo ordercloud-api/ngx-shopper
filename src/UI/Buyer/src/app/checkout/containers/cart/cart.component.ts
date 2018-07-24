@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { OcLineItemService, BaseResolveService, AppStateService } from '@app/shared';
+import { OcLineItemService, BaseResolveService, AppStateService } from '@app-buyer/shared';
 import { Order, LineItem, OrderService, ListLineItem, MeService, BuyerProduct } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
 import { Observable, forkJoin } from 'rxjs';
