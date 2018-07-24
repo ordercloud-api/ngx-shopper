@@ -11,11 +11,13 @@ describe('ProductCardComponent', () => {
   let component: ProductCardComponent;
   let fixture: ComponentFixture<ProductCardComponent>;
   const router = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    url: ''
   };
   const toastrService = {
     error: jasmine.createSpy('error')
   };
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
