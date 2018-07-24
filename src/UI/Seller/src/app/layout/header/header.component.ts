@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { applicationConfiguration, AppConfig } from '@app-seller/config/app.config';
 
 @Component({
   selector: 'layout-header',
@@ -9,7 +10,7 @@ export class HeaderComponent implements OnInit {
 
   isCollapsed = true;
 
-  constructor() { }
+  constructor(@Inject(applicationConfiguration) protected appConfig: AppConfig) { }
 
   ngOnInit() {
   }

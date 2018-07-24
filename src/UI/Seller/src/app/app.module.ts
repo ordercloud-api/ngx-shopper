@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from '@app-seller/app.component';
 import { LayoutModule } from '@app-seller/layout/layout.module';
+import { applicationConfiguration, ocAppConfig } from '@app-seller/config/app.config';
+
 
 @NgModule({
   declarations: [
@@ -12,7 +14,9 @@ import { LayoutModule } from '@app-seller/layout/layout.module';
     BrowserModule,
     LayoutModule
   ],
-  providers: [],
+  providers: [
+    { provide: applicationConfiguration, useValue: ocAppConfig }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
