@@ -18,9 +18,6 @@ export const ocAppConfig: AppConfig = {
         'SupplierReader',
         'SupplierAddressReader',
         'BuyerReader',
-
-        // TODO: remove these from base app once we have suitable integration endpoints
-        // to handle shipping tax and cost
         'OverrideUnitPrice',
         'OrderAdmin',
         'OverrideTax',
