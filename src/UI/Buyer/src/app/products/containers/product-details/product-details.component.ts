@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
-import { OcLineItemService } from '@app/shared';
+import { OcLineItemService } from '@app-buyer/shared';
 import { BuyerProduct, MeService } from '@ordercloud/angular-sdk';
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
-import { AddToCartEvent } from '@app/shared/models/add-to-cart-event.interface';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
+import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 
 @Component({
   selector: 'products-details',

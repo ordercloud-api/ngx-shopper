@@ -3,11 +3,11 @@
 // import { TestBed, inject } from '@angular/core/testing';
 
 // import { OcLineItemService } from './oc-line-item.service';
-// import { AppStateService } from '@app/shared';
+// import { AppStateService } from '@app-buyer/shared';
 // import { LineItemService, OrderService, TokenService, Configuration } from '@ordercloud/angular-sdk';
 // import { HttpClient, HttpHandler } from '@angular/common/http';
 // import { CookieModule } from 'ngx-cookie';
-// import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+// import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 // import { InjectionToken } from '@angular/core';
 
 // describe('OcLineItemService', () => {

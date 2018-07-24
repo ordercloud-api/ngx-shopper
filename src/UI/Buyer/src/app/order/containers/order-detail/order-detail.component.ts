@@ -10,8 +10,8 @@ import {
   Address
 } from '@ordercloud/angular-sdk';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { OcLineItemService } from '@app/shared';
-import { AppPaymentService } from '@app/shared/services/app-payment-service/app-payment.service';
+import { OcLineItemService } from '@app-buyer/shared';
+import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 
 @Component({
   selector: 'order-order-detail',

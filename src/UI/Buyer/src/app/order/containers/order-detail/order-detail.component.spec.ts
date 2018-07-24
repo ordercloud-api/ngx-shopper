@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderDetailComponent } from '@app/order/containers/order-detail/order-detail.component';
+import { OrderDetailComponent } from '@app-buyer/order/containers/order-detail/order-detail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { OcLineItemService } from '@app/shared';
+import { OcLineItemService } from '@app-buyer/shared';
 import { of, Subject } from 'rxjs';
 import { OrderService } from '@ordercloud/angular-sdk';
 import { ParamMap, ActivatedRoute, convertToParamMap } from '@angular/router';
-import { AppPaymentService } from '@app/shared/services/app-payment-service/app-payment.service';
+import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 
 describe('OrderDetailComponent', () => {
   let component: OrderDetailComponent;

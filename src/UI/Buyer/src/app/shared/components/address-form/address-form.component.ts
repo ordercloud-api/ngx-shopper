@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 // 3rd party
 import { BuyerAddress } from '@ordercloud/angular-sdk';
-import { OcGeographyService } from '@app/shared/services/oc-geography/oc-geography.service';
-import { OcFormErrorService } from '@app/shared/services/oc-form-error/oc-form-error.service';
+import { OcGeographyService } from '@app-buyer/shared/services/oc-geography/oc-geography.service';
+import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
 
 @Component({
   selector: 'shared-address-form',

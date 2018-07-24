@@ -3,12 +3,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-import { HeaderComponent } from '@app/layout/header/header.component';
+import { HeaderComponent } from '@app-buyer/layout/header/header.component';
 import {
   AppStateService,
   BaseResolveService,
   OcLineItemService
-} from '@app/shared';
+} from '@app-buyer/shared';
 import {
   TokenService,
   Configuration,
@@ -23,7 +23,7 @@ import {
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbPopoverModule, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CookieModule } from 'ngx-cookie';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 

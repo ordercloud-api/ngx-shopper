@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CheckoutSectionBaseComponent } from '@app/checkout/components/checkout-section-base/checkout-section-base.component';
-import { AppStateService, OcLineItemService } from '@app/shared';
+import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
+import { AppStateService, OcLineItemService } from '@app-buyer/shared';
 import { Order, ListPayment, ListLineItem } from '@ordercloud/angular-sdk';
 import { Observable } from 'rxjs';
-import { AppPaymentService } from '@app/shared/services/app-payment-service/app-payment.service';
+import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 
 @Component({
   selector: 'checkout-confirm',

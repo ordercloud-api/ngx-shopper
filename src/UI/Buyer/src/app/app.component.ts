@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateNativeAdapter, NgbDateCustomParserFormatter } from '@app/config/date-picker.config';
+import { NgbDateNativeAdapter, NgbDateCustomParserFormatter } from '@app-buyer/config/date-picker.config';
 
 @Component({
   selector: 'app-root',

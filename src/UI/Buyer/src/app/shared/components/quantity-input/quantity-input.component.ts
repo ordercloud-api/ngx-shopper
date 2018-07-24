@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
-import { OcMinProductQty, OcMaxProductQty } from '@app/shared/validators/oc-product-quantity/oc-product.quantity.validator';
+import { OcMinProductQty, OcMaxProductQty } from '@app-buyer/shared/validators/oc-product-quantity/oc-product.quantity.validator';
 import { ToastrService } from 'ngx-toastr';
-import { AddToCartEvent } from '@app/shared/models/add-to-cart-event.interface';
+import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 
 @Component({
   selector: 'shared-quantity-input',

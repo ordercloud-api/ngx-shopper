@@ -1,23 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductListComponent } from '@app/products/containers/product-list/product-list.component';
+import { ProductListComponent } from '@app-buyer/products/containers/product-list/product-list.component';
 import {
   PageTitleComponent,
   OcLineItemService,
-} from '@app/shared';
+} from '@app-buyer/shared';
 import { NgbPaginationModule, NgbCollapseModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MeService } from '@ordercloud/angular-sdk';
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CategoryNavComponent } from '@app/products/components/category-nav/category-nav.component';
+import { CategoryNavComponent } from '@app-buyer/products/components/category-nav/category-nav.component';
 import { TreeModule } from 'angular-tree-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
-import { ProductCardComponent } from '@app/shared/components/product-card/product-card.component';
-import { MapToIterablePipe } from '@app/shared/pipes/map-to-iterable/map-to-iterable.pipe';
+import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
+import { ProductCardComponent } from '@app-buyer/shared/components/product-card/product-card.component';
+import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-to-iterable.pipe';
 
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });

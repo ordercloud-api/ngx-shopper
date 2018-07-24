@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CheckoutComponent } from '@app/checkout/containers/checkout/checkout.component';
+import { CheckoutComponent } from '@app-buyer/checkout/containers/checkout/checkout.component';
 import {
   AppStateService,
   BaseResolveService,
-} from '@app/shared';
+} from '@app-buyer/shared';
 import { NgbAccordion, NgbPanel, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';

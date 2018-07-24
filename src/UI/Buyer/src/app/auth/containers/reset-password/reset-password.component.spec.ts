@@ -5,13 +5,13 @@ import { InjectionToken } from '@angular/core';
 import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 
-import { ResetPasswordComponent } from '@app/auth/containers/reset-password/reset-password.component';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { ResetPasswordComponent } from '@app-buyer/auth/containers/reset-password/reset-password.component';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 
 import { Configuration, PasswordResetService, TokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { ToastrService } from 'ngx-toastr';
-import { OcFormErrorService } from '@app/shared';
+import { OcFormErrorService } from '@app-buyer/shared';
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;

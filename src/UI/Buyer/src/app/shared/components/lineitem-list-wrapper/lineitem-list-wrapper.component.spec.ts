@@ -9,10 +9,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CookieModule } from 'ngx-cookie';
 import { SupplierService, LineItemService, TokenService, Configuration, OrderService, Supplier } from '@ordercloud/angular-sdk';
 
-import { LineItemCardComponent } from '@app/shared/components/line-item-card/line-item-card.component';
-import { OcLineItemService, AppStateService, PhoneFormatPipe } from '@app/shared';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
-import { LineItemListWrapperComponent } from '@app/shared/components/lineitem-list-wrapper/lineitem-list-wrapper.component';
+import { LineItemCardComponent } from '@app-buyer/shared/components/line-item-card/line-item-card.component';
+import { OcLineItemService, AppStateService, PhoneFormatPipe } from '@app-buyer/shared';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import { LineItemListWrapperComponent } from '@app-buyer/shared/components/lineitem-list-wrapper/lineitem-list-wrapper.component';
 
 
 describe('LineItemSummaryComponent', () => {

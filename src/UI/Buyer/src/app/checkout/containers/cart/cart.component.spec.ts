@@ -12,19 +12,19 @@ import {
   MeService,
 } from '@ordercloud/angular-sdk';
 
-import { CartComponent } from '@app/checkout/containers/cart/cart.component';
+import { CartComponent } from '@app-buyer/checkout/containers/cart/cart.component';
 import {
   PageTitleComponent,
   PhoneFormatPipe,
   AppStateService,
   BaseResolveService,
   OcLineItemService,
-} from '@app/shared';
-import { OrderSummaryComponent } from '@app/checkout/components/order-summary/order-summary.component';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
-import { LineItemCardComponent } from '@app/shared/components/line-item-card/line-item-card.component';
-import { LineItemListWrapperComponent } from '@app/shared/components/lineitem-list-wrapper/lineitem-list-wrapper.component';
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
+} from '@app-buyer/shared';
+import { OrderSummaryComponent } from '@app-buyer/checkout/components/order-summary/order-summary.component';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import { LineItemCardComponent } from '@app-buyer/shared/components/line-item-card/line-item-card.component';
+import { LineItemListWrapperComponent } from '@app-buyer/shared/components/lineitem-list-wrapper/lineitem-list-wrapper.component';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 
 describe('CartComponent', () => {
   let component: CartComponent;

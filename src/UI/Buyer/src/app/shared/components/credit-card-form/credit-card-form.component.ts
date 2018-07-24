@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CreateCardDetails } from '@app/shared';
-import { OcFormErrorService } from '@app/shared/services/oc-form-error/oc-form-error.service';
+import { CreateCardDetails } from '@app-buyer/shared';
+import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCcVisa, faCcMastercard, faCcDiscover } from '@fortawesome/free-brands-svg-icons';
 

@@ -1,5 +1,5 @@
 import { Component, OnChanges, SimpleChanges } from '@angular/core';
-import { PaymentBaseComponent } from '@app/checkout/components/payment-base/payment-base.component';
+import { PaymentBaseComponent } from '@app-buyer/checkout/components/payment-base/payment-base.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { get as _get } from 'lodash';
 import { Payment } from '@ordercloud/angular-sdk';

@@ -2,20 +2,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 
-import { OrderHistoryComponent } from '@app/order/containers/order-history/order-history.component';
-import { SearchComponent } from '@app/shared/components/search/search.component';
-import { StatusFilterComponent } from '@app/order/components/status-filter/status-filter.component';
-import { DateFilterComponent } from '@app/order/components/date-filter/date-filter.component';
-import { OrderListComponent } from '@app/order/components/order-list/order-list.component';
+import { OrderHistoryComponent } from '@app-buyer/order/containers/order-history/order-history.component';
+import { SearchComponent } from '@app-buyer/shared/components/search/search.component';
+import { StatusFilterComponent } from '@app-buyer/order/components/status-filter/status-filter.component';
+import { DateFilterComponent } from '@app-buyer/order/components/date-filter/date-filter.component';
+import { OrderListComponent } from '@app-buyer/order/components/order-list/order-list.component';
 
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgbPaginationModule, NgbRootModule } from '@ng-bootstrap/ng-bootstrap';
 import { MeService, OrderService } from '@ordercloud/angular-sdk';
 import { DatePipe } from '@angular/common';
-import { OrderStatus } from '@app/order/models/order-status.model';
+import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { OrderStatusDisplayPipe } from '@app/shared/pipes/order-status-display/order-status-display.pipe';
+import { OrderStatusDisplayPipe } from '@app-buyer/shared/pipes/order-status-display/order-status-display.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OrderHistoryComponent', () => {

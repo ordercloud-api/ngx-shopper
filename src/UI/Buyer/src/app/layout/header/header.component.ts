@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { Router } from '@angular/router';
 import { faSearch, faShoppingCart, faPhone, faQuestionCircle, faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable } from 'rxjs';
 
-import { BaseResolveService, AppStateService } from '@app/shared';
+import { BaseResolveService, AppStateService } from '@app-buyer/shared';
 
 import { TokenService, Order, MeUser, ListCategory } from '@ordercloud/angular-sdk';
 import { takeWhile } from 'rxjs/operators';

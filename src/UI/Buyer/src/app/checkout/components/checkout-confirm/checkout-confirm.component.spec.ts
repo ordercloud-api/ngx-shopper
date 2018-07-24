@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutConfirmComponent } from './checkout-confirm.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { AppStateService, OcLineItemService } from '@app/shared';
-import { AppPaymentService } from '@app/shared/services/app-payment-service/app-payment.service';
+import { AppStateService, OcLineItemService } from '@app-buyer/shared';
+import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 
 describe('CheckoutConfirmComponent', () => {
   let component: CheckoutConfirmComponent;
