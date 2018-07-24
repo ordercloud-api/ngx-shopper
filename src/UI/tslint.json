@@ -1,6 +1,11 @@
+/** 
+* This file contains linting rules for the entire UI. 
+* Directory-specific rules in Buyer/tslint.json or Seller/tslint.json may override these rules. 
+*/
 {
   "rulesDirectory": [
-    "node_modules/codelyzer"
+    "./node_modules/codelyzer",
+    "./custom_lint_rules"
   ],
   "rules": {
     "arrow-return-shorthand": true,
