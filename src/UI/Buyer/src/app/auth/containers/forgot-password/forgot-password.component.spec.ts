@@ -32,7 +32,6 @@ describe('ForgotPasswordComponent', () => {
         TokenService,
         { provide: Router, useValue: router },
         { provide: PasswordResetService, useValue: ocPasswordService },
-        { provide: Configuration, useValue: new Configuration() },
         { provide: ToastrService, useValue: toastrService },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]

@@ -44,7 +44,6 @@ describe('ProductDetailsComponent', () => {
           { provide: ActivatedRoute, useValue: activatedRoute },
           { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') },
           AppStateService,
-          { provide: Configuration, useValue: new Configuration() },
           CookieService,
           LineItemService,
           { provide: MeService, useValue: meService },

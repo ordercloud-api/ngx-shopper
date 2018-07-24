@@ -1,14 +1,13 @@
 <h3 class="my-4 text-center">{{ displayTitle }}</h3>
-<div class="row">
+<div class="row align-items-center">
   <div class="col-1 carousel-arrow">
     <fa-icon [icon]="faAngleLeft"
              *ngIf="index > 0"
              (click)="left()"></fa-icon>
   </div>
-  <div class="col-10 product-list-grid row align-items-stretch">
+  <div class="col-10 product-list-grid row d-flex align-items-stretch">
     <products-product-card *ngFor="let product of getProducts()"
-                           class="col-lg-3 col-md-4 col-sm-6"
-                           (click)="toProductDetails(product)"
+                           class="col-lg-3 col-md-4 col-sm-6 d-flex flex-grow-1 flex-shrink-1"
                            [product]="product">
     </products-product-card>
   </div>

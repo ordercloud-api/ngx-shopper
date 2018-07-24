@@ -41,7 +41,6 @@ describe('LineItemSummaryComponent', () => {
         HttpHandler,
         TokenService,
         OrderService,
-        { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
     })

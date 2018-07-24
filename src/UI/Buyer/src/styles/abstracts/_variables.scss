@@ -1,17 +1,18 @@
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass variables.
 // -----------------------------------------------------------------------------
+// Reference node_modules/bootstrap/scss/_variables.scss and copy any EXISTING
+// variables that you wish to override below. If you are creating NEW variables, 
+// add directly to: src/styles/themes/_default.scss
+// -----------------------------------------------------------------------------
+
 /// Relative or absolute URL where all assets are served from
 /// @type String
 /// @example scss - When using a CDN
-///   $base-url: 'http://cdn.example.com/assets/';
-$base-url: '/assets/' !default;
-$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
-$grid-gutter-width: 20px;
-$light: #e9ecef;
+/// $base-url: 'http://cdn.example.com/assets/';
 
-// used by nav header
-$display4-weight: 100;
+$base-url:          '/assets/' !default;
+$icon-font-path:    '~bootstrap-sass/assets/fonts/bootstrap/';
 
 // dont auto-bold headings so we can bold if we want
-$headings-font-weight: 300;
+$headings-font-weight:  400;

@@ -24,7 +24,6 @@ describe('AutoAppendTokenInterceptor', () => {
                 AutoAppendTokenInterceptor,
                 { provide: TokenService, useValue: tokenService },
                 { provide: HTTP_INTERCEPTORS, useClass: AutoAppendTokenInterceptor, multi: true },
-                { provide: Configuration, useValue: new Configuration() },
                 { provide: applicationConfiguration, useValue: appConfig }
             ],
         });
