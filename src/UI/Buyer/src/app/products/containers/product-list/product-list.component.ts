@@ -8,7 +8,7 @@ import { ProductSortStrats } from '@app-buyer/products/models/product-sort-strat
 import { OcLineItemService } from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
+import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
 
 @Component({
   selector: 'products-list',
