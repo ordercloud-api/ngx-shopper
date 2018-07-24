@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { ProductSortStrats } from '@app/products/models/product-sort-strats.enum
 import { OcLineItemService } from '@app/shared';
 import { AddToCartEvent } from '@app/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
 
 @Component({
   selector: 'products-list',
@@ -24,6 +25,8 @@ export class ProductListComponent implements OnInit {
   favsFilterOn = false;
   searchTerm = null;
   closeIcon = faTimes;
+  @ViewChild(ToggleFavoriteComponent) toggleFavoriteComponent: ToggleFavoriteComponent;
+
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -90,7 +93,7 @@ export class ProductListComponent implements OnInit {
   sortStratChanged(): void { this.addQueryParam({ sortBy: this.sortForm.value.sortBy }); }
 
   private addQueryParam(newParam: object): void {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, ...newParam};
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams, ...newParam };
     this.router.navigate([], { queryParams });
   }
 
@@ -142,6 +145,11 @@ export class ProductListComponent implements OnInit {
   addToCart(event: AddToCartEvent) {
     this.ocLineItemService.create(event.product, event.quantity)
       .subscribe();
+  }
+
+  refineByFavorites() {
+    this.toggleFavoriteComponent.favorite = !(this.toggleFavoriteComponent.favorite);
+    this.toggleFavoriteComponent.favoriteChanged.emit(this.toggleFavoriteComponent.favorite);
   }
 
   configureRouter() {

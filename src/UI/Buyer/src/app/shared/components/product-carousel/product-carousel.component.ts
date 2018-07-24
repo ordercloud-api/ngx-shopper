@@ -35,10 +35,6 @@ export class ProductCarouselComponent {
     return this.products.slice(this.index, this.index + this.rowLength);
   }
 
-  toProductDetails(product): void {
-    this.router.navigate(['/products/detail'], { queryParams: { ID: product.ID } });
-  }
-
   configureRouter() {
     /**
      *

@@ -1,17 +1,11 @@
 <span class="sr-only">Sort By Favorites</span>
-<span *ngIf="favorite"
-      class="favorite text-danger cursor-pointer"
-      (click)="favoriteChanged.emit(false)">
-    <fa-icon 
-            [icon]="faHeartFilled">
-    </fa-icon>
-    My Favorites
-</span>
-<span *ngIf="!favorite"
-      class="not-favorite cursor-pointer"
-      (click)="favoriteChanged.emit(true)">
-    <fa-icon
-         [icon]="faHeartOutline">
-    </fa-icon>
-    My Favorites
-</span>
+<fa-icon *ngIf="favorite"
+         class="favorite text-danger"
+         [icon]="faHeartFilled"
+         (click)="favoriteChanged.emit(false)"
+         style="cursor: pointer;"></fa-icon>
+<fa-icon *ngIf="!favorite"
+         class="not-favorite"
+         [icon]="faHeartOutline"
+         (click)="favoriteChanged.emit(true)"
+         style="cursor: pointer;"></fa-icon>

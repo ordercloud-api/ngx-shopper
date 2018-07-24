@@ -41,5 +41,9 @@ export class ProductCardComponent implements OnInit {
   toProductDetails(product) {
     this.router.navigate(['/products/detail'], { queryParams: { ID: product.ID } });
   }
+
+  featuredProducts() {
+    return (this.router.url.indexOf('/home') > -1);
+  }
 }
 

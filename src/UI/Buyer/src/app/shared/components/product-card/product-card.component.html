@@ -1,5 +1,6 @@
 <div class="card mb-5 w-100 border-hover">
-  <div class="ribbon ribbon-top-right bg-light">
+  <div class="ribbon ribbon-top-right bg-light"
+       *ngIf="!featuredProducts()">
     <shared-toggle-favorite *ngIf="isSetFavoriteUsed"
                             title="Favorite"
                             (click)="$event.stopPropagation()"
@@ -28,7 +29,8 @@
       </shared-quantity-input>
     </div>
   </div>
-  <div class="card-footer">
+  <div class="card-footer"
+       *ngIf="!featuredProducts()">
     <button *ngIf="shouldDisplayAddToCart"
             (click)="$event.stopPropagation()"
             class="btn btn-primary btn-block small"

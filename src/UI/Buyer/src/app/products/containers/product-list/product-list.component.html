@@ -1,23 +1,23 @@
 <section class="container mt-2"
          *ngIf="productList$ | async; let productList">
-         <div class="row">
-           <div class="col-12">
-  <nav class="breadcrumb"
-       aria-label="breadcrumb">
-    <a class="breadcrumb-item link-text"
-       [routerLink]="['/products']">All Products</a>
-    <a *ngFor="let cat of categoryCrumbs"
-       class="breadcrumb-item link-text"
-       [queryParams]="{ category: cat.ID }"
-       [routerLink]="['/products']">{{ cat.Name }}</a>
-  </nav>
-</div>
-</div>
+  <div class="row">
+    <div class="col-12">
+      <nav class="breadcrumb"
+           aria-label="breadcrumb">
+        <a class="breadcrumb-item link-text"
+           [routerLink]="['/products']">All Products</a>
+        <a *ngFor="let cat of categoryCrumbs"
+           class="breadcrumb-item link-text"
+           [queryParams]="{ category: cat.ID }"
+           [routerLink]="['/products']">{{ cat.Name }}</a>
+      </nav>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-4 col-lg-3 d-md-block d-sm-none d-none">
       <products-category-nav *ngIf="categories"
-                    [categories]="categories"
-                    (selection)="changeCategory($event)"></products-category-nav>
+                             [categories]="categories"
+                             (selection)="changeCategory($event)"></products-category-nav>
       <div class="card mb-4">
         <div class="card-header p-3">
           <h5 class="card-title mb-0">
@@ -25,8 +25,12 @@
           </h5>
         </div>
         <div class="p-3">
-          <shared-toggle-favorite [favorite]="favsFilterOn"
-                           (favoriteChanged)="setFavsFilter($event)"></shared-toggle-favorite> 
+          <shared-toggle-favorite id="favorite"
+                                  [favorite]="favsFilterOn"
+                                  (favoriteChanged)="setFavsFilter($event)"></shared-toggle-favorite>
+          <label class="ml-2 cursor-pointer"
+                 (click)="refineByFavorites()"
+                 for="favorite"> My Favorites</label>
         </div>
       </div>
     </div>
@@ -40,20 +44,20 @@
           </div>
         </div>
         <div class="col-auto">
-        <form [formGroup]="sortForm">
-          <div class="form-group float-right">
-            <select class="form-control"
-                    formControlName="sortBy"
-                    (change)="sortStratChanged()">
+          <form [formGroup]="sortForm">
+            <div class="form-group float-right">
+              <select class="form-control"
+                      formControlName="sortBy"
+                      (change)="sortStratChanged()">
               <option [ngValue]="null" disabled>None</option>
               <option [ngValue]="sortOption.key" *ngFor="let sortOption of sortOptions | mapToIterable">
                 {{ sortOption.value }}
               </option>
             </select>
-          </div>
-          <div class="float-right mt-1 mr-2">Sort By</div>
-        </form>
-      </div>
+            </div>
+            <div class="float-right mt-1 mr-2">Sort By</div>
+          </form>
+        </div>
       </div>
       <div class="card"
            *ngIf="productList.Items.length === 0">
