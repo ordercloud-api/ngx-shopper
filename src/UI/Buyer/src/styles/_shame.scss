@@ -37,3 +37,12 @@ body {
 .cursor-pointer {
     cursor: $custom-range-track-cursor;
 }
+
+// this makes all address cards the same height
+shared-address-display {
+    display: flex;
+    flex: 1 1 auto;
+    .card {
+        @extend shared-address-display;
+    }
+}
