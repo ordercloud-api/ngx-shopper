@@ -1,5 +1,5 @@
 <div class="container mt-4"
-     *ngIf="product$ | async; let product">
+     *ngIf="product">
   <div class="row mb-5">
     <div class="col-md-6">
       <div class="position-relative d-block">
@@ -9,17 +9,25 @@
     <div class="col-md-6 bg-light">
       <h1 class="h1 my-0">{{ product.Name }}</h1>
       <span class="text-muted">ID: {{ product.ID }}</span>
+      <span class="ml-3">
+        <shared-toggle-favorite 
+          title="Favorite"
+          (click)="$event.stopPropagation()"
+          [favorite]="favoriteProductsService.isFavorite(product.ID)"
+          (favoriteChanged)="favoriteProductsService.setFavoriteValue($event, product.ID)">
+        </shared-toggle-favorite>
+      </span>
       <hr>
-      <h3 class="mt-4 headline-text">{{ product.price | currency }}</h3>
-      <div *ngIf="product.PriceSchedule && product.PriceSchedule.PriceBreaks[0].Price > 1; else viewOnly">
+      <div *ngIf="isOrderable(); else viewOnly">
         <shared-quantity-input class="d-inline-block"
                                style="max-width: 100px"
                                [product]="product"
-                               (addedToCart)="addToCart($event)">
+                               (addedToCart)="addToCart($event)"
+                               (qtyChanged)="quantityChanged($event)">
         </shared-quantity-input>
-        <button class="btn btn-primary"
+        <button class="btn btn-primary ml-2"
                 type="submit"
-                (click)="quantityInputComponent.addToCart($event)">Add to Cart</button>
+                (click)="quantityInputComponent.addToCart($event)">Add to Cart <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span></button>
       </div>
       <ng-template #viewOnly>
         <div class="alert alert-info">
@@ -30,8 +38,22 @@
         <ngb-tabset>
           <ngb-tab title="Details">
             <ng-template ngbTabContent>
-              <p class="mt-4">This is the active tab: product details raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
-                butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+              <p class="mt-4">{{ product.Description || 'This product has no description.' }}</p>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab *ngIf="hasPrice()">
+            <ng-template ngbTabTitle>Price Breaks</ng-template>
+            <ng-template ngbTabContent>
+              <table class="mt-4 table table-striped">
+                <tr>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                </tr>
+                <tr *ngFor="let break of product.PriceSchedule.PriceBreaks">
+                  <td>{{ break.Quantity }}</td>
+                  <td>{{ break.Price | currency }}</td>
+                </tr>
+              </table>
             </ng-template>
           </ngb-tab>
           <ngb-tab>
@@ -48,8 +70,8 @@
   </div>
   <div *ngIf="relatedProducts$ | async; let relatedProducts">
     <products-carousel *ngIf="relatedProducts.length > 0"
-                      displayTitle="Related Products"
-                      [products]="relatedProducts">
+                       displayTitle="Related Products"
+                       [products]="relatedProducts">
     </products-carousel>
   </div>
 </div>

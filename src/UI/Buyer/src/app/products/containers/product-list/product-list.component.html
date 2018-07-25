@@ -64,12 +64,11 @@
         <b class="card-body text-center">No products found.</b>
       </div>
       <div *ngIf="productList.Items.length > 0">
-        <div *ngIf="favoriteProducts != null"
-             class="product-list-grid row align-items-stretch">
+        <div class="product-list-grid row align-items-stretch">
           <products-product-card *ngFor="let product of productList.Items"
                                  [product]="product"
-                                 [favorite]="isProductFav(product)"
-                                 (setFavorite)="setProductAsFav($event, product.ID)"
+                                 [favorite]="favoriteProductsService.isFavorite(product.ID)"
+                                 (setFavorite)="favoriteProductsService.setFavoriteValue($event, product.ID)"
                                  class="col-sm-6 col-md-4 col-xl-3 d-flex"
                                  (addedToCart)="addToCart($event)">
           </products-product-card>

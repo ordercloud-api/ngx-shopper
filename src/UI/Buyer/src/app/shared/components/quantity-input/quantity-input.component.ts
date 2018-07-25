@@ -24,6 +24,7 @@ export class QuantityInputComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.qtyChanged.emit(this.existingQty);
     this.form = this.formBuilder.group({
       quantity: [this.existingQty,
       [

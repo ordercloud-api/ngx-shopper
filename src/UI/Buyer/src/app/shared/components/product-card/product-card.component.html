@@ -39,6 +39,7 @@
             Add <span class="d-md-none d-lg-inline">to Cart</span>
         </button>
     <button *ngIf="isViewOnlyProduct"
+            (click)="toProductDetails(product)"
             class="btn btn-default btn-block btn-outline-dark">View <span class="d-sm-none d-lg-inline">Product</span>
       </button>
   </div>
