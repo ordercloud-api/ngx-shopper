@@ -152,43 +152,6 @@ describe('ProductListComponent', () => {
       expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: newQueryParams });
     });
 
-    describe('isProductFav', () => {
-      beforeEach(() => {
-        component.favoriteProducts = ['a', 'b', 'c'];
-      });
-      it('should return true for a favorite', () => {
-        expect(component.isProductFav({ ID: 'a' })).toEqual(true);
-      });
-      it('should return false for a non-favorite', () => {
-        expect(component.isProductFav({ ID: 'd' })).toEqual(false);
-      });
-    });
-
-    describe('isProductFav', () => {
-      beforeEach(() => {
-        component.favoriteProducts = ['a', 'b', 'c'];
-      });
-      it('should return true for a favorite', () => {
-        expect(component.isProductFav({ ID: 'a' })).toEqual(true);
-      });
-      it('should return false for a non-favorite', () => {
-        expect(component.isProductFav({ ID: 'd' })).toEqual(false);
-      });
-    });
-
-    describe('setProductAsFav', () => {
-      it('should remove fav correctly', () => {
-        component.favoriteProducts = ['a', 'b'];
-        component.setProductAsFav(false, 'a');
-        expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['b'] } });
-      });
-      it('should add fav correctly', () => {
-        component.favoriteProducts = ['a', 'b'];
-        component.setProductAsFav(true, 'c');
-        expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['a', 'b', 'c'] } });
-      });
-    });
-
     describe('buildBreadCrumbs', () => {
       it('should return an empty array when id is null', () => {
         expect(component.buildBreadCrumbs(null)).toEqual([]);

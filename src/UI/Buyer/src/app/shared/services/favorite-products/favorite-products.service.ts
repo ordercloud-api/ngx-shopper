@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MeService } from '@ordercloud/angular-sdk';
+import { MeService, BuyerProduct } from '@ordercloud/angular-sdk';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +21,18 @@ export class FavoriteProductsService {
     });
   }
 
-  isFavorite(productID: string): boolean {
-    return (this.favorites !== null) && this.favorites.indexOf(productID) > -1;
+  isFavorite(product: BuyerProduct): boolean {
+    return (this.favorites !== null) && this.favorites.indexOf(product.ID) > -1;
   }
 
-  setFavoriteValue(isFav: boolean, productID: string): void {
+  setFavoriteValue(isFav: boolean, product: BuyerProduct): void {
     // TODO - is there a better solution if the favorites havn't loaded yet?
     if (this.favorites === null) { return; }
 
     if (isFav) {
-      this.favorites.push(productID);
+      this.favorites.push(product.ID);
     } else {
-      this.favorites =  this.favorites.filter(x => x !== productID);
+      this.favorites = this.favorites.filter(x => x !== product.ID);
     }
     this.meService.Patch({ xp: { FavoriteProducts: this.favorites } })
       .subscribe(me => {

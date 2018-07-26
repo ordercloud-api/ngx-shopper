@@ -7,6 +7,7 @@ import { BuyerProduct, MeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorite-products/favorite-products.service';
+import { minBy as _minBy } from 'lodash';
 
 @Component({
   selector: 'products-details',
@@ -92,10 +93,13 @@ export class ProductDetailsComponent implements OnInit {
     if (!this.quantity) { return null; }
     if (!this.hasPrice()) { return 0; }
 
-    const priceBreak = this.product.PriceSchedule.PriceBreaks.reduce((prev, current) => {
-      return (prev.Quantity > current.Quantity) && (current.Quantity < this.quantity) ? prev : current;
-    });
+    const priceBreaks = this.product.PriceSchedule.PriceBreaks;
+    const startingBreak = _minBy(priceBreaks, 'Quantity');
 
-    return priceBreak.Price * this.quantity;
+    const selectedBreak = priceBreaks.reduce((current, candidate) => {
+      return ((candidate.Quantity > current.Quantity) && (candidate.Quantity <= this.quantity)) ? candidate : current;
+    }, startingBreak);
+
+    return selectedBreak.Price * this.quantity;
   }
 }
