@@ -1,8 +1,8 @@
 import { TestBed, inject, async } from '@angular/core/testing';
 
-import { FavoriteProductsService } from '@app-buyer/shared/services/favorite-products/favorite-products.service';
 import { MeService } from '@ordercloud/angular-sdk';
 import { of } from 'rxjs';
+import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 describe('FavoriteProductsService', () => {
   const meService = {

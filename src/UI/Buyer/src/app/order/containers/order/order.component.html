@@ -14,8 +14,8 @@
       <shared-toggle-favorite 
         title="Favorite"
         (click)="$event.stopPropagation()"
-        [favorite]="favoriteProductsService.isFavorite(product)"
-        (favoriteChanged)="favoriteProductsService.setFavoriteValue($event, product)">
+        [favorite]="favoriteOrdersService.isFavorite(order)"
+        (favoriteChanged)="favoriteOrdersService.setFavoriteValue($event, order)">
       </shared-toggle-favorite>
     </span>
   </div>

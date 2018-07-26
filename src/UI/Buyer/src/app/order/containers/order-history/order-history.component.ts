@@ -4,7 +4,8 @@ import { MeService, ListOrder } from '@ordercloud/angular-sdk';
 import { MeOrderListOptions } from '@app-buyer/order/models/me-order-list-options';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { flatMap, map } from 'rxjs/operators';
+import { flatMap } from 'rxjs/operators';
+import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 @Component({
   selector: 'order-order-history',
@@ -14,19 +15,18 @@ import { flatMap, map } from 'rxjs/operators';
 export class OrderHistoryComponent implements OnInit {
   alive = true;
   orders$: Observable<ListOrder>;
-  favoriteOrders: string[] = [];
   showfavoritesOnly = false;
   sortBy: string;
 
   constructor(
     private meService: MeService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private favoriteOrdersService: FavoriteOrdersService
   ) { }
 
   ngOnInit(): void {
     this.orders$ = this.listOrders();
-    this.listFavoriteOrders().subscribe(x => this.favoriteOrders = x);
   }
 
   protected sortOrders(sortBy: string): void { this.addQueryParam({ sortBy }); }
@@ -49,23 +49,6 @@ export class OrderHistoryComponent implements OnInit {
     this.orders$ = this.listOrders();
   }
 
-  protected updateFavorite(isFavorite: boolean, orderID: string) {
-    if (isFavorite) {
-      this.favoriteOrders.push(orderID);
-    } else {
-      this.favoriteOrders = this.favoriteOrders.filter(x => x !== orderID);
-    }
-    this.meService.Patch({ xp: { FavoriteOrders: this.favoriteOrders } }).subscribe(me => {
-      this.favoriteOrders = me.xp.FavoriteOrders;
-    });
-  }
-
-  protected listFavoriteOrders(): Observable<string[]> {
-    return this.meService.Get().pipe(
-      map(me => me.xp && me.xp.FavoriteOrders ? me.xp.FavoriteOrders : [])
-    );
-  }
-
   protected listOrders(): Observable<ListOrder> {
     return this.activatedRoute.queryParamMap
       .pipe(
@@ -79,7 +62,7 @@ export class OrderHistoryComponent implements OnInit {
             filters: {
               status: queryParams.get('status') || `!${OrderStatus.Unsubmitted}`,
               datesubmitted: queryParams.getAll('datesubmitted') || undefined,
-              ID: this.showfavoritesOnly ? this.favoriteOrders.join('|') : undefined
+              ID: this.showfavoritesOnly ? this.favoriteOrdersService.favorites.join('|') : undefined
             }
           };
           return this.meService.ListOrders(listOptions);

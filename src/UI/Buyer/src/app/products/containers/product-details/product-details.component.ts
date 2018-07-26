@@ -6,8 +6,8 @@ import { OcLineItemService } from '@app-buyer/shared';
 import { BuyerProduct, MeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
-import { FavoriteProductsService } from '@app-buyer/shared/services/favorite-products/favorite-products.service';
 import { minBy as _minBy } from 'lodash';
+import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 @Component({
   selector: 'products-details',

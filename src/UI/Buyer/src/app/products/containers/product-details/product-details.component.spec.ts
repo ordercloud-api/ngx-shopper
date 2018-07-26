@@ -16,7 +16,7 @@ import { CookieService, CookieModule } from 'ngx-cookie';
 import { LineItemService, TokenService, OrderService, BuyerProduct, MeService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { of } from 'rxjs';
-import { FavoriteProductsService } from '@app-buyer/shared/services/favorite-products/favorite-products.service';
+import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 describe('ProductDetailsComponent', () => {
   let component: ProductDetailsComponent;

@@ -9,7 +9,7 @@ import { OcLineItemService } from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
-import { FavoriteProductsService } from '@app-buyer/shared/services/favorite-products/favorite-products.service';
+import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 @Component({
   selector: 'products-list',
