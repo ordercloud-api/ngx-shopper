@@ -35,7 +35,7 @@ export class ProductCardComponent implements OnInit {
      */
     this.isSetFavoriteUsed = this.setFavorite.observers.length > 0;
     const isAddedToCartUsed = this.addedToCart.observers.length > 0;
-    this.isViewOnlyProduct = !(this.product.PriceSchedule && this.product.PriceSchedule.PriceBreaks[0].Price > 1);
+    this.isViewOnlyProduct = !this.product.PriceSchedule;
     this.shouldDisplayAddToCart = isAddedToCartUsed && !this.isViewOnlyProduct;
   }
   toProductDetails(product) {

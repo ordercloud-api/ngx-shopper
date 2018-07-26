@@ -2,7 +2,7 @@
   <div class="form-group mb-0">
     <label for="quantity"
            class="sr-only">Product Quantity</label>
-    <input *ngIf="!product?.PriceSchedule?.RestrictedQuantity"
+    <input *ngIf="!isQuantityRestricted()"
            id="quantity"
            type="number"
            formControlName="quantity"
@@ -11,11 +11,12 @@
            (change)="quantityChanged()"
            aria-label="Quantity Input Selector"
            aria-describedby="quantity">
-    <select *ngIf="product?.PriceSchedule?.RestrictedQuantity"
+    <select *ngIf="isQuantityRestricted()"
             class="form-control text-center"
             formControlName="quantity"
+            (change)="quantityChanged()"
             id="quantity">
-            <option *ngFor="let priceBreak of product.PriceSchedule.PriceBreaks" value="priceBreak.Quantity">
+            <option *ngFor="let priceBreak of product.PriceSchedule.PriceBreaks" [value]="priceBreak.Quantity">
               {{priceBreak.Quantity}}
             </option>
     </select>

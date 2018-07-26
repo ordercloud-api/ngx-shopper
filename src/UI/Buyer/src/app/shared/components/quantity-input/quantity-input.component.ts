@@ -24,6 +24,11 @@ export class QuantityInputComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.isQuantityRestricted()) {
+      this.existingQty = this.product.PriceSchedule.PriceBreaks[0].Quantity;
+    }
+
+    this.qtyChanged.emit(this.existingQty);
     this.form = this.formBuilder.group({
       quantity: [this.existingQty,
       [
@@ -32,6 +37,11 @@ export class QuantityInputComponent implements OnInit {
         OcMaxProductQty(this.product)]
       ]
     });
+  }
+
+  isQuantityRestricted() {
+    // In OC RestrictedQuantity means you can only order quantities for which a price break exists.
+    return this.product && this.product.PriceSchedule && this.product.PriceSchedule.RestrictedQuantity;
   }
 
   quantityChanged(): void {
