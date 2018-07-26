@@ -11,10 +11,12 @@ abstract class FavoritesService<T extends { ID?: string }> {
   constructor(private meService: MeService) { }
 
   loadFavorites(): void {
+    if (this.favorites !== null) { return; }
+
     this.meService.Get().subscribe(me => {
       this.favorites = (me.xp && me.xp[this.XpFieldName]) ? me.xp[this.XpFieldName] : [];
     });
-  }
+  }k
 
   isFavorite(object: T): boolean {
     return (this.favorites !== null) && this.favorites.indexOf(object.ID) > -1;

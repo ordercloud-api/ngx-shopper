@@ -81,6 +81,9 @@ describe('ProductDetailsComponent', () => {
     it('should call getProductData', () => {
       expect(component.getProductData).toHaveBeenCalled();
     });
+    it('should load favorites', () => {
+      expect(favoriteProductsService.loadFavorites).toHaveBeenCalled();
+    });
   });
 
   describe('getProductData', () => {

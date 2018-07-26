@@ -12,7 +12,6 @@ import {
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { OcLineItemService } from '@app-buyer/shared';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
-import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 @Component({
   selector: 'order-order-detail',

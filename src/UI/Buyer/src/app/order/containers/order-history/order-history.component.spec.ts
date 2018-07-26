@@ -83,12 +83,10 @@ describe('OrderHistoryComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       spyOn(component as any, 'listOrders');
-      spyOn(component as any, 'listFavoriteOrders').and.returnValue(of({}));
       component.ngOnInit();
     });
     it('should call list orders', () => {
       expect(component['listOrders']).toHaveBeenCalled();
-      expect(component['listFavoriteOrders']).toHaveBeenCalled();
     });
   });
 
@@ -151,31 +149,6 @@ describe('OrderHistoryComponent', () => {
         expect(meService.ListOrders).toHaveBeenCalledWith(expected);
       });
       queryParamMap.next(convertToParamMap(activatedRoute.snapshot.queryParams));
-    });
-  });
-
-  describe('listFavoriteOrders', () => {
-    beforeEach(() => {
-      meService.Get.calls.reset();
-    });
-    it('should call meService.get', () => {
-      component['listFavoriteOrders']().pipe(take(1)).subscribe(results => {
-        expect(results).toEqual(mockMe.xp.FavoriteOrders);
-        expect(meService.Get).toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe('updateFavorite', () => {
-    it('should remove fav correctly', () => {
-      component.favoriteOrders = ['a', 'b'];
-      component['updateFavorite'](false, 'a');
-      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteOrders: ['b'] } });
-    });
-    it('should add fav correctly', () => {
-      component.favoriteOrders = ['a', 'b'];
-      component['updateFavorite'](true, 'c');
-      expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteOrders: ['a', 'b', 'c'] } });
     });
   });
 

@@ -18,6 +18,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
 import { ProductCardComponent } from '@app-buyer/shared/components/product-card/product-card.component';
 import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-to-iterable.pipe';
+import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
@@ -35,7 +36,7 @@ describe('ProductListComponent', () => {
     Patch: jasmine.createSpy('Patch').and.returnValue(mockMe)
   };
   const ocLineItemService = { create: jasmine.createSpy('create').and.returnValue(of(null)) };
-
+  const favoriteProductsService = { loadFavorites: jasmine.createSpy('loadFavorites') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -60,7 +61,9 @@ describe('ProductListComponent', () => {
         NgbPaginationConfig,
         { provide: OcLineItemService, useValue: ocLineItemService },
         { provide: ActivatedRoute, useValue: { queryParams, snapshot: { queryParams: mockQueryParams } } },
-        { provide: MeService, useValue: meService }]
+        { provide: MeService, useValue: meService },
+        { provide: FavoriteProductsService, useValue: favoriteProductsService }
+      ]
     })
       .compileComponents();
   }));
@@ -93,6 +96,9 @@ describe('ProductListComponent', () => {
     });
     it('should configure the router', () => {
       expect(component.configureRouter).toHaveBeenCalled();
+    });
+    it('should load favorites', () => {
+      expect(favoriteProductsService.loadFavorites).toHaveBeenCalled();
     });
   });
 
