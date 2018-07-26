@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LineItemCardComponent } from '@app/shared/components/line-item-card/line-item-card.component';
+import { LineItemCardComponent } from '@app-buyer/shared/components/line-item-card/line-item-card.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 

@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { faCube, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { Order } from '@ordercloud/angular-sdk';
+import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 @Component({
   selector: 'order-order',
@@ -16,10 +17,12 @@ export class OrderComponent implements OnInit {
   order$: Observable<Order>;
 
   constructor(
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private favoriteOrdersService: FavoriteOrdersService
   ) { }
 
   ngOnInit() {
+    this.favoriteOrdersService.loadFavorites();
     this.order$ = this.activatedRoute.data
       .pipe(
         map(({ orderResolve }) => orderResolve.order)

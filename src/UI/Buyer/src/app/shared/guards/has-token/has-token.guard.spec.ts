@@ -1,11 +1,11 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
-import { HasTokenGuard } from '@app/shared/guards/has-token/has-token.guard';
+import { HasTokenGuard } from '@app-buyer/shared/guards/has-token/has-token.guard';
 import { TokenService } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
-import { AppAuthService } from '@app/auth';
+import { AppAuthService } from '@app-buyer/auth';
 import { of, BehaviorSubject } from 'rxjs';
-import { applicationConfiguration } from '@app/config/app.config';
+import { applicationConfiguration } from '@app-buyer/config/app.config';
 
 describe('HasTokenGuard', () => {
   let guard: HasTokenGuard;

@@ -1,7 +1,8 @@
 import { Component, Input, ViewChild, EventEmitter, Output, OnInit, ViewEncapsulation } from '@angular/core';
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
-import { AddToCartEvent } from '@app/shared/models/add-to-cart-event.interface';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
+import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'products-product-card',
@@ -19,6 +20,10 @@ export class ProductCardComponent implements OnInit {
   isViewOnlyProduct: boolean;
   isSetFavoriteUsed: boolean;
 
+  constructor(
+    private router: Router
+  ) { }
+
   addToCart(event: AddToCartEvent) {
     this.addedToCart.emit(event);
   }
@@ -30,7 +35,15 @@ export class ProductCardComponent implements OnInit {
      */
     this.isSetFavoriteUsed = this.setFavorite.observers.length > 0;
     const isAddedToCartUsed = this.addedToCart.observers.length > 0;
-    this.isViewOnlyProduct = !(this.product.PriceSchedule && this.product.PriceSchedule.PriceBreaks[0].Price > 1);
+    this.isViewOnlyProduct = !this.product.PriceSchedule;
     this.shouldDisplayAddToCart = isAddedToCartUsed && !this.isViewOnlyProduct;
   }
+  toProductDetails(product) {
+    this.router.navigate(['/products/detail'], { queryParams: { ID: product.ID } });
+  }
+
+  featuredProducts() {
+    return (this.router.url.indexOf('/home') > -1);
+  }
 }
+

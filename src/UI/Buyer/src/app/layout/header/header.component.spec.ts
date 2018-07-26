@@ -3,13 +3,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-import { HeaderComponent } from '@app/layout/header/header.component';
+import { HeaderComponent } from '@app-buyer/layout/header/header.component';
 import {
   AppStateService,
-  NavBrandsPipe,
   BaseResolveService,
   OcLineItemService
-} from '@app/shared';
+} from '@app-buyer/shared';
 import {
   TokenService,
   Configuration,
@@ -24,7 +23,7 @@ import {
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbPopoverModule, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CookieModule } from 'ngx-cookie';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -41,7 +40,7 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderComponent, NavBrandsPipe],
+      declarations: [HeaderComponent],
       imports: [
         CookieModule.forRoot(),
         FontAwesomeModule,
@@ -101,17 +100,6 @@ describe('HeaderComponent', () => {
         expect(order.LineItemCount).toBe(1);
         expect(component.addedToCart).not.toHaveBeenCalled();
       });
-    });
-  });
-
-  describe('search', () => {
-    const mockSearchTerm = 'awesome product';
-    beforeEach(() => {
-      component.searchProductsForm.value.search = mockSearchTerm;
-      component.searchProducts(mockSearchTerm);
-    });
-    it('should navigate to product list component with correct query parameters', () => {
-      expect(router.navigate).toHaveBeenCalledWith(['/products'], { queryParams: { search: mockSearchTerm } });
     });
   });
 

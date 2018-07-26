@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 
 // ordercloud
 import { AuthService, TokenService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
-import { AppAuthService } from '@app/auth/services/app-auth.service';
-import { AppStateService } from '@app/shared';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
+import { AppStateService } from '@app-buyer/shared';
 
 @Component({
   selector: 'auth-login',

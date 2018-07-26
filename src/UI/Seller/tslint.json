@@ -1,0 +1,14 @@
+/** 
+* This file has linting rules for the Seller directory only. 
+* Rules here override project-wide rules found in /src/UI/tslint.json
+*/
+{
+  "extends": "./../tslint.json",
+  "rulesDirectory": [
+    "../node_modules/codelyzer",
+    "../custom_lint_rules"
+  ],
+  "rules": {
+    "ban-buyer-import": true
+  }
+}

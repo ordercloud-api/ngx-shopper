@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderConfirmationComponent } from '@app/checkout/containers/order-confirmation/order-confirmation.component';
+import { OrderConfirmationComponent } from '@app-buyer/checkout/containers/order-confirmation/order-confirmation.component';
 import { ParamMap, ActivatedRoute, convertToParamMap } from '@angular/router';
-import { OcLineItemService } from '@app/shared';
+import { OcLineItemService } from '@app-buyer/shared';
 import { OrderService } from '@ordercloud/angular-sdk';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
-import { AppPaymentService } from '@app/shared/services/app-payment-service/app-payment.service';
+import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 
 describe('OrderConfirmationComponent', () => {
   let component: OrderConfirmationComponent;

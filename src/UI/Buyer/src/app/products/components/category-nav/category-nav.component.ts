@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ListCategory, Category } from '@ordercloud/angular-sdk';
 import { ITreeOptions } from 'angular-tree-component';
-import { CategoryTreeNode } from '@app/products/models/category-tree-node.class';
+import { CategoryTreeNode } from '@app-buyer/products/models/category-tree-node.class';
 
 @Component({
   selector: 'products-category-nav',

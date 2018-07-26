@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
@@ -8,7 +8,7 @@ describe('QuantityInputComponent', () => {
   let component: QuantityInputComponent;
   let fixture: ComponentFixture<QuantityInputComponent>;
   const toastrService = {
-    error: jasmine.createSpy('error')
+    error: jasmine.createSpy('error').and.returnValue(null)
   };
 
   beforeEach(async(() => {

@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfileComponent } from '@app/profile/containers/profile/profile.component';
-import { SharedModule, PhoneFormatPipe, AppStateService } from '@app/shared';
-import { AddressListComponent } from '@app/profile/containers/address-list/address-list.component';
-import { ProfileModule } from '@app/profile/profile.module';
+import { ProfileComponent } from '@app-buyer/profile/containers/profile/profile.component';
+import { SharedModule, PhoneFormatPipe, AppStateService } from '@app-buyer/shared';
+import { AddressListComponent } from '@app-buyer/profile/containers/address-list/address-list.component';
+import { ProfileModule } from '@app-buyer/profile/profile.module';
 import { NO_ERRORS_SCHEMA, InjectionToken } from '@angular/core';
 import { MeService, TokenService, Configuration } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { ToastrService } from 'ngx-toastr';
 import { RouterTestingModule } from '@angular/router/testing';
 

@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, filter, flatMap } from 'rxjs/operators';
-import { AppAuthService } from '@app/auth/services/app-auth.service';
+import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 
 /**
  * handle 401 unauthorized responses gracefully

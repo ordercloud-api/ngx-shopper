@@ -2,35 +2,38 @@
   <div class="form-group mb-0">
     <label for="quantity"
            class="sr-only">Product Quantity</label>
-    <input *ngIf="!product?.PriceSchedule?.RestrictedQuantity"
+    <input *ngIf="!isQuantityRestricted()"
            id="quantity"
            type="number"
            formControlName="quantity"
            class="form-control text-center"
-           placeholder="Quantity"
-           (change)="quantityChanged()">
-    <select *ngIf="product?.PriceSchedule?.RestrictedQuantity"
+           placeholder="0"
+           (change)="quantityChanged()"
+           aria-label="Quantity Input Selector"
+           aria-describedby="quantity">
+    <select *ngIf="isQuantityRestricted()"
             class="form-control text-center"
             formControlName="quantity"
+            (change)="quantityChanged()"
             id="quantity">
-            <option *ngFor="let priceBreak of product.PriceSchedule.PriceBreaks" value="priceBreak.Quantity">
+            <option *ngFor="let priceBreak of product.PriceSchedule.PriceBreaks" [value]="priceBreak.Quantity">
               {{priceBreak.Quantity}}
             </option>
     </select>
   </div>
 </form>
-<span *ngIf="form.controls['quantity'].getError('required')"
-      class="error-message text-center">
+<small *ngIf="form.controls['quantity'].getError('required')"
+       class="alert alert-danger error-message c-error-message text-center">
     Please enter a quantity
     <br>
-  </span>
-<span *ngIf="form.controls['quantity'].getError('OcMaxProductQty') as error"
-      class="error-message text-center">
+  </small>
+<small *ngIf="form.controls['quantity'].getError('OcMaxProductQty') as error"
+       class="alert alert-danger error-message c-error-message text-center">
         The maximum order quantity is {{error.max}}
     <br>
-  </span>
-<span *ngIf="form.controls['quantity'].getError('OcMinProductQty') as error"
-      class="error-message text-center">
+  </small>
+<small *ngIf="form.controls['quantity'].getError('OcMinProductQty') as error"
+       class="alert alert-danger error-message c-error-message text-center">
     The minimum order quantity is {{error.min}}
 <br>
-</span>
+</small>

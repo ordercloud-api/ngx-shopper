@@ -1,14 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderListComponent } from '@app/order/components/order-list/order-list.component';
+import { OrderListComponent } from '@app-buyer/order/components/order-list/order-list.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgbPaginationModule, NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateNativeAdapter, NgbDateCustomParserFormatter } from '@app/config/date-picker.config';
+import { NgbDateNativeAdapter, NgbDateCustomParserFormatter } from '@app-buyer/config/date-picker.config';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
+import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 describe('OrderListComponent', () => {
   let component: OrderListComponent;
   let fixture: ComponentFixture<OrderListComponent>;
+
+  const favoriteOrdersService = { loadFavorites: jasmine.createSpy('loadFavorites').and.returnValue(of(null)) };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -22,6 +26,7 @@ describe('OrderListComponent', () => {
       providers: [
         { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
         { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+        { provide: FavoriteOrdersService, useValue: favoriteOrdersService }
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     })
@@ -37,6 +42,13 @@ describe('OrderListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should call loadFavorites', () => {
+      component.ngOnInit();
+      expect(favoriteOrdersService.loadFavorites).toHaveBeenCalled();
+    });
   });
 
   describe('updateSort', () => {
@@ -72,18 +84,6 @@ describe('OrderListComponent', () => {
     });
     it('should emit passed in page', () => {
       expect(component.changedPage.emit).toHaveBeenCalledWith(2);
-    });
-  });
-
-  describe('isFavorite', () => {
-    beforeEach(() => {
-      component.favoriteOrders = ['a', 'b'];
-    });
-    it('should return true when arg is a favorite order', () => {
-      expect(component['isFavorite']('a')).toEqual(true);
-    });
-    it('should return false when arg is not a favorite order', () => {
-      expect(component['isFavorite']('c')).toEqual(false);
     });
   });
 });

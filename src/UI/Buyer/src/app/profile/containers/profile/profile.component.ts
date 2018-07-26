@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileTab } from '@app/profile/models/profile-tabs.enum';
+import { ProfileTab } from '@app-buyer/profile/models/profile-tabs.enum';
 
 @Component({
   selector: 'profile-profile',

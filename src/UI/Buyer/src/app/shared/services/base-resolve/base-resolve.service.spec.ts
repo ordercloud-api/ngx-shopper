@@ -1,10 +1,10 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-import { BaseResolveService } from '@app/shared/services/base-resolve/base-resolve.service';
-import { AppStateService, OcLineItemService } from '@app/shared';
-import { AppAuthService } from '@app/auth/services/app-auth.service';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
+import { AppStateService, OcLineItemService } from '@app-buyer/shared';
+import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 
 import {
   AuthService,
@@ -18,7 +18,7 @@ import {
 } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AppErrorHandler } from '@app/config/error-handling.config';
+import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
 
 describe('BaseResolveService', () => {
   beforeEach(() => {

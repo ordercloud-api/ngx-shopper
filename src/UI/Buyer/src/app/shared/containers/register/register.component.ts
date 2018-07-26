@@ -4,10 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MeService, TokenService } from '@ordercloud/angular-sdk';
 import { tap } from 'rxjs/operators';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
-import { OcMatchFieldsValidator } from '@app/shared/validators/oc-match-fields/oc-match-fields.validator';
-import { AppStateService } from '@app/shared/services/app-state/app-state.service';
-import { OcFormErrorService } from '@app/shared/services/oc-form-error/oc-form-error.service';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import { OcMatchFieldsValidator } from '@app-buyer/shared/validators/oc-match-fields/oc-match-fields.validator';
+import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
+import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
 
 @Component({
   selector: 'shared-register',

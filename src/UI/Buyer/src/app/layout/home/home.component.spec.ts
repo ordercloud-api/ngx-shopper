@@ -1,17 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Configuration, MeService, BuyerService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { InjectionToken } from '@angular/core';
 import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
-import { HomeComponent } from '@app/layout/home/home.component';
+import { HomeComponent } from '@app-buyer/layout/home/home.component';
 import { NgbCarouselConfig, NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
-import { ProductCarouselComponent } from '@app/shared/components/product-carousel/product-carousel.component';
+import { ProductCarouselComponent } from '@app-buyer/shared/components/product-carousel/product-carousel.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ProductCardComponent } from '@app/shared/components/product-card/product-card.component';
-import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
+import { ProductCardComponent } from '@app-buyer/shared/components/product-card/product-card.component';
+import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
-import { ModalService } from '@app/shared/services/modal/modal.service';
+import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 /**

@@ -9,25 +9,30 @@ import {
   PhoneFormatPipe,
   OcLineItemService,
   AppStateService
-} from '@app/shared';
-import { ProductDetailsComponent } from '@app/products/containers/product-details/product-details.component';
+} from '@app-buyer/shared';
+import { ProductDetailsComponent } from '@app-buyer/products/containers/product-details/product-details.component';
 
 import { CookieService, CookieModule } from 'ngx-cookie';
-import { LineItemService, TokenService, Configuration, OrderService, BuyerProduct, MeService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
+import { LineItemService, TokenService, OrderService, BuyerProduct, MeService } from '@ordercloud/angular-sdk';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { of } from 'rxjs';
+import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 describe('ProductDetailsComponent', () => {
   let component: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
 
   const mockProductID = '41112-S000063105';
-  const mockProduct = of(<BuyerProduct>{ ID: mockProductID, xp: { RelatedProducts: [], additionalImages: [] }});
+  const mockProduct = <BuyerProduct>{ ID: mockProductID, xp: { RelatedProducts: [], additionalImages: [] } };
 
   const queryParams = new BehaviorSubject<any>({ ID: mockProductID });
   const activatedRoute = { navigate: jasmine.createSpy('navigate'), queryParams };
   const meService = { GetProduct: jasmine.createSpy('GetProduct').and.returnValue(of(mockProduct)) };
   const ocLineItemService = { create: jasmine.createSpy('create').and.returnValue(of(null)) };
+  const favoriteProductsService = {
+    loadFavorites: jasmine.createSpy('loadFavorites'),
+    isFavorite: jasmine.createSpy('isFavorite').and.returnValue(true)
+  };
 
   beforeEach(
     async(() => {
@@ -48,6 +53,7 @@ describe('ProductDetailsComponent', () => {
           LineItemService,
           { provide: MeService, useValue: meService },
           { provide: OcLineItemService, useValue: ocLineItemService },
+          { provide: FavoriteProductsService, useValue: favoriteProductsService },
           OrderService,
           RouterTestingModule,
           TokenService,
@@ -69,11 +75,14 @@ describe('ProductDetailsComponent', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
-      spyOn(component, 'getProductData');
+      spyOn(component, 'getProductData').and.returnValue(of(mockProduct));
       component.ngOnInit();
     });
     it('should call getProductData', () => {
       expect(component.getProductData).toHaveBeenCalled();
+    });
+    it('should load favorites', () => {
+      expect(favoriteProductsService.loadFavorites).toHaveBeenCalled();
     });
   });
 
@@ -92,6 +101,33 @@ describe('ProductDetailsComponent', () => {
     });
     it('should call add to cart', () => {
       expect(ocLineItemService.create).toHaveBeenCalledWith(mockEmittedProduct, mockQuantity);
+    });
+  });
+
+  describe('getTotalPrice', () => {
+    beforeEach(() => {
+      component.product.PriceSchedule = { PriceBreaks: [
+        { Quantity: 5, Price: 10},
+        { Quantity: 10, Price: 9},
+        { Quantity: 15, Price: 8},
+        { Quantity: 20, Price: 7},
+      ]};
+    });
+    it('should calculate total correctly', () => {
+      component.quantity = 2;
+      expect(component.getTotalPrice()).toEqual(2 * 10);
+      component.quantity = 7;
+      expect(component.getTotalPrice()).toEqual(7 * 10);
+      component.quantity = 12;
+      expect(component.getTotalPrice()).toEqual(12 * 9);
+      component.quantity = 15;
+      expect(component.getTotalPrice()).toEqual(15 * 8);
+      component.quantity = 17;
+      expect(component.getTotalPrice()).toEqual(17 * 8);
+      component.quantity = 20;
+      expect(component.getTotalPrice()).toEqual(20 * 7);
+      component.quantity = 22;
+      expect(component.getTotalPrice()).toEqual(22 * 7);
     });
   });
 });

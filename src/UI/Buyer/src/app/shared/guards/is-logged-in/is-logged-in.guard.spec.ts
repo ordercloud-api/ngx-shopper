@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { IsLoggedInGuard } from '@app/shared/guards/is-logged-in/is-logged-in.guard';
-import { AppAuthService } from '@app/auth';
+import { IsLoggedInGuard } from '@app-buyer/shared/guards/is-logged-in/is-logged-in.guard';
+import { AppAuthService } from '@app-buyer/auth';
 
 describe('IsLoggedInGuard', () => {
   const firstIsAnonUserVal = true;

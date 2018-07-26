@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderPaymentListComponent } from '@app/shared/components/payment-list/order-payment-list.component';
-import { CreditCardIconComponent } from '@app/shared/components/credit-card-icon/credit-card-icon.component';
+import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
+import { CreditCardIconComponent } from '@app-buyer/shared/components/credit-card-icon/credit-card-icon.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 describe('Order: PaymentListComponent', () => {

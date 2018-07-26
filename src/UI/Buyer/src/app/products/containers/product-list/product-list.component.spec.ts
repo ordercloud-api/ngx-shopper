@@ -1,23 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductListComponent } from '@app/products/containers/product-list/product-list.component';
+import { ProductListComponent } from '@app-buyer/products/containers/product-list/product-list.component';
 import {
   PageTitleComponent,
   OcLineItemService,
-} from '@app/shared';
+} from '@app-buyer/shared';
 import { NgbPaginationModule, NgbCollapseModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MeService } from '@ordercloud/angular-sdk';
-import { QuantityInputComponent } from '@app/shared/components/quantity-input/quantity-input.component';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CategoryNavComponent } from '@app/products/components/category-nav/category-nav.component';
+import { CategoryNavComponent } from '@app-buyer/products/components/category-nav/category-nav.component';
 import { TreeModule } from 'angular-tree-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ToggleFavoriteComponent } from '@app/shared/components/toggle-favorite/toggle-favorite.component';
-import { ProductCardComponent } from '@app/shared/components/product-card/product-card.component';
-import { MapToIterablePipe } from '@app/shared/pipes/map-to-iterable/map-to-iterable.pipe';
+import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
+import { ProductCardComponent } from '@app-buyer/shared/components/product-card/product-card.component';
+import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-to-iterable.pipe';
+import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
@@ -35,7 +36,7 @@ describe('ProductListComponent', () => {
     Patch: jasmine.createSpy('Patch').and.returnValue(mockMe)
   };
   const ocLineItemService = { create: jasmine.createSpy('create').and.returnValue(of(null)) };
-
+  const favoriteProductsService = { loadFavorites: jasmine.createSpy('loadFavorites') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -60,7 +61,9 @@ describe('ProductListComponent', () => {
         NgbPaginationConfig,
         { provide: OcLineItemService, useValue: ocLineItemService },
         { provide: ActivatedRoute, useValue: { queryParams, snapshot: { queryParams: mockQueryParams } } },
-        { provide: MeService, useValue: meService }]
+        { provide: MeService, useValue: meService },
+        { provide: FavoriteProductsService, useValue: favoriteProductsService }
+      ]
     })
       .compileComponents();
   }));
@@ -93,6 +96,9 @@ describe('ProductListComponent', () => {
     });
     it('should configure the router', () => {
       expect(component.configureRouter).toHaveBeenCalled();
+    });
+    it('should load favorites', () => {
+      expect(favoriteProductsService.loadFavorites).toHaveBeenCalled();
     });
   });
 
@@ -150,43 +156,6 @@ describe('ProductListComponent', () => {
       component.sortStratChanged();
       const newQueryParams = Object.assign({}, mockQueryParams, { sortBy: newSort });
       expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: newQueryParams });
-    });
-
-    describe('isProductFav', () => {
-      beforeEach(() => {
-        component.favoriteProducts = ['a', 'b', 'c'];
-      });
-      it('should return true for a favorite', () => {
-        expect(component.isProductFav({ ID: 'a' })).toEqual(true);
-      });
-      it('should return false for a non-favorite', () => {
-        expect(component.isProductFav({ ID: 'd' })).toEqual(false);
-      });
-    });
-
-    describe('isProductFav', () => {
-      beforeEach(() => {
-        component.favoriteProducts = ['a', 'b', 'c'];
-      });
-      it('should return true for a favorite', () => {
-        expect(component.isProductFav({ ID: 'a' })).toEqual(true);
-      });
-      it('should return false for a non-favorite', () => {
-        expect(component.isProductFav({ ID: 'd' })).toEqual(false);
-      });
-    });
-
-    describe('setProductAsFav', () => {
-      it('should remove fav correctly', () => {
-        component.favoriteProducts = ['a', 'b'];
-        component.setProductAsFav(false, 'a');
-        expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['b'] } });
-      });
-      it('should add fav correctly', () => {
-        component.favoriteProducts = ['a', 'b'];
-        component.setProductAsFav(true, 'c');
-        expect(meService.Patch).toHaveBeenCalledWith({ xp: { FavoriteProducts: ['a', 'b', 'c'] } });
-      });
     });
 
     describe('buildBreadCrumbs', () => {

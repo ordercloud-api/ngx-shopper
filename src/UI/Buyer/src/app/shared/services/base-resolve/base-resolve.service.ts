@@ -13,13 +13,13 @@ import {
   ListLineItem,
   LineItem,
 } from '@ordercloud/angular-sdk';
-import { OcLineItemService } from '@app/shared/services/oc-line-item/oc-line-item.service';
-import { AppStateService } from '@app/shared/services/app-state/app-state.service';
+import { OcLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
+import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import * as jwtDecode from 'jwt-decode';
 
 // app
-import { applicationConfiguration, AppConfig } from '@app/config/app.config';
-import { AppAuthService } from '@app/auth/services/app-auth.service';
+import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 
 @Injectable()
 export class BaseResolveService {
