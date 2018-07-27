@@ -29,6 +29,10 @@ body {
     }
 }
 
+.border-radius {
+    border-radius: $border-radius;
+}
+
 .ribbon.ribbon-top-right:after {
     border-top-color: $ribbon-shadow-color;
     border-left-color: $ribbon-shadow-color;
@@ -36,4 +40,13 @@ body {
 
 .cursor-pointer {
     cursor: $custom-range-track-cursor;
+}
+
+// this makes all address cards the same height
+shared-address-display {
+    display: flex;
+    flex: 1 1 auto;
+    .card {
+        @extend shared-address-display;
+    }
 }
