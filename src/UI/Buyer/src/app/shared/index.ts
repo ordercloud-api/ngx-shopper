@@ -27,6 +27,7 @@ export * from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
 export * from '@app-buyer/shared/services/oc-geography/oc-geography.service';
 export * from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
 export * from '@app-buyer/shared/services/modal/modal.service';
+export * from '@app-buyer/shared/services/oc-reorder/oc-reorder.service';
 
 // validators
 export * from '@app-buyer/shared/validators/oc-match-fields/oc-match-fields.validator';

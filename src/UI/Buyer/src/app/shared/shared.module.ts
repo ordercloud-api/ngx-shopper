@@ -31,6 +31,7 @@ import { OcLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-li
 import { AuthorizeNetService } from '@app-buyer/shared/services/authorize-net/authorize-net.service';
 import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
 import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
+import { OcReorderService } from '@app-buyer/shared/services/oc-reorder/oc-reorder.service';
 
 // pipes
 import { PhoneFormatPipe } from '@app-buyer/shared/pipes/phone-format/phone-format.pipe';
@@ -197,6 +198,7 @@ export class SharedModule {
         IsLoggedInGuard,
         DatePipe,
         NgbDateCustomParserFormatter,
+        OcReorderService,
         { provide: applicationConfiguration, useValue: ocAppConfig },
         { provide: ErrorHandler, useClass: AppErrorHandler }
       ]
