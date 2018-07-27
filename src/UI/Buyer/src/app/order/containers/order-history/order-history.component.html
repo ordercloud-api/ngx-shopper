@@ -16,12 +16,10 @@
     <order-date-filter (selectedDate)="filterByDate($event)"></order-date-filter>
   </div>
 </div>
-<order-order-list *ngIf="orders$ | async; let orders"
+<order-list *ngIf="orders$ | async; let orders"
                   [orders]="orders"
                   [columns]="['ID', 'Status', 'DateSubmitted', 'Total']"
                   [sortBy]="sortBy"
-                  [favoriteOrders]="favoriteOrders"
                   (updatedSort)="sortOrders($event)"
-                  (changedPage)="changePage($event)"
-                  (favoriteChanged)="updateFavorite($event.isFavorite, $event.orderID)">
-</order-order-list>
+                  (changedPage)="changePage($event)">
+</order-list>
