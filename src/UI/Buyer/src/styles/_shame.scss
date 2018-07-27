@@ -29,6 +29,10 @@ body {
     }
 }
 
+.border-radius {
+    border-radius: $border-radius;
+}
+
 .ribbon.ribbon-top-right:after {
     border-top-color: $ribbon-shadow-color;
     border-left-color: $ribbon-shadow-color;
