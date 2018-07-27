@@ -1,8 +1,8 @@
 <div class="card border shadow-sm mb-3">
   <address class="card-body row">
     <div class="col-md-8">
-      <b *ngIf="addressTitle">{{ addressTitle }}</b>
-      <div *ngIf="address.AddressName">{{address.AddressName}}</div>
+      <p *ngIf="addressTitle"><strong>{{ addressTitle }}</strong></p>
+      <div *ngIf="address.AddressName"><strong>{{address.AddressName}}</strong></div>
       <div *ngIf="address.CompanyName">{{address.CompanyName}}</div>
       <div>{{address.FullName}}</div>
       <div>{{address.Street1}}</div>
