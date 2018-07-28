@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderShipmentsComponent } from '@app-buyer/order/containers/order-shipments/order-shipments.component';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { ShipperTrackingPipe, ShipperTrackingSupportedPipe } from '@app-buyer/shared/pipes/shipperTracking/shipperTracking.pipe';
 
 describe('OrderShipmentsComponent', () => {
@@ -44,7 +44,7 @@ describe('OrderShipmentsComponent', () => {
       ],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRoute },
-        { provide: MeService, useValue: meService }
+        { provide: OcMeService, useValue: meService }
       ]
     })
       .compileComponents();

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { MeService, BuyerProduct, Order } from '@ordercloud/angular-sdk';
+import { OcMeService, BuyerProduct, Order } from '@ordercloud/angular-sdk';
 
 abstract class FavoritesService<T extends { ID?: string }> {
 
@@ -8,12 +8,12 @@ abstract class FavoritesService<T extends { ID?: string }> {
   // Array of object IDs
   public favorites: string[] = null;
 
-  constructor(private meService: MeService) { }
+  constructor(private ocMeService: OcMeService) { }
 
   loadFavorites(): void {
     if (this.favorites !== null) { return; }
 
-    this.meService.Get().subscribe(me => {
+    this.ocMeService.Get().subscribe(me => {
       this.favorites = (me.xp && me.xp[this.XpFieldName]) ? me.xp[this.XpFieldName] : [];
     });
   }
@@ -33,8 +33,8 @@ abstract class FavoritesService<T extends { ID?: string }> {
     }
     const request = { xp: {} };
     request.xp[this.XpFieldName] = this.favorites;
-    this.meService.Patch(request).subscribe(me => {
-        this.favorites = me.xp[this.XpFieldName];
+    this.ocMeService.Patch(request).subscribe(me => {
+      this.favorites = me.xp[this.XpFieldName];
     });
   }
 }
@@ -45,8 +45,8 @@ abstract class FavoritesService<T extends { ID?: string }> {
 export class FavoriteProductsService extends FavoritesService<BuyerProduct>  {
   protected readonly XpFieldName = 'FavoriteProducts';
 
-  constructor(@Inject(MeService) meService: MeService) {
-    super(meService);
+  constructor(@Inject(OcMeService) ocMeService: OcMeService) {
+    super(ocMeService);
   }
 }
 
@@ -56,7 +56,7 @@ export class FavoriteProductsService extends FavoritesService<BuyerProduct>  {
 export class FavoriteOrdersService extends FavoritesService<Order>  {
   protected readonly XpFieldName = 'FavoriteOrders';
 
-  constructor(@Inject(MeService) meService: MeService) {
-    super(meService);
+  constructor(@Inject(OcMeService) ocMeService: OcMeService) {
+    super(ocMeService);
   }
 }

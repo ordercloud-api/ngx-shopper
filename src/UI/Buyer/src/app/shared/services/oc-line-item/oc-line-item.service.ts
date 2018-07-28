@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
-  LineItemService,
+  OcLineItemService,
   ListLineItem,
   LineItem,
-  OrderService,
-  SupplierService,
-  SupplierAddressService,
+  OcOrderService,
+  OcSupplierService,
+  OcSupplierAddressService,
   Address,
   ListSupplier,
   BuyerProduct
@@ -16,16 +16,16 @@ import { tap, flatMap, map } from 'rxjs/operators';
 import { isUndefined as _isUndefined, uniq as _uniq, findIndex as _findIndex, find as _find } from 'lodash';
 
 @Injectable()
-export class OcLineItemService {
+export class AppLineItemService {
   private initializingOrder = false;
   private orderIdSubject: BehaviorSubject<string>;
 
   constructor(
     private appStateService: AppStateService,
-    private lineItemService: LineItemService,
-    private supplierService: SupplierService,
-    private supplierAddressService: SupplierAddressService,
-    private orderService: OrderService,
+    private ocLineItemService: OcLineItemService,
+    private ocSupplierService: OcSupplierService,
+    private ocSupplierAddressService: OcSupplierAddressService,
+    private ocOrderService: OcOrderService,
   ) {
     this.orderIdSubject = new BehaviorSubject<string>('');
   }
@@ -35,7 +35,7 @@ export class OcLineItemService {
       page: 1,
       pageSize: 100
     };
-    return this.lineItemService.List('outgoing', orderID, options)
+    return this.ocLineItemService.List('outgoing', orderID, options)
       .pipe(
         flatMap(list => {
           const queue = [];
@@ -44,7 +44,7 @@ export class OcLineItemService {
             while (page < list.Meta.TotalPages) {
               page++;
               options.page = page;
-              queue.push(this.lineItemService.List('outgoing', orderID, options));
+              queue.push(this.ocLineItemService.List('outgoing', orderID, options));
             }
             return forkJoin(queue)
               .pipe(
@@ -68,7 +68,7 @@ export class OcLineItemService {
   delete(lineItemID: string) {
     // TODO: use oc endpoints for mocking checkout only - replace with integration when ready
     const order = this.appStateService.orderSubject.value;
-    return this.lineItemService.Delete('outgoing', order.ID, lineItemID)
+    return this.ocLineItemService.Delete('outgoing', order.ID, lineItemID)
       .pipe(
         tap(() => this.onLineItemDelete(lineItemID))
       );
@@ -77,7 +77,7 @@ export class OcLineItemService {
   patch(lineItemID: string, partialLineItem: LineItem): Observable<LineItem> {
     // TODO: use oc endpoints for mocking checkout only - replace with integration when ready
     const order = this.appStateService.orderSubject.value;
-    return this.lineItemService.Patch('outgoing', order.ID, lineItemID, partialLineItem)
+    return this.ocLineItemService.Patch('outgoing', order.ID, lineItemID, partialLineItem)
       .pipe(
         tap(patchedLI => this.onLineItemUpdate(patchedLI))
       );
@@ -104,7 +104,7 @@ export class OcLineItemService {
         // this is the first line item call - initialize order first
         this.initializingOrder = true;
         queue.push((() => {
-          return this.orderService.Create('outgoing', {})
+          return this.ocOrderService.Create('outgoing', {})
             .pipe(
               flatMap(newOrder => {
                 this.initializingOrder = false;
@@ -138,9 +138,9 @@ export class OcLineItemService {
     const queue = [];
     if (existingLI) {
       newLI.Quantity = newLI.Quantity + existingLI.Quantity;
-      queue.push(this.lineItemService.Patch('outgoing', order.ID, existingLI.ID, newLI));
+      queue.push(this.ocLineItemService.Patch('outgoing', order.ID, existingLI.ID, newLI));
     } else {
-      queue.push(this.lineItemService.Create('outgoing', order.ID, newLI));
+      queue.push(this.ocLineItemService.Create('outgoing', order.ID, newLI));
     }
     return forkJoin(queue)
       .pipe(
@@ -157,7 +157,7 @@ export class OcLineItemService {
       lineItems = this.appStateService.lineItemSubject.value;
     }
     const supplierIds = _uniq(lineItems.Items.map(li => li.xp.product.id.split('-')[0]));
-    return this.supplierService.List({ filters: { ID: supplierIds.join('|') } });
+    return this.ocSupplierService.List({ filters: { ID: supplierIds.join('|') } });
   }
 
   getSupplierAddresses(lineitemList?: ListLineItem): Observable<Address[]> {
@@ -177,7 +177,7 @@ export class OcLineItemService {
   }
 
   getSupplierAddress(supplierID): Observable<Address> {
-    return this.supplierAddressService.Get(supplierID, supplierID);
+    return this.ocSupplierAddressService.Get(supplierID, supplierID);
   }
 
   private onLineItemUpdate(updatedLI: LineItem) {
@@ -189,7 +189,7 @@ export class OcLineItemService {
 
     // update order
     const order = this.appStateService.orderSubject.value;
-    this.orderService.Get('outgoing', order.ID)
+    this.ocOrderService.Get('outgoing', order.ID)
       .subscribe(newOrder => {
         this.appStateService.orderSubject.next(newOrder);
       });
@@ -203,7 +203,7 @@ export class OcLineItemService {
 
     // update order
     const order = this.appStateService.orderSubject.value;
-    this.orderService.Get('outgoing', order.ID)
+    this.ocOrderService.Get('outgoing', order.ID)
       .subscribe(newOrder => {
         this.appStateService.orderSubject.next(newOrder);
       });

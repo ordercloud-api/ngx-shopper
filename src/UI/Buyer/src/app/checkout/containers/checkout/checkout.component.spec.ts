@@ -10,7 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, BehaviorSubject } from 'rxjs';
-import { OrderService, PaymentService } from '@ordercloud/angular-sdk';
+import { OcOrderService, OcPaymentService } from '@ordercloud/angular-sdk';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CheckoutComponent', () => {
@@ -39,8 +39,8 @@ describe('CheckoutComponent', () => {
       providers: [
         NgbAccordionConfig,
         { provide: AppStateService, useValue: appStateService },
-        { provide: OrderService, useValue: orderService },
-        { provide: PaymentService, useValue: paymentService },
+        { provide: OcOrderService, useValue: orderService },
+        { provide: OcPaymentService, useValue: paymentService },
         { provide: BaseResolveService, useValue: baseResolveService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template

@@ -2,19 +2,19 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
-import { AppStateService, OcLineItemService } from '@app-buyer/shared';
+import { AppStateService, AppLineItemService } from '@app-buyer/shared';
 import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 
 import {
-  AuthService,
-  MeService,
-  OrderService,
-  TokenService,
+  OcAuthService,
+  OcMeService,
+  OcOrderService,
+  OcTokenService,
   Configuration,
-  LineItemService,
-  SupplierAddressService,
-  SupplierService
+  OcLineItemService,
+  OcSupplierAddressService,
+  OcSupplierService
 } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -32,18 +32,18 @@ describe('BaseResolveService', () => {
       providers: [
         BaseResolveService,
         AppStateService,
-        { provide: AuthService, useValue: authService },
+        { provide: OcAuthService, useValue: authService },
         AppAuthService,
         AppErrorHandler,
-        MeService,
-        OrderService,
-        TokenService,
+        OcMeService,
+        OcOrderService,
+        OcTokenService,
         HttpClient,
         HttpHandler,
+        AppLineItemService,
         OcLineItemService,
-        LineItemService,
-        SupplierService,
-        SupplierAddressService,
+        OcSupplierService,
+        OcSupplierAddressService,
         { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: appConfig }
       ],

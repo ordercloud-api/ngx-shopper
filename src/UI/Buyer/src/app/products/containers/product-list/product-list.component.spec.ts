@@ -3,13 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListComponent } from '@app-buyer/products/containers/product-list/product-list.component';
 import {
   PageTitleComponent,
-  OcLineItemService,
+  AppLineItemService,
 } from '@app-buyer/shared';
 import { NgbPaginationModule, NgbCollapseModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CategoryNavComponent } from '@app-buyer/products/components/category-nav/category-nav.component';
@@ -59,9 +59,9 @@ describe('ProductListComponent', () => {
       ],
       providers: [
         NgbPaginationConfig,
-        { provide: OcLineItemService, useValue: ocLineItemService },
+        { provide: AppLineItemService, useValue: ocLineItemService },
         { provide: ActivatedRoute, useValue: { queryParams, snapshot: { queryParams: mockQueryParams } } },
-        { provide: MeService, useValue: meService },
+        { provide: OcMeService, useValue: meService },
         { provide: FavoriteProductsService, useValue: favoriteProductsService }
       ]
     })

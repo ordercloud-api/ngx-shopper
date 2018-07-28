@@ -8,8 +8,8 @@ import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
 import {
   Configuration,
-  OrderService,
-  MeService,
+  OcOrderService,
+  OcMeService,
 } from '@ordercloud/angular-sdk';
 
 import { CartComponent } from '@app-buyer/checkout/containers/cart/cart.component';
@@ -18,7 +18,7 @@ import {
   PhoneFormatPipe,
   AppStateService,
   BaseResolveService,
-  OcLineItemService,
+  AppLineItemService,
 } from '@app-buyer/shared';
 import { OrderSummaryComponent } from '@app-buyer/checkout/components/order-summary/order-summary.component';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
@@ -64,9 +64,9 @@ describe('CartComponent', () => {
       providers: [
         { provide: AppStateService, useValue: appStateService },
         { provide: BaseResolveService, useValue: baseResolveService },
-        { provide: OrderService, useValue: orderService },
-        { provide: OcLineItemService, useValue: ocLineItemService },
-        { provide: MeService, useValue: meService },
+        { provide: OcOrderService, useValue: orderService },
+        { provide: AppLineItemService, useValue: ocLineItemService },
+        { provide: OcMeService, useValue: meService },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
     })

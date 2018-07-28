@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutPaymentComponent } from '@app-buyer/checkout/containers/checkout-payment/checkout-payment.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PaymentService, Payment } from '@ordercloud/angular-sdk';
+import { OcPaymentService, Payment } from '@ordercloud/angular-sdk';
 import { AppStateService } from '@app-buyer/shared';
 import { of } from 'rxjs';
 import { applicationConfiguration } from '@app-buyer/config/app.config';
@@ -39,7 +39,7 @@ describe('CheckoutPaymentComponent', () => {
       ],
       providers: [
         { provide: AppStateService, useValue: appStateService },
-        { provide: PaymentService, useValue: paymentService },
+        { provide: OcPaymentService, useValue: paymentService },
         { provide: applicationConfiguration, useValue: appConfig },
       ],
       schemas: [NO_ERRORS_SCHEMA] // Ignore template errors: remove if tests are added to test template
@@ -125,20 +125,20 @@ describe('CheckoutPaymentComponent', () => {
     beforeEach(() => {
       mockPayments = [{}];
       spyOn(component as any, 'deleteExistingPayments').and.returnValue(of(null));
-      component.createPayment({ID: 'MockPayment'});
+      component.createPayment({ ID: 'MockPayment' });
     });
     it('should call deleteExistingPayments', () => {
       expect(component['deleteExistingPayments']).toHaveBeenCalled();
     });
     it('should call paymentService.Create', () => {
-      expect(paymentService.Create).toHaveBeenCalledWith('outgoing', '1', {ID: 'MockPayment'});
+      expect(paymentService.Create).toHaveBeenCalledWith('outgoing', '1', { ID: 'MockPayment' });
     });
   });
 
   describe('deleteExistingPayments', () => {
     beforeEach(() => {
       paymentService.Delete.calls.reset();
-      mockPayments = [{ID: 'CCPayment', Type: 'CreditCard'}, {ID: 'POPayment', Type: 'PurchaseOrder'}];
+      mockPayments = [{ ID: 'CCPayment', Type: 'CreditCard' }, { ID: 'POPayment', Type: 'PurchaseOrder' }];
       component['deleteExistingPayments']().subscribe();
     });
     it('should list payments', () => {
@@ -153,10 +153,10 @@ describe('CheckoutPaymentComponent', () => {
 
   describe('patchPayment', () => {
     beforeEach(() => {
-      component.patchPayment({paymentID: 'mockPOPaymentID', payment: {xp: {PONumber: 'new po number'}}});
+      component.patchPayment({ paymentID: 'mockPOPaymentID', payment: { xp: { PONumber: 'new po number' } } });
     });
     it('should patch the payment', () => {
-      expect(paymentService.Patch).toHaveBeenCalledWith('outgoing', '1', 'mockPOPaymentID', {xp: {PONumber: 'new po number'}});
+      expect(paymentService.Patch).toHaveBeenCalledWith('outgoing', '1', 'mockPOPaymentID', { xp: { PONumber: 'new po number' } });
     });
   });
 });

@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 // ordercloud
 import { OcMatchFieldsValidator, OcFormErrorService } from '@app-buyer/shared';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
-import { PasswordResetService, PasswordReset } from '@ordercloud/angular-sdk';
+import { OcPasswordResetService, PasswordReset } from '@ordercloud/angular-sdk';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class ResetPasswordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toasterService: ToastrService,
     private formBuilder: FormBuilder,
-    private passwordResetService: PasswordResetService,
+    private ocPasswordResetService: OcPasswordResetService,
     private formErrorService: OcFormErrorService,
     @Inject(applicationConfiguration) private appConfig: AppConfig) { }
 
@@ -54,7 +54,7 @@ export class ResetPasswordComponent implements OnInit {
       Username: this.username
     };
 
-    this.passwordResetService.ResetPasswordByVerificationCode(this.resetCode, config).subscribe(
+    this.ocPasswordResetService.ResetPasswordByVerificationCode(this.resetCode, config).subscribe(
       () => {
         this.toasterService.success('Password Reset Successfully');
         this.router.navigateByUrl('/login');

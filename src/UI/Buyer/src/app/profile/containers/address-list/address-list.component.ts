@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-import { MeService, ListBuyerAddress, BuyerAddress } from '@ordercloud/angular-sdk';
+import { OcMeService, ListBuyerAddress, BuyerAddress } from '@ordercloud/angular-sdk';
 import { faTrashAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { ModalService } from '@app-buyer/shared';
 
@@ -23,7 +23,7 @@ export class AddressListComponent implements OnInit {
   modalID = 'add-profile-address';
 
   constructor(
-    private meService: MeService,
+    private ocMeService: OcMeService,
     private modalService: ModalService
   ) { }
 
@@ -58,7 +58,7 @@ export class AddressListComponent implements OnInit {
   private addAddress(address: BuyerAddress) {
     address.Shipping = true;
     address.Billing = true;
-    this.meService.CreateAddress(address).subscribe(
+    this.ocMeService.CreateAddress(address).subscribe(
       () => {
         this.refresh();
       }, error => {
@@ -68,7 +68,7 @@ export class AddressListComponent implements OnInit {
 
   private updateAddress(address: BuyerAddress) {
     address.ID = this.currentAddress.ID;
-    this.meService.PatchAddress(address.ID, address).subscribe(
+    this.ocMeService.PatchAddress(address.ID, address).subscribe(
       () => {
         this.refresh();
       }, error => {
@@ -77,7 +77,7 @@ export class AddressListComponent implements OnInit {
   }
 
   protected deleteAddress(address: BuyerAddress) {
-    this.meService.DeleteAddress(address.ID).subscribe(
+    this.ocMeService.DeleteAddress(address.ID).subscribe(
       () => {
         this.reloadAddresses();
       }, error => {
@@ -92,7 +92,6 @@ export class AddressListComponent implements OnInit {
 
 
   private reloadAddresses() {
-    this.meService.ListAddresses({ ...this.requestOptions, pageSize: this.resultsPerPage }).subscribe(res => this.addresses = res);
+    this.ocMeService.ListAddresses({ ...this.requestOptions, pageSize: this.resultsPerPage }).subscribe(res => this.addresses = res);
   }
-
 }

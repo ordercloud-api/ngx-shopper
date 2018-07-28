@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 // ordercloud
-import { PasswordResetService } from '@ordercloud/angular-sdk';
+import { OcPasswordResetService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 
 @Component({
@@ -20,7 +20,7 @@ export class ForgotPasswordComponent implements OnInit {
   resetEmailForm: FormGroup;
 
   constructor(
-    private passwordResetService: PasswordResetService,
+    private ocPasswordResetService: OcPasswordResetService,
     private router: Router,
     private formBuilder: FormBuilder,
     private toasterService: ToastrService,
@@ -32,7 +32,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   onSubmit() {
-    this.passwordResetService.SendVerificationCode({
+    this.ocPasswordResetService.SendVerificationCode({
       Email: this.resetEmailForm.get('email').value,
       ClientID: this.appConfig.clientID,
       URL: window.location.origin

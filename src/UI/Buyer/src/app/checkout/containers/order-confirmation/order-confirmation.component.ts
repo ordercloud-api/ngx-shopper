@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { Order, OrderService, ListLineItem, ListPromotion, ListPayment } from '@ordercloud/angular-sdk';
-import { OcLineItemService } from '@app-buyer/shared';
+import { Order, OcOrderService, ListLineItem, ListPromotion, ListPayment } from '@ordercloud/angular-sdk';
+import { AppLineItemService } from '@app-buyer/shared';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 
@@ -20,8 +20,8 @@ export class OrderConfirmationComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private orderService: OrderService,
-    private ocLineItemService: OcLineItemService,
+    private ocOrderService: OcOrderService,
+    private appLineItemService: AppLineItemService,
     private appPaymentService: AppPaymentService
   ) { }
 
@@ -35,28 +35,28 @@ export class OrderConfirmationComponent implements OnInit {
   getOrder(): Observable<Order> {
     return this.activatedRoute.paramMap
       .pipe(
-        flatMap((params: ParamMap) => this.orderService.Get('outgoing', params.get('orderID')))
+        flatMap((params: ParamMap) => this.ocOrderService.Get('outgoing', params.get('orderID')))
       );
   }
 
   getLineItems(): Observable<ListLineItem> {
     return this.activatedRoute.paramMap
       .pipe(
-        flatMap((params: ParamMap) => this.ocLineItemService.listAll(params.get('orderID')))
+        flatMap((params: ParamMap) => this.appLineItemService.listAll(params.get('orderID')))
       );
   }
 
   getPromotions(): Observable<ListPromotion> {
     return this.activatedRoute.paramMap
       .pipe(
-        flatMap((params: ParamMap) => this.orderService.ListPromotions('outgoing', params.get('orderID')))
+        flatMap((params: ParamMap) => this.ocOrderService.ListPromotions('outgoing', params.get('orderID')))
       );
   }
 
   getPayments(): Observable<ListPayment> {
     return this.activatedRoute.paramMap
-    .pipe(
-      flatMap((params: ParamMap) => this.appPaymentService.getPayments('outgoing', params.get('orderID')))
-    );
+      .pipe(
+        flatMap((params: ParamMap) => this.appPaymentService.getPayments('outgoing', params.get('orderID')))
+      );
   }
 }

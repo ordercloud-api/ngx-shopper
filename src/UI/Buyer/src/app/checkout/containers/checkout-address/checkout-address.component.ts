@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
 import { forkJoin, Observable } from 'rxjs';
-import { MeService, ListBuyerAddress, OrderService, Order, BuyerAddress, ListLineItem } from '@ordercloud/angular-sdk';
+import { OcMeService, ListBuyerAddress, OcOrderService, Order, BuyerAddress, ListLineItem } from '@ordercloud/angular-sdk';
 import { AppStateService, ModalService } from '@app-buyer/shared';
 
 @Component({
@@ -22,8 +22,8 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
   modalID = 'checkout-select-address';
 
   constructor(
-    private meService: MeService,
-    private orderService: OrderService,
+    private ocMeService: OcMeService,
+    private ocOrderService: OcOrderService,
     private appStateService: AppStateService,
     private modalService: ModalService
   ) {
@@ -46,7 +46,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
   private getSavedAddresses() {
     const filters = {};
     filters[this.addressType] = true;
-    this.meService.ListAddresses({ filters, ...this.requestOptions, pageSize: this.resultsPerPage })
+    this.ocMeService.ListAddresses({ filters, ...this.requestOptions, pageSize: this.resultsPerPage })
       .subscribe(addressList => this.existingAddresses = addressList);
   }
 
@@ -84,13 +84,13 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
   }
 
   private setOneTimeAddress(address: BuyerAddress): Observable<Order> {
-    return this.orderService[`Set${this.addressType}Address`]('outgoing', this.order.ID, address);
+    return this.ocOrderService[`Set${this.addressType}Address`]('outgoing', this.order.ID, address);
   }
 
   private setSavedAddress(address): Observable<Order> {
     const addressKey = <any>(`${this.addressType}AddressID`);
     const partialOrder = {};
     partialOrder[addressKey] = address.ID;
-    return this.orderService.Patch('outgoing', this.order.ID, partialOrder);
+    return this.ocOrderService.Patch('outgoing', this.order.ID, partialOrder);
   }
 }

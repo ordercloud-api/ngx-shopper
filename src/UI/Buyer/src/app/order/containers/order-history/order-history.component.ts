@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderStatus } from '@app-buyer/order/models/order-status.model';
-import { MeService, ListOrder } from '@ordercloud/angular-sdk';
+import { OcMeService, ListOrder } from '@ordercloud/angular-sdk';
 import { MeOrderListOptions } from '@app-buyer/order/models/me-order-list-options';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,7 +19,7 @@ export class OrderHistoryComponent implements OnInit {
   sortBy: string;
 
   constructor(
-    private meService: MeService,
+    private ocMeService: OcMeService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private favoriteOrdersService: FavoriteOrdersService
@@ -65,7 +65,7 @@ export class OrderHistoryComponent implements OnInit {
               ID: this.showfavoritesOnly ? this.favoriteOrdersService.favorites.join('|') : undefined
             }
           };
-          return this.meService.ListOrders(listOptions);
+          return this.ocMeService.ListOrders(listOptions);
         })
       );
   }

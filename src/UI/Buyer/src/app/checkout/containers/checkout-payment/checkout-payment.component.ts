@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
-import { PaymentService, Payment, PartialPayment } from '@ordercloud/angular-sdk';
+import { OcPaymentService, Payment, PartialPayment } from '@ordercloud/angular-sdk';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AppStateService } from '@app-buyer/shared';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
@@ -18,7 +18,7 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
   constructor(
     private formBuilder: FormBuilder,
     private appStateService: AppStateService,
-    private paymentService: PaymentService,
+    private ocPaymentService: OcPaymentService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
     super();
@@ -42,7 +42,7 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
     if (this.availablePaymentMethods.length === 1) {
       this.selectedPaymentMethod = this.availablePaymentMethods[0];
     }
-    this.paymentService.List('outgoing', this.order.ID)
+    this.ocPaymentService.List('outgoing', this.order.ID)
       .subscribe(paymentList => {
         if (paymentList.Items && paymentList.Items.length > 0) {
           this.existingPayment = paymentList.Items[0];
@@ -81,7 +81,7 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
     return this.deleteExistingPayments()
       .pipe(
         flatMap(() => {
-          return this.paymentService.Create('outgoing', this.order.ID, payment)
+          return this.ocPaymentService.Create('outgoing', this.order.ID, payment)
             .pipe(
               tap(paymentResult => {
                 this.existingPayment = paymentResult;
@@ -92,12 +92,12 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
   }
 
   private deleteExistingPayments(): Observable<any[]> {
-    return this.paymentService.List('outgoing', this.order.ID)
+    return this.ocPaymentService.List('outgoing', this.order.ID)
       .pipe(
         flatMap(paymentList => {
           const queue = [];
           paymentList.Items.forEach(payment => {
-            queue.push(this.paymentService.Delete('outgoing', this.order.ID, payment.ID));
+            queue.push(this.ocPaymentService.Delete('outgoing', this.order.ID, payment.ID));
           });
           if (!queue.length) {
             return of([]);
@@ -108,7 +108,7 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent imple
   }
 
   patchPayment({ paymentID, payment }: { paymentID: string, payment: PartialPayment }) {
-    this.paymentService.Patch('outgoing', this.order.ID, paymentID, payment)
+    this.ocPaymentService.Patch('outgoing', this.order.ID, paymentID, payment)
       .subscribe(paymentResult => {
         this.existingPayment = paymentResult;
       });

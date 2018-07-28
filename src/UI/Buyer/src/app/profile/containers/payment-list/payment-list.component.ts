@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MeService, ListBuyerCreditCard, BuyerCreditCard, ListSpendingAccount } from '@ordercloud/angular-sdk';
+import { OcMeService, ListBuyerCreditCard, BuyerCreditCard, ListSpendingAccount } from '@ordercloud/angular-sdk';
 import { Observable } from 'rxjs';
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { AuthorizeNetService, CreateCardDetails } from '@app-buyer/shared';
@@ -25,7 +25,7 @@ export class PaymentListComponent implements OnInit {
   currentCard: BuyerCreditCard = null;
 
   constructor(
-    private meService: MeService,
+    private ocMeService: OcMeService,
     private authorizeNetSerivce: AuthorizeNetService
   ) { }
 
@@ -35,13 +35,13 @@ export class PaymentListComponent implements OnInit {
   }
 
   getCards() {
-    this.cards$ = this.meService.ListCreditCards();
+    this.cards$ = this.ocMeService.ListCreditCards();
   }
 
   getAccounts() {
     const now = moment().format('YYYY-MM-DD');
     const dateFilter = { StartDate: `>${now}|!*`, EndDate: `<${now}|!*` };
-    this.accounts$ = this.meService.ListSpendingAccounts({ filters: dateFilter });
+    this.accounts$ = this.ocMeService.ListSpendingAccounts({ filters: dateFilter });
   }
 
   showEdit(card: BuyerCreditCard) {

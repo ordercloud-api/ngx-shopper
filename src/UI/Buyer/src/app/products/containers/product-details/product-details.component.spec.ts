@@ -7,13 +7,13 @@ import { BehaviorSubject } from 'rxjs';
 
 import {
   PhoneFormatPipe,
-  OcLineItemService,
+  AppLineItemService,
   AppStateService
 } from '@app-buyer/shared';
 import { ProductDetailsComponent } from '@app-buyer/products/containers/product-details/product-details.component';
 
 import { CookieService, CookieModule } from 'ngx-cookie';
-import { LineItemService, TokenService, OrderService, BuyerProduct, MeService } from '@ordercloud/angular-sdk';
+import { OcLineItemService, OcTokenService, OcOrderService, BuyerProduct, OcMeService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { of } from 'rxjs';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
@@ -50,13 +50,13 @@ describe('ProductDetailsComponent', () => {
           { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') },
           AppStateService,
           CookieService,
-          LineItemService,
-          { provide: MeService, useValue: meService },
-          { provide: OcLineItemService, useValue: ocLineItemService },
+          OcLineItemService,
+          { provide: OcMeService, useValue: meService },
+          { provide: AppLineItemService, useValue: ocLineItemService },
           { provide: FavoriteProductsService, useValue: favoriteProductsService },
-          OrderService,
+          OcOrderService,
           RouterTestingModule,
-          TokenService,
+          OcTokenService,
         ],
         schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
       }).compileComponents();
@@ -106,12 +106,14 @@ describe('ProductDetailsComponent', () => {
 
   describe('getTotalPrice', () => {
     beforeEach(() => {
-      component.product.PriceSchedule = { PriceBreaks: [
-        { Quantity: 5, Price: 10},
-        { Quantity: 10, Price: 9},
-        { Quantity: 15, Price: 8},
-        { Quantity: 20, Price: 7},
-      ]};
+      component.product.PriceSchedule = {
+        PriceBreaks: [
+          { Quantity: 5, Price: 10 },
+          { Quantity: 10, Price: 9 },
+          { Quantity: 15, Price: 8 },
+          { Quantity: 20, Price: 7 },
+        ]
+      };
     });
     it('should calculate total correctly', () => {
       component.quantity = 2;

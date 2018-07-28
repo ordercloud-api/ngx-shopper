@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PaymentBaseComponent } from '@app-buyer/checkout/components/payment-base/payment-base.component';
 import { Observable } from 'rxjs';
-import { SpendingAccount, ListSpendingAccount, MeService, Payment } from '@ordercloud/angular-sdk';
+import { SpendingAccount, ListSpendingAccount, OcMeService, Payment } from '@ordercloud/angular-sdk';
 import * as moment from 'moment';
 import { ModalService } from '@app-buyer/shared';
 
@@ -19,7 +19,7 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
   resultsPerPage = 6;
 
   constructor(
-    private meService: MeService,
+    private ocMeService: OcMeService,
     private modalService: ModalService) {
     super();
   }
@@ -37,10 +37,10 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
   listSpendingAccounts(): Observable<ListSpendingAccount> {
     const now = moment().format('YYYY-MM-DD');
     const filters = { StartDate: `>${now}|!*`, EndDate: `<${now}|!*` };
-    return this.meService.ListSpendingAccounts({ filters, ...this.requestOptions, pageSize: this.resultsPerPage });
+    return this.ocMeService.ListSpendingAccounts({ filters, ...this.requestOptions, pageSize: this.resultsPerPage });
   }
 
-  getSavedSpendingAccount(accounts: ListSpendingAccount): SpendingAccount  {
+  getSavedSpendingAccount(accounts: ListSpendingAccount): SpendingAccount {
     if (this.payment && this.payment.SpendingAccountID) {
       const saved = accounts.Items.filter(x => x.ID === this.payment.SpendingAccountID);
       if (saved.length > 0) {

@@ -7,10 +7,10 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CookieModule } from 'ngx-cookie';
-import { SupplierService, LineItemService, TokenService, Configuration, OrderService, Supplier } from '@ordercloud/angular-sdk';
+import { OcSupplierService, OcLineItemService, OcTokenService, Configuration, OcOrderService, Supplier } from '@ordercloud/angular-sdk';
 
 import { LineItemCardComponent } from '@app-buyer/shared/components/line-item-card/line-item-card.component';
-import { OcLineItemService, AppStateService, PhoneFormatPipe } from '@app-buyer/shared';
+import { AppLineItemService, AppStateService, PhoneFormatPipe } from '@app-buyer/shared';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { LineItemListWrapperComponent } from '@app-buyer/shared/components/lineitem-list-wrapper/lineitem-list-wrapper.component';
 
@@ -33,14 +33,14 @@ describe('LineItemSummaryComponent', () => {
         CookieModule.forRoot()
       ],
       providers: [
-        OcLineItemService,
-        SupplierService,
+        AppLineItemService,
+        OcSupplierService,
         AppStateService,
-        LineItemService,
+        OcLineItemService,
         HttpClient,
         HttpHandler,
-        TokenService,
-        OrderService,
+        OcTokenService,
+        OcOrderService,
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
     })

@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrderConfirmationComponent } from '@app-buyer/checkout/containers/order-confirmation/order-confirmation.component';
 import { ParamMap, ActivatedRoute, convertToParamMap } from '@angular/router';
-import { OcLineItemService } from '@app-buyer/shared';
-import { OrderService } from '@ordercloud/angular-sdk';
+import { AppLineItemService } from '@app-buyer/shared';
+import { OcOrderService } from '@ordercloud/angular-sdk';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
@@ -33,8 +33,8 @@ describe('OrderConfirmationComponent', () => {
         OrderConfirmationComponent,
       ],
       providers: [
-        { provide: OcLineItemService, useValue: appLineItemService },
-        { provide: OrderService, useValue: orderService },
+        { provide: AppLineItemService, useValue: appLineItemService },
+        { provide: OcOrderService, useValue: orderService },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: AppPaymentService, appPaymentService }
       ],
@@ -72,7 +72,7 @@ describe('OrderConfirmationComponent', () => {
   });
 
   describe('getOrder', () => {
-    it('should call OrderService.Get with order id param', () => {
+    it('should call OcOrderService.Get with order id param', () => {
       component.getOrder().subscribe(() => {
         expect(orderService.Get).toHaveBeenCalledWith('outgoing', mockOrderID);
       });
@@ -90,7 +90,7 @@ describe('OrderConfirmationComponent', () => {
   });
 
   describe('getPromotions', () => {
-    it('should call OrderService.ListPromotions with order id param', () => {
+    it('should call OcOrderService.ListPromotions with order id param', () => {
       component.getPromotions().subscribe(() => {
         expect(orderService.ListPromotions).toHaveBeenCalledWith('outgoing', mockOrderID);
       });

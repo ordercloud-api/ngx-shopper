@@ -2,8 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 import { applicationConfiguration } from '@app-buyer/config/app.config';
 
 import {
-    AuthService,
-    TokenService,
+    OcAuthService,
+    OcTokenService,
     Configuration,
 } from '@ordercloud/angular-sdk';
 import { CookieModule, CookieService } from 'ngx-cookie';
@@ -28,8 +28,8 @@ describe('AppAuthService', () => {
         remove: jasmine.createSpy('remove')
     };
     let appAuthService: AppAuthService;
-    let authService: AuthService;
-    let tokenService: TokenService;
+    let authService: OcAuthService;
+    let tokenService: OcTokenService;
     let appConfig = {
         appname: mockAppName,
         clientID: mockClientID,
@@ -47,18 +47,18 @@ describe('AppAuthService', () => {
             providers: [
                 { provide: Router, useValue: router },
                 { provide: CookieService, useValue: cookieService },
-                AuthService,
+                OcAuthService,
                 AppAuthService,
                 { provide: AppErrorHandler, useValue: appErrorHandler },
-                TokenService,
+                OcTokenService,
                 { provide: Configuration, useValue: new Configuration() },
                 { provide: applicationConfiguration, useValue: appConfig }
             ],
         });
         appConfig = TestBed.get(applicationConfiguration);
-        tokenService = TestBed.get(TokenService);
+        tokenService = TestBed.get(OcTokenService);
         appAuthService = TestBed.get(AppAuthService);
-        authService = TestBed.get(AuthService);
+        authService = TestBed.get(OcAuthService);
     });
 
     it('should be created', inject([AppAuthService], (service: AppAuthService) => {

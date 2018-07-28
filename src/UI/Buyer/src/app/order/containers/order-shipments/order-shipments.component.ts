@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MeService, ListShipment, Shipment, ListShipmentItem, ListLineItem } from '@ordercloud/angular-sdk';
+import { OcMeService, ListShipment, Shipment, ListShipmentItem, ListLineItem } from '@ordercloud/angular-sdk';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class OrderShipmentsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private meService: MeService,
+    private ocMeService: OcMeService,
   ) { }
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class OrderShipmentsComponent implements OnInit {
 
   protected selectShipment(shipment: Shipment): void {
     this.selectedShipment = { ...shipment };
-    this.shipmentItems$ = this.meService.ListShipmentItems(shipment.ID)
+    this.shipmentItems$ = this.ocMeService.ListShipmentItems(shipment.ID)
       .pipe(
         map(shipmentItems => this.setLineItem(shipmentItems))
       );

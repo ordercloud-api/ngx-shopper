@@ -1,6 +1,6 @@
 import { TestBed, inject, async } from '@angular/core/testing';
 
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { of } from 'rxjs';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 
@@ -14,7 +14,7 @@ describe('FavoriteProductsService', () => {
     TestBed.configureTestingModule({
       providers: [
         FavoriteProductsService,
-        { provide: MeService, useValue: meService }
+        { provide: OcMeService, useValue: meService }
       ]
     });
   }));

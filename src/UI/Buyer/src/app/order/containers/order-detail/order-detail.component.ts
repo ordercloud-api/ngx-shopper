@@ -5,12 +5,12 @@ import {
   Order,
   ListLineItem,
   ListPromotion,
-  OrderService,
+  OcOrderService,
   ListPayment,
   Address
 } from '@ordercloud/angular-sdk';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { OcLineItemService } from '@app-buyer/shared';
+import { AppLineItemService } from '@app-buyer/shared';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 
 @Component({
@@ -29,8 +29,8 @@ export class OrderDetailComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private orderService: OrderService,
-    private ocLineItemService: OcLineItemService,
+    private ocOrderService: OcOrderService,
+    private appLineItemService: AppLineItemService,
     private appPaymentService: AppPaymentService
   ) { }
 
@@ -51,14 +51,14 @@ export class OrderDetailComponent implements OnInit {
   private getPromotions() {
     return this.activatedRoute.paramMap
       .pipe(
-        flatMap((params: ParamMap) => this.orderService.ListPromotions('outgoing', params.get('orderID')))
+        flatMap((params: ParamMap) => this.ocOrderService.ListPromotions('outgoing', params.get('orderID')))
       );
   }
 
   private getSupplierAddresses(): Observable<Address[]> {
     return this.lineItems$
       .pipe(
-        flatMap(lineItems => this.ocLineItemService.getSupplierAddresses(lineItems))
+        flatMap(lineItems => this.appLineItemService.getSupplierAddresses(lineItems))
       );
   }
 

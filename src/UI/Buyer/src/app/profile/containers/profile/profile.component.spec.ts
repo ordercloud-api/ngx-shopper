@@ -5,7 +5,7 @@ import { SharedModule, PhoneFormatPipe, AppStateService } from '@app-buyer/share
 import { AddressListComponent } from '@app-buyer/profile/containers/address-list/address-list.component';
 import { ProfileModule } from '@app-buyer/profile/profile.module';
 import { NO_ERRORS_SCHEMA, InjectionToken } from '@angular/core';
-import { MeService, TokenService, Configuration } from '@ordercloud/angular-sdk';
+import { OcMeService, OcTokenService, Configuration } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { ToastrService } from 'ngx-toastr';
@@ -28,8 +28,8 @@ describe('ProfileComponent', () => {
       ],
       providers: [
         AppStateService,
-        MeService,
-        TokenService,
+        OcMeService,
+        OcTokenService,
         AddressListComponent,
         PhoneFormatPipe,
         { provide: ToastrService, useValue: toastrService },

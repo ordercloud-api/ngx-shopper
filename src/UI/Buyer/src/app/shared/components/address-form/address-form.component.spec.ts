@@ -4,7 +4,7 @@ import { AddressFormComponent } from '@app-buyer/shared/components/address-form/
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { OcGeographyService } from '@app-buyer/shared';
 import { of } from 'rxjs';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { OcFormErrorService } from '@app-buyer/shared';
 
 describe('AddressFormComponent', () => {
@@ -32,7 +32,7 @@ describe('AddressFormComponent', () => {
         OcGeographyService,
         FormBuilder,
         { provide: OcFormErrorService, useValue: formErrorService },
-        { provide: MeService, useValue: meService }
+        { provide: OcMeService, useValue: meService }
       ]
     })
       .compileComponents();

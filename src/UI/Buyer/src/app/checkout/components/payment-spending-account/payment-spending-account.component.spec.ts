@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentSpendingAccountComponent } from '@app-buyer/checkout/components/payment-spending-account/payment-spending-account.component';
+import {
+  PaymentSpendingAccountComponent
+} from '@app-buyer/checkout/components/payment-spending-account/payment-spending-account.component';
 import { of } from 'rxjs';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ModalService } from '@app-buyer/shared';
@@ -21,7 +23,7 @@ describe('PaymentSpendingAccountComponent', () => {
       imports: [FontAwesomeModule],
       providers: [
         { provide: ModalService, useValue: modalService },
-        { provide: MeService, useValue: meService }
+        { provide: OcMeService, useValue: meService }
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     })

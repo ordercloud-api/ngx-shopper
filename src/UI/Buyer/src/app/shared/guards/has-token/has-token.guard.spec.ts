@@ -1,7 +1,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
 import { HasTokenGuard } from '@app-buyer/shared/guards/has-token/has-token.guard';
-import { TokenService } from '@ordercloud/angular-sdk';
+import { OcTokenService } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
 import { AppAuthService } from '@app-buyer/auth';
 import { of, BehaviorSubject } from 'rxjs';
@@ -19,7 +19,7 @@ describe('HasTokenGuard', () => {
   const tokenService = {
     GetAccess: jasmine.createSpy('GetAccess').and.callFake(() => mockAccessToken),
     GetRefresh: jasmine.createSpy('GetRefresh').and.returnValue(of(mockRefreshToken))
-   };
+  };
   const router = { navigate: jasmine.createSpy('navigate') };
   const appAuthService = {
     authAnonymous: jasmine.createSpy('authAnonymous').and.returnValue(of(null)),
@@ -35,7 +35,7 @@ describe('HasTokenGuard', () => {
         { provide: applicationConfiguration, useValue: appConfig },
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },
-        { provide: TokenService, useValue: tokenService }
+        { provide: OcTokenService, useValue: tokenService }
       ]
     });
     guard = TestBed.get(HasTokenGuard);

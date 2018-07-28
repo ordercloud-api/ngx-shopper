@@ -2,10 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutConfirmComponent } from '@app-buyer/checkout/components/checkout-confirm/checkout-confirm.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { AppStateService, OcLineItemService } from '@app-buyer/shared';
+import { AppStateService, AppLineItemService } from '@app-buyer/shared';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 import { FormBuilder } from '@angular/forms';
-import { OrderService } from '@ordercloud/angular-sdk';
+import { OcOrderService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration } from '@app-buyer/config/app.config';
 
 
@@ -13,8 +13,8 @@ describe('CheckoutConfirmComponent', () => {
   let component: CheckoutConfirmComponent;
   let fixture: ComponentFixture<CheckoutConfirmComponent>;
 
-  const mockConfig =  { anonymousShoppingEnabled: false };
-  const mockOrder = { ID: '1'};
+  const mockConfig = { anonymousShoppingEnabled: false };
+  const mockOrder = { ID: '1' };
   const appStateService = { orderSubject: new BehaviorSubject(mockOrder) };
   const appPaymentService = { getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)) };
   const ocLineItemService = { listAll: jasmine.createSpy('listAll').and.returnValue(of(null)) };
@@ -22,18 +22,18 @@ describe('CheckoutConfirmComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CheckoutConfirmComponent ],
+      declarations: [CheckoutConfirmComponent],
       providers: [
         FormBuilder,
-        { provide: OrderService, useValue: orderService },
+        { provide: OcOrderService, useValue: orderService },
         { provide: AppStateService, useValue: appStateService },
         { provide: AppPaymentService, useValue: appPaymentService },
-        { provide: OcLineItemService, useValue: ocLineItemService },
-        { provide: applicationConfiguration, useValue:  mockConfig }
+        { provide: AppLineItemService, useValue: ocLineItemService },
+        { provide: applicationConfiguration, useValue: mockConfig }
       ],
       schemas: [NO_ERRORS_SCHEMA] // Ignore template errors: remove if tests are added to test template
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

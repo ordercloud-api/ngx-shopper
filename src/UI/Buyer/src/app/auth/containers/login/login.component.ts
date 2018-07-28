@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 // ordercloud
-import { AuthService, TokenService } from '@ordercloud/angular-sdk';
+import { OcAuthService, OcTokenService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 import { AppStateService } from '@app-buyer/shared';
@@ -19,9 +19,9 @@ export class LoginComponent implements OnInit {
   isAnon: boolean;
 
   constructor(
-    private ocAuthService: AuthService,
+    private ocAuthService: OcAuthService,
     private appAuthService: AppAuthService,
-    private ocTokenService: TokenService,
+    private ocTokenService: OcTokenService,
     private router: Router,
     private fb: FormBuilder,
     private appStateService: AppStateService,

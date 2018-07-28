@@ -4,7 +4,7 @@ import { CheckoutAddressComponent } from '@app-buyer/checkout/containers/checkou
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
 import { of, BehaviorSubject } from 'rxjs';
-import { MeService, OrderService } from '@ordercloud/angular-sdk';
+import { OcMeService, OcOrderService } from '@ordercloud/angular-sdk';
 import { AppStateService, OcFormErrorService, ModalService } from '@app-buyer/shared';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { OcGeographyService } from '@app-buyer/shared/services/oc-geography/oc-geography.service';
@@ -47,8 +47,8 @@ describe('CheckoutAddressComponent', () => {
       providers: [
         OcFormErrorService,
         { provide: ModalService, useValue: modalService },
-        { provide: MeService, useValue: meService },
-        { provide: OrderService, useValue: orderService },
+        { provide: OcMeService, useValue: meService },
+        { provide: OcOrderService, useValue: orderService },
         { provide: AppStateService, useValue: appStateService },
         OcGeographyService
       ],

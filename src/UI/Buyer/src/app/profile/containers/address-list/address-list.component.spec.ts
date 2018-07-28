@@ -7,7 +7,7 @@ import { PhoneFormatPipe, ModalService } from '@app-buyer/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
@@ -34,7 +34,7 @@ describe('AddressListComponent', () => {
       ],
       providers: [
         { provide: ModalService, useValue: modalService },
-        { provide: MeService, useValue: meService },
+        { provide: OcMeService, useValue: meService },
         { provide: ToastrService, useValue: toastrService }
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template

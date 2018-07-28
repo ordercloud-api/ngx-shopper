@@ -2,7 +2,7 @@ import { async, TestBed, inject } from '@angular/core/testing';
 
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 import { of } from 'rxjs';
-import { MeService, PaymentService } from '@ordercloud/angular-sdk';
+import { OcMeService, OcPaymentService } from '@ordercloud/angular-sdk';
 
 describe('AppPaymentService', () => {
   const meService = {
@@ -26,8 +26,8 @@ describe('AppPaymentService', () => {
     TestBed.configureTestingModule({
       providers: [
         AppPaymentService,
-        { provide: MeService, useValue: meService },
-        { provide: PaymentService, useValue: paymentService }
+        { provide: OcMeService, useValue: meService },
+        { provide: OcPaymentService, useValue: paymentService }
       ]
     });
   }));

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { OcLineItemService, BaseResolveService, AppStateService } from '@app-buyer/shared';
-import { Order, LineItem, OrderService, ListLineItem, MeService, BuyerProduct } from '@ordercloud/angular-sdk';
+import { AppLineItemService, BaseResolveService, AppStateService } from '@app-buyer/shared';
+import { Order, LineItem, OcOrderService, ListLineItem, OcMeService, BuyerProduct } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
 import { Observable, forkJoin } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
@@ -20,10 +20,10 @@ export class CartComponent implements OnInit, OnDestroy {
   constructor(
     private appStateService: AppStateService,
     private baseResolveService: BaseResolveService,
-    private ocLineItemService: OcLineItemService,
-    private orderService: OrderService,
+    private appLineItemService: AppLineItemService,
+    private ocOrderService: OcOrderService,
     private router: Router,
-    private meService: MeService
+    private ocMeService: OcMeService
   ) { }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class CartComponent implements OnInit, OnDestroy {
         this.lineItems = lis;
         if (!this.productsSet) {
           const queue = [];
-          lis.Items.forEach(li => queue.push(this.meService.GetProduct(li.ProductID)));
+          lis.Items.forEach(li => queue.push(this.ocMeService.GetProduct(li.ProductID)));
           forkJoin(queue).subscribe(prods => {
             this.products = prods;
             this.productsSet = true;
@@ -47,7 +47,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   cancelOrder() {
-    this.orderService.Delete('outgoing', this.appStateService.orderSubject.value.ID)
+    this.ocOrderService.Delete('outgoing', this.appStateService.orderSubject.value.ID)
       .subscribe(() => {
         this.baseResolveService.resetUser();
         this.router.navigate(['/home']);
@@ -55,12 +55,12 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   deleteLineItem(li: LineItem) {
-    return this.ocLineItemService.delete(li.ID)
+    return this.appLineItemService.delete(li.ID)
       .subscribe();
   }
 
   updateLineItem(li: LineItem) {
-    this.ocLineItemService.patch(li.ID, li)
+    this.appLineItemService.patch(li.ID, li)
       .subscribe();
   }
 

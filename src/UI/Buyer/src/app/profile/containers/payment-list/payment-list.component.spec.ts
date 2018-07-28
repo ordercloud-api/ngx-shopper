@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaymentListComponent } from '@app-buyer/profile/containers/payment-list/payment-list.component';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { AuthorizeNetService, CreateCardDetails } from '@app-buyer/shared';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
@@ -28,7 +28,7 @@ describe('PaymentListComponent', () => {
         CreditCardIconComponent
       ],
       providers: [
-        { provide: MeService, useValue: meService },
+        { provide: OcMeService, useValue: meService },
         { provide: AuthorizeNetService, useValue: authorizeNetService }
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template

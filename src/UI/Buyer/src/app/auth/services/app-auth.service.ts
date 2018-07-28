@@ -4,7 +4,7 @@ import { tap, catchError, finalize, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 // 3rd party
-import { TokenService, AuthService } from '@ordercloud/angular-sdk';
+import { OcTokenService, OcAuthService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { CookieService } from 'ngx-cookie';
 import { keys as _keys } from 'lodash';
@@ -22,8 +22,8 @@ export class AppAuthService {
     refreshToken: BehaviorSubject<string>;
 
     constructor(
-        private tokenService: TokenService,
-        private authService: AuthService,
+        private ocTokenService: OcTokenService,
+        private ocAuthService: OcAuthService,
         private cookieService: CookieService,
         private router: Router,
         private appErrorHandler: AppErrorHandler,
@@ -37,11 +37,11 @@ export class AppAuthService {
         return this.fetchRefreshToken()
             .pipe(
                 tap(token => {
-                    this.tokenService.SetAccess(token);
+                    this.ocTokenService.SetAccess(token);
                     this.refreshToken.next(token);
                 }),
                 catchError(error => {
-                    if (this.tokenService.GetAccess() && error === TokenRefreshAttemptNotPossible) {
+                    if (this.ocTokenService.GetAccess() && error === TokenRefreshAttemptNotPossible) {
                         this.appErrorHandler.displayError({ message: error });
                     }
                     // ignore new refresh attempts if a refresh
@@ -59,7 +59,7 @@ export class AppAuthService {
     }
 
     fetchToken(): Observable<string> {
-        const accessToken = this.tokenService.GetAccess();
+        const accessToken = this.ocTokenService.GetAccess();
         if (accessToken) {
             return of(accessToken);
         }
@@ -67,12 +67,12 @@ export class AppAuthService {
     }
 
     fetchRefreshToken(): Observable<string> {
-        const refreshToken = this.tokenService.GetRefresh();
+        const refreshToken = this.ocTokenService.GetRefresh();
         if (refreshToken) {
-            return this.authService.RefreshToken(refreshToken, this.appConfig.clientID)
+            return this.ocAuthService.RefreshToken(refreshToken, this.appConfig.clientID)
                 .pipe(
                     map(authResponse => authResponse.access_token),
-                    tap(token => this.tokenService.SetAccess(token)),
+                    tap(token => this.ocTokenService.SetAccess(token)),
                     catchError(error => {
                         if (this.appConfig.anonymousShoppingEnabled) {
                             return this.authAnonymous();
@@ -102,10 +102,10 @@ export class AppAuthService {
     }
 
     authAnonymous(): Observable<string> {
-        return this.authService.Anonymous(this.appConfig.clientID, this.appConfig.scope)
+        return this.ocAuthService.Anonymous(this.appConfig.clientID, this.appConfig.scope)
             .pipe(
                 map(authResponse => authResponse.access_token),
-                tap((token => this.tokenService.SetAccess(token))),
+                tap((token => this.ocTokenService.SetAccess(token))),
                 catchError(ex => {
                     this.appErrorHandler.displayError(ex);
                     return this.logout();
@@ -114,7 +114,7 @@ export class AppAuthService {
     }
 
     isUserAnon(): boolean {
-        const anonOrderID = jwtDecode(this.tokenService.GetAccess()).orderid;
+        const anonOrderID = jwtDecode(this.ocTokenService.GetAccess()).orderid;
         return !_isUndefined(anonOrderID);
     }
 

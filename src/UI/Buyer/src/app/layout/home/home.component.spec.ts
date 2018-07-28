@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Configuration, MeService, BuyerService } from '@ordercloud/angular-sdk';
+import { Configuration, OcMeService, OcBuyerService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { InjectionToken } from '@angular/core';
 import { CookieModule } from 'ngx-cookie';
@@ -20,7 +20,7 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
 
   const mockProducts = { Items: [] };
-  const mockBuyer = { Items: [ { xp: {} }] };
+  const mockBuyer = { Items: [{ xp: {} }] };
   const meService = { ListProducts: jasmine.createSpy('ListProducts').and.returnValue(of(mockProducts)) };
   const buyerService = { List: jasmine.createSpy('List').and.returnValue(of(mockBuyer)) };
 
@@ -42,8 +42,8 @@ describe('HomeComponent', () => {
       ],
       providers: [
         NgbCarouselConfig,
-        { provide: MeService, useValue: meService },
-        { provide: BuyerService, useValue: buyerService },
+        { provide: OcMeService, useValue: meService },
+        { provide: OcBuyerService, useValue: buyerService },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
     })

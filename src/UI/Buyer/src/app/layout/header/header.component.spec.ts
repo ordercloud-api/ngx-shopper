@@ -7,16 +7,16 @@ import { HeaderComponent } from '@app-buyer/layout/header/header.component';
 import {
   AppStateService,
   BaseResolveService,
-  OcLineItemService
+  AppLineItemService
 } from '@app-buyer/shared';
 import {
-  TokenService,
+  OcTokenService,
   Configuration,
-  AuthService,
-  MeService,
-  LineItemService,
-  SupplierService,
-  OrderService,
+  OcAuthService,
+  OcMeService,
+  OcLineItemService,
+  OcSupplierService,
+  OcOrderService,
   Order
 } from '@ordercloud/angular-sdk';
 
@@ -50,17 +50,17 @@ describe('HeaderComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
       providers: [
-        AuthService,
+        OcAuthService,
+        AppLineItemService,
         OcLineItemService,
-        LineItemService,
-        SupplierService,
-        OrderService,
-        MeService,
+        OcSupplierService,
+        OcOrderService,
+        OcMeService,
         NgbPopoverConfig,
         AppStateService,
         { provide: Router, useValue: router },
         { provide: BaseResolveService, useValue: baseResolveService },
-        { provide: TokenService, useValue: ocTokenService },
+        { provide: OcTokenService, useValue: ocTokenService },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]
     })

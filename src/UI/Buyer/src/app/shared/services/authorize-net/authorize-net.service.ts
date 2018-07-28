@@ -4,7 +4,7 @@ import { AppConfig, applicationConfiguration } from '@app-buyer/config/app.confi
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { CreateCardDetails, AuthorizeCardSuccess, CreateCardResponse } from '@app-buyer/shared/services/authorize-net/authorize-net.interface';
-import { TokenService, Payment, PaymentService, Order, OrderService, BuyerCreditCard } from '@ordercloud/angular-sdk';
+import { OcTokenService, Payment, OcPaymentService, Order, OcOrderService, BuyerCreditCard } from '@ordercloud/angular-sdk';
 
 /**
  *  OrderCloud does not store full credit card details or process finacial transactions.
@@ -34,9 +34,9 @@ export class AuthorizeNetService {
 
   constructor(
     private http: HttpClient,
-    private tokenSerivce: TokenService,
-    private paymentService: PaymentService,
-    private orderService: OrderService,
+    private tokenSerivce: OcTokenService,
+    private ocPaymentService: OcPaymentService,
+    private ocOrderService: OcOrderService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) { }
 
@@ -108,7 +108,7 @@ export class AuthorizeNetService {
       return this.AuthorizeCardOnOrder(order, card);
     }
 
-    return this.paymentService.Delete('outgoing', order.ID, existingPayment.ID)
+    return this.ocPaymentService.Delete('outgoing', order.ID, existingPayment.ID)
       .pipe(
         flatMap(() => this.AuthorizeCardOnOrder(order, card))
       );
@@ -122,7 +122,7 @@ export class AuthorizeNetService {
   AuthorizeAnonymousCard(order: Order, card: CreateCardDetails, existingPayment: Payment): Observable<Order> {
     return this.AuthorizeCard(order, card, existingPayment)
       .pipe(
-        flatMap(() => this.orderService.Patch('outgoing', order.ID, { xp: { cardDetails: this.mapToNonSensitive(card) } }))
+        flatMap(() => this.ocOrderService.Patch('outgoing', order.ID, { xp: { cardDetails: this.mapToNonSensitive(card) } }))
       );
   }
 

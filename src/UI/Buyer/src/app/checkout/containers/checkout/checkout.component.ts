@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { Order, OrderService, PaymentService } from '@ordercloud/angular-sdk';
+import { Order, OcOrderService, OcPaymentService } from '@ordercloud/angular-sdk';
 import { AppStateService, BaseResolveService } from '@app-buyer/shared';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
@@ -43,9 +43,9 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private appStateService: AppStateService,
-    private orderService: OrderService,
+    private ocOrderService: OcOrderService,
     private router: Router,
-    private paymentService: PaymentService,
+    private ocPaymentService: OcPaymentService,
     private baseResolveService: BaseResolveService
   ) { }
 
@@ -73,9 +73,9 @@ export class CheckoutComponent implements OnInit {
   confirmOrder() {
     const orderID = this.appStateService.orderSubject.value.ID;
     // TODO - this could be refactored to avoid calling the api to get paymentID.
-    this.paymentService.List('outgoing', orderID)
+    this.ocPaymentService.List('outgoing', orderID)
       .pipe(
-        flatMap(() => this.orderService.Submit('outgoing', orderID))
+        flatMap(() => this.ocOrderService.Submit('outgoing', orderID))
       )
       .subscribe(() => {
         this.router.navigateByUrl(`order-confirmation/${orderID}`);

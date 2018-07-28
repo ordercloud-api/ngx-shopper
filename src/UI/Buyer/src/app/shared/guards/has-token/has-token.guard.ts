@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { TokenService } from '@ordercloud/angular-sdk';
+import { OcTokenService } from '@ordercloud/angular-sdk';
 import * as jwtDecode from 'jwt-decode';
 import { DecodedOrderCloudToken } from '@app-buyer/shared';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
@@ -11,7 +11,7 @@ import { flatMap, map } from 'rxjs/operators';
 @Injectable()
 export class HasTokenGuard implements CanActivate {
   constructor(
-    private tokenService: TokenService,
+    private ocTokenService: OcTokenService,
     private router: Router,
     private appAuthService: AppAuthService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
@@ -26,7 +26,7 @@ export class HasTokenGuard implements CanActivate {
      * and the refresh-token interceptor will handle it correctly
      */
     const isAccessTokenValid = this.isTokenValid();
-    const refreshTokenExists = this.tokenService.GetRefresh() && this.appAuthService.getRememberStatus();
+    const refreshTokenExists = this.ocTokenService.GetRefresh() && this.appAuthService.getRememberStatus();
 
     if (!isAccessTokenValid && refreshTokenExists) {
       return this.appAuthService.refresh().pipe(map(() => true));
@@ -49,7 +49,7 @@ export class HasTokenGuard implements CanActivate {
   }
 
   private isTokenValid(): boolean {
-    const token = this.tokenService.GetAccess();
+    const token = this.ocTokenService.GetAccess();
 
     if (!token) { return false; }
 

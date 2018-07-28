@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ListPayment, PaymentService, MeService } from '@ordercloud/angular-sdk';
+import { ListPayment, OcPaymentService, OcMeService } from '@ordercloud/angular-sdk';
 import { Observable, of, forkJoin } from 'rxjs';
 import { tap, map, flatMap } from 'rxjs/operators';
 
@@ -9,12 +9,12 @@ import { tap, map, flatMap } from 'rxjs/operators';
 export class AppPaymentService {
 
   constructor(
-    private paymentService: PaymentService,
-    private meService: MeService
+    private ocPaymentService: OcPaymentService,
+    private ocMeService: OcMeService
   ) { }
 
   getPayments(direction: string, orderID: string): Observable<ListPayment> {
-    return this.paymentService.List(direction, orderID)
+    return this.ocPaymentService.List(direction, orderID)
       .pipe(
         flatMap(paymentList => {
           // put details for each payment type on payment.Details
@@ -22,7 +22,7 @@ export class AppPaymentService {
           paymentList.Items.forEach(payment => {
             if (payment.Type === 'CreditCard') {
               queue = [...queue, (() => {
-                return this.meService.GetCreditCard(payment.CreditCardID)
+                return this.ocMeService.GetCreditCard(payment.CreditCardID)
                   .pipe(
                     tap(creditCard => {
                       payment['Details'] = creditCard;
@@ -31,7 +31,7 @@ export class AppPaymentService {
               })()];
             } else if (payment.Type === 'SpendingAccount') {
               queue = [...queue, (() => {
-                return this.meService.GetSpendingAccount(payment.SpendingAccountID)
+                return this.ocMeService.GetSpendingAccount(payment.SpendingAccountID)
                   .pipe(
                     tap(spendingAccount => {
                       payment['Details'] = spendingAccount;

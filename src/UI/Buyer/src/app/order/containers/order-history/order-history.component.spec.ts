@@ -10,7 +10,7 @@ import { OrderListComponent } from '@app-buyer/order/components/order-list/order
 
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgbPaginationModule, NgbRootModule } from '@ng-bootstrap/ng-bootstrap';
-import { MeService, OrderService } from '@ordercloud/angular-sdk';
+import { OcMeService, OcOrderService } from '@ordercloud/angular-sdk';
 import { DatePipe } from '@angular/common';
 import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { of, Subject } from 'rxjs';
@@ -61,7 +61,7 @@ describe('OrderHistoryComponent', () => {
       ],
       providers: [
         DatePipe,
-        { provide: MeService, useValue: meService },
+        { provide: OcMeService, useValue: meService },
         { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: activatedRoute },
       ],

@@ -8,7 +8,7 @@ import { InjectionToken } from '@angular/core';
 import { ForgotPasswordComponent } from '@app-buyer/auth/containers/forgot-password/forgot-password.component';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 
-import { Configuration, PasswordResetService, TokenService } from '@ordercloud/angular-sdk';
+import { Configuration, OcPasswordResetService, OcTokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { ToastrService } from 'ngx-toastr';
 
@@ -29,9 +29,9 @@ describe('ForgotPasswordComponent', () => {
         HttpClientModule
       ],
       providers: [
-        TokenService,
+        OcTokenService,
         { provide: Router, useValue: router },
-        { provide: PasswordResetService, useValue: ocPasswordService },
+        { provide: OcPasswordResetService, useValue: ocPasswordService },
         { provide: ToastrService, useValue: toastrService },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
       ]

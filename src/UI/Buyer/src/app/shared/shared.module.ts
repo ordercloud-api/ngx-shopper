@@ -27,7 +27,7 @@ import { applicationConfiguration, ocAppConfig } from '@app-buyer/config/app.con
 import { BaseResolve } from '@app-buyer/shared/resolves/base.resolve';
 import { SharedRoutingModule } from '@app-buyer/shared/shared-routing.module';
 import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
-import { OcLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
+import { AppLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
 import { AuthorizeNetService } from '@app-buyer/shared/services/authorize-net/authorize-net.service';
 import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
 import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
@@ -186,7 +186,7 @@ export class SharedModule {
         BaseResolve,
         BaseResolveService,
         OcFormErrorService,
-        OcLineItemService,
+        AppLineItemService,
         ModalService,
         PhoneFormatPipe,
         OrderStatusDisplayPipe,

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 import { BaseResolveService, AppStateService } from '@app-buyer/shared';
 
-import { TokenService, Order, MeUser, ListCategory } from '@ordercloud/angular-sdk';
+import { OcTokenService, Order, MeUser, ListCategory } from '@ordercloud/angular-sdk';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({
@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private appStateService: AppStateService,
-    private ocTokenService: TokenService,
+    private ocTokenService: OcTokenService,
     private baseResolveService: BaseResolveService,
     private router: Router,
     @Inject(applicationConfiguration) protected appConfig: AppConfig
@@ -44,17 +44,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.appStateService.orderSubject.pipe(
       takeWhile(() => this.alive)
     ).subscribe(order => {
-        if (
-          order &&
-          this.currentOrder &&
-          !isNaN(this.currentOrder.LineItemCount) &&
-          order.LineItemCount > this.currentOrder.LineItemCount &&
-          this.popover
-        ) {
-          this.addedToCart();
-        }
-        this.currentOrder = order;
-      });
+      if (
+        order &&
+        this.currentOrder &&
+        !isNaN(this.currentOrder.LineItemCount) &&
+        order.LineItemCount > this.currentOrder.LineItemCount &&
+        this.popover
+      ) {
+        this.addedToCart();
+      }
+      this.currentOrder = order;
+    });
   }
 
   searchProducts(searchStr: string) {

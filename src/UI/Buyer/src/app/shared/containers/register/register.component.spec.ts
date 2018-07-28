@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterComponent } from '@app-buyer/shared/containers/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MeService, TokenService } from '@ordercloud/angular-sdk';
+import { OcMeService, OcTokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { InjectionToken } from '@angular/core';
@@ -62,8 +62,8 @@ describe('RegisterComponent', () => {
       providers: [
         { provide: OcFormErrorService, useValue: formErrorService },
         { provide: Router, useValue: router },
-        { provide: TokenService, useValue: tokenService },
-        { provide: MeService, useValue: meService },
+        { provide: OcTokenService, useValue: tokenService },
+        { provide: OcMeService, useValue: meService },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: AppStateService, useValue: appStateService },
         { provide: ToastrService, useValue: toastrService },

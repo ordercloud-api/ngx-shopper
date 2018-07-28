@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
-import { OcLineItemService } from '@app-buyer/shared';
-import { BuyerProduct, MeService } from '@ordercloud/angular-sdk';
+import { AppLineItemService } from '@app-buyer/shared';
+import { BuyerProduct, OcMeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { minBy as _minBy } from 'lodash';
@@ -23,9 +23,9 @@ export class ProductDetailsComponent implements OnInit {
   quantity: number;
 
   constructor(
-    private meService: MeService,
+    private ocMeService: OcMeService,
     private activatedRoute: ActivatedRoute,
-    private ocLineItemService: OcLineItemService,
+    private appLineItemService: AppLineItemService,
     private favoriteProductsService: FavoriteProductsService
   ) { }
 
@@ -39,7 +39,7 @@ export class ProductDetailsComponent implements OnInit {
       .pipe(
         flatMap(queryParams => {
           if (queryParams.ID) {
-            return this.meService.GetProduct(queryParams.ID)
+            return this.ocMeService.GetProduct(queryParams.ID)
               .pipe(
                 tap(prod => {
                   this.relatedProducts$ = this.getRelatedProducts(prod);
@@ -63,14 +63,14 @@ export class ProductDetailsComponent implements OnInit {
     }
 
     product.xp.RelatedProducts.forEach(prodID => {
-      queue.push(this.meService.GetProduct(prodID));
+      queue.push(this.ocMeService.GetProduct(prodID));
     });
 
     return forkJoin(queue);
   }
 
   addToCart(event: AddToCartEvent): void {
-    this.ocLineItemService.create(event.product, event.quantity)
+    this.appLineItemService.create(event.product, event.quantity)
       .subscribe();
   }
 
@@ -82,8 +82,8 @@ export class ProductDetailsComponent implements OnInit {
   hasPrice(): boolean {
     // free products dont need to display a price.
     return this.product.PriceSchedule &&
-    this.product.PriceSchedule.PriceBreaks.length &&
-    this.product.PriceSchedule.PriceBreaks[0].Price > 0;
+      this.product.PriceSchedule.PriceBreaks.length &&
+      this.product.PriceSchedule.PriceBreaks[0].Price > 0;
   }
 
   getTotalPrice(): number {

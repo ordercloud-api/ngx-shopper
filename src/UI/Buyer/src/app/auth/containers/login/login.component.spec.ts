@@ -8,7 +8,7 @@ import { of, BehaviorSubject } from 'rxjs';
 import { LoginComponent } from '@app-buyer/auth/containers/login/login.component';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 
-import { Configuration, AuthService, TokenService } from '@ordercloud/angular-sdk';
+import { Configuration, OcAuthService, OcTokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { AppAuthService } from '@app-buyer/auth';
 import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
@@ -39,8 +39,8 @@ describe('LoginComponent', () => {
         { provide: AppStateService, useValue: appStateService },
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },
-        { provide: TokenService, useValue: ocTokenService },
-        { provide: AuthService, useValue: ocAuthService },
+        { provide: OcTokenService, useValue: ocTokenService },
+        { provide: OcAuthService, useValue: ocAuthService },
         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') },
       ]
     })
@@ -74,7 +74,7 @@ describe('LoginComponent', () => {
       component['appConfig'].clientID = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
       component['appConfig'].scope = ['testScope'];
     });
-    it('should call the AuthService Login method, TokenService SetAccess method, and route to home', () => {
+    it('should call the OcAuthService Login method, OcTokenService SetAccess method, and route to home', () => {
       component.onSubmit();
       expect(ocAuthService.Login).toHaveBeenCalledWith('', '', 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', ['testScope']);
       expect(ocTokenService.SetAccess).toHaveBeenCalledWith(response.access_token);

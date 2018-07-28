@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { MeService, TokenService } from '@ordercloud/angular-sdk';
+import { OcMeService, OcTokenService } from '@ordercloud/angular-sdk';
 import { tap } from 'rxjs/operators';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 import { OcMatchFieldsValidator } from '@app-buyer/shared/validators/oc-match-fields/oc-match-fields.validator';
@@ -21,8 +21,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private meService: MeService,
-    private tokenService: TokenService,
+    private ocMeService: OcMeService,
+    private ocTokenService: OcTokenService,
     private toasterService: ToastrService,
     private router: Router,
     private appStateService: AppStateService,
@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit {
   }
 
   private register(me) {
-    this.meService.Register(this.tokenService.GetAccess(), me).subscribe(() => {
+    this.ocMeService.Register(this.ocTokenService.GetAccess(), me).subscribe(() => {
       this.toasterService.success('New User Created');
       this.router.navigate(['/login']);
     }, error => {
@@ -88,7 +88,7 @@ export class RegisterComponent implements OnInit {
   }
 
   private update(me) {
-    this.meService.Patch(me).subscribe(
+    this.ocMeService.Patch(me).subscribe(
       res => {
         this.appStateService.userSubject.next(res);
         this.toasterService.success('Account Info Updated');
@@ -98,7 +98,7 @@ export class RegisterComponent implements OnInit {
   }
 
   private getMeData() {
-    this.meService.Get().subscribe(me => {
+    this.ocMeService.Get().subscribe(me => {
       this.form.setValue({
         FirstName: me.FirstName,
         LastName: me.LastName,

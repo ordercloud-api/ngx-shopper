@@ -3,9 +3,9 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ListBuyerProduct, MeService, Category, ListCategory } from '@ordercloud/angular-sdk';
+import { ListBuyerProduct, OcMeService, Category, ListCategory } from '@ordercloud/angular-sdk';
 import { ProductSortStrats } from '@app-buyer/products/models/product-sort-strats.enum';
-import { OcLineItemService } from '@app-buyer/shared';
+import { AppLineItemService } from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
@@ -30,10 +30,10 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private meService: MeService,
+    private ocMeService: OcMeService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private ocLineItemService: OcLineItemService,
+    private appLineItemService: AppLineItemService,
     private favoriteProductsService: FavoriteProductsService
   ) { }
 
@@ -57,7 +57,7 @@ export class ProductListComponent implements OnInit {
           this.searchTerm = queryParams.search || null;
           // set filter to undefined if it doesn't exist so queryParam is ignored entirely
           const filter = this.favsFilterOn ? { ID: this.favoriteProductsService.favorites.join('|') } : undefined;
-          return this.meService.ListProducts({
+          return this.ocMeService.ListProducts({
             categoryID: queryParams.category,
             page: queryParams.page,
             search: queryParams.search,
@@ -69,7 +69,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.meService.ListCategories({ depth: 'all' })
+    this.ocMeService.ListCategories({ depth: 'all' })
       .subscribe(categories => {
         this.categories = categories;
         const categoryID = this.activatedRoute.snapshot.queryParams.category;
@@ -118,7 +118,7 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(event: AddToCartEvent) {
-    this.ocLineItemService.create(event.product, event.quantity)
+    this.appLineItemService.create(event.product, event.quantity)
       .subscribe();
   }
 

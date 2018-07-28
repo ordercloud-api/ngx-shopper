@@ -5,7 +5,7 @@ import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@an
 
 import { RefreshTokenInterceptor } from '@app-buyer/auth/interceptors/refresh-token/refresh-token.interceptor';
 import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
-import { TokenService, Configuration } from '@ordercloud/angular-sdk';
+import { OcTokenService, Configuration } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 import { of, BehaviorSubject, throwError } from 'rxjs';
@@ -32,7 +32,7 @@ describe('RefreshTokenInterceptor', () => {
             providers: [
                 RefreshTokenInterceptor,
                 { provide: AppAuthService, useValue: appAuthService },
-                { provide: TokenService, useValue: tokenService },
+                { provide: OcTokenService, useValue: tokenService },
                 { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
                 { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
             ],
