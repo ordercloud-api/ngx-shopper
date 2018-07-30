@@ -9,21 +9,31 @@ import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
 import { OrderAprovalComponent } from '@app-buyer/order/containers/order-approval/order-approval.component';
 import { OrderApprovalDetailsComponent } from '@app-buyer/order/containers/order-approval-details/order-approval-details.component';
 
-
 const routes: Routes = [
-    { path: '', component: OrderHistoryComponent },
-    { path: 'approval', component: OrderAprovalComponent },
-    { path: 'approval/:orderID', component: OrderApprovalDetailsComponent, resolve: { orderResolve: OrderResolve }},
-    {
-        path: ':orderID', component: OrderComponent, resolve: { orderResolve: OrderResolve }, children: [
-            { path: '', component: OrderDetailComponent },
-            { path: 'shipments', component: OrderShipmentsComponent, resolve: { shipmentsResolve: ShipmentsResolve } }
-        ]
-    }
+  { path: '', component: OrderHistoryComponent },
+  { path: 'approval', component: OrderAprovalComponent },
+  {
+    path: 'approval/:orderID',
+    component: OrderApprovalDetailsComponent,
+    resolve: { orderResolve: OrderResolve },
+  },
+  {
+    path: ':orderID',
+    component: OrderComponent,
+    resolve: { orderResolve: OrderResolve },
+    children: [
+      { path: '', component: OrderDetailComponent },
+      {
+        path: 'shipments',
+        component: OrderShipmentsComponent,
+        resolve: { shipmentsResolve: ShipmentsResolve },
+      },
+    ],
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class OrderRoutingModule { }
+export class OrderRoutingModule {}

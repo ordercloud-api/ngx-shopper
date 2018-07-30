@@ -16,25 +16,19 @@ import { OrderAprovalComponent } from '@app-buyer/order/containers/order-approva
 import { OrderApprovalDetailsComponent } from './containers/order-approval-details/order-approval-details.component';
 
 @NgModule({
-    imports: [
-        SharedModule,
-        OrderRoutingModule
-    ],
-    declarations: [
-        OrderHistoryComponent,
-        StatusFilterComponent,
-        DateFilterComponent,
-        OrderListComponent,
-        OrderDetailComponent,
-        StatusIconComponent,
-        OrderComponent,
-        OrderShipmentsComponent,
-        OrderAprovalComponent,
-        OrderApprovalDetailsComponent
-    ],
-    providers: [
-        OrderResolve,
-        ShipmentsResolve,
-    ]
+  imports: [SharedModule, OrderRoutingModule],
+  declarations: [
+    OrderHistoryComponent,
+    StatusFilterComponent,
+    DateFilterComponent,
+    OrderListComponent,
+    OrderDetailComponent,
+    StatusIconComponent,
+    OrderComponent,
+    OrderShipmentsComponent,
+    OrderAprovalComponent,
+    OrderApprovalDetailsComponent,
+  ],
+  providers: [OrderResolve, ShipmentsResolve],
 })
-export class OrderModule { }
+export class OrderModule {}
