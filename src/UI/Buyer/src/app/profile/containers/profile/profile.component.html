@@ -9,8 +9,8 @@
            -->
           <a class="nav-link link-text"
              [routerLink]="tab.route"
-             [routerLinkActive]="['text-secondary']"
-             [routerLinkActiveOptions]="{exact: true}">{{ tab.display }}</a>
+             [ngClass]="{ 'text-secondary' : tab.display === selectedTab }"
+             (click)="selectTab(tab)">{{ tab.display }}</a>
         </li>
       </ul>
     </div>
