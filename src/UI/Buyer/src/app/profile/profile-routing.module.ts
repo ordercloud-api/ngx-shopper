@@ -9,13 +9,19 @@ import { PaymentListComponent } from '@app-buyer/profile/containers/payment-list
 
 const routes: Routes = [
   {
-    path: '', component: ProfileComponent, children: [
+    path: '',
+    component: ProfileComponent,
+    children: [
       { path: '', redirectTo: 'details' },
-      { path: 'details', component: RegisterComponent, data: { shouldAllowUpdate: true } },
+      {
+        path: 'details',
+        component: RegisterComponent,
+        data: { shouldAllowUpdate: true },
+      },
       { path: 'addresses', component: AddressListComponent },
       { path: 'payment-methods', component: PaymentListComponent },
-      { path: 'orders', loadChildren: '../order/order.module#OrderModule' }
-    ]
+      { path: 'orders', loadChildren: '../order/order.module#OrderModule' },
+    ],
   },
 ];
 
@@ -23,4 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ProfileRoutingModule { }
+export class ProfileRoutingModule {}
