@@ -31,8 +31,8 @@ export class OrderDetailComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private orderService: OcOrderService,
-    private ocLineItemService: AppLineItemService,
+    private ocOrderService: OcOrderService,
+    private appLineItemService: AppLineItemService,
     private appPaymentService: AppPaymentService
   ) {}
 
@@ -52,7 +52,7 @@ export class OrderDetailComponent implements OnInit {
   private getPromotions() {
     return this.activatedRoute.paramMap.pipe(
       flatMap((params: ParamMap) =>
-        this.orderService.ListPromotions('outgoing', params.get('orderID'))
+        this.ocOrderService.ListPromotions('outgoing', params.get('orderID'))
       )
     );
   }
@@ -60,7 +60,7 @@ export class OrderDetailComponent implements OnInit {
   private getSupplierAddresses(): Observable<Address[]> {
     return this.lineItems$.pipe(
       flatMap((lineItems) =>
-        this.ocLineItemService.getSupplierAddresses(lineItems)
+        this.appLineItemService.getSupplierAddresses(lineItems)
       )
     );
   }
@@ -76,7 +76,7 @@ export class OrderDetailComponent implements OnInit {
   getApprovals(): Observable<OrderApproval[]> {
     return this.activatedRoute.paramMap.pipe(
       flatMap((params: ParamMap) =>
-        this.orderService.ListApprovals('outgoing', params.get('orderID'))
+        this.ocOrderService.ListApprovals('outgoing', params.get('orderID'))
       ),
       map((list) => _uniqBy(list.Items, (x) => x.Comments))
     );

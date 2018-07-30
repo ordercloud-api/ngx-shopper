@@ -1,8 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrderApprovalDetailsComponent } from './order-approval-details.component';
-import { OrderService } from '@ordercloud/angular-sdk';
-import { ActivatedRoute, ParamMap, convertToParamMap, Router } from '@angular/router';
+import { OcOrderService } from '@ordercloud/angular-sdk';
+import {
+  ActivatedRoute,
+  ParamMap,
+  convertToParamMap,
+  Router,
+} from '@angular/router';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of, BehaviorSubject } from 'rxjs';
@@ -18,42 +23,43 @@ describe('OrderApprovalDetailsComponent', () => {
   const orderService = {
     Get: jasmine.createSpy('Get').and.returnValue(of(null)),
     Approve: jasmine.createSpy('Approve').and.returnValue(of(null)),
-    Decline: jasmine.createSpy('Decline').and.returnValue(of(null))
+    Decline: jasmine.createSpy('Decline').and.returnValue(of(null)),
   };
-  const appPaymentService = { getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)) };
+  const appPaymentService = {
+    getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)),
+  };
   const modalService = {
     open: jasmine.createSpy('open').and.returnValue(null),
-    close: jasmine.createSpy('close').and.returnValue(null)
+    close: jasmine.createSpy('close').and.returnValue(null),
   };
-  const toasterService = { success: jasmine.createSpy('success').and.returnValue(null) };
+  const toasterService = {
+    success: jasmine.createSpy('success').and.returnValue(null),
+  };
   const router = { navigateByUrl: jasmine.createSpy('navigateByUrl') };
 
-  const paramMap = new BehaviorSubject<ParamMap>(convertToParamMap({ orderID: mockOrderID }));
+  const paramMap = new BehaviorSubject<ParamMap>(
+    convertToParamMap({ orderID: mockOrderID })
+  );
 
   const activatedRoute = {
     data: of({ orderResolve: { order: { ID: 'mockOrder' } } }),
-    paramMap
+    paramMap,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OrderApprovalDetailsComponent,
-      ],
-      imports: [
-        ReactiveFormsModule
-      ],
+      declarations: [OrderApprovalDetailsComponent],
+      imports: [ReactiveFormsModule],
       providers: [
         { provide: ToastrService, useValue: toasterService },
         { provide: ModalService, useValue: modalService },
-        { provide: OrderService, useValue: orderService },
+        { provide: OcOrderService, useValue: orderService },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: router },
-        { provide: AppPaymentService, useValue: appPaymentService }
+        { provide: AppPaymentService, useValue: appPaymentService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -101,16 +107,20 @@ describe('OrderApprovalDetailsComponent', () => {
     it('Should call Approve if approve is true', () => {
       component.approve = true;
       component.submitReview(mockOrderID);
-      expect(orderService.Approve).toHaveBeenCalledWith('outgoing',
-      mockOrderID,
-      { Comments: component.form.value.comments, AllowResubmit: false });
+      expect(orderService.Approve).toHaveBeenCalledWith(
+        'outgoing',
+        mockOrderID,
+        { Comments: component.form.value.comments, AllowResubmit: false }
+      );
     });
     it('Should call Decline if approve is false', () => {
       component.approve = false;
       component.submitReview(mockOrderID);
-      expect(orderService.Approve).toHaveBeenCalledWith('outgoing',
-      mockOrderID,
-      { Comments: component.form.value.comments, AllowResubmit: false });
+      expect(orderService.Approve).toHaveBeenCalledWith(
+        'outgoing',
+        mockOrderID,
+        { Comments: component.form.value.comments, AllowResubmit: false }
+      );
     });
     it('Should do a bunch of things after submitting the review', () => {
       component.submitReview(mockOrderID);
