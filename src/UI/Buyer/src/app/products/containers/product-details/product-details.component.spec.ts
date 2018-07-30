@@ -26,6 +26,7 @@ import {
 } from '@app-buyer/config/app.config';
 import { of } from 'rxjs';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
+import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 
 describe('ProductDetailsComponent', () => {
   let component: ProductDetailsComponent;
@@ -83,6 +84,9 @@ describe('ProductDetailsComponent', () => {
     fixture = TestBed.createComponent(ProductDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.quantityInputComponent = <QuantityInputComponent>{
+      form: { value: { quantity: 1 } },
+    };
   });
 
   it('should create', () => {
@@ -138,19 +142,19 @@ describe('ProductDetailsComponent', () => {
       };
     });
     it('should calculate total correctly', () => {
-      component.quantity = 2;
+      component.quantityInputComponent.form.value.quantity = 2;
       expect(component.getTotalPrice()).toEqual(2 * 10);
-      component.quantity = 7;
+      component.quantityInputComponent.form.value.quantity = 7;
       expect(component.getTotalPrice()).toEqual(7 * 10);
-      component.quantity = 12;
+      component.quantityInputComponent.form.value.quantity = 12;
       expect(component.getTotalPrice()).toEqual(12 * 9);
-      component.quantity = 15;
+      component.quantityInputComponent.form.value.quantity = 15;
       expect(component.getTotalPrice()).toEqual(15 * 8);
-      component.quantity = 17;
+      component.quantityInputComponent.form.value.quantity = 17;
       expect(component.getTotalPrice()).toEqual(17 * 8);
-      component.quantity = 20;
+      component.quantityInputComponent.form.value.quantity = 20;
       expect(component.getTotalPrice()).toEqual(20 * 7);
-      component.quantity = 22;
+      component.quantityInputComponent.form.value.quantity = 22;
       expect(component.getTotalPrice()).toEqual(22 * 7);
     });
   });
