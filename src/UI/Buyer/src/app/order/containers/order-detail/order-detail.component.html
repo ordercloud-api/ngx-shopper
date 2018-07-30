@@ -26,6 +26,13 @@
       <hr>
       <order-payment-list *ngIf="payments$ | async; let payments"
                           [payments]="payments"></order-payment-list>
+      <hr>
+      <div><strong>Status: </strong><order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}</div>
+      <ul>
+        <li *ngFor="let approval of (approvals$ | async)">{{ approval.Approver.FirstName }} {{ approval.Approver.LastName }} {{ approval.Status }} on {{ approval.DateCreated | date: 'short' }}
+          <div><small *ngIf="approval.Comments">"{{ approval.Comments }}"</small></div>
+        </li>
+      </ul>
     </div>
   </div>
   <shared-lineitem-list-wrapper>

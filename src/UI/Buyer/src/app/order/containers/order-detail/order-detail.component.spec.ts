@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderDetailComponent } from '@app-buyer/order/containers/order-detail/order-detail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppLineItemService } from '@app-buyer/shared';
-import { of, Subject } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { OcOrderService } from '@ordercloud/angular-sdk';
 import { ParamMap, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
@@ -23,12 +23,17 @@ describe('OrderDetailComponent', () => {
     ListPromotions: jasmine
       .createSpy('ListPromotions')
       .and.returnValue(of(null)),
+    ListApprovals: jasmine
+      .createSpy('ListApprovals')
+      .and.returnValue(of({ Items: { Comments: [] } })),
   };
   const appPaymentService = {
     getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)),
   };
 
-  const paramMap = new Subject<ParamMap>();
+  const paramMap = new BehaviorSubject<ParamMap>(
+    convertToParamMap({ orderID: mockOrderID })
+  );
 
   const activatedRoute = {
     parent: {
@@ -75,19 +80,18 @@ describe('OrderDetailComponent', () => {
   });
 
   describe('getPromotions', () => {
-    it('should call OcOrderService.ListPromotions with order id param', () => {
+    it('should call OrderService.ListPromotions with order id param', () => {
       component['getPromotions']().subscribe(() => {
         expect(orderService.ListPromotions).toHaveBeenCalledWith(
           'outgoing',
           mockOrderID
         );
       });
-      paramMap.next(convertToParamMap({ orderID: mockOrderID }));
     });
   });
 
   describe('getSupplierAddresses', () => {
-    it('should call AppLineItemService.getSupplierAddresses', () => {
+    it('should call OcLineItemService.getSupplierAddresses', () => {
       component['getSupplierAddresses']().subscribe(() => {
         expect(appLineItemService.getSupplierAddresses).toHaveBeenCalled();
       });
@@ -98,6 +102,14 @@ describe('OrderDetailComponent', () => {
     it('should call AppPaymentService', () => {
       component['getSupplierAddresses']().subscribe(() => {
         expect(appPaymentService.getPayments).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('getApprovals', () => {
+    it('should call OrderService.ListApprovals', () => {
+      component['getApprovals']().subscribe(() => {
+        expect(orderService.ListApprovals).toHaveBeenCalled();
       });
     });
   });

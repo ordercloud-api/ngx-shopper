@@ -2,16 +2,12 @@
   <div class="row">
     <div class="col-md-3 col-sm-4">
       <ul class="nav flex-column">
-        <li class="nav-item"
-            *ngFor="let tab of tabs"
-            class="side-nav-button">
-          <!-- TODO: find out how to make routerlink active work
-              when navigating to profile, works when reload on profile
-           -->
+        <li class="nav-item side-nav-button"
+            *ngFor="let tab of tabs">
           <a class="nav-link link-text"
-             [routerLink]="['/profile', tab.route]"
-             [routerLinkActive]="['text-secondary']"
-             [routerLinkActiveOptions]="{exact: true}">{{ tab.display }}</a>
+             [routerLink]="tab.route"
+             [ngClass]="{ 'text-secondary' : tab.display === selectedTab }"
+             (click)="selectTab(tab)">{{ tab.display }}</a>
         </li>
       </ul>
     </div>
