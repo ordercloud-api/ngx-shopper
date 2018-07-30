@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { Order, OrderService, PaymentService } from '@ordercloud/angular-sdk';
+import {
+  Order,
+  OcOrderService,
+  OcPaymentService,
+} from '@ordercloud/angular-sdk';
 import { AppStateService, BaseResolveService } from '@app-buyer/shared';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +14,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'checkout-checkout',
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss']
+  styleUrls: ['./checkout.component.scss'],
 })
 export class CheckoutComponent implements OnInit {
   @ViewChild('acc') public accordian: NgbAccordion;
@@ -21,33 +25,33 @@ export class CheckoutComponent implements OnInit {
   sections: any = [
     {
       id: 'login',
-      valid: false
+      valid: false,
     },
     {
       id: 'shippingAddress',
-      valid: false
+      valid: false,
     },
     {
       id: 'billingAddress',
-      valid: false
+      valid: false,
     },
     {
       id: 'payment',
-      valid: false
+      valid: false,
     },
     {
       id: 'confirm',
-      valid: false
-    }
+      valid: false,
+    },
   ];
 
   constructor(
     private appStateService: AppStateService,
-    private orderService: OrderService,
+    private ocOrderService: OcOrderService,
     private router: Router,
-    private paymentService: PaymentService,
+    private ocPaymentService: OcPaymentService,
     private baseResolveService: BaseResolveService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.isAnon = this.appStateService.isAnonSubject.value;
@@ -56,15 +60,18 @@ export class CheckoutComponent implements OnInit {
   }
 
   getValidation(id: string) {
-    return this.sections.find(x => x.id === id).valid;
+    return this.sections.find((x) => x.id === id).valid;
   }
 
   setValidation(id: string, value: boolean) {
-    this.sections.find(x => x.id === id).valid = value;
+    this.sections.find((x) => x.id === id).valid = value;
   }
 
   toSection(id: string) {
-    const prevIdx = Math.max(this.sections.findIndex(x => x.id === id) - 1, 0);
+    const prevIdx = Math.max(
+      this.sections.findIndex((x) => x.id === id) - 1,
+      0
+    );
     const prev = this.sections[prevIdx].id;
     this.setValidation(prev, true);
     this.accordian.toggle(id);
@@ -73,17 +80,18 @@ export class CheckoutComponent implements OnInit {
   confirmOrder() {
     const orderID = this.appStateService.orderSubject.value.ID;
     // TODO - this could be refactored to avoid calling the api to get paymentID.
-    this.paymentService.List('outgoing', orderID)
-      .pipe(
-        flatMap(() => this.orderService.Submit('outgoing', orderID))
-      )
-      .subscribe(() => {
-        this.router.navigateByUrl(`order-confirmation/${orderID}`);
-        this.baseResolveService.resetUser();
-      },
-        error => {
+    this.ocPaymentService
+      .List('outgoing', orderID)
+      .pipe(flatMap(() => this.ocOrderService.Submit('outgoing', orderID)))
+      .subscribe(
+        () => {
+          this.router.navigateByUrl(`order-confirmation/${orderID}`);
+          this.baseResolveService.resetUser();
+        },
+        (error) => {
           throw Error(error);
-        });
+        }
+      );
   }
 
   beforeChange($event) {

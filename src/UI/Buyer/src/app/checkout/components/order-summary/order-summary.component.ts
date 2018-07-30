@@ -5,12 +5,12 @@ import { CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'checkout-order-summary',
   templateUrl: './order-summary.component.html',
-  styleUrls: ['./order-summary.component.scss']
+  styleUrls: ['./order-summary.component.scss'],
 })
 export class OrderSummaryComponent {
   @Input() order: Order;
 
-  constructor() { }
+  constructor() {}
 
   display(field) {
     if (!(this.order.xp && this.order.xp.AddOnsCalculated)) {
@@ -21,7 +21,6 @@ export class OrderSummaryComponent {
       return 'Free';
     }
 
-    return (new CurrencyPipe('en-US')).transform(this.order[`${field}`]);
+    return new CurrencyPipe('en-US').transform(this.order[`${field}`]);
   }
-
 }

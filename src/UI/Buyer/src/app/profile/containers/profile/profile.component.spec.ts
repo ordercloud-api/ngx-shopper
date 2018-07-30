@@ -1,13 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileComponent } from '@app-buyer/profile/containers/profile/profile.component';
-import { SharedModule, PhoneFormatPipe, AppStateService } from '@app-buyer/shared';
+import {
+  SharedModule,
+  PhoneFormatPipe,
+  AppStateService,
+} from '@app-buyer/shared';
 import { AddressListComponent } from '@app-buyer/profile/containers/address-list/address-list.component';
 import { ProfileModule } from '@app-buyer/profile/profile.module';
 import { NO_ERRORS_SCHEMA, InjectionToken } from '@angular/core';
-import { MeService, TokenService, Configuration } from '@ordercloud/angular-sdk';
+import {
+  OcMeService,
+  OcTokenService,
+  Configuration,
+} from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 import { ToastrService } from 'ngx-toastr';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -18,26 +29,22 @@ describe('ProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProfileComponent
-      ],
-      imports: [
-        CookieModule.forRoot(),
-        RouterTestingModule,
-        SharedModule
-      ],
+      declarations: [ProfileComponent],
+      imports: [CookieModule.forRoot(), RouterTestingModule, SharedModule],
       providers: [
         AppStateService,
-        MeService,
-        TokenService,
+        OcMeService,
+        OcTokenService,
         AddressListComponent,
         PhoneFormatPipe,
         { provide: ToastrService, useValue: toastrService },
-        { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') },
+        {
+          provide: applicationConfiguration,
+          useValue: new InjectionToken<AppConfig>('app.config'),
+        },
       ],
-      schemas: [NO_ERRORS_SCHEMA] // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -47,7 +54,7 @@ describe('ProfileComponent', () => {
       { display: 'Details', route: 'details' },
       { display: 'Addresses', route: 'addresses' },
       { display: 'Payment Methods', route: 'payment-methods' },
-      { display: 'Orders', route: 'orders' }
+      { display: 'Orders', route: 'orders' },
     ];
     fixture.detectChanges();
   });
@@ -62,14 +69,17 @@ describe('ProfileComponent', () => {
       component.ngOnInit();
     });
     it('should set tab to first item in tabs array', () => {
-      expect(component.selectTab).toHaveBeenCalledWith({ display: 'Details', route: 'details' });
+      expect(component.selectTab).toHaveBeenCalledWith({
+        display: 'Details',
+        route: 'details',
+      });
       expect(component.selectedTab).toBe('Details');
     });
   });
 
   describe('selectTab', () => {
     it('should set selectedTab to tab.display', () => {
-      component['tabs'].forEach(tab => {
+      component['tabs'].forEach((tab) => {
         component.selectTab(tab);
         expect(component.selectedTab).toBe(tab.display);
       });

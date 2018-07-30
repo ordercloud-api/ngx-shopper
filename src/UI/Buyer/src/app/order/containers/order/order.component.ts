@@ -9,7 +9,7 @@ import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favo
 @Component({
   selector: 'order-order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+  styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
   faCube = faCube;
@@ -19,13 +19,12 @@ export class OrderComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private favoriteOrdersService: FavoriteOrdersService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.favoriteOrdersService.loadFavorites();
-    this.order$ = this.activatedRoute.data
-      .pipe(
-        map(({ orderResolve }) => orderResolve.order)
-      );
+    this.order$ = this.activatedRoute.data.pipe(
+      map(({ orderResolve }) => orderResolve.order)
+    );
   }
 }

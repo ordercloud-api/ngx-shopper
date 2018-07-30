@@ -6,32 +6,35 @@ describe('OcFormErrorService', () => {
   let service;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [OcFormErrorService]
+      providers: [OcFormErrorService],
     });
   });
 
-  it('should be created', inject([OcFormErrorService], (_service: OcFormErrorService) => {
-    service = _service;
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [OcFormErrorService],
+    (_service: OcFormErrorService) => {
+      service = _service;
+      expect(service).toBeTruthy();
+    }
+  ));
 
   describe('displayFormErrors', () => {
     let form: FormGroup;
     beforeEach(() => {
       form = new FormGroup({
         first: new FormControl('crhistian', Validators.required),
-        last: new FormControl('ramirez', Validators.required)
+        last: new FormControl('ramirez', Validators.required),
       });
     });
     beforeEach(() => {
       form.markAsPristine();
-      Object.keys(form.controls).forEach(key => {
+      Object.keys(form.controls).forEach((key) => {
         form.controls[key].markAsPristine();
       });
       service.displayFormErrors(form);
     });
     it('should mark all form controls as dirty', () => {
-      Object.keys(form.controls).forEach(key => {
+      Object.keys(form.controls).forEach((key) => {
         expect(form.controls[key].dirty).toBe(true);
       });
     });
@@ -40,7 +43,10 @@ describe('OcFormErrorService', () => {
   describe('hasValidEmailError', () => {
     let formControl: FormControl;
     beforeEach(() => {
-      formControl = new FormControl('email', [Validators.required, Validators.email]);
+      formControl = new FormControl('email', [
+        Validators.required,
+        Validators.email,
+      ]);
     });
     it('should return true if form control has required error and is dirty', () => {
       formControl.setValue('');
@@ -67,7 +73,7 @@ describe('OcFormErrorService', () => {
     beforeEach(() => {
       form = new FormGroup({
         password: new FormControl('crhistian', Validators.required),
-        confirmPassword: new FormControl('ramirez', Validators.required)
+        confirmPassword: new FormControl('ramirez', Validators.required),
       });
     });
     it('should return true if form has ocMatchFields error', () => {
@@ -85,7 +91,7 @@ describe('OcFormErrorService', () => {
     let form: FormGroup;
     beforeEach(() => {
       form = new FormGroup({
-        password: new FormControl('', Validators.required)
+        password: new FormControl('', Validators.required),
       });
     });
     it('should return true if form control has required error and is dirty', () => {

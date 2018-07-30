@@ -8,17 +8,24 @@ import { OrderShipmentsComponent } from '@app-buyer/order/containers/order-shipm
 import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
 
 const routes: Routes = [
-    { path: '', component: OrderHistoryComponent },
-    {
-        path: ':orderID', component: OrderComponent, resolve: { orderResolve: OrderResolve }, children: [
-            { path: '', component: OrderDetailComponent },
-            { path: 'shipments', component: OrderShipmentsComponent, resolve: { shipmentsResolve: ShipmentsResolve } }
-        ]
-    },
+  { path: '', component: OrderHistoryComponent },
+  {
+    path: ':orderID',
+    component: OrderComponent,
+    resolve: { orderResolve: OrderResolve },
+    children: [
+      { path: '', component: OrderDetailComponent },
+      {
+        path: 'shipments',
+        component: OrderShipmentsComponent,
+        resolve: { shipmentsResolve: ShipmentsResolve },
+      },
+    ],
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class OrderRoutingModule { }
+export class OrderRoutingModule {}

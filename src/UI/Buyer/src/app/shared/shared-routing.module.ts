@@ -4,6 +4,6 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [RouterModule],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SharedRoutingModule { }
+export class SharedRoutingModule {}

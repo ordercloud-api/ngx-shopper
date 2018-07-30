@@ -4,10 +4,9 @@ import { Address } from '@ordercloud/angular-sdk';
 @Component({
   selector: 'shared-address-display',
   templateUrl: './address-display.component.html',
-  styleUrls: ['./address-display.component.scss']
+  styleUrls: ['./address-display.component.scss'],
 })
 export class AddressDisplayComponent implements OnInit {
-
   @Input() address: Address;
   @Input() addressTitle?: string;
 

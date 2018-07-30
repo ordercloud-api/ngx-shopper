@@ -2,8 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrderListComponent } from '@app-buyer/order/components/order-list/order-list.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgbPaginationModule, NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateNativeAdapter, NgbDateCustomParserFormatter } from '@app-buyer/config/date-picker.config';
+import {
+  NgbPaginationModule,
+  NgbDateAdapter,
+  NgbDateParserFormatter,
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDateNativeAdapter,
+  NgbDateCustomParserFormatter,
+} from '@app-buyer/config/date-picker.config';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
@@ -12,31 +19,33 @@ describe('OrderListComponent', () => {
   let component: OrderListComponent;
   let fixture: ComponentFixture<OrderListComponent>;
 
-  const favoriteOrdersService = { loadFavorites: jasmine.createSpy('loadFavorites').and.returnValue(of(null)) };
+  const favoriteOrdersService = {
+    loadFavorites: jasmine.createSpy('loadFavorites').and.returnValue(of(null)),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FaIconComponent,
-        OrderListComponent
-      ],
-      imports: [
-        NgbPaginationModule
-      ],
+      declarations: [FaIconComponent, OrderListComponent],
+      imports: [NgbPaginationModule],
       providers: [
         { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-        { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-        { provide: FavoriteOrdersService, useValue: favoriteOrdersService }
+        {
+          provide: NgbDateParserFormatter,
+          useClass: NgbDateCustomParserFormatter,
+        },
+        { provide: FavoriteOrdersService, useValue: favoriteOrdersService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderListComponent);
     component = fixture.componentInstance;
-    component.orders = { Items: [], Meta: { TotalCount: 0, TotalPages: 0, Page: 1, PageSize: 25 } };
+    component.orders = {
+      Items: [],
+      Meta: { TotalCount: 0, TotalPages: 0, Page: 1, PageSize: 25 },
+    };
     fixture.detectChanges();
   });
 

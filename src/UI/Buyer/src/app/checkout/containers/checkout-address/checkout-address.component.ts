@@ -1,16 +1,23 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
 import { forkJoin, Observable } from 'rxjs';
-import { MeService, ListBuyerAddress, OrderService, Order, BuyerAddress, ListLineItem } from '@ordercloud/angular-sdk';
+import {
+  OcMeService,
+  ListBuyerAddress,
+  OcOrderService,
+  Order,
+  BuyerAddress,
+  ListLineItem,
+} from '@ordercloud/angular-sdk';
 import { AppStateService, ModalService } from '@app-buyer/shared';
 
 @Component({
   selector: 'checkout-address',
   templateUrl: './checkout-address.component.html',
-  styleUrls: ['./checkout-address.component.scss']
+  styleUrls: ['./checkout-address.component.scss'],
 })
-export class CheckoutAddressComponent extends CheckoutSectionBaseComponent implements OnInit {
-
+export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
+  implements OnInit {
   @Input() isAnon: boolean;
   @Input() addressType: 'Shipping' | 'Billing';
   existingAddresses: ListBuyerAddress;
@@ -18,12 +25,15 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
   order: Order;
   lineItems: ListLineItem;
   resultsPerPage = 8;
-  requestOptions: { page?: number, search?: string } = { page: undefined, search: undefined };
+  requestOptions: { page?: number; search?: string } = {
+    page: undefined,
+    search: undefined,
+  };
   modalID = 'checkout-select-address';
 
   constructor(
-    private meService: MeService,
-    private orderService: OrderService,
+    private ocMeService: OcMeService,
+    private ocOrderService: OcOrderService,
     private appStateService: AppStateService,
     private modalService: ModalService
   ) {
@@ -38,7 +48,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
     this.setSelectedAddress();
   }
 
-  updateRequestOptions(options: { page?: number, search?: string }) {
+  updateRequestOptions(options: { page?: number; search?: string }) {
     this.requestOptions = options;
     this.getSavedAddresses();
   }
@@ -46,17 +56,23 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
   private getSavedAddresses() {
     const filters = {};
     filters[this.addressType] = true;
-    this.meService.ListAddresses({ filters, ...this.requestOptions, pageSize: this.resultsPerPage })
-      .subscribe(addressList => this.existingAddresses = addressList);
+    this.ocMeService
+      .ListAddresses({
+        filters,
+        ...this.requestOptions,
+        pageSize: this.resultsPerPage,
+      })
+      .subscribe((addressList) => (this.existingAddresses = addressList));
   }
 
   private setSelectedAddress() {
     this.order = this.appStateService.orderSubject.value;
     this.lineItems = this.appStateService.lineItemSubject.value;
 
-    this.selectedAddress = this.addressType === 'Billing' ?
-      this.order.BillingAddress :
-      this.lineItems.Items[0].ShippingAddress; // shipping address is defined at the line item level
+    this.selectedAddress =
+      this.addressType === 'Billing'
+        ? this.order.BillingAddress
+        : this.lineItems.Items[0].ShippingAddress; // shipping address is defined at the line item level
   }
 
   existingAddressSelected(address: BuyerAddress) {
@@ -71,26 +87,29 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent imple
     } else {
       queue.push(this.setSavedAddress(address));
     }
-    return forkJoin(queue)
-      .subscribe(([order]) => {
-        if (this.addressType === 'Shipping') {
-          this.lineItems.Items[0].ShippingAddress = address;
-          this.appStateService.lineItemSubject.next(this.lineItems);
-        }
-        this.order = order;
-        this.appStateService.orderSubject.next(this.order);
-        this.continue.emit();
-      });
+    return forkJoin(queue).subscribe(([order]) => {
+      if (this.addressType === 'Shipping') {
+        this.lineItems.Items[0].ShippingAddress = address;
+        this.appStateService.lineItemSubject.next(this.lineItems);
+      }
+      this.order = order;
+      this.appStateService.orderSubject.next(this.order);
+      this.continue.emit();
+    });
   }
 
   private setOneTimeAddress(address: BuyerAddress): Observable<Order> {
-    return this.orderService[`Set${this.addressType}Address`]('outgoing', this.order.ID, address);
+    return this.ocOrderService[`Set${this.addressType}Address`](
+      'outgoing',
+      this.order.ID,
+      address
+    );
   }
 
   private setSavedAddress(address): Observable<Order> {
-    const addressKey = <any>(`${this.addressType}AddressID`);
+    const addressKey = <any>`${this.addressType}AddressID`;
     const partialOrder = {};
     partialOrder[addressKey] = address.ID;
-    return this.orderService.Patch('outgoing', this.order.ID, partialOrder);
+    return this.ocOrderService.Patch('outgoing', this.order.ID, partialOrder);
   }
 }

@@ -15,52 +15,52 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
  */
 
 @Component({
-    selector: 'shared-modal',
-    templateUrl: './modal.component.html',
-    styleUrls: ['./modal.component.scss']
+  selector: 'shared-modal',
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit, OnDestroy {
-    @Input() id: string;
-    @Input() modalTitle: string;
-    public isOpen = false;
+  @Input() id: string;
+  @Input() modalTitle: string;
+  public isOpen = false;
 
-    faTimes = faTimes;
+  faTimes = faTimes;
 
-    constructor(
-        private modalService: ModalService,
-        private elementRef: ElementRef
-    ) { }
+  constructor(
+    private modalService: ModalService,
+    private elementRef: ElementRef
+  ) {}
 
-    ngOnInit(): void {
-        // ensure id attribute exists
-        if (!this.id) {
-            throw Error('modal must have an id');
-        }
-
-        // move element to bottom of page (just before </body>) so it can be displayed above everything else
-        document.body.appendChild(this.elementRef.nativeElement);
-
-        // add self (this modal instance) to the modal service so it's accessible from controllers
-        this.modalService.add(this);
+  ngOnInit(): void {
+    // ensure id attribute exists
+    if (!this.id) {
+      throw Error('modal must have an id');
     }
 
-    // remove self from modal service when directive is destroyed
-    ngOnDestroy(): void {
-        this.modalService.remove(this.id);
-        this.elementRef.nativeElement.remove();
-    }
+    // move element to bottom of page (just before </body>) so it can be displayed above everything else
+    document.body.appendChild(this.elementRef.nativeElement);
 
-    // open modal
-    open(): void {
-        this.isOpen = true;
-        this.elementRef.nativeElement.style.display = 'block';
-        document.body.classList.add('shared-modal--open');
-    }
+    // add self (this modal instance) to the modal service so it's accessible from controllers
+    this.modalService.add(this);
+  }
 
-    // close modal
-    close(): void {
-        this.isOpen = false;
-        this.elementRef.nativeElement.style.display = 'none';
-        document.body.classList.remove('shared-modal--open');
-    }
+  // remove self from modal service when directive is destroyed
+  ngOnDestroy(): void {
+    this.modalService.remove(this.id);
+    this.elementRef.nativeElement.remove();
+  }
+
+  // open modal
+  open(): void {
+    this.isOpen = true;
+    this.elementRef.nativeElement.style.display = 'block';
+    document.body.classList.add('shared-modal--open');
+  }
+
+  // close modal
+  close(): void {
+    this.isOpen = false;
+    this.elementRef.nativeElement.style.display = 'none';
+    document.body.classList.remove('shared-modal--open');
+  }
 }

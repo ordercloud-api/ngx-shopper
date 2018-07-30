@@ -15,10 +15,9 @@ describe('CreditCardDisplayComponent', () => {
       declarations: [
         FaIconComponent,
         CreditCardIconComponent,
-        CreditCardDisplayComponent
+        CreditCardDisplayComponent,
       ],
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,41 +1,57 @@
+![Travis (.org) branch](https://img.shields.io/travis/ordercloud-api/ngx-shopper/master.svg?style=flat-square)
+![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)
+
 # ngx-shopper
-Four51's starter application for building Angular 6 solutions on the [OrderCloud.io](https://developer.ordercloud.io/documentation) platform.
 
-### Building the Buyer App Locally 
+An open-source B2B ecommerce solution built on top of the [OrderCloud.io](https://developer.ordercloud.io/documentation) platform and maintained by the OrderCloud team.
 
-1. Navigate to the UI Directory with `cd src/UI`
+This solution is composed of three applications which are all a part of **this** repo:
 
-2. If you have not before, install the [Angular CLI](https://github.com/angular/angular-cli/wiki) globally on your machine with `npm install -g @angular/cli` 
+1.  Buyer - the entire shopping experience from the perspective of a buyer-user
+2.  Seller - product management, order management and user management for your buyer app **(not yet built: see roadmap)**
+3.  Middleware - a backend project that extends functionality not part of the core ordercloud api **(not yet built: see roadmap)**
 
-3. Install dependencies with `npm install`
+The front end apps (Buyer and Seller) are written in Angular and the backend app (Middleware) is built with C#(.Net Core)
 
-4. Enter your buyer organization's `clientID` in [environment.ts](src/UI/Buyer/src/environments/environment.ts) (src/UI/Buyer/src/environments/environment.ts)
+### Roadmap
 
-5. Navigate to `src/UI/Buyer`, the root directory of the buyer app. 
+The solution is currently very much under construction. Our primary focus will be getting to MVP. The following are an estimate of when the three main parts of the app will be complete:
 
-5. Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Buyer MVP: 08/06/2018
+- Seller MVP: 10/01/2018
+- Middleware: MVP 10/15/2018
 
-### Building the Seller (Admin) App
+Want to check on our progress? Search for issues with label 'buyer', 'seller', or 'middleware'
 
-1. Navigate to the UI Directory with `cd src/UI`
+### App Specific Documentation:
 
-2. If you have not before, install the [Angular CLI](https://github.com/angular/angular-cli/wiki) globally on your machine with `npm install -g @angular/cli` 
+- [Buyer App](./src/UI/Buyer/README.md)
+- [Seller App](./src/UI/Seller/README.md)
+- Middleware App (coming soon)
 
-3. Install dependencies with `npm install`
+### Contributing
 
-4. Enter your seller organization's `clientID` in [environment.ts](src/UI/Seller/src/environments/environment.ts) (src/UI/Seller/src/environments/environment.ts)
+We welcomes all contributions from anyone willing to work in good faith with other contributors and the community. No contribution is too small and all contributions are valued.
 
-5. Navigate to `src/UI/Seller`, the root directory of the seller app. 
+Writing code may be the first thing that comes to mind when you think of contributing but there are so many different ways you can contribute even if you can't write a single line of code! Here are just a few:
 
-5. Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- create an issue for bugs you find
+- create an issue for possible enhancements
+- write documentation
+- improve current documentation
 
-### Other Useful Commands  
+Issues are the primary means by which bug reports and general discussion are made. Please be sure to open an issue before you write any code with a detailed description of your problem or proposed enhancement. We may already be on our way to delivering what you want!
 
-*  Run `ng test --sourceMap="false"` from the root of the buyer or seller app to run unit tests.
+After you've opened an issue, received the green light to start coding, and have some code you'd like to contribute then you're ready to submit a pull request. We follow the "fork-and-pull" Git workflow.
 
-* Run `ng build` from the root of the buyer or seller app to compile the project without serving.
+1.  **Fork** the repo on GitHub
+2.  **Clone** the project to your own machine
+3.  **Commit** changes to your own branch
+4.  **Push** your work back up to your fork
+5.  Submit a **Pull request** so that we can review your changes
 
-* Run `ng generate component component-name` from any directory to generate code scafolding for a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Happy contributing!
 
-Be sure to check out the [Angular CLI docs](https://github.com/angular/angular-cli) for a full list of commands
+### Getting Help
 
+If you need any assistance getting set up please create a detailed github issue of what you are having trouble with and what you've tried to fix it.

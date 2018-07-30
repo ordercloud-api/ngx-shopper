@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaymentListComponent } from '@app-buyer/profile/containers/payment-list/payment-list.component';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { AuthorizeNetService, CreateCardDetails } from '@app-buyer/shared';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
@@ -12,12 +12,20 @@ describe('PaymentListComponent', () => {
   let fixture: ComponentFixture<PaymentListComponent>;
 
   const meService = {
-    ListCreditCards: jasmine.createSpy('ListCreditCards').and.returnValue(of({})),
-    ListSpendingAccounts: jasmine.createSpy('ListSpendingAccounts').and.returnValue(of({}))
+    ListCreditCards: jasmine
+      .createSpy('ListCreditCards')
+      .and.returnValue(of({})),
+    ListSpendingAccounts: jasmine
+      .createSpy('ListSpendingAccounts')
+      .and.returnValue(of({})),
   };
   const authorizeNetService = {
-    CreateCreditCard: jasmine.createSpy('CreateCreditCard').and.returnValue(of({})),
-    DeleteCreditCard: jasmine.createSpy('DeleteCreditCard').and.returnValue(of({}))
+    CreateCreditCard: jasmine
+      .createSpy('CreateCreditCard')
+      .and.returnValue(of({})),
+    DeleteCreditCard: jasmine
+      .createSpy('DeleteCreditCard')
+      .and.returnValue(of({})),
   };
 
   beforeEach(async(() => {
@@ -25,15 +33,14 @@ describe('PaymentListComponent', () => {
       declarations: [
         CreditCardIconComponent,
         PaymentListComponent,
-        CreditCardIconComponent
+        CreditCardIconComponent,
       ],
       providers: [
-        { provide: MeService, useValue: meService },
-        { provide: AuthorizeNetService, useValue: authorizeNetService }
+        { provide: OcMeService, useValue: meService },
+        { provide: AuthorizeNetService, useValue: authorizeNetService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

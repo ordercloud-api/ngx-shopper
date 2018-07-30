@@ -12,30 +12,25 @@ describe('ProductCardComponent', () => {
   let fixture: ComponentFixture<ProductCardComponent>;
   const router = {
     navigate: jasmine.createSpy('navigate'),
-    url: ''
+    url: '',
   };
   const toastrService = {
-    error: jasmine.createSpy('error')
+    error: jasmine.createSpy('error'),
   };
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         ProductCardComponent,
         QuantityInputComponent,
-        ToggleFavoriteComponent
+        ToggleFavoriteComponent,
       ],
-      imports: [
-        ReactiveFormsModule,
-        FontAwesomeModule
-      ],
+      imports: [ReactiveFormsModule, FontAwesomeModule],
       providers: [
         { provide: Router, useValue: router },
-        { provide: ToastrService, useValue: toastrService }
-      ]
-    })
-      .compileComponents();
+        { provide: ToastrService, useValue: toastrService },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -43,7 +38,7 @@ describe('ProductCardComponent', () => {
     component = fixture.componentInstance;
     component.product = {
       ID: '3HQ_lazyboy',
-      Name: 'Lazyboy Recliner'
+      Name: 'Lazyboy Recliner',
     };
     fixture.detectChanges();
   });
@@ -58,7 +53,10 @@ describe('ProductCardComponent', () => {
       component.addToCart({ product: component.product, quantity: 1 });
     });
     it('should emit event to parent', () => {
-      expect(component.addedToCart.emit).toHaveBeenCalledWith({ product: component.product, quantity: 1 });
+      expect(component.addedToCart.emit).toHaveBeenCalledWith({
+        product: component.product,
+        quantity: 1,
+      });
     });
   });
 
@@ -67,7 +65,9 @@ describe('ProductCardComponent', () => {
       component.toProductDetails({ ID: 'mockProductId' });
     });
     it('should route to product details component', () => {
-      expect(router.navigate).toHaveBeenCalledWith(['/products/detail'], { queryParams: { ID: 'mockProductId' } });
+      expect(router.navigate).toHaveBeenCalledWith(['/products/detail'], {
+        queryParams: { ID: 'mockProductId' },
+      });
     });
   });
 });

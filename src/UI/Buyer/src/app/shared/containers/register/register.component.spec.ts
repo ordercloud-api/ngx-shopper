@@ -1,13 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterComponent } from '@app-buyer/shared/containers/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MeService, TokenService } from '@ordercloud/angular-sdk';
+import { OcMeService, OcTokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 import { InjectionToken } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { PhoneFormatPipe, AppStateService, OcFormErrorService } from '@app-buyer/shared';
+import {
+  PhoneFormatPipe,
+  AppStateService,
+  OcFormErrorService,
+} from '@app-buyer/shared';
 import { of, Subject } from 'rxjs';
 
 describe('RegisterComponent', () => {
@@ -29,48 +36,46 @@ describe('RegisterComponent', () => {
         percussion: false,
         band: true,
         keyboards: true,
-        proSound: false
-      }
-    }
+        proSound: false,
+      },
+    },
   };
   const meService = {
     Get: jasmine.createSpy('Get').and.returnValue(of(me)),
     Patch: jasmine.createSpy('Patch').and.returnValue(of(me)),
-    Register: jasmine.createSpy('Register').and.returnValue(of(null))
+    Register: jasmine.createSpy('Register').and.returnValue(of(null)),
   };
   const activatedRoute = { data: of({ shouldAllowUpdate: true }) };
   const toastrService = { success: jasmine.createSpy('success') };
-  const tokenService = { GetAccess: jasmine.createSpy('GetAccess').and.returnValue('mockToken') };
+  const tokenService = {
+    GetAccess: jasmine.createSpy('GetAccess').and.returnValue('mockToken'),
+  };
   const router = { navigate: jasmine.createSpy('navigate') };
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
     hasValidEmailError: jasmine.createSpy('hasValidEmailError'),
     hasPasswordMismatchError: jasmine.createSpy('hasPasswordMismatchError'),
-    displayFormErrors: jasmine.createSpy('displayFormErrors')
+    displayFormErrors: jasmine.createSpy('displayFormErrors'),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PhoneFormatPipe,
-        RegisterComponent
-      ],
-      imports: [
-        ReactiveFormsModule,
-        CookieModule.forRoot()
-      ],
+      declarations: [PhoneFormatPipe, RegisterComponent],
+      imports: [ReactiveFormsModule, CookieModule.forRoot()],
       providers: [
         { provide: OcFormErrorService, useValue: formErrorService },
         { provide: Router, useValue: router },
-        { provide: TokenService, useValue: tokenService },
-        { provide: MeService, useValue: meService },
+        { provide: OcTokenService, useValue: tokenService },
+        { provide: OcMeService, useValue: meService },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: AppStateService, useValue: appStateService },
         { provide: ToastrService, useValue: toastrService },
-        { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') },
-      ]
-    })
-      .compileComponents();
+        {
+          provide: applicationConfiguration,
+          useValue: new InjectionToken<AppConfig>('app.config'),
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -114,7 +119,7 @@ describe('RegisterComponent', () => {
         Email: '',
         Phone: '',
         Password: '',
-        ConfirmPassword: ''
+        ConfirmPassword: '',
       });
     });
     it('should set form without password and confirmPassword if shouldAllowUpdate is true', () => {
@@ -135,7 +140,7 @@ describe('RegisterComponent', () => {
       spyOn(component as any, 'register');
     });
     it('should call displayFormErrors if form is invalid', () => {
-      component.form.setErrors({ 'test': true });
+      component.form.setErrors({ test: true });
       component['onSubmit']();
       expect(formErrorService.displayFormErrors).toHaveBeenCalled();
     });
@@ -196,7 +201,10 @@ describe('RegisterComponent', () => {
       component['hasRequiredError']('firstName');
     });
     it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasRequiredError).toHaveBeenCalledWith('firstName', component.form);
+      expect(formErrorService.hasRequiredError).toHaveBeenCalledWith(
+        'firstName',
+        component.form
+      );
     });
   });
 
@@ -205,7 +213,9 @@ describe('RegisterComponent', () => {
       component['hasValidEmailError']();
     });
     it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasValidEmailError).toHaveBeenCalledWith(component.form.get('Email'));
+      expect(formErrorService.hasValidEmailError).toHaveBeenCalledWith(
+        component.form.get('Email')
+      );
     });
   });
 
@@ -214,8 +224,9 @@ describe('RegisterComponent', () => {
       component['passwordMismatchError']();
     });
     it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasPasswordMismatchError)
-        .toHaveBeenCalledWith(component.form);
+      expect(formErrorService.hasPasswordMismatchError).toHaveBeenCalledWith(
+        component.form
+      );
     });
   });
 });

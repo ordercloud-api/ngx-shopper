@@ -14,24 +14,20 @@ describe('OrderComponent', () => {
   const dataSubject = new Subject<any>();
   const activatedRoute = { data: dataSubject };
 
-  const favoriteOrdersService = { loadFavorites: jasmine.createSpy('loadFavorites').and.returnValue(of(null)) };
+  const favoriteOrdersService = {
+    loadFavorites: jasmine.createSpy('loadFavorites').and.returnValue(of(null)),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FaIconComponent,
-        OrderComponent
-      ],
-      imports: [
-        RouterTestingModule
-      ],
+      declarations: [FaIconComponent, OrderComponent],
+      imports: [RouterTestingModule],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRoute },
-        { provide: FavoriteOrdersService, useValue: favoriteOrdersService }
+        { provide: FavoriteOrdersService, useValue: favoriteOrdersService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -49,7 +45,7 @@ describe('OrderComponent', () => {
       component.ngOnInit();
     });
     it('should set order to data from resolve', () => {
-      component.order$.subscribe(order => {
+      component.order$.subscribe((order) => {
         expect(order).toEqual({ ID: 'mockOrderID' });
       });
       dataSubject.next({ orderResolve: { order: { ID: 'mockOrderID' } } });

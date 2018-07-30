@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
-import { NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateNativeAdapter, NgbDateCustomParserFormatter } from '@app-buyer/config/date-picker.config';
+import {
+  NgbDateAdapter,
+  NgbDateParserFormatter,
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDateNativeAdapter,
+  NgbDateCustomParserFormatter,
+} from '@app-buyer/config/date-picker.config';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +16,7 @@ import { NgbDateNativeAdapter, NgbDateCustomParserFormatter } from '@app-buyer/c
     // allows us to use native date object when interacting with ngb-datepicker
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     // defines date format as mm/dd/yyyy
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
-  ]
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+  ],
 })
-export class AppComponent { }
+export class AppComponent {}

@@ -11,15 +11,9 @@ describe('StatusFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StatusFilterComponent,
-        OrderStatusDisplayPipe
-      ],
-      imports: [
-        ReactiveFormsModule
-      ]
-    })
-      .compileComponents();
+      declarations: [StatusFilterComponent, OrderStatusDisplayPipe],
+      imports: [ReactiveFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

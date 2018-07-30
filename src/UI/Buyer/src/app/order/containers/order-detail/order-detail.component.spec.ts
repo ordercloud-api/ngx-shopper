@@ -2,9 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrderDetailComponent } from '@app-buyer/order/containers/order-detail/order-detail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { OcLineItemService } from '@app-buyer/shared';
+import { AppLineItemService } from '@app-buyer/shared';
 import { of, Subject } from 'rxjs';
-import { OrderService } from '@ordercloud/angular-sdk';
+import { OcOrderService } from '@ordercloud/angular-sdk';
 import { ParamMap, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 
@@ -14,37 +14,40 @@ describe('OrderDetailComponent', () => {
 
   const mockOrderID = 'MockGetOrder123';
   const appLineItemService = {
-    getSupplierAddresses: jasmine.createSpy('getSupplierAddresses').and.returnValue(of(null)),
+    getSupplierAddresses: jasmine
+      .createSpy('getSupplierAddresses')
+      .and.returnValue(of(null)),
   };
   const orderService = {
     Get: jasmine.createSpy('Get').and.returnValue(of(null)),
-    ListPromotions: jasmine.createSpy('ListPromotions').and.returnValue(of(null))
+    ListPromotions: jasmine
+      .createSpy('ListPromotions')
+      .and.returnValue(of(null)),
   };
-  const appPaymentService = { getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)) };
+  const appPaymentService = {
+    getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)),
+  };
 
   const paramMap = new Subject<ParamMap>();
 
   const activatedRoute = {
     parent: {
-      data: of({ orderResolve: { order: { ID: 'mockOrder' } } })
+      data: of({ orderResolve: { order: { ID: 'mockOrder' } } }),
     },
-    paramMap
+    paramMap,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OrderDetailComponent,
-      ],
+      declarations: [OrderDetailComponent],
       providers: [
-        { provide: OcLineItemService, useValue: appLineItemService },
-        { provide: OrderService, useValue: orderService },
+        { provide: AppLineItemService, useValue: appLineItemService },
+        { provide: OcOrderService, useValue: orderService },
         { provide: ActivatedRoute, useValue: activatedRoute },
-        { provide: AppPaymentService, useValue: appPaymentService }
+        { provide: AppPaymentService, useValue: appPaymentService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -72,16 +75,19 @@ describe('OrderDetailComponent', () => {
   });
 
   describe('getPromotions', () => {
-    it('should call OrderService.ListPromotions with order id param', () => {
+    it('should call OcOrderService.ListPromotions with order id param', () => {
       component['getPromotions']().subscribe(() => {
-        expect(orderService.ListPromotions).toHaveBeenCalledWith('outgoing', mockOrderID);
+        expect(orderService.ListPromotions).toHaveBeenCalledWith(
+          'outgoing',
+          mockOrderID
+        );
       });
       paramMap.next(convertToParamMap({ orderID: mockOrderID }));
     });
   });
 
   describe('getSupplierAddresses', () => {
-    it('should call OcLineItemService.getSupplierAddresses', () => {
+    it('should call AppLineItemService.getSupplierAddresses', () => {
       component['getSupplierAddresses']().subscribe(() => {
         expect(appLineItemService.getSupplierAddresses).toHaveBeenCalled();
       });
@@ -95,5 +101,4 @@ describe('OrderDetailComponent', () => {
       });
     });
   });
-
 });

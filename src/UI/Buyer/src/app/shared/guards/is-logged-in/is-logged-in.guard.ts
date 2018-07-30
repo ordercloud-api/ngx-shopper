@@ -5,10 +5,7 @@ import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 
 @Injectable()
 export class IsLoggedInGuard implements CanActivate {
-
-  constructor(
-    private appAuthService: AppAuthService,
-  ) { }
+  constructor(private appAuthService: AppAuthService) {}
 
   canActivate(): boolean {
     return !this.appAuthService.isUserAnon();

@@ -5,7 +5,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'shared-line-item-card',
   templateUrl: './line-item-card.component.html',
-  styleUrls: ['./line-item-card.component.scss']
+  styleUrls: ['./line-item-card.component.scss'],
 })
 export class LineItemCardComponent {
   closeIcon = faTimes;
@@ -24,5 +24,4 @@ export class LineItemCardComponent {
     this.lineitem.Quantity = qty;
     this.lineItemUpdated.emit(this.lineitem);
   }
-
 }

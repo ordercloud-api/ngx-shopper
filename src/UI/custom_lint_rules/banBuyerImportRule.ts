@@ -6,21 +6,30 @@ import * as Lint from 'tslint';
  *
  */
 export class Rule extends Lint.Rules.AbstractRule {
-    public static FAILURE_STRING = 'buyer import statement forbidden in this directory';
+  public static FAILURE_STRING =
+    'buyer import statement forbidden in this directory';
 
-    public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
-        return this.applyWithWalker(new NoBuyerImportWalker(sourceFile, this.getOptions()));
-    }
+  public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
+    return this.applyWithWalker(
+      new NoBuyerImportWalker(sourceFile, this.getOptions())
+    );
+  }
 }
 // The walker takes care of all the work.
 class NoBuyerImportWalker extends Lint.RuleWalker {
-    public visitImportDeclaration(node: ts.ImportDeclaration) {
-        if (node.getText().indexOf('@app-buyer') > -1) {
-            // create a failure at the current position
-            this.addFailure(this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING));
-        }
-
-        // call the base version of this visitor to actually parse this node
-        super.visitImportDeclaration(node);
+  public visitImportDeclaration(node: ts.ImportDeclaration) {
+    if (node.getText().indexOf('@app-buyer') > -1) {
+      // create a failure at the current position
+      this.addFailure(
+        this.createFailure(
+          node.getStart(),
+          node.getWidth(),
+          Rule.FAILURE_STRING
+        )
+      );
     }
+
+    // call the base version of this visitor to actually parse this node
+    super.visitImportDeclaration(node);
+  }
 }

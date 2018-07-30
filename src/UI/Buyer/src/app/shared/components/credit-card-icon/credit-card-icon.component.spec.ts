@@ -2,7 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreditCardIconComponent } from '@app-buyer/shared/components/credit-card-icon/credit-card-icon.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faCcVisa, faCcMastercard, faCcDiscover } from '@fortawesome/free-brands-svg-icons';
+import {
+  faCcVisa,
+  faCcMastercard,
+  faCcDiscover,
+} from '@fortawesome/free-brands-svg-icons';
 
 describe('CreditCardIconComponent', () => {
   let component: CreditCardIconComponent;
@@ -10,12 +14,8 @@ describe('CreditCardIconComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FaIconComponent,
-        CreditCardIconComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [FaIconComponent, CreditCardIconComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

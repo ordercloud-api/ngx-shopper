@@ -8,17 +8,18 @@ import { ToastrService } from 'ngx-toastr';
 
 // ordercloud
 import { OcMatchFieldsValidator, OcFormErrorService } from '@app-buyer/shared';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
-import { PasswordResetService, PasswordReset } from '@ordercloud/angular-sdk';
-
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
+import { OcPasswordResetService, PasswordReset } from '@ordercloud/angular-sdk';
 
 @Component({
   selector: 'auth-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent implements OnInit {
-
   resetPasswordForm: FormGroup;
   username: string;
   resetCode: string;
@@ -28,19 +29,23 @@ export class ResetPasswordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toasterService: ToastrService,
     private formBuilder: FormBuilder,
-    private passwordResetService: PasswordResetService,
+    private ocPasswordResetService: OcPasswordResetService,
     private formErrorService: OcFormErrorService,
-    @Inject(applicationConfiguration) private appConfig: AppConfig) { }
+    @Inject(applicationConfiguration) private appConfig: AppConfig
+  ) {}
 
   ngOnInit() {
     const urlParams = this.activatedRoute.snapshot.queryParams;
     this.username = urlParams['user'];
     this.resetCode = urlParams['code'];
 
-    this.resetPasswordForm = this.formBuilder.group({
-      password: '',
-      passwordConfirm: ''
-    }, { validator: OcMatchFieldsValidator('password', 'passwordConfirm') });
+    this.resetPasswordForm = this.formBuilder.group(
+      {
+        password: '',
+        passwordConfirm: '',
+      },
+      { validator: OcMatchFieldsValidator('password', 'passwordConfirm') }
+    );
   }
 
   onSubmit() {
@@ -51,20 +56,23 @@ export class ResetPasswordComponent implements OnInit {
     const config: PasswordReset = {
       ClientID: this.appConfig.clientID,
       Password: this.resetPasswordForm.get('password').value,
-      Username: this.username
+      Username: this.username,
     };
 
-    this.passwordResetService.ResetPasswordByVerificationCode(this.resetCode, config).subscribe(
-      () => {
-        this.toasterService.success('Password Reset Successfully');
-        this.router.navigateByUrl('/login');
-      }, error => {
-        throw error;
-      });
+    this.ocPasswordResetService
+      .ResetPasswordByVerificationCode(this.resetCode, config)
+      .subscribe(
+        () => {
+          this.toasterService.success('Password Reset Successfully');
+          this.router.navigateByUrl('/login');
+        },
+        (error) => {
+          throw error;
+        }
+      );
   }
 
   // control visibility of password mismatch error
-  protected passwordMismatchError = (): boolean => this.formErrorService.hasPasswordMismatchError(this.resetPasswordForm);
-
+  protected passwordMismatchError = (): boolean =>
+    this.formErrorService.hasPasswordMismatchError(this.resetPasswordForm);
 }
-

@@ -2,9 +2,12 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { MeService, TokenService } from '@ordercloud/angular-sdk';
+import { OcMeService, OcTokenService } from '@ordercloud/angular-sdk';
 import { tap } from 'rxjs/operators';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 import { OcMatchFieldsValidator } from '@app-buyer/shared/validators/oc-match-fields/oc-match-fields.validator';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
@@ -12,7 +15,7 @@ import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-
 @Component({
   selector: 'shared-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
   shouldAllowUpdate: boolean;
@@ -21,18 +24,22 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private meService: MeService,
-    private tokenService: TokenService,
+    private ocMeService: OcMeService,
+    private ocTokenService: OcTokenService,
     private toasterService: ToastrService,
     private router: Router,
     private appStateService: AppStateService,
     private activatedRoute: ActivatedRoute,
     private formErrorService: OcFormErrorService,
-    @Inject(applicationConfiguration) private appConfig: AppConfig) {
+    @Inject(applicationConfiguration) private appConfig: AppConfig
+  ) {
     this.appName = this.appConfig.appname;
     this.activatedRoute.data
       .pipe(
-        tap(({ shouldAllowUpdate }) => this.shouldAllowUpdate = shouldAllowUpdate)
+        tap(
+          ({ shouldAllowUpdate }) =>
+            (this.shouldAllowUpdate = shouldAllowUpdate)
+        )
       )
       .subscribe();
   }
@@ -52,11 +59,13 @@ export class RegisterComponent implements OnInit {
       Phone: [''],
     };
 
-    const validatorObj = this.shouldAllowUpdate ? {} : { validator: OcMatchFieldsValidator('Password', 'ConfirmPassword') };
+    const validatorObj = this.shouldAllowUpdate
+      ? {}
+      : { validator: OcMatchFieldsValidator('Password', 'ConfirmPassword') };
     if (!this.shouldAllowUpdate) {
       Object.assign(formObj, {
         Password: ['', [Validators.required, Validators.minLength(8)]],
-        ConfirmPassword: ['', [Validators.required, Validators.minLength(8)]]
+        ConfirmPassword: ['', [Validators.required, Validators.minLength(8)]],
       });
     }
     this.form = this.fb.group(formObj, validatorObj);
@@ -79,26 +88,31 @@ export class RegisterComponent implements OnInit {
   }
 
   private register(me) {
-    this.meService.Register(this.tokenService.GetAccess(), me).subscribe(() => {
-      this.toasterService.success('New User Created');
-      this.router.navigate(['/login']);
-    }, error => {
-      throw error;
-    });
+    this.ocMeService.Register(this.ocTokenService.GetAccess(), me).subscribe(
+      () => {
+        this.toasterService.success('New User Created');
+        this.router.navigate(['/login']);
+      },
+      (error) => {
+        throw error;
+      }
+    );
   }
 
   private update(me) {
-    this.meService.Patch(me).subscribe(
-      res => {
+    this.ocMeService.Patch(me).subscribe(
+      (res) => {
         this.appStateService.userSubject.next(res);
         this.toasterService.success('Account Info Updated');
-      }, error => {
+      },
+      (error) => {
         throw error;
-      });
+      }
+    );
   }
 
   private getMeData() {
-    this.meService.Get().subscribe(me => {
+    this.ocMeService.Get().subscribe((me) => {
       this.form.setValue({
         FirstName: me.FirstName,
         LastName: me.LastName,
@@ -109,7 +123,10 @@ export class RegisterComponent implements OnInit {
   }
 
   // control display of error messages
-  protected hasRequiredError = (controlName: string): boolean => this.formErrorService.hasRequiredError(controlName, this.form);
-  protected hasValidEmailError = (): boolean => this.formErrorService.hasValidEmailError(this.form.get('Email'));
-  protected passwordMismatchError = (): boolean => this.formErrorService.hasPasswordMismatchError(this.form);
+  protected hasRequiredError = (controlName: string): boolean =>
+    this.formErrorService.hasRequiredError(controlName, this.form);
+  protected hasValidEmailError = (): boolean =>
+    this.formErrorService.hasValidEmailError(this.form.get('Email'));
+  protected passwordMismatchError = (): boolean =>
+    this.formErrorService.hasPasswordMismatchError(this.form);
 }
