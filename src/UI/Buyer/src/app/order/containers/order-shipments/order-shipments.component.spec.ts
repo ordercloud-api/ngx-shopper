@@ -18,8 +18,8 @@ describe('OrderShipmentsComponent', () => {
   const shipmentsResolve = { Items: [{ ID: 'ShipmentOne' }] };
   const lineItemListResolve = {
     Items: [
-      { ID: 'LineItemOne', xp: { product: {} } },
-      { ID: 'LineItemTwo', xp: { product: {} } },
+      { ID: 'LineItemOne', Product: {} },
+      { ID: 'LineItemTwo', Product: {} },
     ],
   };
   const shipmentItems = {
@@ -118,11 +118,11 @@ describe('OrderShipmentsComponent', () => {
       const modifiedShipmentItems = component['setLineItem'](shipmentItems);
       expect(modifiedShipmentItems.Items[0]['LineItem']).toEqual({
         ID: 'LineItemTwo',
-        xp: { product: {} },
+        Product: {},
       });
       expect(modifiedShipmentItems.Items[1]['LineItem']).toEqual({
         ID: 'LineItemOne',
-        xp: { product: {} },
+        Product: {},
       });
     });
   });
