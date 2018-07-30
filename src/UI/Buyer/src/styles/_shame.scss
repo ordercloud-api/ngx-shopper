@@ -1,52 +1,52 @@
 body {
-    padding-top: 120px;
+  padding-top: 120px;
 }
 
 .flex-1 {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .mt-6 {
-    margin-top: 4.5rem;
+  margin-top: 4.5rem;
 }
 
 .flex-shrink-0 {
-    flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .c-error-message {
-    position: absolute;
-    z-index: 999;
-    padding: 0.5rem;
-    border-radius: $border-radius;
-    font-size: $small-font-size;
+  position: absolute;
+  z-index: 999;
+  padding: 0.5rem;
+  border-radius: $border-radius;
+  font-size: $small-font-size;
 }
 
 .border-hover {
-    transition: border-color .25s ease;
-    &:hover {
-        border: 1px solid $secondary;
-    }
+  transition: border-color 0.25s ease;
+  &:hover {
+    border: 1px solid $secondary;
+  }
 }
 
 .border-radius {
-    border-radius: $border-radius;
+  border-radius: $border-radius;
 }
 
 .ribbon.ribbon-top-right:after {
-    border-top-color: $ribbon-shadow-color;
-    border-left-color: $ribbon-shadow-color;
+  border-top-color: $ribbon-shadow-color;
+  border-left-color: $ribbon-shadow-color;
 }
 
 .cursor-pointer {
-    cursor: $custom-range-track-cursor;
+  cursor: $custom-range-track-cursor;
 }
 
 // this makes all address cards the same height
 shared-address-display {
-    display: flex;
-    flex: 1 1 auto;
-    .card {
-        @extend shared-address-display;
-    }
+  display: flex;
+  flex: 1 1 auto;
+  .card {
+    @extend shared-address-display;
+  }
 }

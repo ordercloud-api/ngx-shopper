@@ -26,7 +26,9 @@ export class ModalService {
     // close modal specified by id
     setTimeout(() => {
       const modal: any = this.modals.filter((x) => x.id === id)[0];
-      modal.close();
+      if (modal) {
+        modal.close();
+      }
     });
   }
 }
