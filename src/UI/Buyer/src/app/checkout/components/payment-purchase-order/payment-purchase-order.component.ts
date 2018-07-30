@@ -7,15 +7,14 @@ import { Payment } from '@ordercloud/angular-sdk';
 @Component({
   selector: 'checkout-payment-purchase-order',
   templateUrl: './payment-purchase-order.component.html',
-  styleUrls: ['./payment-purchase-order.component.scss']
+  styleUrls: ['./payment-purchase-order.component.scss'],
 })
-export class PaymentPurchaseOrderComponent extends PaymentBaseComponent implements OnChanges {
+export class PaymentPurchaseOrderComponent extends PaymentBaseComponent
+  implements OnChanges {
   form: FormGroup = this.formBuilder.group({
-    PONumber: _get(this.payment, 'xp.PONumber')
+    PONumber: _get(this.payment, 'xp.PONumber'),
   });
-  constructor(
-    private formBuilder: FormBuilder
-  ) {
+  constructor(private formBuilder: FormBuilder) {
     super();
   }
 
@@ -29,7 +28,9 @@ export class PaymentPurchaseOrderComponent extends PaymentBaseComponent implemen
     if (changes.payment || changes.order) {
       // set form
       if (changes.payment.firstChange) {
-        this.form.controls['PONumber'].setValue(_get(this.payment, 'xp.PONumber'));
+        this.form.controls['PONumber'].setValue(
+          _get(this.payment, 'xp.PONumber')
+        );
       }
 
       // validate payment
@@ -44,8 +45,8 @@ export class PaymentPurchaseOrderComponent extends PaymentBaseComponent implemen
       Type: 'PurchaseOrder',
       xp: {
         // preserve PO number if it existed on previous payment
-        PONumber: _get(this.payment, 'xp.PONumber')
-      }
+        PONumber: _get(this.payment, 'xp.PONumber'),
+      },
     };
     this.paymentCreated.emit(payment);
   }
@@ -53,11 +54,12 @@ export class PaymentPurchaseOrderComponent extends PaymentBaseComponent implemen
   updatePONumber() {
     const PONumber = this.form.controls['PONumber'].value;
     this.paymentPatched.emit({
-      paymentID: this.payment.ID, payment: {
+      paymentID: this.payment.ID,
+      payment: {
         xp: {
-          PONumber
-        }
-      }
+          PONumber,
+        },
+      },
     });
   }
 

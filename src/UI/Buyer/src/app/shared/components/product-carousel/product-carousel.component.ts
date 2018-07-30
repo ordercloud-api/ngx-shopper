@@ -6,7 +6,7 @@ import { BuyerProduct } from '@ordercloud/angular-sdk';
 @Component({
   selector: 'products-carousel',
   templateUrl: './product-carousel.component.html',
-  styleUrls: ['./product-carousel.component.scss']
+  styleUrls: ['./product-carousel.component.scss'],
 })
 export class ProductCarouselComponent {
   @Input() products: BuyerProduct[];
@@ -17,9 +17,7 @@ export class ProductCarouselComponent {
   faAngleLeft = faAngleLeft;
   faAngleRight = faAngleRight;
 
-  constructor(
-    private router: Router
-  ) {
+  constructor(private router: Router) {
     this.configureRouter();
   }
 
@@ -43,12 +41,11 @@ export class ProductCarouselComponent {
      * detected as a state change.
      *
      */
-    this.router.events.subscribe(evt => {
+    this.router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
         this.router.navigated = false;
         window.scrollTo(0, 0);
       }
     });
   }
-
 }

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenericBrowseComponent } from '@app-buyer/shared/components/generic-browse/generic-browse.component';
-import {  Directive, Input, Output, EventEmitter } from '@angular/core';
+import { Directive, Input, Output, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 describe('GenericBrowseComponent', () => {
@@ -10,7 +10,7 @@ describe('GenericBrowseComponent', () => {
 
   /* tslint:disable: directive-selector */
   @Directive({
-    selector: 'shared-search'
+    selector: 'shared-search',
   })
   class MockSearchDirective {
     @Input() placeholderText: string;
@@ -18,7 +18,7 @@ describe('GenericBrowseComponent', () => {
   }
 
   @Directive({
-    selector: 'ngb-pagination'
+    selector: 'ngb-pagination',
   })
   class MockPaginationDirective {
     @Input() collectionSize: number;
@@ -33,10 +33,9 @@ describe('GenericBrowseComponent', () => {
       declarations: [
         GenericBrowseComponent,
         MockSearchDirective,
-        MockPaginationDirective
-       ],
-    })
-    .compileComponents();
+        MockPaginationDirective,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -57,21 +56,34 @@ describe('GenericBrowseComponent', () => {
     });
 
     it('should re-emit the search term', () => {
-      const mocksearchEl = fixture.debugElement.query(By.directive(MockSearchDirective));
-      const mockSearchDir = mocksearchEl.injector.get(MockSearchDirective) as MockSearchDirective;
+      const mocksearchEl = fixture.debugElement.query(
+        By.directive(MockSearchDirective)
+      );
+      const mockSearchDir = mocksearchEl.injector.get(
+        MockSearchDirective
+      ) as MockSearchDirective;
 
       mockSearchDir.searched.emit('searchTerm');
 
-      expect(component.requestOptionsUpdated.emit).toHaveBeenCalledWith({ search: 'searchTerm', page: undefined });
+      expect(component.requestOptionsUpdated.emit).toHaveBeenCalledWith({
+        search: 'searchTerm',
+        page: undefined,
+      });
     });
 
     it('should re-emit the page number', () => {
-      const mockPageEl = fixture.debugElement.query(By.directive(MockPaginationDirective));
-      const mockPageDir = mockPageEl.injector.get(MockPaginationDirective) as MockPaginationDirective;
+      const mockPageEl = fixture.debugElement.query(
+        By.directive(MockPaginationDirective)
+      );
+      const mockPageDir = mockPageEl.injector.get(
+        MockPaginationDirective
+      ) as MockPaginationDirective;
 
       mockPageDir.pageChange.emit(5);
 
-      expect(component.requestOptionsUpdated.emit).toHaveBeenCalledWith({ page: 5 });
+      expect(component.requestOptionsUpdated.emit).toHaveBeenCalledWith({
+        page: 5,
+      });
     });
   });
 });

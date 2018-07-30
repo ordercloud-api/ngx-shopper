@@ -9,12 +9,8 @@ describe('AddressDisplayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PhoneFormatPipe,
-        AddressDisplayComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [PhoneFormatPipe, AddressDisplayComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

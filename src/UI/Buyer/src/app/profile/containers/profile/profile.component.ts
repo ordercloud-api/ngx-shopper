@@ -4,9 +4,8 @@ import { ProfileTab } from '@app-buyer/profile/models/profile-tabs.enum';
 @Component({
   selector: 'profile-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
 })
-
 export class ProfileComponent implements OnInit {
   selectedTab: string;
   tabs: ProfileTab[];
@@ -16,7 +15,8 @@ export class ProfileComponent implements OnInit {
       { display: 'Details', route: 'details' },
       { display: 'Addresses', route: 'addresses' },
       { display: 'Payment Methods', route: 'payment-methods' },
-      { display: 'Orders', route: 'orders' }];
+      { display: 'Orders', route: 'orders' },
+    ];
   }
 
   ngOnInit(): void {

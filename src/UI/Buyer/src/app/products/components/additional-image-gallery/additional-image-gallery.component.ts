@@ -4,9 +4,8 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'products-additional-image-gallery',
   templateUrl: './additional-image-gallery.component.html',
-  styleUrls: ['./additional-image-gallery.component.scss']
+  styleUrls: ['./additional-image-gallery.component.scss'],
 })
-
 export class AdditionalImageGalleryComponent {
   // gallerySize can be changed and the component logic + behavior will all work. However, the UI may look wonky.
   private readonly gallerySize = 5;
@@ -17,7 +16,7 @@ export class AdditionalImageGalleryComponent {
   endIndex = this.gallerySize - 1;
   faAngleLeft = faAngleLeft;
   faAngleRight = faAngleRight;
-  constructor() { }
+  constructor() {}
 
   select(url: string): void {
     this.selectedIndex = this.imgUrls.indexOf(url);
@@ -39,7 +38,11 @@ export class AdditionalImageGalleryComponent {
       this.endIndex++;
       if (this.selectedIndex === this.imgUrls.length) {
         // cycle to the beginning
-        [this.selectedIndex, this.startIndex, this.endIndex] = [0, 0, this.gallerySize - 1];
+        [this.selectedIndex, this.startIndex, this.endIndex] = [
+          0,
+          0,
+          this.gallerySize - 1,
+        ];
       }
     }
   }

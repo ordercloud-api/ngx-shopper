@@ -9,21 +9,22 @@ import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-
 @Component({
   selector: 'shared-address-form',
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss']
+  styleUrls: ['./address-form.component.scss'],
 })
 export class AddressFormComponent implements OnInit {
   private _existingAddress: BuyerAddress;
   @Input() btnText: string;
   @Output() formSubmitted = new EventEmitter();
   stateOptions: string[];
-  countryOptions: { label: string, abbreviation: string }[];
+  countryOptions: { label: string; abbreviation: string }[];
   addressForm: FormGroup;
 
   constructor(
     private ocGeography: OcGeographyService,
     private formBuilder: FormBuilder,
-    private formErrorService: OcFormErrorService) {
-    this.stateOptions = this.ocGeography.getStates().map(s => s.abbreviation);
+    private formErrorService: OcFormErrorService
+  ) {
+    this.stateOptions = this.ocGeography.getStates().map((s) => s.abbreviation);
     this.countryOptions = this.ocGeography.getCountries();
   }
 
@@ -31,7 +32,8 @@ export class AddressFormComponent implements OnInit {
     this.setForm();
   }
 
-  @Input() set existingAddress(address: BuyerAddress) {
+  @Input()
+  set existingAddress(address: BuyerAddress) {
     this._existingAddress = address || {};
     this.setForm();
   }
@@ -47,7 +49,7 @@ export class AddressFormComponent implements OnInit {
       Zip: [this._existingAddress.Zip || '', Validators.required],
       Phone: [this._existingAddress.Phone || '', Validators.required],
       Country: [this._existingAddress.Country || null, Validators.required],
-      ID: this._existingAddress.ID || ''
+      ID: this._existingAddress.ID || '',
     });
   }
 
@@ -59,6 +61,8 @@ export class AddressFormComponent implements OnInit {
   }
 
   // control display of error messages
-  protected hasRequiredError = (controlName: string) => this.formErrorService.hasRequiredError(controlName, this.addressForm);
-  protected hasValidEmailError = () => this.formErrorService.hasValidEmailError(this.addressForm.get('Email'));
+  protected hasRequiredError = (controlName: string) =>
+    this.formErrorService.hasRequiredError(controlName, this.addressForm);
+  protected hasValidEmailError = () =>
+    this.formErrorService.hasValidEmailError(this.addressForm.get('Email'));
 }

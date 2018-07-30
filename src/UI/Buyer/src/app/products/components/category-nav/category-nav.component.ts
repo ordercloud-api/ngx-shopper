@@ -6,7 +6,7 @@ import { CategoryTreeNode } from '@app-buyer/products/models/category-tree-node.
 @Component({
   selector: 'products-category-nav',
   templateUrl: './category-nav.component.html',
-  styleUrls: ['./category-nav.component.scss']
+  styleUrls: ['./category-nav.component.scss'],
 })
 export class CategoryNavComponent implements OnInit {
   @Input() categories: ListCategory;
@@ -14,14 +14,16 @@ export class CategoryNavComponent implements OnInit {
   categoryTree: CategoryTreeNode[];
   options: ITreeOptions = {
     actionMapping: {
-        mouse: {
-            click: (_tree, _node, _$event) => { this.selection.emit(_node.id); }
+      mouse: {
+        click: (_tree, _node, _$event) => {
+          this.selection.emit(_node.id);
         },
+      },
     },
-    animateExpand: true
+    animateExpand: true,
   };
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.categoryTree = this.buildCategoryTree(this.categories.Items);
@@ -39,7 +41,9 @@ export class CategoryNavComponent implements OnInit {
     }, {});
 
     for (const key in table) {
-      if (!table.hasOwnProperty(key)) { continue; }
+      if (!table.hasOwnProperty(key)) {
+        continue;
+      }
 
       if (!table[key].data.ParentID || !table[table[key].data.ParentID]) {
         continue;
@@ -49,6 +53,8 @@ export class CategoryNavComponent implements OnInit {
       table[key].parent = table[table[key].data.ParentID];
     }
 
-    return Object.keys(table).map(x => table[x]).filter(x => !x.data.ParentID);
+    return Object.keys(table)
+      .map((x) => table[x])
+      .filter((x) => !x.data.ParentID);
   }
 }

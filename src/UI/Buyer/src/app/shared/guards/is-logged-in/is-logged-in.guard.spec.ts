@@ -7,15 +7,18 @@ describe('IsLoggedInGuard', () => {
   const firstIsAnonUserVal = true;
   const secondIsAnonUserVal = false;
   let service: IsLoggedInGuard;
-  const appAuthService = { isUserAnon: jasmine.createSpy('isUserAnon').and.returnValues(firstIsAnonUserVal, secondIsAnonUserVal) };
+  const appAuthService = {
+    isUserAnon: jasmine
+      .createSpy('isUserAnon')
+      .and.returnValues(firstIsAnonUserVal, secondIsAnonUserVal),
+  };
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-      ],
+      imports: [],
       providers: [
         IsLoggedInGuard,
         { provide: AppAuthService, useValue: appAuthService },
-      ]
+      ],
     });
     service = TestBed.get(IsLoggedInGuard);
   });
@@ -28,5 +31,4 @@ describe('IsLoggedInGuard', () => {
     expect(service.canActivate()).toBe(!firstIsAnonUserVal);
     expect(service.canActivate()).toBe(!secondIsAnonUserVal);
   });
-
 });

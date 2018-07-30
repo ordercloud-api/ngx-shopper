@@ -1,9 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { TokenService } from '@ordercloud/angular-sdk';
+import { OcTokenService } from '@ordercloud/angular-sdk';
 import * as jwtDecode from 'jwt-decode';
 import { DecodedOrderCloudToken } from '@app-buyer/shared';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 import { of, Observable } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
@@ -11,11 +14,11 @@ import { flatMap, map } from 'rxjs/operators';
 @Injectable()
 export class HasTokenGuard implements CanActivate {
   constructor(
-    private tokenService: TokenService,
+    private ocTokenService: OcTokenService,
     private router: Router,
     private appAuthService: AppAuthService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
-  ) { }
+  ) {}
   canActivate(): Observable<boolean> {
     /**
      * very simple test to make sure a token exists,
@@ -26,7 +29,9 @@ export class HasTokenGuard implements CanActivate {
      * and the refresh-token interceptor will handle it correctly
      */
     const isAccessTokenValid = this.isTokenValid();
-    const refreshTokenExists = this.tokenService.GetRefresh() && this.appAuthService.getRememberStatus();
+    const refreshTokenExists =
+      this.ocTokenService.GetRefresh() &&
+      this.appAuthService.getRememberStatus();
 
     if (!isAccessTokenValid && refreshTokenExists) {
       return this.appAuthService.refresh().pipe(map(() => true));
@@ -38,20 +43,21 @@ export class HasTokenGuard implements CanActivate {
     }
     // get new anonymous token and then let them continue
     if (!isAccessTokenValid && this.appConfig.anonymousShoppingEnabled) {
-      return this.appAuthService.authAnonymous()
-        .pipe(
-          flatMap(() => {
-            return of(true);
-          })
-        );
+      return this.appAuthService.authAnonymous().pipe(
+        flatMap(() => {
+          return of(true);
+        })
+      );
     }
     return of(isAccessTokenValid);
   }
 
   private isTokenValid(): boolean {
-    const token = this.tokenService.GetAccess();
+    const token = this.ocTokenService.GetAccess();
 
-    if (!token) { return false; }
+    if (!token) {
+      return false;
+    }
 
     let decodedToken: DecodedOrderCloudToken;
     try {
@@ -59,7 +65,9 @@ export class HasTokenGuard implements CanActivate {
     } catch (e) {
       decodedToken = null;
     }
-    if (!decodedToken) { return false; }
+    if (!decodedToken) {
+      return false;
+    }
 
     const expiresIn = decodedToken.exp * 1000;
     return Date.now() < expiresIn;

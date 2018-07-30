@@ -23,11 +23,14 @@ import {
 // app services
 import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
-import { applicationConfiguration, ocAppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  ocAppConfig,
+} from '@app-buyer/config/app.config';
 import { BaseResolve } from '@app-buyer/shared/resolves/base.resolve';
 import { SharedRoutingModule } from '@app-buyer/shared/shared-routing.module';
 import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
-import { OcLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
+import { AppLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
 import { AuthorizeNetService } from '@app-buyer/shared/services/authorize-net/authorize-net.service';
 import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
 import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
@@ -60,7 +63,10 @@ import { LineItemListWrapperComponent } from '@app-buyer/shared/components/linei
 
 // containers
 import { RegisterComponent } from '@app-buyer/shared/containers/register/register.component';
-import { ShipperTrackingPipe, ShipperTrackingSupportedPipe } from '@app-buyer/shared/pipes/shipperTracking/shipperTracking.pipe';
+import {
+  ShipperTrackingPipe,
+  ShipperTrackingSupportedPipe,
+} from '@app-buyer/shared/pipes/shipperTracking/shipperTracking.pipe';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
 import { ProductCardComponent } from '@app-buyer/shared/components/product-card/product-card.component';
@@ -69,7 +75,6 @@ import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-t
 import { GenericBrowseComponent } from '@app-buyer/shared/components/generic-browse/generic-browse.component';
 import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
-
 
 @NgModule({
   imports: [
@@ -95,7 +100,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
     NgbPaginationModule.forRoot(),
     NgbPopoverModule.forRoot(),
     NgbAccordionModule.forRoot(),
-    NgbCarouselModule.forRoot()
+    NgbCarouselModule.forRoot(),
   ],
   exports: [
     // angular
@@ -139,7 +144,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
     ProductCarouselComponent,
     GenericBrowseComponent,
     ModalComponent,
-    OrderPaymentListComponent
+    OrderPaymentListComponent,
   ],
   declarations: [
     RegisterComponent,
@@ -165,7 +170,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
     ProductCarouselComponent,
     GenericBrowseComponent,
     ModalComponent,
-    OrderPaymentListComponent
+    OrderPaymentListComponent,
   ],
 
   /**
@@ -175,7 +180,6 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
    * https://angular-2-training-book.rangle.io/handout/modules/shared-di-tree.html
    */
   providers: [],
-
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
@@ -187,7 +191,7 @@ export class SharedModule {
         BaseResolve,
         BaseResolveService,
         OcFormErrorService,
-        OcLineItemService,
+        AppLineItemService,
         ModalService,
         PhoneFormatPipe,
         OrderStatusDisplayPipe,
@@ -200,8 +204,8 @@ export class SharedModule {
         NgbDateCustomParserFormatter,
         OcReorderService,
         { provide: applicationConfiguration, useValue: ocAppConfig },
-        { provide: ErrorHandler, useClass: AppErrorHandler }
-      ]
+        { provide: ErrorHandler, useClass: AppErrorHandler },
+      ],
     };
   }
 }

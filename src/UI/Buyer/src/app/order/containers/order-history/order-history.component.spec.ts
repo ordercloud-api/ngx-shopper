@@ -10,7 +10,7 @@ import { OrderListComponent } from '@app-buyer/order/components/order-list/order
 
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgbPaginationModule, NgbRootModule } from '@ng-bootstrap/ng-bootstrap';
-import { MeService, OrderService } from '@ordercloud/angular-sdk';
+import { OcMeService, OcOrderService } from '@ordercloud/angular-sdk';
 import { DatePipe } from '@angular/common';
 import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { of, Subject } from 'rxjs';
@@ -26,7 +26,7 @@ describe('OrderHistoryComponent', () => {
   const meService = {
     ListOrders: jasmine.createSpy('ListOrders').and.returnValue(of(null)),
     Get: jasmine.createSpy('Get').and.returnValue(of(mockMe)),
-    Patch: jasmine.createSpy('Patch').and.returnValue(of(mockMe))
+    Patch: jasmine.createSpy('Patch').and.returnValue(of(mockMe)),
   };
   const router = { navigate: jasmine.createSpy('navigate') };
   const queryParamMap = new Subject<any>();
@@ -38,9 +38,9 @@ describe('OrderHistoryComponent', () => {
         page: 1,
         status: 'Open',
         datesubmitted: ['5-30-18'],
-      }
+      },
     },
-    queryParamMap
+    queryParamMap,
   };
 
   beforeEach(async(() => {
@@ -54,20 +54,15 @@ describe('OrderHistoryComponent', () => {
         OrderHistoryComponent,
         OrderStatusDisplayPipe,
       ],
-      imports: [
-        ReactiveFormsModule,
-        NgbPaginationModule,
-        NgbRootModule,
-      ],
+      imports: [ReactiveFormsModule, NgbPaginationModule, NgbRootModule],
       providers: [
         DatePipe,
-        { provide: MeService, useValue: meService },
+        { provide: OcMeService, useValue: meService },
         { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: activatedRoute },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -93,7 +88,10 @@ describe('OrderHistoryComponent', () => {
   describe('sortOrders', () => {
     it('should navigate to same route with updated sort params', () => {
       component['sortOrders']('Name');
-      const queryParams = { ...activatedRoute.snapshot.queryParams, sortBy: 'Name' };
+      const queryParams = {
+        ...activatedRoute.snapshot.queryParams,
+        sortBy: 'Name',
+      };
       expect(router.navigate).toHaveBeenCalledWith([], { queryParams });
     });
   });
@@ -109,7 +107,11 @@ describe('OrderHistoryComponent', () => {
   describe('filterBySearch', () => {
     it('should navigate to same route with updated search params', () => {
       component['filterBySearch']('another search term');
-      const queryParams = { ...activatedRoute.snapshot.queryParams, search: 'another search term', page: undefined };
+      const queryParams = {
+        ...activatedRoute.snapshot.queryParams,
+        search: 'another search term',
+        page: undefined,
+      };
       expect(router.navigate).toHaveBeenCalledWith([], { queryParams });
     });
   });
@@ -117,7 +119,10 @@ describe('OrderHistoryComponent', () => {
   describe('filterByStatus', () => {
     it('should navigate to same route with updated status params', () => {
       component['filterByStatus'](OrderStatus.Completed);
-      const queryParams = { ...activatedRoute.snapshot.queryParams, status: OrderStatus.Completed };
+      const queryParams = {
+        ...activatedRoute.snapshot.queryParams,
+        status: OrderStatus.Completed,
+      };
       expect(router.navigate).toHaveBeenCalledWith([], { queryParams });
     });
   });
@@ -125,7 +130,10 @@ describe('OrderHistoryComponent', () => {
   describe('filterByDate', () => {
     it('should navigate to same route with updated status params', () => {
       component['filterByDate'](['5-30-18']);
-      const queryParams = { ...activatedRoute.snapshot.queryParams, datesubmitted: ['5-30-18'] };
+      const queryParams = {
+        ...activatedRoute.snapshot.queryParams,
+        datesubmitted: ['5-30-18'],
+      };
       expect(router.navigate).toHaveBeenCalledWith([], { queryParams });
     });
   });
@@ -138,17 +146,21 @@ describe('OrderHistoryComponent', () => {
       filters: {
         status: 'Open',
         datesubmitted: ['5-30-18'],
-        ID: undefined
-      }
+        ID: undefined,
+      },
     };
     beforeEach(() => {
       meService.ListOrders.calls.reset();
     });
     it('should call meService.ListOrders with correct parameters', () => {
-      component['listOrders']().pipe(take(1)).subscribe(() => {
-        expect(meService.ListOrders).toHaveBeenCalledWith(expected);
-      });
-      queryParamMap.next(convertToParamMap(activatedRoute.snapshot.queryParams));
+      component['listOrders']()
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(meService.ListOrders).toHaveBeenCalledWith(expected);
+        });
+      queryParamMap.next(
+        convertToParamMap(activatedRoute.snapshot.queryParams)
+      );
     });
   });
 

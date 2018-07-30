@@ -4,7 +4,7 @@ import { AddressFormComponent } from '@app-buyer/shared/components/address-form/
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { OcGeographyService } from '@app-buyer/shared';
 import { of } from 'rxjs';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { OcFormErrorService } from '@app-buyer/shared';
 
 describe('AddressFormComponent', () => {
@@ -12,30 +12,25 @@ describe('AddressFormComponent', () => {
   let fixture: ComponentFixture<AddressFormComponent>;
   const meService = {
     CreateAddress: jasmine.createSpy('CreateAddress').and.returnValue(of(null)),
-    PatchAddress: jasmine.createSpy('PatchAddress').and.returnValue(of(null))
+    PatchAddress: jasmine.createSpy('PatchAddress').and.returnValue(of(null)),
   };
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
     hasValidEmailError: jasmine.createSpy('hasValidEmailError'),
-    displayFormErrors: jasmine.createSpy('displayFormErrors')
+    displayFormErrors: jasmine.createSpy('displayFormErrors'),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AddressFormComponent
-      ],
-      imports: [
-        ReactiveFormsModule,
-      ],
+      declarations: [AddressFormComponent],
+      imports: [ReactiveFormsModule],
       providers: [
         OcGeographyService,
         FormBuilder,
         { provide: OcFormErrorService, useValue: formErrorService },
-        { provide: MeService, useValue: meService }
-      ]
-    })
-      .compileComponents();
+        { provide: OcMeService, useValue: meService },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -51,7 +46,7 @@ describe('AddressFormComponent', () => {
       State: 'MN',
       Zip: '56001',
       Phone: '555-555-5555',
-      Country: 'US'
+      Country: 'US',
     };
     fixture.detectChanges();
   });
@@ -76,7 +71,7 @@ describe('AddressFormComponent', () => {
         State: 'MN',
         Zip: '56001',
         Phone: '555-555-5555',
-        Country: 'US'
+        Country: 'US',
       });
     });
   });
@@ -86,7 +81,7 @@ describe('AddressFormComponent', () => {
       spyOn(component.formSubmitted, 'emit');
     });
     it('should call displayFormErrors if form is invalid', () => {
-      component.addressForm.setErrors({ 'test': true });
+      component.addressForm.setErrors({ test: true });
       component['onSubmit']();
       expect(formErrorService.displayFormErrors).toHaveBeenCalled();
     });
@@ -112,7 +107,10 @@ describe('AddressFormComponent', () => {
       component['hasRequiredError']('FirstName');
     });
     it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasRequiredError).toHaveBeenCalledWith('FirstName', component.addressForm);
+      expect(formErrorService.hasRequiredError).toHaveBeenCalledWith(
+        'FirstName',
+        component.addressForm
+      );
     });
   });
 
@@ -121,8 +119,9 @@ describe('AddressFormComponent', () => {
       component['hasValidEmailError']();
     });
     it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasValidEmailError).toHaveBeenCalledWith(component.addressForm.get('Email'));
+      expect(formErrorService.hasValidEmailError).toHaveBeenCalledWith(
+        component.addressForm.get('Email')
+      );
     });
   });
-
 });

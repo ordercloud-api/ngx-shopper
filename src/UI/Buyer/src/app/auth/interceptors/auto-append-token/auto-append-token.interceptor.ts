@@ -3,11 +3,14 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TokenService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import { OcTokenService } from '@ordercloud/angular-sdk';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 
 /**
  * automatically append token to the authorization header
@@ -15,17 +18,19 @@ import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.confi
  */
 @Injectable()
 export class AutoAppendTokenInterceptor implements HttpInterceptor {
-
   constructor(
-    private tokenService: TokenService,
+    private ocTokenService: OcTokenService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
-  ) { }
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  ) {}
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     if (request.url.includes(this.appConfig.middlewareUrl)) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.tokenService.GetAccess()}`
-        }
+          Authorization: `Bearer ${this.ocTokenService.GetAccess()}`,
+        },
       });
     }
     return next.handle(request);

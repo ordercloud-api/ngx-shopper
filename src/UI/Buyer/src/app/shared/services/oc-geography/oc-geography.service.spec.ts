@@ -5,11 +5,14 @@ import { OcGeographyService } from '@app-buyer/shared/services/oc-geography/oc-g
 describe('OcGeographyService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [OcGeographyService]
+      providers: [OcGeographyService],
     });
   });
 
-  it('should be created', inject([OcGeographyService], (service: OcGeographyService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [OcGeographyService],
+    (service: OcGeographyService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

@@ -7,14 +7,7 @@ import { AddressListComponent } from '@app-buyer/profile/containers/address-list
 import { PaymentListComponent } from '@app-buyer/profile/containers/payment-list/payment-list.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    ProfileRoutingModule,
-  ],
-  declarations: [
-    ProfileComponent,
-    AddressListComponent,
-    PaymentListComponent
-  ],
+  imports: [SharedModule, ProfileRoutingModule],
+  declarations: [ProfileComponent, AddressListComponent, PaymentListComponent],
 })
-export class ProfileModule { }
+export class ProfileModule {}

@@ -5,19 +5,19 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 @Component({
   selector: 'order-status-filter',
   templateUrl: './status-filter.component.html',
-  styleUrls: ['./status-filter.component.scss']
+  styleUrls: ['./status-filter.component.scss'],
 })
 export class StatusFilterComponent implements OnInit {
   form: FormGroup;
   protected statuses: OrderStatus[];
   @Output() selectedStatus = new EventEmitter<OrderStatus>();
 
-  constructor(
-    private formBuilder: FormBuilder,
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({ status: `!${OrderStatus.Unsubmitted}` });
+    this.form = this.formBuilder.group({
+      status: `!${OrderStatus.Unsubmitted}`,
+    });
     this.statuses = [
       OrderStatus.Open,
       OrderStatus.AwaitingApproval,

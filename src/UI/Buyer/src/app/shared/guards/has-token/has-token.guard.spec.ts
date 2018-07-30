@@ -1,7 +1,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
 import { HasTokenGuard } from '@app-buyer/shared/guards/has-token/has-token.guard';
-import { TokenService } from '@ordercloud/angular-sdk';
+import { OcTokenService } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
 import { AppAuthService } from '@app-buyer/auth';
 import { of, BehaviorSubject } from 'rxjs';
@@ -12,19 +12,26 @@ describe('HasTokenGuard', () => {
   let mockAccessToken = null;
   let rememberMe = false;
   // tslint:disable-next-line:max-line-length
-  const validToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3IiOiJhbm9uX3VzZXIiLCJjaWQiOiI4MDIxODkzNi0zNTBiLTQxMDUtYTFmYy05NjJhZjAyM2Q2NjYiLCJvcmRlcmlkIjoiSVlBSnFOWVVpRVdyTy1Lei1TalpqUSIsInVzcnR5cGUiOiJidXllciIsInJvbGUiOlsiQnV5ZXJSZWFkZXIiLCJNZUFkbWluIiwiTWVDcmVkaXRDYXJkQWRtaW4iLCJNZUFkZHJlc3NBZG1pbiIsIk1lWHBBZG1pbiIsIlBhc3N3b3JkUmVzZXQiLCJTaGlwbWVudFJlYWRlciIsIlNob3BwZXIiLCJBZGRyZXNzUmVhZGVyIl0sImlzcyI6Imh0dHBzOi8vYXV0aC5vcmRlcmNsb3VkLmlvIiwiYXVkIjoiaHR0cHM6Ly9hcGkub3JkZXJjbG91ZC5pbyIsImV4cCI6MTUyNzA5Nzc0MywibmJmIjoxNTI2NDkyOTQzfQ.MBV7dqBq8RXSZZ8vEGidcfH8vSwOR55yHzvAq1w2bLc';
+  const validToken =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3IiOiJhbm9uX3VzZXIiLCJjaWQiOiI4MDIxODkzNi0zNTBiLTQxMDUtYTFmYy05NjJhZjAyM2Q2NjYiLCJvcmRlcmlkIjoiSVlBSnFOWVVpRVdyTy1Lei1TalpqUSIsInVzcnR5cGUiOiJidXllciIsInJvbGUiOlsiQnV5ZXJSZWFkZXIiLCJNZUFkbWluIiwiTWVDcmVkaXRDYXJkQWRtaW4iLCJNZUFkZHJlc3NBZG1pbiIsIk1lWHBBZG1pbiIsIlBhc3N3b3JkUmVzZXQiLCJTaGlwbWVudFJlYWRlciIsIlNob3BwZXIiLCJBZGRyZXNzUmVhZGVyIl0sImlzcyI6Imh0dHBzOi8vYXV0aC5vcmRlcmNsb3VkLmlvIiwiYXVkIjoiaHR0cHM6Ly9hcGkub3JkZXJjbG91ZC5pbyIsImV4cCI6MTUyNzA5Nzc0MywibmJmIjoxNTI2NDkyOTQzfQ.MBV7dqBq8RXSZZ8vEGidcfH8vSwOR55yHzvAq1w2bLc';
   const mockRefreshToken = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
 
   const appConfig = { anonymousShoppingEnabled: true };
   const tokenService = {
-    GetAccess: jasmine.createSpy('GetAccess').and.callFake(() => mockAccessToken),
-    GetRefresh: jasmine.createSpy('GetRefresh').and.returnValue(of(mockRefreshToken))
-   };
+    GetAccess: jasmine
+      .createSpy('GetAccess')
+      .and.callFake(() => mockAccessToken),
+    GetRefresh: jasmine
+      .createSpy('GetRefresh')
+      .and.returnValue(of(mockRefreshToken)),
+  };
   const router = { navigate: jasmine.createSpy('navigate') };
   const appAuthService = {
     authAnonymous: jasmine.createSpy('authAnonymous').and.returnValue(of(null)),
-    getRememberStatus: jasmine.createSpy('getRememberStatus').and.callFake(() => rememberMe),
-    refresh: jasmine.createSpy('refresh').and.returnValue(of(null))
+    getRememberStatus: jasmine
+      .createSpy('getRememberStatus')
+      .and.callFake(() => rememberMe),
+    refresh: jasmine.createSpy('refresh').and.returnValue(of(null)),
   };
 
   beforeEach(() => {
@@ -35,8 +42,8 @@ describe('HasTokenGuard', () => {
         { provide: applicationConfiguration, useValue: appConfig },
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },
-        { provide: TokenService, useValue: tokenService }
-      ]
+        { provide: OcTokenService, useValue: tokenService },
+      ],
     });
     guard = TestBed.get(HasTokenGuard);
   });
@@ -62,13 +69,13 @@ describe('HasTokenGuard', () => {
       });
       it('should return true if token is valid', () => {
         mockAccessToken = validToken;
-        guard.canActivate().subscribe(isTokenValid => {
+        guard.canActivate().subscribe((isTokenValid) => {
           expect(isTokenValid).toBe(true);
         });
       });
       it('should get new token and then return true if token is invalid', () => {
         mockAccessToken = null;
-        guard.canActivate().subscribe(isTokenValid => {
+        guard.canActivate().subscribe((isTokenValid) => {
           expect(appAuthService.authAnonymous).toHaveBeenCalled();
           expect(isTokenValid).toBe(true);
         });
@@ -80,14 +87,14 @@ describe('HasTokenGuard', () => {
       });
       it('should return true if token is valid', () => {
         mockAccessToken = validToken;
-        guard.canActivate().subscribe(isTokenValid => {
+        guard.canActivate().subscribe((isTokenValid) => {
           expect(appAuthService.authAnonymous).not.toHaveBeenCalled();
           expect(isTokenValid).toBe(true);
         });
       });
       it('should return false if token is invalid', () => {
         mockAccessToken = null;
-        guard.canActivate().subscribe(isTokenValid => {
+        guard.canActivate().subscribe((isTokenValid) => {
           expect(appAuthService.authAnonymous).not.toHaveBeenCalled();
           expect(isTokenValid).toBe(false);
         });
@@ -97,7 +104,7 @@ describe('HasTokenGuard', () => {
       it('should call refresh', () => {
         mockAccessToken = null;
         rememberMe = true;
-        guard.canActivate().subscribe(isTokenValid => {
+        guard.canActivate().subscribe((isTokenValid) => {
           expect(appAuthService.refresh).toHaveBeenCalled();
           expect(isTokenValid).toBe(true);
         });
@@ -120,7 +127,8 @@ describe('HasTokenGuard', () => {
       it('should return false if expiresIn time is less than current time', () => {
         // decodedToken.exp set to 1526497620
         // tslint:disable-next-line:max-line-length
-        const lessThanCurrentTime = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3IiOiJhbm9uX3VzZXIiLCJjaWQiOiI4MDIxODkzNi0zNTBiLTQxMDUtYTFmYy05NjJhZjAyM2Q2NjYiLCJvcmRlcmlkIjoiSVlBSnFOWVVpRVdyTy1Lei1TalpqUSIsInVzcnR5cGUiOiJidXllciIsInJvbGUiOlsiQnV5ZXJSZWFkZXIiLCJNZUFkbWluIiwiTWVDcmVkaXRDYXJkQWRtaW4iLCJNZUFkZHJlc3NBZG1pbiIsIk1lWHBBZG1pbiIsIlBhc3N3b3JkUmVzZXQiLCJTaGlwbWVudFJlYWRlciIsIlNob3BwZXIiLCJBZGRyZXNzUmVhZGVyIl0sImlzcyI6Imh0dHBzOi8vYXV0aC5vcmRlcmNsb3VkLmlvIiwiYXVkIjoiaHR0cHM6Ly9hcGkub3JkZXJjbG91ZC5pbyIsImV4cCI6MTUyNjQ5NzYyMCwibmJmIjoxNTI2NDkyOTQzfQ.W1GyDrOUyRxs8GZSiW0jk__37Cv98t2A_u7AK2PaMtU';
+        const lessThanCurrentTime =
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3IiOiJhbm9uX3VzZXIiLCJjaWQiOiI4MDIxODkzNi0zNTBiLTQxMDUtYTFmYy05NjJhZjAyM2Q2NjYiLCJvcmRlcmlkIjoiSVlBSnFOWVVpRVdyTy1Lei1TalpqUSIsInVzcnR5cGUiOiJidXllciIsInJvbGUiOlsiQnV5ZXJSZWFkZXIiLCJNZUFkbWluIiwiTWVDcmVkaXRDYXJkQWRtaW4iLCJNZUFkZHJlc3NBZG1pbiIsIk1lWHBBZG1pbiIsIlBhc3N3b3JkUmVzZXQiLCJTaGlwbWVudFJlYWRlciIsIlNob3BwZXIiLCJBZGRyZXNzUmVhZGVyIl0sImlzcyI6Imh0dHBzOi8vYXV0aC5vcmRlcmNsb3VkLmlvIiwiYXVkIjoiaHR0cHM6Ly9hcGkub3JkZXJjbG91ZC5pbyIsImV4cCI6MTUyNjQ5NzYyMCwibmJmIjoxNTI2NDkyOTQzfQ.W1GyDrOUyRxs8GZSiW0jk__37Cv98t2A_u7AK2PaMtU';
         mockAccessToken = lessThanCurrentTime;
         const isTokenValid = guard['isTokenValid']();
         expect(isTokenValid).toBe(false);
@@ -128,7 +136,8 @@ describe('HasTokenGuard', () => {
       it('should return true if expiresIn time is greater than current time', () => {
         // decodedToken.exp set to 1526497621
         // tslint:disable-next-line:max-line-length
-        const greaterThanCurrentTime = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3IiOiJhbm9uX3VzZXIiLCJjaWQiOiI4MDIxODkzNi0zNTBiLTQxMDUtYTFmYy05NjJhZjAyM2Q2NjYiLCJvcmRlcmlkIjoiSVlBSnFOWVVpRVdyTy1Lei1TalpqUSIsInVzcnR5cGUiOiJidXllciIsInJvbGUiOlsiQnV5ZXJSZWFkZXIiLCJNZUFkbWluIiwiTWVDcmVkaXRDYXJkQWRtaW4iLCJNZUFkZHJlc3NBZG1pbiIsIk1lWHBBZG1pbiIsIlBhc3N3b3JkUmVzZXQiLCJTaGlwbWVudFJlYWRlciIsIlNob3BwZXIiLCJBZGRyZXNzUmVhZGVyIl0sImlzcyI6Imh0dHBzOi8vYXV0aC5vcmRlcmNsb3VkLmlvIiwiYXVkIjoiaHR0cHM6Ly9hcGkub3JkZXJjbG91ZC5pbyIsImV4cCI6MTUyNjQ5NzYyMSwibmJmIjoxNTI2NDkyOTQzfQ.EQ587x_hiCLu0hW6zTp-XxcXDUZdJjB5wFYC_RYqsf0';
+        const greaterThanCurrentTime =
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3IiOiJhbm9uX3VzZXIiLCJjaWQiOiI4MDIxODkzNi0zNTBiLTQxMDUtYTFmYy05NjJhZjAyM2Q2NjYiLCJvcmRlcmlkIjoiSVlBSnFOWVVpRVdyTy1Lei1TalpqUSIsInVzcnR5cGUiOiJidXllciIsInJvbGUiOlsiQnV5ZXJSZWFkZXIiLCJNZUFkbWluIiwiTWVDcmVkaXRDYXJkQWRtaW4iLCJNZUFkZHJlc3NBZG1pbiIsIk1lWHBBZG1pbiIsIlBhc3N3b3JkUmVzZXQiLCJTaGlwbWVudFJlYWRlciIsIlNob3BwZXIiLCJBZGRyZXNzUmVhZGVyIl0sImlzcyI6Imh0dHBzOi8vYXV0aC5vcmRlcmNsb3VkLmlvIiwiYXVkIjoiaHR0cHM6Ly9hcGkub3JkZXJjbG91ZC5pbyIsImV4cCI6MTUyNjQ5NzYyMSwibmJmIjoxNTI2NDkyOTQzfQ.EQ587x_hiCLu0hW6zTp-XxcXDUZdJjB5wFYC_RYqsf0';
         mockAccessToken = greaterThanCurrentTime;
         const isTokenValid = guard['isTokenValid']();
         expect(isTokenValid).toBe(true);

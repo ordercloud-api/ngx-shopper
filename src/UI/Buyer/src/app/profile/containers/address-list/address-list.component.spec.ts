@@ -7,7 +7,7 @@ import { PhoneFormatPipe, ModalService } from '@app-buyer/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
@@ -17,29 +17,25 @@ describe('AddressListComponent', () => {
   const toastrService = { success: jasmine.createSpy('success') };
   const meService = {
     DeleteAddress: jasmine.createSpy('DeleteAddress').and.returnValue(of(null)),
-    ListAddresses: jasmine.createSpy('ListAddresses').and.returnValue(of(null))
+    ListAddresses: jasmine.createSpy('ListAddresses').and.returnValue(of(null)),
   };
 
-  const modalService = { open: jasmine.createSpy('open'), close: jasmine.createSpy('close') };
+  const modalService = {
+    open: jasmine.createSpy('open'),
+    close: jasmine.createSpy('close'),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PhoneFormatPipe,
-        FaIconComponent,
-        AddressListComponent,
-      ],
-      imports: [
-        ReactiveFormsModule,
-      ],
+      declarations: [PhoneFormatPipe, FaIconComponent, AddressListComponent],
+      imports: [ReactiveFormsModule],
       providers: [
         { provide: ModalService, useValue: modalService },
-        { provide: MeService, useValue: meService },
-        { provide: ToastrService, useValue: toastrService }
+        { provide: OcMeService, useValue: meService },
+        { provide: ToastrService, useValue: toastrService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -132,12 +128,23 @@ describe('AddressListComponent', () => {
     it('should pass page parameter', () => {
       component['updateRequestOptions']({ page: 3 });
       expect(component.requestOptions).toEqual({ search: undefined, page: 3 });
-      expect(meService.ListAddresses).toHaveBeenCalledWith({ search: undefined, page: 3, pageSize: component.resultsPerPage });
+      expect(meService.ListAddresses).toHaveBeenCalledWith({
+        search: undefined,
+        page: 3,
+        pageSize: component.resultsPerPage,
+      });
     });
     it('should pass search parameter', () => {
       component['updateRequestOptions']({ search: 'searchTerm' });
-      expect(component.requestOptions).toEqual({ search: 'searchTerm', page: undefined });
-      expect(meService.ListAddresses).toHaveBeenCalledWith({ search: 'searchTerm', page: undefined, pageSize: component.resultsPerPage });
+      expect(component.requestOptions).toEqual({
+        search: 'searchTerm',
+        page: undefined,
+      });
+      expect(meService.ListAddresses).toHaveBeenCalledWith({
+        search: 'searchTerm',
+        page: undefined,
+        pageSize: component.resultsPerPage,
+      });
     });
   });
 });

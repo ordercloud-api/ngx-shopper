@@ -15,24 +15,17 @@ import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
 import { OrderReorderComponent } from '@app-buyer/order/containers/order-reorder/order-reorder.component';
 
 @NgModule({
-    imports: [
-        SharedModule,
-        OrderRoutingModule
-    ],
-    declarations: [
-        OrderHistoryComponent,
-        StatusFilterComponent,
-        DateFilterComponent,
-        OrderListComponent,
-        OrderDetailComponent,
-        StatusIconComponent,
-        OrderComponent,
-        OrderShipmentsComponent,
-        OrderReorderComponent
-    ],
-    providers: [
-        OrderResolve,
-        ShipmentsResolve,
-    ]
+  imports: [SharedModule, OrderRoutingModule],
+  declarations: [
+    OrderHistoryComponent,
+    StatusFilterComponent,
+    DateFilterComponent,
+    OrderListComponent,
+    OrderDetailComponent,
+    StatusIconComponent,
+    OrderComponent,
+    OrderShipmentsComponent,
+  ],
+  providers: [OrderResolve, ShipmentsResolve],
 })
-export class OrderModule { }
+export class OrderModule {}

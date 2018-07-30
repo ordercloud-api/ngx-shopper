@@ -4,16 +4,8 @@ import { HeaderComponent } from '@app-seller/layout/header/header.component';
 import { HomeComponent } from '@app-seller/layout/home/home.component';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    HeaderComponent,
-    HomeComponent
-  ],
-  declarations: [
-    HeaderComponent,
-    HomeComponent
-  ]
+  imports: [CommonModule],
+  exports: [HeaderComponent, HomeComponent],
+  declarations: [HeaderComponent, HomeComponent],
 })
-export class LayoutModule { }
+export class LayoutModule {}

@@ -9,12 +9,9 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ],
-      providers: [
-        { provide: applicationConfiguration, useValue: {} }
-      ]
-    })
-    .compileComponents();
+      declarations: [HeaderComponent],
+      providers: [{ provide: applicationConfiguration, useValue: {} }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
