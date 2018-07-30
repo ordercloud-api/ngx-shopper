@@ -8,34 +8,30 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 
-
 describe('LineItemCardComponent', () => {
   let component: LineItemCardComponent;
   let fixture: ComponentFixture<LineItemCardComponent>;
 
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        LineItemCardComponent,
-        QuantityInputComponent,
-      ],
+      declarations: [LineItemCardComponent, QuantityInputComponent],
       imports: [
         FontAwesomeModule,
         RouterTestingModule,
         ReactiveFormsModule,
         ToastrModule.forRoot(),
       ],
-      providers: [
-        FormBuilder,
-        ToastrService
-      ]
-    })
-      .compileComponents();
+      providers: [FormBuilder, ToastrService],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    const mockLineItem = { UnitPrice: 10, Quantity: 1, LineTotal: 10, Product: { name: 'test', ID: 0, unitsOnHand: 2 } };
+    const mockLineItem = {
+      UnitPrice: 10,
+      Quantity: 1,
+      LineTotal: 10,
+      Product: { name: 'test', ID: 0, unitsOnHand: 2 },
+    };
     const mockProduct = { PriceSchedule: {} };
     fixture = TestBed.createComponent(LineItemCardComponent);
     component = fixture.componentInstance;
@@ -57,7 +53,9 @@ describe('LineItemCardComponent', () => {
       component['deleteLineItem']();
     });
     it('should emit deletedLineItem', () => {
-      expect(component.deletedLineItem.emit).toHaveBeenCalledWith(component.lineitem);
+      expect(component.deletedLineItem.emit).toHaveBeenCalledWith(
+        component.lineitem
+      );
     });
   });
 
@@ -74,7 +72,9 @@ describe('LineItemCardComponent', () => {
   it('should display readonly version correctly', () => {
     component.readOnly = true;
     fixture.detectChanges();
-    const quantityInput = fixture.nativeElement.querySelector('add-to-cart-form');
+    const quantityInput = fixture.nativeElement.querySelector(
+      'add-to-cart-form'
+    );
     const deleteBtn = fixture.nativeElement.querySelector('.delete-lineitem');
     expect(quantityInput).toBeNull();
     expect(deleteBtn).toBeNull();

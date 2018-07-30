@@ -7,19 +7,17 @@ import { AppLineItemService } from '@app-buyer/shared';
 
 @Injectable()
 export class OrderResolve implements Resolve<any> {
-    constructor(
-        private ocOrderService: OcOrderService,
-        private appLineItemService: AppLineItemService
-    ) { }
+  constructor(
+    private ocOrderService: OcOrderService,
+    private appLineItemService: AppLineItemService
+  ) {}
 
-    resolve(route: ActivatedRouteSnapshot) {
-        const orderID = route.paramMap.get('orderID');
-        this.ocOrderService.Get('outgoing', orderID);
-        return forkJoin([
-            this.ocOrderService.Get('outgoing', orderID),
-            this.appLineItemService.listAll(orderID)
-        ]).pipe(
-            map(results => ({ order: results[0], lineItems: results[1] }))
-        );
-    }
+  resolve(route: ActivatedRouteSnapshot) {
+    const orderID = route.paramMap.get('orderID');
+    this.ocOrderService.Get('outgoing', orderID);
+    return forkJoin([
+      this.ocOrderService.Get('outgoing', orderID),
+      this.appLineItemService.listAll(orderID),
+    ]).pipe(map((results) => ({ order: results[0], lineItems: results[1] })));
+  }
 }

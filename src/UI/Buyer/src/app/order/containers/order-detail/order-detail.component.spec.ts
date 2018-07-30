@@ -14,37 +14,40 @@ describe('OrderDetailComponent', () => {
 
   const mockOrderID = 'MockGetOrder123';
   const appLineItemService = {
-    getSupplierAddresses: jasmine.createSpy('getSupplierAddresses').and.returnValue(of(null)),
+    getSupplierAddresses: jasmine
+      .createSpy('getSupplierAddresses')
+      .and.returnValue(of(null)),
   };
   const orderService = {
     Get: jasmine.createSpy('Get').and.returnValue(of(null)),
-    ListPromotions: jasmine.createSpy('ListPromotions').and.returnValue(of(null))
+    ListPromotions: jasmine
+      .createSpy('ListPromotions')
+      .and.returnValue(of(null)),
   };
-  const appPaymentService = { getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)) };
+  const appPaymentService = {
+    getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)),
+  };
 
   const paramMap = new Subject<ParamMap>();
 
   const activatedRoute = {
     parent: {
-      data: of({ orderResolve: { order: { ID: 'mockOrder' } } })
+      data: of({ orderResolve: { order: { ID: 'mockOrder' } } }),
     },
-    paramMap
+    paramMap,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OrderDetailComponent,
-      ],
+      declarations: [OrderDetailComponent],
       providers: [
         { provide: AppLineItemService, useValue: appLineItemService },
         { provide: OcOrderService, useValue: orderService },
         { provide: ActivatedRoute, useValue: activatedRoute },
-        { provide: AppPaymentService, useValue: appPaymentService }
+        { provide: AppPaymentService, useValue: appPaymentService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -74,7 +77,10 @@ describe('OrderDetailComponent', () => {
   describe('getPromotions', () => {
     it('should call OcOrderService.ListPromotions with order id param', () => {
       component['getPromotions']().subscribe(() => {
-        expect(orderService.ListPromotions).toHaveBeenCalledWith('outgoing', mockOrderID);
+        expect(orderService.ListPromotions).toHaveBeenCalledWith(
+          'outgoing',
+          mockOrderID
+        );
       });
       paramMap.next(convertToParamMap({ orderID: mockOrderID }));
     });
@@ -95,5 +101,4 @@ describe('OrderDetailComponent', () => {
       });
     });
   });
-
 });

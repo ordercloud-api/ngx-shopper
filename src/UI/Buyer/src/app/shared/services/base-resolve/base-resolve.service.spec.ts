@@ -4,7 +4,10 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
 import { AppStateService, AppLineItemService } from '@app-buyer/shared';
 import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 
 import {
   OcAuthService,
@@ -14,7 +17,7 @@ import {
   Configuration,
   OcLineItemService,
   OcSupplierAddressService,
-  OcSupplierService
+  OcSupplierService,
 } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -25,10 +28,7 @@ describe('BaseResolveService', () => {
     const authService = { isUserAnon: jasmine.createSpy('isUserAnon') };
     const appConfig = { appname: 'mgr-dev' };
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        CookieModule.forRoot()
-      ],
+      imports: [RouterTestingModule, CookieModule.forRoot()],
       providers: [
         BaseResolveService,
         AppStateService,
@@ -45,13 +45,15 @@ describe('BaseResolveService', () => {
         OcSupplierService,
         OcSupplierAddressService,
         { provide: Configuration, useValue: new Configuration() },
-        { provide: applicationConfiguration, useValue: appConfig }
+        { provide: applicationConfiguration, useValue: appConfig },
       ],
-
     });
   });
 
-  it('should be created', inject([BaseResolveService], (service: BaseResolveService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [BaseResolveService],
+    (service: BaseResolveService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

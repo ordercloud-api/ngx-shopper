@@ -18,7 +18,10 @@ import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.
 import * as jwtDecode from 'jwt-decode';
 
 // app
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 
 @Injectable()
@@ -30,18 +33,22 @@ export class BaseResolveService {
     private appLineItemService: AppLineItemService,
     private ocOrderService: OcOrderService,
     private ocTokenService: OcTokenService,
-    @Inject(applicationConfiguration) private appConfig: AppConfig) {
-  }
+    @Inject(applicationConfiguration) private appConfig: AppConfig
+  ) {}
 
   private setCurrentUser(): Observable<MeUser> {
     return this.ocMeService.Get();
   }
 
   private setCurrentOrder(): Observable<Order> {
-    return this.ocMeService.ListOrders({ sortBy: '!DateCreated', filters: { status: 'Unsubmitted' } })
+    return this.ocMeService
+      .ListOrders({
+        sortBy: '!DateCreated',
+        filters: { status: 'Unsubmitted' },
+      })
       .pipe(
-        map(orderList => orderList.Items[0]),
-        flatMap(existingOrder => {
+        map((orderList) => orderList.Items[0]),
+        flatMap((existingOrder) => {
           if (existingOrder) {
             return of(existingOrder);
           }
@@ -61,7 +68,10 @@ export class BaseResolveService {
     if (order.DateCreated) {
       return this.appLineItemService.listAll(order.ID);
     }
-    const lineitemlist = { Meta: { Page: 1, PageSize: 25, TotalCount: 0, TotalPages: 1 }, Items: [] };
+    const lineitemlist = {
+      Meta: { Page: 1, PageSize: 25, TotalCount: 0, TotalPages: 1 },
+      Items: [],
+    };
     return of(lineitemlist);
   }
 
@@ -70,28 +80,26 @@ export class BaseResolveService {
   setUser(): Observable<any> {
     const isAnon = this.appAuthService.isUserAnon();
     const prevLineItems = this.appStateService.lineItemSubject.value;
-    const transferCart = (
+    const transferCart =
       !isAnon && // user is now logged in
       this.appStateService.isAnonSubject.value && // previously, user was anonymous
-      prevLineItems.Items.length > 0 // previously, user added to cart
-    );
+      prevLineItems.Items.length > 0; // previously, user added to cart
     this.appStateService.isAnonSubject.next(isAnon);
-    return forkJoin([
-      this.setCurrentUser(),
-      this.setCurrentOrder(),
-    ]).pipe(
-      tap(res => {
+    return forkJoin([this.setCurrentUser(), this.setCurrentOrder()]).pipe(
+      tap((res) => {
         // Pushes data to subscribers
         this.appStateService.userSubject.next(res[0]);
         this.appStateService.orderSubject.next(res[1]);
       }),
       flatMap(() => {
-        return transferCart ? this.transferAnonymousCart(prevLineItems) : of(null);
+        return transferCart
+          ? this.transferAnonymousCart(prevLineItems)
+          : of(null);
       }),
       flatMap(() => {
         return this.setLineItems();
       }),
-      tap(res => {
+      tap((res) => {
         this.appStateService.lineItemSubject.next(res);
       })
     );
@@ -100,7 +108,7 @@ export class BaseResolveService {
   transferAnonymousCart(anonLineItems: ListLineItem): Observable<LineItem[]> {
     const q = [];
 
-    anonLineItems.Items.forEach(li => {
+    anonLineItems.Items.forEach((li) => {
       q.push(this.appLineItemService.create(li.xp.product, li.Quantity));
     });
 

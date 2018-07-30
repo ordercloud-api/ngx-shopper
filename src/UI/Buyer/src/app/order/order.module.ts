@@ -14,23 +14,17 @@ import { OrderShipmentsComponent } from '@app-buyer/order/containers/order-shipm
 import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
 
 @NgModule({
-    imports: [
-        SharedModule,
-        OrderRoutingModule
-    ],
-    declarations: [
-        OrderHistoryComponent,
-        StatusFilterComponent,
-        DateFilterComponent,
-        OrderListComponent,
-        OrderDetailComponent,
-        StatusIconComponent,
-        OrderComponent,
-        OrderShipmentsComponent
-    ],
-    providers: [
-        OrderResolve,
-        ShipmentsResolve,
-    ]
+  imports: [SharedModule, OrderRoutingModule],
+  declarations: [
+    OrderHistoryComponent,
+    StatusFilterComponent,
+    DateFilterComponent,
+    OrderListComponent,
+    OrderDetailComponent,
+    StatusIconComponent,
+    OrderComponent,
+    OrderShipmentsComponent,
+  ],
+  providers: [OrderResolve, ShipmentsResolve],
 })
-export class OrderModule { }
+export class OrderModule {}

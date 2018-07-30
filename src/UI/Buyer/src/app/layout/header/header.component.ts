@@ -1,20 +1,35 @@
 import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 import { Router } from '@angular/router';
-import { faSearch, faShoppingCart, faPhone, faQuestionCircle, faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faShoppingCart,
+  faPhone,
+  faQuestionCircle,
+  faUserCircle,
+  faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable } from 'rxjs';
 
 import { BaseResolveService, AppStateService } from '@app-buyer/shared';
 
-import { OcTokenService, Order, MeUser, ListCategory } from '@ordercloud/angular-sdk';
+import {
+  OcTokenService,
+  Order,
+  MeUser,
+  ListCategory,
+} from '@ordercloud/angular-sdk';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'layout-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   categories$: Observable<ListCategory>;
@@ -38,23 +53,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private baseResolveService: BaseResolveService,
     private router: Router,
     @Inject(applicationConfiguration) protected appConfig: AppConfig
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.appStateService.orderSubject.pipe(
-      takeWhile(() => this.alive)
-    ).subscribe(order => {
-      if (
-        order &&
-        this.currentOrder &&
-        !isNaN(this.currentOrder.LineItemCount) &&
-        order.LineItemCount > this.currentOrder.LineItemCount &&
-        this.popover
-      ) {
-        this.addedToCart();
-      }
-      this.currentOrder = order;
-    });
+    this.appStateService.orderSubject
+      .pipe(takeWhile(() => this.alive))
+      .subscribe((order) => {
+        if (
+          order &&
+          this.currentOrder &&
+          !isNaN(this.currentOrder.LineItemCount) &&
+          order.LineItemCount > this.currentOrder.LineItemCount &&
+          this.popover
+        ) {
+          this.addedToCart();
+        }
+        this.currentOrder = order;
+      });
   }
 
   searchProducts(searchStr: string) {
@@ -76,9 +91,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       '/login',
       '/register',
       '/forgot-password',
-      '/reset-password'
+      '/reset-password',
     ];
-    return !hiddenRoutes.some(el => this.router.url.indexOf(el) > -1);
+    return !hiddenRoutes.some((el) => this.router.url.indexOf(el) > -1);
   }
 
   addedToCart() {

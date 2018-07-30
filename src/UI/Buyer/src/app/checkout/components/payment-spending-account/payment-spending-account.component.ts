@@ -1,31 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { PaymentBaseComponent } from '@app-buyer/checkout/components/payment-base/payment-base.component';
 import { Observable } from 'rxjs';
-import { SpendingAccount, ListSpendingAccount, OcMeService, Payment } from '@ordercloud/angular-sdk';
+import {
+  SpendingAccount,
+  ListSpendingAccount,
+  OcMeService,
+  Payment,
+} from '@ordercloud/angular-sdk';
 import * as moment from 'moment';
 import { ModalService } from '@app-buyer/shared';
 
 @Component({
   selector: 'checkout-payment-spending-account',
   templateUrl: './payment-spending-account.component.html',
-  styleUrls: ['./payment-spending-account.component.scss']
+  styleUrls: ['./payment-spending-account.component.scss'],
 })
-export class PaymentSpendingAccountComponent extends PaymentBaseComponent implements OnInit {
-
+export class PaymentSpendingAccountComponent extends PaymentBaseComponent
+  implements OnInit {
   spendingAccounts: ListSpendingAccount;
   selectedSpendingAccount: SpendingAccount = null;
-  requestOptions: { page?: number, search?: string } = { page: undefined, search: undefined };
+  requestOptions: { page?: number; search?: string } = {
+    page: undefined,
+    search: undefined,
+  };
   modalID = 'checkout-select-spending-account';
   resultsPerPage = 6;
 
   constructor(
     private ocMeService: OcMeService,
-    private modalService: ModalService) {
+    private modalService: ModalService
+  ) {
     super();
   }
 
   ngOnInit() {
-    this.listSpendingAccounts().subscribe(accounts => {
+    this.listSpendingAccounts().subscribe((accounts) => {
       this.spendingAccounts = accounts;
       this.selectedSpendingAccount = this.getSavedSpendingAccount(accounts);
       if (!this.selectedSpendingAccount) {
@@ -37,12 +46,18 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
   listSpendingAccounts(): Observable<ListSpendingAccount> {
     const now = moment().format('YYYY-MM-DD');
     const filters = { StartDate: `>${now}|!*`, EndDate: `<${now}|!*` };
-    return this.ocMeService.ListSpendingAccounts({ filters, ...this.requestOptions, pageSize: this.resultsPerPage });
+    return this.ocMeService.ListSpendingAccounts({
+      filters,
+      ...this.requestOptions,
+      pageSize: this.resultsPerPage,
+    });
   }
 
   getSavedSpendingAccount(accounts: ListSpendingAccount): SpendingAccount {
     if (this.payment && this.payment.SpendingAccountID) {
-      const saved = accounts.Items.filter(x => x.ID === this.payment.SpendingAccountID);
+      const saved = accounts.Items.filter(
+        (x) => x.ID === this.payment.SpendingAccountID
+      );
       if (saved.length > 0) {
         return saved[0];
       }
@@ -56,7 +71,7 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
     const payment: Payment = {
       Type: 'SpendingAccount',
       SpendingAccountID: account.ID,
-      Accepted: true
+      Accepted: true,
     };
     this.paymentCreated.emit(payment);
   }
@@ -71,9 +86,8 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent implem
     this.continue.emit();
   }
 
-  updateRequestOptions(options: { search?: string, page?: number }) {
+  updateRequestOptions(options: { search?: string; page?: number }) {
     Object.assign(this.requestOptions, options);
-    this.listSpendingAccounts().subscribe(x => this.spendingAccounts = x);
+    this.listSpendingAccounts().subscribe((x) => (this.spendingAccounts = x));
   }
-
 }

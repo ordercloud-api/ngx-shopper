@@ -3,7 +3,12 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ListBuyerProduct, OcMeService, Category, ListCategory } from '@ordercloud/angular-sdk';
+import {
+  ListBuyerProduct,
+  OcMeService,
+  Category,
+  ListCategory,
+} from '@ordercloud/angular-sdk';
 import { ProductSortStrats } from '@app-buyer/products/models/product-sort-strats.enum';
 import { AppLineItemService } from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
@@ -14,7 +19,7 @@ import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/fa
 @Component({
   selector: 'products-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
   productList$: Observable<ListBuyerProduct>;
@@ -25,8 +30,8 @@ export class ProductListComponent implements OnInit {
   favsFilterOn = false;
   searchTerm = null;
   closeIcon = faTimes;
-  @ViewChild(ToggleFavoriteComponent) toggleFavoriteComponent: ToggleFavoriteComponent;
-
+  @ViewChild(ToggleFavoriteComponent)
+  toggleFavoriteComponent: ToggleFavoriteComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -35,56 +40,69 @@ export class ProductListComponent implements OnInit {
     private formBuilder: FormBuilder,
     private appLineItemService: AppLineItemService,
     private favoriteProductsService: FavoriteProductsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.productList$ = this.getProductData();
     this.favoriteProductsService.loadFavorites();
     this.sortForm = this.formBuilder.group({
-      sortBy: this.sortOptions[this.activatedRoute.snapshot.queryParams['sortBy']]
+      sortBy: this.sortOptions[
+        this.activatedRoute.snapshot.queryParams['sortBy']
+      ],
     });
     this.getCategories();
     this.configureRouter();
   }
 
   getProductData(): Observable<ListBuyerProduct> {
-    return this.activatedRoute.queryParams
-      .pipe(
-        tap(queryParams => {
-          this.categoryCrumbs = this.buildBreadCrumbs(queryParams.category);
-        }),
-        flatMap(queryParams => {
-          this.searchTerm = queryParams.search || null;
-          // set filter to undefined if it doesn't exist so queryParam is ignored entirely
-          const filter = this.favsFilterOn ? { ID: this.favoriteProductsService.favorites.join('|') } : undefined;
-          return this.ocMeService.ListProducts({
-            categoryID: queryParams.category,
-            page: queryParams.page,
-            search: queryParams.search,
-            sortBy: queryParams.sortBy,
-            filters: <any>filter,
-          });
-        })
-      );
+    return this.activatedRoute.queryParams.pipe(
+      tap((queryParams) => {
+        this.categoryCrumbs = this.buildBreadCrumbs(queryParams.category);
+      }),
+      flatMap((queryParams) => {
+        this.searchTerm = queryParams.search || null;
+        // set filter to undefined if it doesn't exist so queryParam is ignored entirely
+        const filter = this.favsFilterOn
+          ? { ID: this.favoriteProductsService.favorites.join('|') }
+          : undefined;
+        return this.ocMeService.ListProducts({
+          categoryID: queryParams.category,
+          page: queryParams.page,
+          search: queryParams.search,
+          sortBy: queryParams.sortBy,
+          filters: <any>filter,
+        });
+      })
+    );
   }
 
   getCategories(): void {
-    this.ocMeService.ListCategories({ depth: 'all' })
-      .subscribe(categories => {
+    this.ocMeService
+      .ListCategories({ depth: 'all' })
+      .subscribe((categories) => {
         this.categories = categories;
         const categoryID = this.activatedRoute.snapshot.queryParams.category;
         this.categoryCrumbs = this.buildBreadCrumbs(categoryID);
       });
   }
 
-  changePage(page: number): void { this.addQueryParam({ page }); }
+  changePage(page: number): void {
+    this.addQueryParam({ page });
+  }
 
-  changeCategory(category: string): void { this.addQueryParam({ category }); }
+  changeCategory(category: string): void {
+    this.addQueryParam({ category });
+  }
 
-  sortStratChanged(): void { this.addQueryParam({ sortBy: this.sortForm.value.sortBy }); }
+  sortStratChanged(): void {
+    this.addQueryParam({ sortBy: this.sortForm.value.sortBy });
+  }
 
   private addQueryParam(newParam: object): void {
-    const queryParams = { ...this.activatedRoute.snapshot.queryParams, ...newParam };
+    const queryParams = {
+      ...this.activatedRoute.snapshot.queryParams,
+      ...newParam,
+    };
     this.router.navigate([], { queryParams });
   }
 
@@ -100,8 +118,8 @@ export class ProductListComponent implements OnInit {
       return crumbs;
     }
 
-    const recursiveBuild = id => {
-      const cat = this.categories.Items.find(c => c.ID === id);
+    const recursiveBuild = (id) => {
+      const cat = this.categories.Items.find((c) => c.ID === id);
       crumbs.unshift(cat);
       if (!cat.ParentID) {
         return crumbs;
@@ -114,17 +132,21 @@ export class ProductListComponent implements OnInit {
   }
 
   toProductDetails(product) {
-    this.router.navigate(['/products/detail'], { queryParams: { ID: product.ID } });
+    this.router.navigate(['/products/detail'], {
+      queryParams: { ID: product.ID },
+    });
   }
 
   addToCart(event: AddToCartEvent) {
-    this.appLineItemService.create(event.product, event.quantity)
-      .subscribe();
+    this.appLineItemService.create(event.product, event.quantity).subscribe();
   }
 
   refineByFavorites() {
-    this.toggleFavoriteComponent.favorite = !(this.toggleFavoriteComponent.favorite);
-    this.toggleFavoriteComponent.favoriteChanged.emit(this.toggleFavoriteComponent.favorite);
+    this.toggleFavoriteComponent.favorite = !this.toggleFavoriteComponent
+      .favorite;
+    this.toggleFavoriteComponent.favoriteChanged.emit(
+      this.toggleFavoriteComponent.favorite
+    );
   }
 
   configureRouter() {
@@ -136,7 +158,7 @@ export class ProductListComponent implements OnInit {
      * params of the same type aren't recognized
      *
      */
-    this.router.events.subscribe(evt => {
+    this.router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
         this.router.navigated = false;
         window.scrollTo(0, 0);

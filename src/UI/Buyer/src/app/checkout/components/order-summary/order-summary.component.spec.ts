@@ -8,19 +8,29 @@ describe('OrderSummaryComponent', () => {
   let component: OrderSummaryComponent;
   let fixture: ComponentFixture<OrderSummaryComponent>;
 
-  const clean = str => {
-    return str.toString().replace(/[\n\r]/g, '').trim();
+  const clean = (str) => {
+    return str
+      .toString()
+      .replace(/[\n\r]/g, '')
+      .trim();
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrderSummaryComponent ]
-    })
-    .compileComponents();
+      declarations: [OrderSummaryComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    const mockOrder = { Test: 10, LineItemCount: 1, Subtotal: 10, TaxCost: 10, ShippingCost: 10, Total: 30, xp: { AddOnsCalculated: true }};
+    const mockOrder = {
+      Test: 10,
+      LineItemCount: 1,
+      Subtotal: 10,
+      TaxCost: 10,
+      ShippingCost: 10,
+      Total: 30,
+      xp: { AddOnsCalculated: true },
+    };
 
     fixture = TestBed.createComponent(OrderSummaryComponent);
     component = fixture.componentInstance;
@@ -38,21 +48,35 @@ describe('OrderSummaryComponent', () => {
 
     let el = fixture.nativeElement.querySelector('.sub-total');
     expect(component.order.xp.AddOnsCalculated).toEqual(true);
-    expect(el.textContent).toEqual(currencyPipe.transform(component.order.Subtotal));
+    expect(el.textContent).toEqual(
+      currencyPipe.transform(component.order.Subtotal)
+    );
 
     el = fixture.nativeElement.querySelector('.tax-cost');
-    expect(clean(el.textContent)).toEqual(currencyPipe.transform(component.order.TaxCost));
+    expect(clean(el.textContent)).toEqual(
+      currencyPipe.transform(component.order.TaxCost)
+    );
 
     el = fixture.nativeElement.querySelector('.shipping-cost');
-    expect(clean(el.textContent)).toEqual(currencyPipe.transform(component.order.ShippingCost));
+    expect(clean(el.textContent)).toEqual(
+      currencyPipe.transform(component.order.ShippingCost)
+    );
 
     el = fixture.nativeElement.querySelector('.order-total');
-    expect(el.textContent).toEqual(currencyPipe.transform(component.order.Total));
+    expect(el.textContent).toEqual(
+      currencyPipe.transform(component.order.Total)
+    );
   });
 
   it('should have placeholder text before values are calculated', () => {
     const mockOrder = {
-      Test: 10, LineItemCount: 1, Subtotal: 10, TaxCost: 10, ShippingCost: 10, Total: 30, xp: { AddOnsCalculated: false }
+      Test: 10,
+      LineItemCount: 1,
+      Subtotal: 10,
+      TaxCost: 10,
+      ShippingCost: 10,
+      Total: 30,
+      xp: { AddOnsCalculated: false },
     };
     component.order = mockOrder;
     fixture.detectChanges();
@@ -66,7 +90,13 @@ describe('OrderSummaryComponent', () => {
 
   it('should display free for zero shipping', () => {
     const mockOrder = {
-      Test: 10, LineItemCount: 1, Subtotal: 10, TaxCost: 10, ShippingCost: 0, Total: 30, xp: { AddOnsCalculated: true }
+      Test: 10,
+      LineItemCount: 1,
+      Subtotal: 10,
+      TaxCost: 10,
+      ShippingCost: 0,
+      Total: 30,
+      xp: { AddOnsCalculated: true },
     };
     component.order = mockOrder;
     fixture.detectChanges();

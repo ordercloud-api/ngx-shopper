@@ -6,9 +6,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { InjectionToken } from '@angular/core';
 
 import { ForgotPasswordComponent } from '@app-buyer/auth/containers/forgot-password/forgot-password.component';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 
-import { Configuration, OcPasswordResetService, OcTokenService } from '@ordercloud/angular-sdk';
+import {
+  Configuration,
+  OcPasswordResetService,
+  OcTokenService,
+} from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,26 +24,28 @@ describe('ForgotPasswordComponent', () => {
   let fixture: ComponentFixture<ForgotPasswordComponent>;
 
   const router = { navigateByUrl: jasmine.createSpy('navigateByUrl') };
-  const ocPasswordService = { SendVerificationCode: jasmine.createSpy('SendVerificationCode').and.returnValue(of(true)) };
+  const ocPasswordService = {
+    SendVerificationCode: jasmine
+      .createSpy('SendVerificationCode')
+      .and.returnValue(of(true)),
+  };
   const toastrService = { success: jasmine.createSpy('success') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ForgotPasswordComponent],
-      imports: [
-        ReactiveFormsModule,
-        CookieModule.forRoot(),
-        HttpClientModule
-      ],
+      imports: [ReactiveFormsModule, CookieModule.forRoot(), HttpClientModule],
       providers: [
         OcTokenService,
         { provide: Router, useValue: router },
         { provide: OcPasswordResetService, useValue: ocPasswordService },
         { provide: ToastrService, useValue: toastrService },
-        { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
-      ]
-    })
-      .compileComponents();
+        {
+          provide: applicationConfiguration,
+          useValue: new InjectionToken<AppConfig>('app.config'),
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -49,13 +58,13 @@ describe('ForgotPasswordComponent', () => {
     expect(component).toBeTruthy();
   });
   describe('ngOnInit', () => {
-    const formbuilder = new FormBuilder;
+    const formbuilder = new FormBuilder();
     beforeEach(() => {
       component.ngOnInit();
     });
     it('should set the form values to empty strings', () => {
       expect(component.resetEmailForm.value).toEqual({
-        email: ''
+        email: '',
       });
     });
   });
@@ -69,9 +78,11 @@ describe('ForgotPasswordComponent', () => {
       expect(ocPasswordService.SendVerificationCode).toHaveBeenCalledWith({
         Email: '',
         ClientID: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-        URL: 'http://localhost:9876'
+        URL: 'http://localhost:9876',
       });
-      expect(toastrService.success).toHaveBeenCalledWith('Password Reset Email Sent!');
+      expect(toastrService.success).toHaveBeenCalledWith(
+        'Password Reset Email Sent!'
+      );
       expect(router.navigateByUrl).toHaveBeenCalledWith('/login');
     });
   });

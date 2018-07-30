@@ -21,7 +21,10 @@ import {
   AppLineItemService,
 } from '@app-buyer/shared';
 import { OrderSummaryComponent } from '@app-buyer/checkout/components/order-summary/order-summary.component';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 import { LineItemCardComponent } from '@app-buyer/shared/components/line-item-card/line-item-card.component';
 import { LineItemListWrapperComponent } from '@app-buyer/shared/components/lineitem-list-wrapper/lineitem-list-wrapper.component';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
@@ -34,15 +37,19 @@ describe('CartComponent', () => {
     delete: jasmine.createSpy('delete').and.returnValue(of({})),
     patch: jasmine.createSpy('patch').and.returnValue(of({})),
   };
-  const orderService = { Delete: jasmine.createSpy('Delete').and.returnValue(of({})) };
-  const baseResolveService = { ResetUser: jasmine.createSpy('ResetUser').and.returnValue(of(true)) };
-  const meService = { GetProduct: jasmine.createSpy('GetProduct').and.returnValue(of({})) };
+  const orderService = {
+    Delete: jasmine.createSpy('Delete').and.returnValue(of({})),
+  };
+  const baseResolveService = {
+    ResetUser: jasmine.createSpy('ResetUser').and.returnValue(of(true)),
+  };
+  const meService = {
+    GetProduct: jasmine.createSpy('GetProduct').and.returnValue(of({})),
+  };
   const appStateService = {
     orderSubject: of({}),
-    lineItemSubject: of({ Items: [] })
+    lineItemSubject: of({ Items: [] }),
   };
-
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -59,7 +66,7 @@ describe('CartComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         FontAwesomeModule,
-        CookieModule.forRoot()
+        CookieModule.forRoot(),
       ],
       providers: [
         { provide: AppStateService, useValue: appStateService },
@@ -67,10 +74,12 @@ describe('CartComponent', () => {
         { provide: OcOrderService, useValue: orderService },
         { provide: AppLineItemService, useValue: ocLineItemService },
         { provide: OcMeService, useValue: meService },
-        { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
-      ]
-    })
-      .compileComponents();
+        {
+          provide: applicationConfiguration,
+          useValue: new InjectionToken<AppConfig>('app.config'),
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -83,5 +92,4 @@ describe('CartComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });

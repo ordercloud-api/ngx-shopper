@@ -9,21 +9,13 @@ import { SharedModule } from '@app-buyer/shared';
 import { HomeComponent } from '@app-buyer/layout/home/home.component';
 
 @NgModule({
-  imports: [
-    RouterModule,
-    SharedModule
-  ],
-  exports: [
-    HeaderComponent,
-    MainComponent,
-    FooterComponent,
-    HomeComponent
-  ],
+  imports: [RouterModule, SharedModule],
+  exports: [HeaderComponent, MainComponent, FooterComponent, HomeComponent],
   declarations: [
     HeaderComponent,
     MainComponent,
     FooterComponent,
-    HomeComponent
-  ]
+    HomeComponent,
+  ],
 })
-export class LayoutModule { }
+export class LayoutModule {}

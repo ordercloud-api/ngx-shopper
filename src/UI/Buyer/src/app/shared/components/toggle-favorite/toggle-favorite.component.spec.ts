@@ -10,11 +10,8 @@ describe('FavoriteButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ToggleFavoriteComponent],
-      imports: [
-        FontAwesomeModule
-      ]
-    })
-      .compileComponents();
+      imports: [FontAwesomeModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -49,7 +46,9 @@ describe('FavoriteButtonComponent', () => {
     spyOn(component.favoriteChanged, 'emit');
     component.favorite = false;
     fixture.detectChanges();
-    const el = fixture.debugElement.nativeElement.querySelector('.not-favorite');
+    const el = fixture.debugElement.nativeElement.querySelector(
+      '.not-favorite'
+    );
     el.click();
     expect(component.favoriteChanged.emit).toHaveBeenCalledWith(true);
   });

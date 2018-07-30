@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CheckoutComponent } from '@app-buyer/checkout/containers/checkout/checkout.component';
+import { AppStateService, BaseResolveService } from '@app-buyer/shared';
 import {
-  AppStateService,
-  BaseResolveService,
-} from '@app-buyer/shared';
-import { NgbAccordion, NgbPanel, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
+  NgbAccordion,
+  NgbPanel,
+  NgbAccordionConfig,
+} from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -18,24 +19,24 @@ describe('CheckoutComponent', () => {
   let fixture: ComponentFixture<CheckoutComponent>;
   const appStateService = {
     orderSubject: new BehaviorSubject({ ID: 'someorderid', LineItemCount: 1 }),
-    isAnonSubject: new BehaviorSubject(false)
+    isAnonSubject: new BehaviorSubject(false),
   };
-  const orderService = { Submit: jasmine.createSpy('Submit').and.returnValue(of(null)) };
-  const paymentService = { List: jasmine.createSpy('List').and.returnValue(of({ Items: [{ ID: 'paymentID' }] })) };
-  const baseResolveService = { resetUser: jasmine.createSpy('restUser').and.returnValue(null) };
+  const orderService = {
+    Submit: jasmine.createSpy('Submit').and.returnValue(of(null)),
+  };
+  const paymentService = {
+    List: jasmine
+      .createSpy('List')
+      .and.returnValue(of({ Items: [{ ID: 'paymentID' }] })),
+  };
+  const baseResolveService = {
+    resetUser: jasmine.createSpy('restUser').and.returnValue(null),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CheckoutComponent,
-        NgbAccordion,
-        NgbPanel
-      ],
-      imports: [
-        FontAwesomeModule,
-        ReactiveFormsModule,
-        RouterTestingModule,
-      ],
+      declarations: [CheckoutComponent, NgbAccordion, NgbPanel],
+      imports: [FontAwesomeModule, ReactiveFormsModule, RouterTestingModule],
       providers: [
         NgbAccordionConfig,
         { provide: AppStateService, useValue: appStateService },
@@ -44,8 +45,7 @@ describe('CheckoutComponent', () => {
         { provide: BaseResolveService, useValue: baseResolveService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -89,28 +89,28 @@ describe('CheckoutComponent', () => {
       component.sections = [
         {
           id: 'login',
-          valid: true
+          valid: true,
         },
         {
           id: 'shippingAddress',
-          valid: true
+          valid: true,
         },
         {
           id: 'billingAddress',
-          valid: false
+          valid: false,
         },
         {
           id: 'payment',
-          valid: false
+          valid: false,
         },
         {
           id: 'confirm',
-          valid: false
-        }
+          valid: false,
+        },
       ];
     });
     it('should get validation for section', () => {
-      component.sections.forEach(section => {
+      component.sections.forEach((section) => {
         expect(component.getValidation(section.id)).toBe(section.valid);
       });
     });
@@ -119,11 +119,17 @@ describe('CheckoutComponent', () => {
   describe('setValidation()', () => {
     it('should get validation for section', () => {
       component.setValidation('login', true);
-      expect(component.sections.find(x => x.id === 'login').valid).toEqual(true);
+      expect(component.sections.find((x) => x.id === 'login').valid).toEqual(
+        true
+      );
       component.setValidation('shippingAddress', false);
-      expect(component.sections.find(x => x.id === 'shippingAddress').valid).toEqual(false);
+      expect(
+        component.sections.find((x) => x.id === 'shippingAddress').valid
+      ).toEqual(false);
       component.setValidation('payment', false);
-      expect(component.sections.find(x => x.id === 'payment').valid).toEqual(false);
+      expect(component.sections.find((x) => x.id === 'payment').valid).toEqual(
+        false
+      );
     });
   });
 

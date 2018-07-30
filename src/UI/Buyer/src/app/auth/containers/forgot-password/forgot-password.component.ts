@@ -8,15 +8,17 @@ import { ToastrService } from 'ngx-toastr';
 
 // ordercloud
 import { OcPasswordResetService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 
 @Component({
   selector: 'auth-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit {
-
   resetEmailForm: FormGroup;
 
   constructor(
@@ -24,24 +26,28 @@ export class ForgotPasswordComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private toasterService: ToastrService,
-    @Inject(applicationConfiguration) private appConfig: AppConfig) {
-  }
+    @Inject(applicationConfiguration) private appConfig: AppConfig
+  ) {}
 
   ngOnInit() {
     this.resetEmailForm = this.formBuilder.group({ email: '' });
   }
 
   onSubmit() {
-    this.ocPasswordResetService.SendVerificationCode({
-      Email: this.resetEmailForm.get('email').value,
-      ClientID: this.appConfig.clientID,
-      URL: window.location.origin
-    }).subscribe(
-      () => {
-        this.toasterService.success('Password Reset Email Sent!');
-        this.router.navigateByUrl('/login');
-      }, error => {
-        throw error;
-      });
+    this.ocPasswordResetService
+      .SendVerificationCode({
+        Email: this.resetEmailForm.get('email').value,
+        ClientID: this.appConfig.clientID,
+        URL: window.location.origin,
+      })
+      .subscribe(
+        () => {
+          this.toasterService.success('Password Reset Email Sent!');
+          this.router.navigateByUrl('/login');
+        },
+        (error) => {
+          throw error;
+        }
+      );
   }
 }

@@ -6,18 +6,22 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'checkout-payment-base',
   template: '',
-  styleUrls: ['./payment-base.component.scss']
+  styleUrls: ['./payment-base.component.scss'],
 })
 export class PaymentBaseComponent {
   @Input() order: Order;
   @Input() payment: Payment;
   @Input() paymentMethod: PaymentMethod;
   @Output() paymentCreated = new EventEmitter<Payment>();
-  @Output() paymentPatched = new EventEmitter<{ paymentID: string, payment: PartialPayment }>();
+  @Output()
+  paymentPatched = new EventEmitter<{
+    paymentID: string;
+    payment: PartialPayment;
+  }>();
   @Output() continue = new EventEmitter();
   form: FormGroup;
 
-  constructor() { }
+  constructor() {}
 
   paymentValid() {
     return !!this.payment && this.payment.Amount === this.order.Total;

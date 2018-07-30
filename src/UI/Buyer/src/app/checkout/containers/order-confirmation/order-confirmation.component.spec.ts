@@ -18,29 +18,28 @@ describe('OrderConfirmationComponent', () => {
   };
   const orderService = {
     Get: jasmine.createSpy('Get').and.returnValue(of(null)),
-    ListPromotions: jasmine.createSpy('List').and.returnValue(of(null))
+    ListPromotions: jasmine.createSpy('List').and.returnValue(of(null)),
   };
-  const appPaymentService = { getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)) };
+  const appPaymentService = {
+    getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)),
+  };
   const paramMap = new Subject<ParamMap>();
 
   const activatedRoute = {
-    paramMap
+    paramMap,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OrderConfirmationComponent,
-      ],
+      declarations: [OrderConfirmationComponent],
       providers: [
         { provide: AppLineItemService, useValue: appLineItemService },
         { provide: OcOrderService, useValue: orderService },
         { provide: ActivatedRoute, useValue: activatedRoute },
-        { provide: AppPaymentService, appPaymentService }
+        { provide: AppPaymentService, appPaymentService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -92,7 +91,10 @@ describe('OrderConfirmationComponent', () => {
   describe('getPromotions', () => {
     it('should call OcOrderService.ListPromotions with order id param', () => {
       component.getPromotions().subscribe(() => {
-        expect(orderService.ListPromotions).toHaveBeenCalledWith('outgoing', mockOrderID);
+        expect(orderService.ListPromotions).toHaveBeenCalledWith(
+          'outgoing',
+          mockOrderID
+        );
       });
       paramMap.next(convertToParamMap({ orderID: mockOrderID }));
     });

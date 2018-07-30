@@ -5,14 +5,17 @@ import { Router } from '@angular/router';
 
 // ordercloud
 import { OcAuthService, OcTokenService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 import { AppStateService } from '@app-buyer/shared';
 
 @Component({
   selector: 'auth-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
@@ -25,25 +28,27 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private appStateService: AppStateService,
-    @Inject(applicationConfiguration) private appConfig: AppConfig) { }
+    @Inject(applicationConfiguration) private appConfig: AppConfig
+  ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
       username: '',
       password: '',
-      rememberMe: false
+      rememberMe: false,
     });
     this.isAnon = this.appStateService.isAnonSubject.value;
   }
 
   onSubmit() {
-    return this.ocAuthService.Login(
-      this.form.get('username').value,
-      this.form.get('password').value,
-      this.appConfig.clientID,
-      this.appConfig.scope
-    )
-      .subscribe(response => {
+    return this.ocAuthService
+      .Login(
+        this.form.get('username').value,
+        this.form.get('password').value,
+        this.appConfig.clientID,
+        this.appConfig.scope
+      )
+      .subscribe((response) => {
         const rememberMe = this.form.get('rememberMe').value;
         if (rememberMe && response.refresh_token) {
           /**

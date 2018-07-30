@@ -1,4 +1,12 @@
-import { Component, Input, ViewChild, EventEmitter, Output, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  EventEmitter,
+  Output,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
@@ -8,21 +16,20 @@ import { Router } from '@angular/router';
   selector: 'products-product-card',
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProductCardComponent implements OnInit {
   @Output() addedToCart = new EventEmitter<AddToCartEvent>();
   @Input() product: BuyerProduct;
   @Input() favorite: boolean;
   @Output() setFavorite = new EventEmitter<boolean>();
-  @ViewChild(QuantityInputComponent) quantityInputComponent: QuantityInputComponent;
+  @ViewChild(QuantityInputComponent)
+  quantityInputComponent: QuantityInputComponent;
   shouldDisplayAddToCart: boolean;
   isViewOnlyProduct: boolean;
   isSetFavoriteUsed: boolean;
 
-  constructor(
-    private router: Router
-  ) { }
+  constructor(private router: Router) {}
 
   addToCart(event: AddToCartEvent) {
     this.addedToCart.emit(event);
@@ -39,11 +46,12 @@ export class ProductCardComponent implements OnInit {
     this.shouldDisplayAddToCart = isAddedToCartUsed && !this.isViewOnlyProduct;
   }
   toProductDetails(product) {
-    this.router.navigate(['/products/detail'], { queryParams: { ID: product.ID } });
+    this.router.navigate(['/products/detail'], {
+      queryParams: { ID: product.ID },
+    });
   }
 
   featuredProducts() {
-    return (this.router.url.indexOf('/home') > -1);
+    return this.router.url.indexOf('/home') > -1;
   }
 }
-

@@ -6,9 +6,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { of, BehaviorSubject } from 'rxjs';
 
 import { LoginComponent } from '@app-buyer/auth/containers/login/login.component';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 
-import { Configuration, OcAuthService, OcTokenService } from '@ordercloud/angular-sdk';
+import {
+  Configuration,
+  OcAuthService,
+  OcTokenService,
+} from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { AppAuthService } from '@app-buyer/auth';
 import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
@@ -20,20 +27,23 @@ describe('LoginComponent', () => {
   let debugElement: DebugElement;
 
   const router = { navigateByUrl: jasmine.createSpy('navigateByUrl') };
-  const ocTokenService = { SetAccess: jasmine.createSpy('SetAccess'), SetRefresh: jasmine.createSpy('Refresh') };
+  const ocTokenService = {
+    SetAccess: jasmine.createSpy('SetAccess'),
+    SetRefresh: jasmine.createSpy('Refresh'),
+  };
   const response = { access_token: '123456', refresh_token: 'refresh123456' };
-  const ocAuthService = { Login: jasmine.createSpy('Login').and.returnValue(of(response)) };
-  const appAuthService = { setRememberStatus: jasmine.createSpy('setRememberStatus') };
+  const ocAuthService = {
+    Login: jasmine.createSpy('Login').and.returnValue(of(response)),
+  };
+  const appAuthService = {
+    setRememberStatus: jasmine.createSpy('setRememberStatus'),
+  };
   const appStateService = { isAnonSubject: new BehaviorSubject(false) };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
-      imports: [
-        ReactiveFormsModule,
-        CookieModule.forRoot(),
-        HttpClientModule
-      ],
+      imports: [ReactiveFormsModule, CookieModule.forRoot(), HttpClientModule],
       providers: [
         AppErrorHandler,
         { provide: AppStateService, useValue: appStateService },
@@ -41,10 +51,12 @@ describe('LoginComponent', () => {
         { provide: Router, useValue: router },
         { provide: OcTokenService, useValue: ocTokenService },
         { provide: OcAuthService, useValue: ocAuthService },
-        { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') },
-      ]
-    })
-      .compileComponents();
+        {
+          provide: applicationConfiguration,
+          useValue: new InjectionToken<AppConfig>('app.config'),
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -65,7 +77,7 @@ describe('LoginComponent', () => {
       expect(component.form.value).toEqual({
         username: '',
         password: '',
-        rememberMe: false
+        rememberMe: false,
       });
     });
   });
@@ -76,8 +88,15 @@ describe('LoginComponent', () => {
     });
     it('should call the OcAuthService Login method, OcTokenService SetAccess method, and route to home', () => {
       component.onSubmit();
-      expect(ocAuthService.Login).toHaveBeenCalledWith('', '', 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', ['testScope']);
-      expect(ocTokenService.SetAccess).toHaveBeenCalledWith(response.access_token);
+      expect(ocAuthService.Login).toHaveBeenCalledWith(
+        '',
+        '',
+        'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+        ['testScope']
+      );
+      expect(ocTokenService.SetAccess).toHaveBeenCalledWith(
+        response.access_token
+      );
       expect(router.navigateByUrl).toHaveBeenCalledWith('/home');
     });
 

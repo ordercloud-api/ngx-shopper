@@ -12,12 +12,20 @@ describe('PaymentListComponent', () => {
   let fixture: ComponentFixture<PaymentListComponent>;
 
   const meService = {
-    ListCreditCards: jasmine.createSpy('ListCreditCards').and.returnValue(of({})),
-    ListSpendingAccounts: jasmine.createSpy('ListSpendingAccounts').and.returnValue(of({}))
+    ListCreditCards: jasmine
+      .createSpy('ListCreditCards')
+      .and.returnValue(of({})),
+    ListSpendingAccounts: jasmine
+      .createSpy('ListSpendingAccounts')
+      .and.returnValue(of({})),
   };
   const authorizeNetService = {
-    CreateCreditCard: jasmine.createSpy('CreateCreditCard').and.returnValue(of({})),
-    DeleteCreditCard: jasmine.createSpy('DeleteCreditCard').and.returnValue(of({}))
+    CreateCreditCard: jasmine
+      .createSpy('CreateCreditCard')
+      .and.returnValue(of({})),
+    DeleteCreditCard: jasmine
+      .createSpy('DeleteCreditCard')
+      .and.returnValue(of({})),
   };
 
   beforeEach(async(() => {
@@ -25,15 +33,14 @@ describe('PaymentListComponent', () => {
       declarations: [
         CreditCardIconComponent,
         PaymentListComponent,
-        CreditCardIconComponent
+        CreditCardIconComponent,
       ],
       providers: [
         { provide: OcMeService, useValue: meService },
-        { provide: AuthorizeNetService, useValue: authorizeNetService }
+        { provide: AuthorizeNetService, useValue: authorizeNetService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

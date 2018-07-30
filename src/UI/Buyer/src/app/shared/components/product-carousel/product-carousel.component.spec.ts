@@ -14,26 +14,27 @@ describe('ProductCarouselComponent', () => {
   const router = {
     navigate: jasmine.createSpy('navigate'),
     events: new Subject<NavigationEnd>(),
-    navigated: true
+    navigated: true,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProductCarouselComponent
-      ],
-      providers: [
-        RouterTestingModule,
-        { provide: Router, useValue: router },
-      ],
+      declarations: [ProductCarouselComponent],
+      providers: [RouterTestingModule, { provide: Router, useValue: router }],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    const mockProducts = <BuyerProduct[]>[{ ID: '1' }, { ID: '2' }, { ID: '3' }, { ID: '4' }, { ID: '5' }, { ID: '6' }, { ID: '7' }];
-
+    const mockProducts = <BuyerProduct[]>[
+      { ID: '1' },
+      { ID: '2' },
+      { ID: '3' },
+      { ID: '4' },
+      { ID: '5' },
+      { ID: '6' },
+      { ID: '7' },
+    ];
 
     fixture = TestBed.createComponent(ProductCarouselComponent);
     component = fixture.componentInstance;
@@ -68,7 +69,9 @@ describe('ProductCarouselComponent', () => {
     });
 
     it('should return products starting at index', () => {
-      expect(component.products.indexOf(component.getProducts()[0])).toEqual(component.index);
+      expect(component.products.indexOf(component.getProducts()[0])).toEqual(
+        component.index
+      );
     });
   });
 });

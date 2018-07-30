@@ -1,7 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Configuration, OcMeService, OcBuyerService } from '@ordercloud/angular-sdk';
-import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
+import {
+  Configuration,
+  OcMeService,
+  OcBuyerService,
+} from '@ordercloud/angular-sdk';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 import { InjectionToken } from '@angular/core';
 import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
@@ -21,8 +28,14 @@ describe('HomeComponent', () => {
 
   const mockProducts = { Items: [] };
   const mockBuyer = { Items: [{ xp: {} }] };
-  const meService = { ListProducts: jasmine.createSpy('ListProducts').and.returnValue(of(mockProducts)) };
-  const buyerService = { List: jasmine.createSpy('List').and.returnValue(of(mockBuyer)) };
+  const meService = {
+    ListProducts: jasmine
+      .createSpy('ListProducts')
+      .and.returnValue(of(mockProducts)),
+  };
+  const buyerService = {
+    List: jasmine.createSpy('List').and.returnValue(of(mockBuyer)),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,22 +45,24 @@ describe('HomeComponent', () => {
         ProductCarouselComponent,
         ProductCardComponent,
         ToggleFavoriteComponent,
-        QuantityInputComponent
+        QuantityInputComponent,
       ],
       imports: [
         CookieModule.forRoot(),
         FontAwesomeModule,
         ReactiveFormsModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       providers: [
         NgbCarouselConfig,
         { provide: OcMeService, useValue: meService },
         { provide: OcBuyerService, useValue: buyerService },
-        { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
-      ]
-    })
-      .compileComponents();
+        {
+          provide: applicationConfiguration,
+          useValue: new InjectionToken<AppConfig>('app.config'),
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

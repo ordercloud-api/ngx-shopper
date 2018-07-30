@@ -7,7 +7,7 @@ import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favo
 @Component({
   selector: 'order-list',
   templateUrl: './order-list.component.html',
-  styleUrls: ['./order-list.component.scss']
+  styleUrls: ['./order-list.component.scss'],
 })
 export class OrderListComponent implements OnInit {
   @Input() orders: ListOrder;
@@ -18,7 +18,7 @@ export class OrderListComponent implements OnInit {
   @Output() updatedSort = new EventEmitter<string>();
   @Output() changedPage = new EventEmitter<number>();
 
-  constructor(private favoriteOrdersService: FavoriteOrdersService) { }
+  constructor(private favoriteOrdersService: FavoriteOrdersService) {}
 
   ngOnInit() {
     this.favoriteOrdersService.loadFavorites();

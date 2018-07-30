@@ -5,5 +5,5 @@
 export const environment = {
   production: false,
   clientID: '97BBF2CC-59D1-449A-B67C-AE9262ADD284',
-  middlewareUrl: 'my-middleware-url.com/api'
+  middlewareUrl: 'my-middleware-url.com/api',
 };

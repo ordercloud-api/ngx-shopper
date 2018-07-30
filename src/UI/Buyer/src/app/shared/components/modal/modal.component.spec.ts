@@ -9,17 +9,17 @@ describe('SharedModalComponent', () => {
   let component: ModalComponent;
   let fixture: ComponentFixture<ModalComponent>;
 
-  const modalService = { add: jasmine.createSpy('add'), remove: jasmine.createSpy('remove') };
+  const modalService = {
+    add: jasmine.createSpy('add'),
+    remove: jasmine.createSpy('remove'),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalComponent ],
-      imports: [ FontAwesomeModule ],
-      providers: [
-        { provide: ModalService, useValue: modalService }
-      ]
-    })
-    .compileComponents();
+      declarations: [ModalComponent],
+      imports: [FontAwesomeModule],
+      providers: [{ provide: ModalService, useValue: modalService }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -36,7 +36,9 @@ describe('SharedModalComponent', () => {
   describe('ngOnInit', () => {
     it('should throw an error if id is not defined', () => {
       component.id = null;
-      expect(() => { component.ngOnInit(); }).toThrow(new Error('modal must have an id'));
+      expect(() => {
+        component.ngOnInit();
+      }).toThrow(new Error('modal must have an id'));
     });
     it('should call modalService add()', () => {
       component.ngOnInit();

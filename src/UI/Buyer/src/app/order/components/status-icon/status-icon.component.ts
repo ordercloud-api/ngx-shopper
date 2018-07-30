@@ -5,7 +5,7 @@ import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 @Component({
   selector: 'order-status-icon',
   templateUrl: './status-icon.component.html',
-  styleUrls: ['./status-icon.component.scss']
+  styleUrls: ['./status-icon.component.scss'],
 })
 export class StatusIconComponent {
   @Input() status: OrderStatus;
@@ -16,6 +16,6 @@ export class StatusIconComponent {
     [OrderStatus.Completed]: this.faCircle,
     [OrderStatus.AwaitingApproval]: this.faClock,
     [OrderStatus.Open]: this.faCircle,
-    [OrderStatus.Declined]: this.faBan
+    [OrderStatus.Declined]: this.faBan,
   };
 }
