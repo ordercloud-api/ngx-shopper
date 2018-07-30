@@ -10,11 +10,8 @@ describe('MainComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MainComponent],
-      imports: [
-        RouterTestingModule
-      ]
-    })
-      .compileComponents();
+      imports: [RouterTestingModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

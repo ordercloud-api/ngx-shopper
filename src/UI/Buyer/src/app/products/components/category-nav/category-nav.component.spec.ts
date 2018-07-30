@@ -7,26 +7,29 @@ import { CategoryTreeNode } from '@app-buyer/products/models/category-tree-node.
 describe('CategoryNavComponent', () => {
   let component: CategoryNavComponent;
   let fixture: ComponentFixture<CategoryNavComponent>;
-  const TreeNode = fields => {
+  const TreeNode = (fields) => {
     const node = new CategoryTreeNode();
-    if (fields.id) { node.id = fields.id; }
-    if (fields.children) { node.children = fields.children; }
-    if (fields.data) { node.data = fields.data; }
-    if (fields.parent) { node.parent = fields.parent; }
+    if (fields.id) {
+      node.id = fields.id;
+    }
+    if (fields.children) {
+      node.children = fields.children;
+    }
+    if (fields.data) {
+      node.data = fields.data;
+    }
+    if (fields.parent) {
+      node.parent = fields.parent;
+    }
     node.name = fields.name;
     return node;
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CategoryNavComponent
-      ],
-      imports: [
-        TreeModule
-      ]
-    })
-    .compileComponents();
+      declarations: [CategoryNavComponent],
+      imports: [TreeModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -48,23 +51,20 @@ describe('CategoryNavComponent', () => {
       expect(component.buildCategoryTree(input)).toEqual(expectedResult);
     });
     it('should return correctly when no nesting', () => {
-      const input = [
-        { ID: 'a'},
-        { ID: 'b'}
-      ];
+      const input = [{ ID: 'a' }, { ID: 'b' }];
       const expectedResult = [
         TreeNode({ id: 'a', name: undefined, data: input[0], children: [] }),
-        TreeNode({ id: 'b', name: undefined, data: input[1], children: [] })
+        TreeNode({ id: 'b', name: undefined, data: input[1], children: [] }),
       ];
 
       expect(component.buildCategoryTree(input)).toEqual(expectedResult);
     });
     it('should return four levels of nesting correctly', () => {
       const input = [
-        { ID: 'a'},
+        { ID: 'a' },
         { ID: 'b', ParentID: 'a' },
         { ID: 'c', ParentID: 'b' },
-        { ID: 'd', ParentID: 'c' }
+        { ID: 'd', ParentID: 'c' },
       ];
       const a = TreeNode({ id: 'a', name: undefined, data: input[0] });
       const b = TreeNode({ id: 'b', name: undefined, data: input[1] });

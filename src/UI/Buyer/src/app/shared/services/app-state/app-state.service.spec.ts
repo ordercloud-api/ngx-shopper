@@ -5,11 +5,14 @@ import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.
 describe('AppStateService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AppStateService]
+      providers: [AppStateService],
     });
   });
 
-  it('should be created', inject([AppStateService], (service: AppStateService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [AppStateService],
+    (service: AppStateService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

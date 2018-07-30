@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { debounceTime, takeWhile } from 'rxjs/operators';
@@ -6,7 +13,7 @@ import { debounceTime, takeWhile } from 'rxjs/operators';
 @Component({
   selector: 'shared-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit, OnDestroy {
   alive = true;
@@ -16,9 +23,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   faTimes = faTimes;
   form: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({ search: '' });
@@ -50,7 +55,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   clear(): void {
-    this.form.setValue({ search: ''});
+    this.form.setValue({ search: '' });
   }
 
   ngOnDestroy() {

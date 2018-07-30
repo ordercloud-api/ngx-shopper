@@ -14,6 +14,9 @@ export class AppStateService {
     this.userSubject = new BehaviorSubject<MeUser>(null);
     this.orderSubject = new BehaviorSubject<Order>(null);
     this.isAnonSubject = new BehaviorSubject<boolean>(true);
-    this.lineItemSubject = new BehaviorSubject<ListLineItem>({ Meta: { Page: 1, PageSize: 25, TotalCount: 0, TotalPages: 1 }, Items: [] });
+    this.lineItemSubject = new BehaviorSubject<ListLineItem>({
+      Meta: { Page: 1, PageSize: 25, TotalCount: 0, TotalPages: 1 },
+      Items: [],
+    });
   }
 }

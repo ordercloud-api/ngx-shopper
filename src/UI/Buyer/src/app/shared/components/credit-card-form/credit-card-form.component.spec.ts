@@ -11,21 +11,15 @@ describe('CreditCardFormComponent', () => {
   const thisYear = new Date().getFullYear();
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
-    displayFormErrors: jasmine.createSpy('displayFormErrors')
+    displayFormErrors: jasmine.createSpy('displayFormErrors'),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CreditCardFormComponent],
-      imports: [
-        FontAwesomeModule,
-        ReactiveFormsModule
-      ],
-      providers: [
-        { provide: OcFormErrorService, useValue: formErrorService }
-      ]
-    })
-      .compileComponents();
+      imports: [FontAwesomeModule, ReactiveFormsModule],
+      providers: [{ provide: OcFormErrorService, useValue: formErrorService }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -48,7 +42,7 @@ describe('CreditCardFormComponent', () => {
         CardholderName: '',
         expMonth: '01',
         expYear: `${thisYear}`.slice(-2),
-        CardCode: ''
+        CardCode: '',
       });
     });
     it('should set month dropdown options correctly', () => {
@@ -70,11 +64,11 @@ describe('CreditCardFormComponent', () => {
         CardholderName: 'test',
         expMonth: '02',
         expYear: '18',
-        CardCode: 'xxx'
+        CardCode: 'xxx',
       });
     });
     it('should call displayFormErrors if form is invalid', () => {
-      component.cardForm.setErrors({ 'test': true });
+      component.cardForm.setErrors({ test: true });
       component['onSubmit']();
       expect(formErrorService.displayFormErrors).toHaveBeenCalled();
     });
@@ -87,7 +81,7 @@ describe('CreditCardFormComponent', () => {
         CardNumber: 'xxxx',
         CardholderName: 'test',
         ExpirationDate: '0218',
-        CardCode: 'xxx'
+        CardCode: 'xxx',
       });
     });
   });

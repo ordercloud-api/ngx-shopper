@@ -1,14 +1,17 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
-import { OcMinProductQty, OcMaxProductQty } from '@app-buyer/shared/validators/oc-product-quantity/oc-product.quantity.validator';
+import {
+  OcMinProductQty,
+  OcMaxProductQty,
+} from '@app-buyer/shared/validators/oc-product-quantity/oc-product.quantity.validator';
 import { ToastrService } from 'ngx-toastr';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 
 @Component({
   selector: 'shared-quantity-input',
   templateUrl: './quantity-input.component.html',
-  styleUrls: ['./quantity-input.component.scss']
+  styleUrls: ['./quantity-input.component.scss'],
 })
 export class QuantityInputComponent implements OnInit {
   @Input() product: BuyerProduct;
@@ -17,11 +20,10 @@ export class QuantityInputComponent implements OnInit {
   @Output() addedToCart = new EventEmitter<AddToCartEvent>();
   form: FormGroup;
 
-
   constructor(
     private formBuilder: FormBuilder,
-    private toastrService: ToastrService,
-  ) { }
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {
     if (this.isQuantityRestricted()) {
@@ -30,18 +32,24 @@ export class QuantityInputComponent implements OnInit {
 
     this.qtyChanged.emit(this.existingQty);
     this.form = this.formBuilder.group({
-      quantity: [this.existingQty,
-      [
-        Validators.required,
-        OcMinProductQty(this.product),
-        OcMaxProductQty(this.product)]
-      ]
+      quantity: [
+        this.existingQty,
+        [
+          Validators.required,
+          OcMinProductQty(this.product),
+          OcMaxProductQty(this.product),
+        ],
+      ],
     });
   }
 
   isQuantityRestricted() {
     // In OC RestrictedQuantity means you can only order quantities for which a price break exists.
-    return this.product && this.product.PriceSchedule && this.product.PriceSchedule.RestrictedQuantity;
+    return (
+      this.product &&
+      this.product.PriceSchedule &&
+      this.product.PriceSchedule.RestrictedQuantity
+    );
   }
 
   quantityChanged(): void {
@@ -58,7 +66,10 @@ export class QuantityInputComponent implements OnInit {
   addToCart(event) {
     event.stopPropagation();
     if (this.form.valid && !isNaN(this.form.value.quantity)) {
-      return this.addedToCart.emit({ product: this.product, quantity: this.form.value.quantity });
+      return this.addedToCart.emit({
+        product: this.product,
+        quantity: this.form.value.quantity,
+      });
     }
     this.toastrService.error('Quantity is invalid', 'Error');
   }

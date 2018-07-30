@@ -21,22 +21,18 @@ import { OrderConfirmationComponent } from '@app-buyer/checkout/containers/order
 import { CheckoutConfirmComponent } from '@app-buyer/checkout/components/checkout-confirm/checkout-confirm.component';
 
 @NgModule({
-    imports: [
-        SharedModule,
-        CheckoutRoutingModule,
-        FormsModule
-    ],
-    declarations: [
-        CartComponent,
-        CheckoutAddressComponent,
-        CheckoutComponent,
-        CheckoutSectionBaseComponent,
-        OrderSummaryComponent,
-        CheckoutPaymentComponent,
-        PaymentPurchaseOrderComponent,
-        PaymentSpendingAccountComponent,
-        OrderConfirmationComponent,
-        CheckoutConfirmComponent
-    ]
+  imports: [SharedModule, CheckoutRoutingModule, FormsModule],
+  declarations: [
+    CartComponent,
+    CheckoutAddressComponent,
+    CheckoutComponent,
+    CheckoutSectionBaseComponent,
+    OrderSummaryComponent,
+    CheckoutPaymentComponent,
+    PaymentPurchaseOrderComponent,
+    PaymentSpendingAccountComponent,
+    OrderConfirmationComponent,
+    CheckoutConfirmComponent,
+  ],
 })
-export class CheckoutModule { }
+export class CheckoutModule {}

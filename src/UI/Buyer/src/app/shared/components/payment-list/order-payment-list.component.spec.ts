@@ -13,10 +13,9 @@ describe('Order: PaymentListComponent', () => {
       declarations: [
         FaIconComponent,
         CreditCardIconComponent,
-        OrderPaymentListComponent
-      ]
-    })
-      .compileComponents();
+        OrderPaymentListComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

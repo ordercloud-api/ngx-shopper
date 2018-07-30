@@ -2,6 +2,10 @@
 // Variables should follow the `$component-state-property-size` formula for
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
 // --------------------------------------------------------------------------------------
-
-
-$ribbon-shadow-color:   $secondary;
+$ribbon-shadow-color: $secondary;
+// default page heading
+.page-heading {
+  font-size: 2.5em;
+  font-weight: 300;
+  text-transform: uppercase;
+}

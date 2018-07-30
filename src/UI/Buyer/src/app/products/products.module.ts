@@ -11,18 +11,13 @@ import { PriceFilterComponent } from '@app-buyer/products/components/price-filte
 import { CategoryNavComponent } from '@app-buyer/products/components/category-nav/category-nav.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    ProductsRoutingModule,
-    ImageZoomModule,
-    TreeModule
-  ],
+  imports: [SharedModule, ProductsRoutingModule, ImageZoomModule, TreeModule],
   declarations: [
     ProductListComponent,
     ProductDetailsComponent,
     AdditionalImageGalleryComponent,
     PriceFilterComponent,
-    CategoryNavComponent
-  ]
+    CategoryNavComponent,
+  ],
 })
-export class ProductsModule { }
+export class ProductsModule {}

@@ -11,7 +11,7 @@
 </div>
 <div class="my-3 row">
   <div *ngFor="let item of items"
-       class="col-sm-12"
+       class="col-sm-12 d-flex"
        [ngClass]="{'col-lg-6 col-md-6': numColumns === 2, 'col-lg-12 col-md-12': numColumns === 1 }">
     <ng-template [ngTemplateOutlet]="itemTemplate"
                  [ngTemplateOutletContext]="{ item: item }">

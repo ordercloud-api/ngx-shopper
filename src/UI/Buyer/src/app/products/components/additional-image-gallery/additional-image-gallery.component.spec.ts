@@ -9,18 +9,20 @@ describe('AdditionalImageGalleryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AdditionalImageGalleryComponent
-      ],
+      declarations: [AdditionalImageGalleryComponent],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AdditionalImageGalleryComponent);
     component = fixture.componentInstance;
-    component.imgUrls = ['firstImage', 'secondImage', 'thirdImage', 'fourthImage'];
+    component.imgUrls = [
+      'firstImage',
+      'secondImage',
+      'thirdImage',
+      'fourthImage',
+    ];
     fixture.detectChanges();
   });
 

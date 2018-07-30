@@ -8,13 +8,16 @@ import { CartComponent } from '@app-buyer/checkout/containers/cart/cart.componen
 import { OrderConfirmationComponent } from '@app-buyer/checkout/containers/order-confirmation/order-confirmation.component';
 
 const routes: Routes = [
-    { path: 'checkout', component: CheckoutComponent },
-    { path: 'cart', component: CartComponent },
-    { path: 'order-confirmation/:orderID', component: OrderConfirmationComponent },
+  { path: 'checkout', component: CheckoutComponent },
+  { path: 'cart', component: CartComponent },
+  {
+    path: 'order-confirmation/:orderID',
+    component: OrderConfirmationComponent,
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class CheckoutRoutingModule { }
+export class CheckoutRoutingModule {}

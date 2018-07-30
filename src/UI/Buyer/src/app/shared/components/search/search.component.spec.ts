@@ -1,4 +1,10 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 
 import { SearchComponent } from '@app-buyer/shared/components/search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,15 +16,9 @@ describe('SearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SearchComponent,
-        FaIconComponent
-      ],
-      imports: [
-        ReactiveFormsModule,
-      ]
-    })
-      .compileComponents();
+      declarations: [SearchComponent, FaIconComponent],
+      imports: [ReactiveFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -50,14 +50,17 @@ describe('SearchComponent', () => {
     beforeEach(() => {
       spyOn(component as any, 'search');
     });
-    it('should call search after 500ms of form change', fakeAsync(() => {
-      component['onFormChanges']();
-      component.form.controls['search'].setValue('mockSearchTerm');
-      tick(499);
-      expect(component['search']).not.toHaveBeenCalled();
-      tick(1);
-      expect(component['search']).toHaveBeenCalled();
-    }));
+    it(
+      'should call search after 500ms of form change',
+      fakeAsync(() => {
+        component['onFormChanges']();
+        component.form.controls['search'].setValue('mockSearchTerm');
+        tick(499);
+        expect(component['search']).not.toHaveBeenCalled();
+        tick(1);
+        expect(component['search']).toHaveBeenCalled();
+      })
+    );
   });
 
   describe('search', () => {

@@ -24,16 +24,17 @@ import { AuthModule } from '@app-buyer/auth/auth.module';
 import { AppComponent } from '@app-buyer/app.component';
 import { AppRoutingModule } from '@app-buyer/app-routing.module';
 // interceptors
-import { AutoAppendTokenInterceptor, RefreshTokenInterceptor } from '@app-buyer/auth';
+import {
+  AutoAppendTokenInterceptor,
+  RefreshTokenInterceptor,
+} from '@app-buyer/auth';
 
 // date picker config
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateNativeAdapter } from '@app-buyer/config/date-picker.config';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     /**
      * app modules
@@ -61,15 +62,15 @@ import { NgbDateNativeAdapter } from '@app-buyer/config/date-picker.config';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AutoAppendTokenInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenInterceptor,
-      multi: true
+      multi: true,
     },
-    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }
+    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

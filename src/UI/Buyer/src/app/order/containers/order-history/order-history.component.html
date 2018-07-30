@@ -1,5 +1,5 @@
-<shared-search class="mt-1"
-               placeholderText="Search Orders"
+<h1 class="page-heading border-bottom pb-3">Orders</h1>
+<shared-search placeholderText="Search Orders"
                (searched)="filterBySearch($event)"></shared-search>
 <div class="row mt-3">
   <div class="col-2">
@@ -17,9 +17,9 @@
   </div>
 </div>
 <order-list *ngIf="orders$ | async; let orders"
-                  [orders]="orders"
-                  [columns]="['Favorite', 'ID', 'Status', 'DateSubmitted', 'Total']"
-                  [sortBy]="sortBy"
-                  (updatedSort)="sortOrders($event)"
-                  (changedPage)="changePage($event)">
+            [orders]="orders"
+            [columns]="['Favorite', 'ID', 'Status', 'DateSubmitted', 'Total']"
+            [sortBy]="sortBy"
+            (updatedSort)="sortOrders($event)"
+            (changedPage)="changePage($event)">
 </order-list>

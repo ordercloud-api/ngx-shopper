@@ -2,35 +2,35 @@
 
 // import { TestBed, inject } from '@angular/core/testing';
 
-// import { OcLineItemService } from './oc-line-item.service';
+// import { AppLineItemService } from './oc-line-item.service';
 // import { AppStateService } from '@app-buyer/shared';
-// import { LineItemService, OrderService, TokenService, Configuration } from '@ordercloud/angular-sdk';
+// import { OcLineItemService, OcOrderService, OcTokenService, Configuration } from '@ordercloud/angular-sdk';
 // import { HttpClient, HttpHandler } from '@angular/common/http';
 // import { CookieModule } from 'ngx-cookie';
 // import { applicationConfiguration, AppConfig } from '@app-buyer/config/app.config';
 // import { InjectionToken } from '@angular/core';
 
-// describe('OcLineItemService', () => {
+// describe('AppLineItemService', () => {
 //   beforeEach(() => {
 //     TestBed.configureTestingModule({
 //       imports: [
 //         CookieModule.forRoot()
 //       ],
 //       providers: [
-//         OcLineItemService,
+//         AppLineItemService,
 //         AppStateService,
-//         LineItemService,
-//         OrderService,
+//         OcLineItemService,
+//         OcOrderService,
 //         HttpClient,
 //         HttpHandler,
-//         TokenService,
+//         OcTokenService,
 //         { provide: applicationConfiguration, useValue: new InjectionToken<AppConfig>('app.config') }
 //       ]
 
 //     });
 //   });
 
-//   it('should be created', inject([OcLineItemService], (service: OcLineItemService) => {
+//   it('should be created', inject([AppLineItemService], (service: AppLineItemService) => {
 //     expect(service).toBeTruthy();
 //   }));
 // });

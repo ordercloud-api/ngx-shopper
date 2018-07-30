@@ -8,22 +8,15 @@ describe('QuantityInputComponent', () => {
   let component: QuantityInputComponent;
   let fixture: ComponentFixture<QuantityInputComponent>;
   const toastrService = {
-    error: jasmine.createSpy('error').and.returnValue(null)
+    error: jasmine.createSpy('error').and.returnValue(null),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        QuantityInputComponent
-      ],
-      imports: [
-        ReactiveFormsModule
-      ],
-      providers: [
-        { provide: ToastrService, useValue: toastrService }
-      ]
-    })
-      .compileComponents();
+      declarations: [QuantityInputComponent],
+      imports: [ReactiveFormsModule],
+      providers: [{ provide: ToastrService, useValue: toastrService }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -33,8 +26,8 @@ describe('QuantityInputComponent', () => {
       ID: '3HQ_lazyboy',
       Name: 'Lazyboy Recliner',
       PriceSchedule: {
-        MinQuantity: 5
-      }
+        MinQuantity: 5,
+      },
     };
     component.existingQty = 3;
     fixture.detectChanges();
@@ -50,7 +43,7 @@ describe('QuantityInputComponent', () => {
     });
     it('should set the form', () => {
       expect(component.form.value).toEqual({
-        quantity: 3
+        quantity: 3,
       });
     });
   });
@@ -85,12 +78,15 @@ describe('QuantityInputComponent', () => {
     });
     it('should emit addedToCart event if form is valid', () => {
       component.form.controls['quantity'].setValue(6);
-      component.addToCart({ stopPropagation: () => { } });
-      expect(component.addedToCart.emit).toHaveBeenCalledWith({ product: component.product, quantity: 6 });
+      component.addToCart({ stopPropagation: () => {} });
+      expect(component.addedToCart.emit).toHaveBeenCalledWith({
+        product: component.product,
+        quantity: 6,
+      });
     });
     it('should not emit addedToCart if form is valid', () => {
       component.form.controls['quantity'].setValue(3);
-      component.addToCart({ stopPropagation: () => { } });
+      component.addToCart({ stopPropagation: () => {} });
       expect(component.addedToCart.emit).not.toHaveBeenCalled();
       expect(toastrService.error).toHaveBeenCalled();
     });

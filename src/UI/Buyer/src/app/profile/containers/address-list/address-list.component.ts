@@ -2,14 +2,18 @@ import { Component, OnInit } from '@angular/core';
 
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-import { MeService, ListBuyerAddress, BuyerAddress } from '@ordercloud/angular-sdk';
+import {
+  OcMeService,
+  ListBuyerAddress,
+  BuyerAddress,
+} from '@ordercloud/angular-sdk';
 import { faTrashAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { ModalService } from '@app-buyer/shared';
 
 @Component({
   selector: 'profile-address-list',
   templateUrl: './address-list.component.html',
-  styleUrls: ['./address-list.component.scss']
+  styleUrls: ['./address-list.component.scss'],
 })
 export class AddressListComponent implements OnInit {
   faPlus = faPlus;
@@ -18,14 +22,17 @@ export class AddressListComponent implements OnInit {
   faEdit = faEdit;
   addresses: ListBuyerAddress;
   currentAddress: BuyerAddress;
-  requestOptions: { page?: number, search?: string } = { page: undefined, search: undefined };
+  requestOptions: { page?: number; search?: string } = {
+    page: undefined,
+    search: undefined,
+  };
   resultsPerPage = 8;
   modalID = 'add-profile-address';
 
   constructor(
-    private meService: MeService,
+    private ocMeService: OcMeService,
     private modalService: ModalService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.reloadAddresses();
@@ -58,41 +65,50 @@ export class AddressListComponent implements OnInit {
   private addAddress(address: BuyerAddress) {
     address.Shipping = true;
     address.Billing = true;
-    this.meService.CreateAddress(address).subscribe(
+    this.ocMeService.CreateAddress(address).subscribe(
       () => {
         this.refresh();
-      }, error => {
+      },
+      (error) => {
         throw error;
-      });
+      }
+    );
   }
 
   private updateAddress(address: BuyerAddress) {
     address.ID = this.currentAddress.ID;
-    this.meService.PatchAddress(address.ID, address).subscribe(
+    this.ocMeService.PatchAddress(address.ID, address).subscribe(
       () => {
         this.refresh();
-      }, error => {
+      },
+      (error) => {
         throw error;
-      });
+      }
+    );
   }
 
   protected deleteAddress(address: BuyerAddress) {
-    this.meService.DeleteAddress(address.ID).subscribe(
+    this.ocMeService.DeleteAddress(address.ID).subscribe(
       () => {
         this.reloadAddresses();
-      }, error => {
+      },
+      (error) => {
         throw error;
-      });
+      }
+    );
   }
 
-  protected updateRequestOptions(newOptions: { page?: number, search?: string }) {
+  protected updateRequestOptions(newOptions: {
+    page?: number;
+    search?: string;
+  }) {
     this.requestOptions = Object.assign(this.requestOptions, newOptions);
     this.reloadAddresses();
   }
 
-
   private reloadAddresses() {
-    this.meService.ListAddresses({ ...this.requestOptions, pageSize: this.resultsPerPage }).subscribe(res => this.addresses = res);
+    this.ocMeService
+      .ListAddresses({ ...this.requestOptions, pageSize: this.resultsPerPage })
+      .subscribe((res) => (this.addresses = res));
   }
-
 }

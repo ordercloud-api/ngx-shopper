@@ -1,15 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductListComponent } from '@app-buyer/products/containers/product-list/product-list.component';
+import { PageTitleComponent, AppLineItemService } from '@app-buyer/shared';
 import {
-  PageTitleComponent,
-  OcLineItemService,
-} from '@app-buyer/shared';
-import { NgbPaginationModule, NgbCollapseModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
+  NgbPaginationModule,
+  NgbCollapseModule,
+  NgbPaginationConfig,
+} from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { MeService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CategoryNavComponent } from '@app-buyer/products/components/category-nav/category-nav.component';
@@ -23,20 +24,31 @@ import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/fa
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
   const mockQueryParams = { category: 'CategoryID' };
-  const mockCategoryData = of({ Items: [{ ID: 'CategoryID' }, { ID: 'category2' }], Meta: {} });
+  const mockCategoryData = of({
+    Items: [{ ID: 'CategoryID' }, { ID: 'category2' }],
+    Meta: {},
+  });
   const mockMe = of({ xp: { FavoriteProducts: [] } });
 
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   const queryParams = new BehaviorSubject<any>(mockQueryParams);
   const meService = {
-    ListProducts: jasmine.createSpy('ListProducts').and.returnValue(mockProductData),
-    ListCategories: jasmine.createSpy('ListCategories').and.returnValue(mockCategoryData),
+    ListProducts: jasmine
+      .createSpy('ListProducts')
+      .and.returnValue(mockProductData),
+    ListCategories: jasmine
+      .createSpy('ListCategories')
+      .and.returnValue(mockCategoryData),
     Get: jasmine.createSpy('Get').and.returnValue(mockMe),
-    Patch: jasmine.createSpy('Patch').and.returnValue(mockMe)
+    Patch: jasmine.createSpy('Patch').and.returnValue(mockMe),
   };
-  const ocLineItemService = { create: jasmine.createSpy('create').and.returnValue(of(null)) };
-  const favoriteProductsService = { loadFavorites: jasmine.createSpy('loadFavorites') };
+  const ocLineItemService = {
+    create: jasmine.createSpy('create').and.returnValue(of(null)),
+  };
+  const favoriteProductsService = {
+    loadFavorites: jasmine.createSpy('loadFavorites'),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -47,7 +59,7 @@ describe('ProductListComponent', () => {
         QuantityInputComponent,
         CategoryNavComponent,
         ToggleFavoriteComponent,
-        MapToIterablePipe
+        MapToIterablePipe,
       ],
       imports: [
         NgbPaginationModule,
@@ -55,17 +67,19 @@ describe('ProductListComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         TreeModule,
-        FontAwesomeModule
+        FontAwesomeModule,
       ],
       providers: [
         NgbPaginationConfig,
-        { provide: OcLineItemService, useValue: ocLineItemService },
-        { provide: ActivatedRoute, useValue: { queryParams, snapshot: { queryParams: mockQueryParams } } },
-        { provide: MeService, useValue: meService },
-        { provide: FavoriteProductsService, useValue: favoriteProductsService }
-      ]
-    })
-      .compileComponents();
+        { provide: AppLineItemService, useValue: ocLineItemService },
+        {
+          provide: ActivatedRoute,
+          useValue: { queryParams, snapshot: { queryParams: mockQueryParams } },
+        },
+        { provide: OcMeService, useValue: meService },
+        { provide: FavoriteProductsService, useValue: favoriteProductsService },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -111,7 +125,9 @@ describe('ProductListComponent', () => {
       expect(meService.ListCategories).toHaveBeenCalledWith({ depth: 'all' });
     });
     it('should build breadcrumbs with categoryid from queryparam', () => {
-      expect(component.buildBreadCrumbs).toHaveBeenCalledWith(component['activatedRoute'].snapshot.queryParams.category);
+      expect(component.buildBreadCrumbs).toHaveBeenCalledWith(
+        component['activatedRoute'].snapshot.queryParams.category
+      );
     });
   });
 
@@ -122,7 +138,9 @@ describe('ProductListComponent', () => {
       component.changePage(mockPage);
       queryParams.next({ mockQueryParams });
       const newQueryParams = Object.assign({ page: mockPage }, mockQueryParams);
-      expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: newQueryParams });
+      expect(navigateSpy).toHaveBeenCalledWith([], {
+        queryParams: newQueryParams,
+      });
     });
   });
 
@@ -133,7 +151,9 @@ describe('ProductListComponent', () => {
       component.changeCategory(mockCategory);
       const newQueryParams = Object.assign({ category: mockCategory });
       queryParams.next({ newQueryParams });
-      expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: newQueryParams });
+      expect(navigateSpy).toHaveBeenCalledWith([], {
+        queryParams: newQueryParams,
+      });
     });
   });
 
@@ -143,8 +163,12 @@ describe('ProductListComponent', () => {
       const newSort = '!Name';
       component.sortForm.controls['sortBy'].setValue(newSort);
       component.sortStratChanged();
-      const newQueryParams = Object.assign({}, mockQueryParams, { sortBy: newSort });
-      expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: newQueryParams });
+      const newQueryParams = Object.assign({}, mockQueryParams, {
+        sortBy: newSort,
+      });
+      expect(navigateSpy).toHaveBeenCalledWith([], {
+        queryParams: newQueryParams,
+      });
     });
   });
 
@@ -154,8 +178,12 @@ describe('ProductListComponent', () => {
       const newSort = '!Name';
       component.sortForm.controls['sortBy'].setValue(newSort);
       component.sortStratChanged();
-      const newQueryParams = Object.assign({}, mockQueryParams, { sortBy: newSort });
-      expect(navigateSpy).toHaveBeenCalledWith([], { queryParams: newQueryParams });
+      const newQueryParams = Object.assign({}, mockQueryParams, {
+        sortBy: newSort,
+      });
+      expect(navigateSpy).toHaveBeenCalledWith([], {
+        queryParams: newQueryParams,
+      });
     });
 
     describe('buildBreadCrumbs', () => {
@@ -168,11 +196,24 @@ describe('ProductListComponent', () => {
       });
       it('should return a single crumb if no parentID', () => {
         component.categories = { Items: [{ ID: 'CategoryID' }] };
-        expect(component.buildBreadCrumbs('CategoryID')).toEqual([{ ID: 'CategoryID' }]);
+        expect(component.buildBreadCrumbs('CategoryID')).toEqual([
+          { ID: 'CategoryID' },
+        ]);
       });
       it('should build a long list of crumbs in correct order', () => {
-        component.categories = { Items: [{ ID: 'a', ParentID: 'b' }, { ID: 'b', ParentID: 'c' }, { ID: 'c' }, { ID: 'd' }] };
-        expect(component.buildBreadCrumbs('a')).toEqual([{ ID: 'c' }, { ID: 'b', ParentID: 'c' }, { ID: 'a', ParentID: 'b' }]);
+        component.categories = {
+          Items: [
+            { ID: 'a', ParentID: 'b' },
+            { ID: 'b', ParentID: 'c' },
+            { ID: 'c' },
+            { ID: 'd' },
+          ],
+        };
+        expect(component.buildBreadCrumbs('a')).toEqual([
+          { ID: 'c' },
+          { ID: 'b', ParentID: 'c' },
+          { ID: 'a', ParentID: 'b' },
+        ]);
       });
     });
 
@@ -181,7 +222,9 @@ describe('ProductListComponent', () => {
       it('should navigate to product detail with product.ID as ID query param', () => {
         const navigateSpy = spyOn((<any>component).router, 'navigate');
         component.toProductDetails(product);
-        expect(navigateSpy).toHaveBeenCalledWith(['/products/detail'], { queryParams: { ID: product.ID } });
+        expect(navigateSpy).toHaveBeenCalledWith(['/products/detail'], {
+          queryParams: { ID: product.ID },
+        });
       });
     });
 
@@ -191,7 +234,10 @@ describe('ProductListComponent', () => {
         component.addToCart(mockEvent);
       });
       it('should call ocLineItemService.Create', () => {
-        expect(ocLineItemService.create).toHaveBeenCalledWith(mockEvent.product, mockEvent.quantity);
+        expect(ocLineItemService.create).toHaveBeenCalledWith(
+          mockEvent.product,
+          mockEvent.quantity
+        );
       });
     });
   });
