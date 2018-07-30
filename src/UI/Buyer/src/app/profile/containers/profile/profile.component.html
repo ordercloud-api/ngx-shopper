@@ -4,9 +4,6 @@
       <ul class="nav flex-column">
         <li class="nav-item side-nav-button"
             *ngFor="let tab of tabs">
-          <!-- TODO: find out how to make routerlink active work
-              when navigating to profile, works when reload on profile
-           -->
           <a class="nav-link link-text"
              [routerLink]="tab.route"
              [ngClass]="{ 'text-secondary' : tab.display === selectedTab }"
