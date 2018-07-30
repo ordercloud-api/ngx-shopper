@@ -6,15 +6,20 @@ import { OrderComponent } from '@app-buyer/order/containers/order/order.componen
 import { OrderResolve } from '@app-buyer/order/order.resolve';
 import { OrderShipmentsComponent } from '@app-buyer/order/containers/order-shipments/order-shipments.component';
 import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
+import { OrderAprovalComponent } from '@app-buyer/order/containers/order-approval/order-approval.component';
+import { OrderApprovalDetailsComponent } from '@app-buyer/order/containers/order-approval-details/order-approval-details.component';
+
 
 const routes: Routes = [
     { path: '', component: OrderHistoryComponent },
+    { path: 'approval', component: OrderAprovalComponent },
+    { path: 'approval/:orderID', component: OrderApprovalDetailsComponent, resolve: { orderResolve: OrderResolve }},
     {
         path: ':orderID', component: OrderComponent, resolve: { orderResolve: OrderResolve }, children: [
             { path: '', component: OrderDetailComponent },
             { path: 'shipments', component: OrderShipmentsComponent, resolve: { shipmentsResolve: ShipmentsResolve } }
         ]
-    },
+    }
 ];
 
 @NgModule({

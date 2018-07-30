@@ -12,6 +12,8 @@ import { OrderComponent } from '@app-buyer/order/containers/order/order.componen
 import { OrderResolve } from '@app-buyer/order/order.resolve';
 import { OrderShipmentsComponent } from '@app-buyer/order/containers/order-shipments/order-shipments.component';
 import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
+import { OrderAprovalComponent } from '@app-buyer/order/containers/order-approval/order-approval.component';
+import { OrderApprovalDetailsComponent } from './containers/order-approval-details/order-approval-details.component';
 
 @NgModule({
     imports: [
@@ -26,7 +28,9 @@ import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
         OrderDetailComponent,
         StatusIconComponent,
         OrderComponent,
-        OrderShipmentsComponent
+        OrderShipmentsComponent,
+        OrderAprovalComponent,
+        OrderApprovalDetailsComponent
     ],
     providers: [
         OrderResolve,

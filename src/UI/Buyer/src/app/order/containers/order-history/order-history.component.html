@@ -18,7 +18,7 @@
 </div>
 <order-list *ngIf="orders$ | async; let orders"
                   [orders]="orders"
-                  [columns]="['ID', 'Status', 'DateSubmitted', 'Total']"
+                  [columns]="['Favorite', 'ID', 'Status', 'DateSubmitted', 'Total']"
                   [sortBy]="sortBy"
                   (updatedSort)="sortOrders($event)"
                   (changedPage)="changePage($event)">

@@ -7,11 +7,14 @@ import {
   ListPromotion,
   OrderService,
   ListPayment,
-  Address
+  Address,
+  OrderApproval,
 } from '@ordercloud/angular-sdk';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { OcLineItemService } from '@app-buyer/shared';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
+import {  uniqBy as _uniqBy } from 'lodash';
+
 
 @Component({
   selector: 'order-order-detail',
@@ -26,6 +29,7 @@ export class OrderDetailComponent implements OnInit {
   supplierAddresses$: Observable<Address[]>;
   lineItems: ListLineItem;
   payments$: Observable<ListPayment>;
+  approvals$: Observable<OrderApproval[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,6 +50,7 @@ export class OrderDetailComponent implements OnInit {
     this.promotions$ = this.getPromotions();
     this.supplierAddresses$ = this.getSupplierAddresses();
     this.payments$ = this.getPayments();
+    this.approvals$ = this.getApprovals();
   }
 
   private getPromotions() {
@@ -67,5 +72,13 @@ export class OrderDetailComponent implements OnInit {
       .pipe(
         flatMap((params: ParamMap) => this.appPaymentService.getPayments('outgoing', params.get('orderID')))
       );
+  }
+
+  getApprovals(): Observable<OrderApproval[]> {
+    return this.activatedRoute.paramMap
+    .pipe(
+      flatMap((params: ParamMap) => this.orderService.ListApprovals('outgoing', params.get('orderID'))),
+      map(list => _uniqBy(list.Items, x => x.Comments))
+    );
   }
 }

@@ -13,10 +13,11 @@ export class ProfileComponent implements OnInit {
 
   constructor() {
     this.tabs = [
-      { display: 'Details', route: 'details' },
-      { display: 'Addresses', route: 'addresses' },
-      { display: 'Payment Methods', route: 'payment-methods' },
-      { display: 'Orders', route: 'orders' }];
+      { display: 'Details', route: ['/profile', 'details'] },
+      { display: 'Addresses', route: ['/profile', 'addresses'] },
+      { display: 'Payment Methods', route: ['/profile', 'payment-methods'] },
+      { display: 'My Orders', route: ['/profile', 'orders'] },
+      { display: 'Orders To Approve', route: ['/profile', 'orders', 'approval'] }];
   }
 
   ngOnInit(): void {

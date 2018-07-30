@@ -4,7 +4,7 @@
     <caption class="sr-only">List of Orders</caption>
     <thead>
       <tr>
-        <th></th>
+        <th *ngIf="columns.indexOf('Favorite') > -1"></th>
         <th (click)="updateSort('ID')"
             *ngIf="columns.indexOf('ID') > -1">
           <button class="btn btn-link font-weight-bold">
@@ -46,8 +46,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let order of orders.Items"
-          [routerLink]="['/profile', 'orders', order.ID]">
-        <td (click)="$event.stopPropagation()">
+          [routerLink]="[ order.ID ]">
+        <td *ngIf="columns.indexOf('Favorite') > -1"
+            (click)="$event.stopPropagation()">
           <shared-toggle-favorite [favorite]="favoriteOrdersService.isFavorite(order)"
                                   (favoriteChanged)="favoriteOrdersService.setFavoriteValue($event, order)">
           </shared-toggle-favorite>
@@ -58,7 +59,7 @@
         </td>
         <td *ngIf="columns.indexOf('DateSubmitted') > -1">{{order.DateSubmitted | date: 'short' || 'N/A'}}</td>
         <td *ngIf="columns.indexOf('SubmittedBy') > -1">{{order.FromUser.FirstName}} {{order.FromUser.LastName}}</td>
-        <td *ngIf="columns.indexOf('Total') > -1">{{order.Total}}</td>
+        <td *ngIf="columns.indexOf('Total') > -1">{{order.Total | currency}}</td>
       </tr>
     </tbody>
   </table>
