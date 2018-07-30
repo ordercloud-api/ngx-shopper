@@ -47,7 +47,7 @@
             <tbody>
               <tr *ngFor="let item of shipmentItems.Items">
                 <td>{{item.QuantityShipped + ' of ' + item.LineItem.Quantity}}</td>
-                <td>{{item.LineItem.xp.product.name}} <small class="text-muted">{{item.LineItem.xp.product.id}}</small></td>
+                <td>{{item.LineItem.Product.Name}} <small class="text-muted">{{item.LineItem.Product.ID}}</small></td>
               </tr>
             </tbody>
           </table>
