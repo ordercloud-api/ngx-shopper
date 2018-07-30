@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
 import {
@@ -7,13 +14,15 @@ import {
 } from '@app-buyer/shared/validators/oc-product-quantity/oc-product.quantity.validator';
 import { ToastrService } from 'ngx-toastr';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
+import { debounceTime, takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'shared-quantity-input',
   templateUrl: './quantity-input.component.html',
   styleUrls: ['./quantity-input.component.scss'],
 })
-export class QuantityInputComponent implements OnInit {
+export class QuantityInputComponent implements OnInit, OnDestroy {
+  alive = true;
   @Input() product: BuyerProduct;
   @Input() existingQty = 1;
   @Output() qtyChanged = new EventEmitter<number>();
@@ -30,7 +39,6 @@ export class QuantityInputComponent implements OnInit {
       this.existingQty = this.product.PriceSchedule.PriceBreaks[0].Quantity;
     }
 
-    this.qtyChanged.emit(this.existingQty);
     this.form = this.formBuilder.group({
       quantity: [
         this.existingQty,
@@ -41,6 +49,7 @@ export class QuantityInputComponent implements OnInit {
         ],
       ],
     });
+    this.quantityChangeListener();
   }
 
   isQuantityRestricted() {
@@ -52,10 +61,17 @@ export class QuantityInputComponent implements OnInit {
     );
   }
 
-  quantityChanged(): void {
-    if (this.form.valid && !isNaN(this.form.value.quantity)) {
-      this.qtyChanged.emit(this.form.value.quantity);
-    }
+  quantityChangeListener(): void {
+    this.form.valueChanges
+      .pipe(
+        debounceTime(500),
+        takeWhile(() => this.alive)
+      )
+      .subscribe(() => {
+        if (this.form.valid && !isNaN(this.form.value.quantity)) {
+          this.qtyChanged.emit(this.form.value.quantity);
+        }
+      });
   }
 
   /**
@@ -72,5 +88,9 @@ export class QuantityInputComponent implements OnInit {
       });
     }
     this.toastrService.error('Quantity is invalid', 'Error');
+  }
+
+  ngOnDestroy() {
+    this.alive = false;
   }
 }

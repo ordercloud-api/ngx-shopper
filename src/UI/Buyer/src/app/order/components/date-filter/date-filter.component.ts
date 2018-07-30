@@ -50,15 +50,17 @@ export class DateFilterComponent implements OnInit, OnDestroy {
       this.datePipe.transform(date, 'shortDate').replace(/\//g, '-');
     const fromDate = <Date>this.form.get('fromDate').value;
     const toDate = <Date>this.form.get('toDate').value;
-    let dateSubmitted: string[];
+    const dateSubmitted: string[] = [];
 
-    if (fromDate && toDate) {
-      dateSubmitted = [`>${format(fromDate)}`, `<${format(toDate)}`];
-    } else if (fromDate && !toDate) {
-      dateSubmitted = [`>${format(fromDate)}`];
-    } else if (!fromDate && toDate) {
-      dateSubmitted = [`<${format(toDate)}`];
+    if (fromDate) {
+      dateSubmitted.push(`>${format(fromDate)}`);
     }
+    if (toDate) {
+      // Add one day so the filter will be inclusive of the date selected
+      toDate.setDate(toDate.getDate() + 1);
+      dateSubmitted.push(`<${format(toDate)}`);
+    }
+
     this.selectedDate.emit(dateSubmitted);
   }
 

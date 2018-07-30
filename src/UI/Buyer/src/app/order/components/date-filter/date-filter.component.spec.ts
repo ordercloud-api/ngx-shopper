@@ -103,7 +103,7 @@ describe('DateFilterComponent', () => {
       component['emitDate']();
       expect(component.selectedDate.emit).toHaveBeenCalledWith([
         '>5-20-18',
-        '<5-31-18',
+        '<6-1-18',
       ]);
     });
     it('should emit array with fromDate if only fromDate is defined', () => {
@@ -114,7 +114,7 @@ describe('DateFilterComponent', () => {
     it('should emit array with toDate if only toDate is defined', () => {
       component.form.controls['toDate'].setValue(new Date(2018, 4, 31));
       component['emitDate']();
-      expect(component.selectedDate.emit).toHaveBeenCalledWith(['<5-31-18']);
+      expect(component.selectedDate.emit).toHaveBeenCalledWith(['<6-1-18']);
     });
   });
 
