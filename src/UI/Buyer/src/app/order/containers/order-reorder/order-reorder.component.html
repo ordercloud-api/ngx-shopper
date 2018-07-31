@@ -1,26 +1,32 @@
-<button type="button" class="btn  btn-secondary" (click)="orderReorder()">Reorder</button>
-<ng-content (click)="orderReorder()"></ng-content> 
-<shared-modal id="Order-Reorder" modalTitle="Order Reorder">
-    <div *ngIf= "reorderResponse$ | async as reorderResponse">
-        <div *ngIf="reorderResponse.InvalidLi.length && !reorderResponse.ValidLi.length" class="alert alert-danger">
-                None of the line items on this order are available for reorder.
-        </div>
-        <div *ngIf="reorderResponse.InvalidLi.length && reorderResponse.ValidLi.length" class="alert alert-warning">
-            <strong>Warning</strong> The following line items are not available for reorder, clicking add to cart will <strong>only</strong> add valid line items.
-        </div> 
-        <div *ngIf="!reorderResponse.InvalidLi.length" class="alert alert-success">
-            All line items are valid to reorder
-        </div> 
-        <shared-lineitem-list-wrapper *ngIf="reorderResponse.InvalidLi.length">
-            <shared-line-item-card *ngFor="let li of reorderResponse.InvalidLi"
-                    [lineitem]="li"
-                    [productDetails]="li.Product"
-                    readOnly="true">
-            </shared-line-item-card>
-        </shared-lineitem-list-wrapper>
-        <button type="button"
-                class="btn btn-primary btn-lg btn-block"
-                [disabled]="!reorderResponse.ValidLi.length"
-                (click)="addToCart()">Add to Cart</button>
+<button type="button"
+        class="btn  btn-secondary"
+        (click)="orderReorder()">Reorder</button>
+<ng-content (click)="orderReorder()"></ng-content>
+<shared-modal id="Order-Reorder"
+              modalTitle="Order Reorder">
+  <div *ngIf="reorderResponse$ | async as reorderResponse">
+    <div *ngIf="reorderResponse.InvalidLi.length && !reorderResponse.ValidLi.length"
+         class="alert alert-danger">
+      None of the line items on this order are available for reorder.
     </div>
+    <div *ngIf="reorderResponse.InvalidLi.length && reorderResponse.ValidLi.length"
+         class="alert alert-warning">
+      <strong>Warning</strong> The following line items are not available for reorder, clicking add to cart will <strong>only</strong> add valid line items.
+    </div>
+    <div *ngIf="!reorderResponse.InvalidLi.length"
+         class="alert alert-success">
+      All line items are valid to reorder
+    </div>
+    <shared-lineitem-list-wrapper *ngIf="reorderResponse.InvalidLi.length">
+      <shared-line-item-card *ngFor="let li of reorderResponse.InvalidLi"
+                             [lineitem]="li"
+                             [productDetails]="li.Product"
+                             readOnly="true">
+      </shared-line-item-card>
+    </shared-lineitem-list-wrapper>
+    <button type="button"
+            class="btn btn-primary btn-lg btn-block"
+            [disabled]="!reorderResponse.ValidLi.length || !orderID"
+            (click)="addToCart()">Add to Cart</button>
+  </div>
 </shared-modal>

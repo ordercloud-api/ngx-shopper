@@ -25,6 +25,7 @@ import { OrderReorderComponent } from '@app-buyer/order/containers/order-reorder
     StatusIconComponent,
     OrderComponent,
     OrderShipmentsComponent,
+    OrderReorderComponent,
   ],
   providers: [OrderResolve, ShipmentsResolve],
 })

@@ -1,16 +1,21 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ModalService, OcLineItemService, OcReorderService } from '@app-buyer/shared';
-import {orderReorderResponse} from '@app-buyer/shared/services/oc-reorder/oc-reorder.interface';
-import {forEach as _forEach } from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 
+import { forEach as _forEach } from 'lodash';
+
+import {
+  ModalService,
+  AppLineItemService,
+  AppReorderService,
+} from '@app-buyer/shared';
+import { orderReorderResponse } from '@app-buyer/shared/services/oc-reorder/oc-reorder.interface';
 
 @Component({
   selector: 'order-reorder',
   templateUrl: './order-reorder.component.html',
-  styleUrls: ['./order-reorder.component.scss']
+  styleUrls: ['./order-reorder.component.scss'],
 })
-
 export class OrderReorderComponent implements OnInit {
   @Input() orderID: string;
   reorderResponse$: Observable<orderReorderResponse>;
@@ -18,30 +23,32 @@ export class OrderReorderComponent implements OnInit {
   alive = true;
 
   constructor(
-    private ocReorderService: OcReorderService,
+    private appReorderService: AppReorderService,
     private modalService: ModalService,
-    private ocLineItemService: OcLineItemService,
-  ) { 
-    
-  }
+    private appLineItemService: AppLineItemService,
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit() {
-     this.reorderResponse$ = this.ocReorderService.order( this.orderID );
+    if (this.orderID) {
+      this.reorderResponse$ = this.appReorderService.order(this.orderID);
+    } else {
+      console.log('order ID is needed to use the reorder-order component');
+      this.toastrService.error('Needs Order ID');
+    }
   }
 
-  protected orderReorder(){
+  orderReorder() {
     this.modalService.open(this.modalID);
   }
-  addToCart(){
-    this.reorderResponse$
-      .subscribe(reorderResponse => {
-        _forEach( reorderResponse.ValidLi, li =>{
-          this.ocLineItemService.create(li.Product, li.Quantity).subscribe();
-        });
-        this.modalService.close(this.modalID);
-    })
-    
+
+  addToCart() {
+    this.reorderResponse$.subscribe((reorderResponse) => {
+      _forEach(reorderResponse.ValidLi, (li) => {
+        if (!li) return;
+        this.appLineItemService.create(li.Product, li.Quantity).subscribe();
+      });
+      this.modalService.close(this.modalID);
+    });
   }
-
 }
-
