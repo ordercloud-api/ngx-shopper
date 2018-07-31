@@ -10,7 +10,7 @@ import {
   ListCategory,
 } from '@ordercloud/angular-sdk';
 import { ProductSortStrats } from '@app-buyer/products/models/product-sort-strats.enum';
-import { AppLineItemService } from '@app-buyer/shared';
+import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
@@ -39,7 +39,8 @@ export class ProductListComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private appLineItemService: AppLineItemService,
-    private favoriteProductsService: FavoriteProductsService
+    private favoriteProductsService: FavoriteProductsService,
+    private appStateService: AppStateService
   ) {}
 
   ngOnInit() {
@@ -138,7 +139,9 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(event: AddToCartEvent) {
-    this.appLineItemService.create(event.product, event.quantity).subscribe();
+    this.appLineItemService
+      .create(event.product, event.quantity)
+      .subscribe(() => this.appStateService.addToCartSubject.next(event));
   }
 
   refineByFavorites() {

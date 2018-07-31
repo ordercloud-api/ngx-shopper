@@ -1,7 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductListComponent } from '@app-buyer/products/containers/product-list/product-list.component';
-import { PageTitleComponent, AppLineItemService } from '@app-buyer/shared';
+import {
+  PageTitleComponent,
+  AppLineItemService,
+  AppStateService,
+} from '@app-buyer/shared';
 import {
   NgbPaginationModule,
   NgbCollapseModule,
@@ -49,6 +53,7 @@ describe('ProductListComponent', () => {
   const favoriteProductsService = {
     loadFavorites: jasmine.createSpy('loadFavorites'),
   };
+  let appStateService: AppStateService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -70,6 +75,7 @@ describe('ProductListComponent', () => {
         FontAwesomeModule,
       ],
       providers: [
+        AppStateService,
         NgbPaginationConfig,
         { provide: AppLineItemService, useValue: ocLineItemService },
         {
@@ -80,6 +86,7 @@ describe('ProductListComponent', () => {
         { provide: FavoriteProductsService, useValue: favoriteProductsService },
       ],
     }).compileComponents();
+    appStateService = TestBed.get(AppStateService);
   }));
 
   beforeEach(() => {
@@ -231,12 +238,18 @@ describe('ProductListComponent', () => {
     describe('addToCart', () => {
       const mockEvent = { product: { ID: 'MockProduct' }, quantity: 3 };
       beforeEach(() => {
+        spyOn(appStateService.addToCartSubject, 'next');
         component.addToCart(mockEvent);
       });
       it('should call ocLineItemService.Create', () => {
         expect(ocLineItemService.create).toHaveBeenCalledWith(
           mockEvent.product,
           mockEvent.quantity
+        );
+      });
+      it('should call AppStateService.addToCartEvent', () => {
+        expect(appStateService.addToCartSubject.next).toHaveBeenCalledWith(
+          mockEvent
         );
       });
     });
