@@ -13,18 +13,16 @@ import {
   faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-
 import { Observable } from 'rxjs';
-
 import { BaseResolveService, AppStateService } from '@app-buyer/shared';
-
 import {
   OcTokenService,
   Order,
   MeUser,
   ListCategory,
 } from '@ordercloud/angular-sdk';
-import { takeWhile } from 'rxjs/operators';
+import { takeWhile, tap, debounceTime, delay } from 'rxjs/operators';
+import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 
 @Component({
   selector: 'layout-header',
@@ -38,6 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user$: Observable<MeUser> = this.appStateService.userSubject;
   currentOrder: Order;
   alive = true;
+  addToCartQuantity: number;
   @ViewChild('p') public popover: NgbPopover;
 
   faSearch = faSearch;
@@ -58,17 +57,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.appStateService.orderSubject
       .pipe(takeWhile(() => this.alive))
-      .subscribe((order) => {
-        if (
-          order &&
-          this.currentOrder &&
-          !isNaN(this.currentOrder.LineItemCount) &&
-          order.LineItemCount > this.currentOrder.LineItemCount &&
-          this.popover
-        ) {
-          this.addedToCart();
-        }
-        this.currentOrder = order;
+      .subscribe((order) => (this.currentOrder = order));
+
+    this.buildAddToCartNotification();
+  }
+
+  buildAddToCartNotification() {
+    this.appStateService.addToCartSubject
+      .pipe(
+        tap((event: AddToCartEvent) => {
+          this.popover.close();
+          this.popover.ngbPopover = `${event.quantity} Item(s) Added to Cart`;
+        }),
+        delay(300),
+        tap(() => this.popover.open()),
+        debounceTime(3000)
+      )
+      .subscribe(() => {
+        this.popover.close();
       });
   }
 
@@ -94,15 +100,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       '/reset-password',
     ];
     return !hiddenRoutes.some((el) => this.router.url.indexOf(el) > -1);
-  }
-
-  addedToCart() {
-    this.popover.open();
-    setTimeout(() => {
-      if (this.popover) {
-        this.popover.close();
-      }
-    }, 5000);
   }
 
   ngOnDestroy() {

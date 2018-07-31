@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
-import { AppLineItemService } from '@app-buyer/shared';
+import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import { BuyerProduct, OcMeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
@@ -33,6 +33,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     private activatedRoute: ActivatedRoute,
     private appLineItemService: AppLineItemService,
     private favoriteProductsService: FavoriteProductsService,
+    private appStateService: AppStateService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -76,7 +77,9 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   addToCart(event: AddToCartEvent): void {
-    this.appLineItemService.create(event.product, event.quantity).subscribe();
+    this.appLineItemService
+      .create(event.product, event.quantity)
+      .subscribe(() => this.appStateService.addToCartSubject.next(event));
   }
 
   isOrderable(): boolean {
