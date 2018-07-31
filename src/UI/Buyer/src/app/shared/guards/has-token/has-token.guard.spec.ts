@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AppAuthService } from '@app-buyer/auth';
 import { of, BehaviorSubject } from 'rxjs';
 import { applicationConfiguration } from '@app-buyer/config/app.config';
+import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 
 describe('HasTokenGuard', () => {
   let guard: HasTokenGuard;
@@ -33,6 +34,9 @@ describe('HasTokenGuard', () => {
       .and.callFake(() => rememberMe),
     refresh: jasmine.createSpy('refresh').and.returnValue(of(null)),
   };
+  const appStateService = {
+    isLoggedIn: { next: jasmine.createSpy('next').and.returnValue(null) },
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,6 +47,7 @@ describe('HasTokenGuard', () => {
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },
         { provide: OcTokenService, useValue: tokenService },
+        { provide: AppStateService, useValue: appStateService },
       ],
     });
     guard = TestBed.get(HasTokenGuard);
@@ -77,6 +82,7 @@ describe('HasTokenGuard', () => {
         mockAccessToken = null;
         guard.canActivate().subscribe((isTokenValid) => {
           expect(appAuthService.authAnonymous).toHaveBeenCalled();
+          expect(appStateService.isLoggedIn.next).toHaveBeenCalledWith(true);
           expect(isTokenValid).toBe(true);
         });
       });
