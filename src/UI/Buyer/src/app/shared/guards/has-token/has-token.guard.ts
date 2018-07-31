@@ -52,6 +52,7 @@ export class HasTokenGuard implements CanActivate {
         })
       );
     }
+    this.appStateService.isLoggedIn.next(true);
     return of(isAccessTokenValid);
   }
 

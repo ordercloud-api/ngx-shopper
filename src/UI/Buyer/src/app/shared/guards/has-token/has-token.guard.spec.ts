@@ -95,6 +95,7 @@ describe('HasTokenGuard', () => {
         mockAccessToken = validToken;
         guard.canActivate().subscribe((isTokenValid) => {
           expect(appAuthService.authAnonymous).not.toHaveBeenCalled();
+          expect(appStateService.isLoggedIn.next).toHaveBeenCalledWith(true);
           expect(isTokenValid).toBe(true);
         });
       });
