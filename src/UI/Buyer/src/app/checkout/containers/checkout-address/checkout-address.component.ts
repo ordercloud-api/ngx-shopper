@@ -29,7 +29,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     page: undefined,
     search: undefined,
   };
-  modalID = 'checkout-select-address';
+  modalID: string;
 
   constructor(
     private ocMeService: OcMeService,
@@ -41,6 +41,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
   }
 
   ngOnInit() {
+    this.modalID = `checkout-select-address-${this.addressType}`;
     if (!this.isAnon) {
       this.getSavedAddresses();
     }

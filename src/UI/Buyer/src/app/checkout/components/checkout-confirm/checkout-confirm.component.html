@@ -3,9 +3,9 @@
                       [payments]="payments"></order-payment-list>
   <div class="row">
     <div class="col-6">
-      <shared-address-display [address]="lineItems.Items[0].ShippingAddress"
-                              addressTitle="Shipping Address"
-                              *ngIf="order?.ShippingAddressID">
+      <shared-address-display *ngIf="lineItems.Items[0].ShippingAddress"
+                              [address]="lineItems.Items[0].ShippingAddress"
+                              addressTitle="Shipping Address">
       </shared-address-display>
     </div>
     <div class="col-6">

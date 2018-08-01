@@ -17,6 +17,10 @@
                  [ngTemplateOutletContext]="{ item: item }">
     </ng-template>
   </div>
+  <div class="card bg-light p-3 mx-4 w-100 text-center"
+       *ngIf="items && items.length === 0">
+    <p class="mb-0">No {{ searchPlaceholder }} found</p>
+  </div>
 </div>
 <ngb-pagination *ngIf="meta?.TotalPages > 1"
                 class="d-flex justify-content-center"
