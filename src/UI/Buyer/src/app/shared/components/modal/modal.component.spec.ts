@@ -61,6 +61,13 @@ describe('SharedModalComponent', () => {
     });
   });
   describe('ngOnDestroy', () => {
+    beforeEach(() => {
+      spyOn(component, 'close');
+      component.ngOnDestroy();
+    });
+    it('should call close()', () => {
+      expect(component.close).toHaveBeenCalled();
+    });
     it('should call modalService remove', () => {
       expect(modalService.remove).toHaveBeenCalledWith(component.id);
     });
