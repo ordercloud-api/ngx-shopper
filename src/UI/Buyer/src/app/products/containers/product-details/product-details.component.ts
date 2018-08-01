@@ -43,10 +43,10 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   getProductData(): Observable<BuyerProduct> {
-    return this.activatedRoute.queryParams.pipe(
-      flatMap((queryParams) => {
-        if (queryParams.ID) {
-          return this.ocMeService.GetProduct(queryParams.ID).pipe(
+    return this.activatedRoute.params.pipe(
+      flatMap((params) => {
+        if (params.productID) {
+          return this.ocMeService.GetProduct(params.productID).pipe(
             tap((prod) => {
               this.relatedProducts$ = this.getRelatedProducts(prod);
               if (!prod.xp) {

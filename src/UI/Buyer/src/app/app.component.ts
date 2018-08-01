@@ -7,6 +7,8 @@ import {
   NgbDateNativeAdapter,
   NgbDateCustomParserFormatter,
 } from '@app-buyer/config/date-picker.config';
+import { AppStateService } from '@app-buyer/shared';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -19,4 +21,10 @@ import {
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
 })
-export class AppComponent {}
+export class AppComponent {
+  isLoggedIn$: Observable<boolean>;
+
+  constructor(private appStateService: AppStateService) {
+    this.isLoggedIn$ = this.appStateService.isLoggedIn;
+  }
+}

@@ -45,11 +45,6 @@ export class ProductCardComponent implements OnInit {
     this.isViewOnlyProduct = !this.product.PriceSchedule;
     this.shouldDisplayAddToCart = isAddedToCartUsed && !this.isViewOnlyProduct;
   }
-  toProductDetails(product) {
-    this.router.navigate(['/products/detail'], {
-      queryParams: { ID: product.ID },
-    });
-  }
 
   featuredProducts() {
     return this.router.url.indexOf('/home') > -1;

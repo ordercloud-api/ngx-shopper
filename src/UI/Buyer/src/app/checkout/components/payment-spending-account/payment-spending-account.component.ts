@@ -77,6 +77,9 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent
   }
 
   validateAndContinue() {
+    if (!this.selectedSpendingAccount) {
+      throw Error('Please select a spending account');
+    }
     if (this.selectedSpendingAccount.Balance < this.order.Total) {
       throw Error('This spending account has insuficient funds');
     }

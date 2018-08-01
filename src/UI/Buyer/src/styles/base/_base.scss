@@ -25,11 +25,14 @@ html {
  * Basic styles for links
  */
 
- .icon-button--hover-reactive {
+.icon-button--hover-reactive {
   font-size: 18px;
   :hover {
-      opacity: 0.5;    
+    opacity: 0.5;
   }
 }
 
-
+// add cursor: pointer to any element with routerLink attribute
+[ng-reflect-router-link]:hover {
+  cursor: pointer;
+}

@@ -1,4 +1,6 @@
-<layout-header class="fixed-top"></layout-header>
+<layout-header class="fixed-top"
+               *ngIf="(isLoggedIn$ | async)">
+</layout-header>
 <layout-main></layout-main>
-<layout-footer></layout-footer>
+<layout-footer *ngIf="(isLoggedIn$ | async)"></layout-footer>
 <ng-progress></ng-progress>
