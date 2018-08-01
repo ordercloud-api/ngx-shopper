@@ -224,17 +224,6 @@ describe('ProductListComponent', () => {
       });
     });
 
-    describe('toProductDetails', () => {
-      const product = { ID: 'mockProductID' };
-      it('should navigate to product detail with product.ID as ID query param', () => {
-        const navigateSpy = spyOn((<any>component).router, 'navigate');
-        component.toProductDetails(product);
-        expect(navigateSpy).toHaveBeenCalledWith(['/products/detail'], {
-          queryParams: { ID: product.ID },
-        });
-      });
-    });
-
     describe('addToCart', () => {
       const mockEvent = { product: { ID: 'MockProduct' }, quantity: 3 };
       beforeEach(() => {
