@@ -60,6 +60,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   // close modal
   close(): void {
+    this.modalService.onCloseSubject.next(this.id);
     this.isOpen = false;
     this.elementRef.nativeElement.style.display = 'none';
     document.body.classList.remove('shared-modal--open');
