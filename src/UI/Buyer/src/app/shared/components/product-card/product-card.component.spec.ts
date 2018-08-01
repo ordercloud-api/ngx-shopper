@@ -6,6 +6,7 @@ import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-fav
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ProductCardComponent', () => {
   let component: ProductCardComponent;
@@ -30,6 +31,7 @@ describe('ProductCardComponent', () => {
         { provide: Router, useValue: router },
         { provide: ToastrService, useValue: toastrService },
       ],
+      schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();
   }));
 
@@ -56,17 +58,6 @@ describe('ProductCardComponent', () => {
       expect(component.addedToCart.emit).toHaveBeenCalledWith({
         product: component.product,
         quantity: 1,
-      });
-    });
-  });
-
-  describe('toProductDetails', () => {
-    beforeEach(() => {
-      component.toProductDetails({ ID: 'mockProductId' });
-    });
-    it('should route to product details component', () => {
-      expect(router.navigate).toHaveBeenCalledWith(['/products/detail'], {
-        queryParams: { ID: 'mockProductId' },
       });
     });
   });
