@@ -1,9 +1,9 @@
 <div *ngIf="order$ | async; let order">
   <div class="row mb-5">
     <div class="col-6">
-      <shared-address-display [address]="(lineItems$ | async)?.Items[0].ShippingAddress"
-                              addressTitle="Shipping Address"
-                              *ngIf="order?.ShippingAddressID">
+      <shared-address-display *ngIf="(lineItems$ | async)?.Items[0].ShippingAddress"
+                              [address]="(lineItems$ | async)?.Items[0].ShippingAddress"
+                              addressTitle="Shipping Address">
       </shared-address-display>
       <shared-address-display [address]="order.BillingAddress"
                               addressTitle="Billing Address"
@@ -27,7 +27,8 @@
       <order-payment-list *ngIf="payments$ | async; let payments"
                           [payments]="payments"></order-payment-list>
       <hr>
-      <div><strong>Status: </strong><order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}</div>
+      <div><strong>Status: </strong>
+        <order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}</div>
       <ul>
         <li *ngFor="let approval of (approvals$ | async)">{{ approval.Approver.FirstName }} {{ approval.Approver.LastName }} {{ approval.Status }} on {{ approval.DateCreated | date: 'short' }}
           <div><small *ngIf="approval.Comments">"{{ approval.Comments }}"</small></div>

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutAddressComponent } from '@app-buyer/checkout/containers/checkout-address/checkout-address.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
-import { of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject, Subject } from 'rxjs';
 import { OcMeService, OcOrderService } from '@ordercloud/angular-sdk';
 import {
   AppStateService,
@@ -18,6 +18,7 @@ describe('CheckoutAddressComponent', () => {
   let component: CheckoutAddressComponent;
   let fixture: ComponentFixture<CheckoutAddressComponent>;
 
+  const onCloseSubject = new Subject<string>();
   const mockAddresses = {
     Items: [
       { ID: 'address1', Name: 'AddressOne' },
@@ -57,6 +58,7 @@ describe('CheckoutAddressComponent', () => {
   const modalService = {
     open: jasmine.createSpy('open'),
     close: jasmine.createSpy('close'),
+    onCloseSubject: onCloseSubject,
   };
 
   beforeEach(async(() => {
@@ -250,6 +252,22 @@ describe('CheckoutAddressComponent', () => {
         component.order.ID,
         { BillingAddressID: 'MockSavedAddress' }
       );
+    });
+  });
+  describe('clearFiltersOnModalClose', () => {
+    beforeEach(() => {
+      spyOn(component, 'updateRequestOptions');
+    });
+    it('should clear filters when the right modal id is emitted', () => {
+      onCloseSubject.next(component.modalID);
+      expect(component.updateRequestOptions).toHaveBeenCalledWith({
+        page: undefined,
+        search: undefined,
+      });
+    });
+    it('should do nothing when the wrong modal id is emitted', () => {
+      onCloseSubject.next('wrong ID');
+      expect(component.updateRequestOptions).not.toHaveBeenCalled();
     });
   });
 });
