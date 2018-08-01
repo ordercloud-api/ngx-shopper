@@ -75,7 +75,7 @@ describe('CheckoutConfirmComponent', () => {
       expect(orderService.Patch).toHaveBeenCalledWith(
         'outgoing',
         mockOrder.ID,
-        { ...mockOrder, Comments: 'comment' }
+        { Comments: 'comment' }
       );
       expect(appStateService.orderSubject.next).toHaveBeenCalledWith({
         ...mockOrder,

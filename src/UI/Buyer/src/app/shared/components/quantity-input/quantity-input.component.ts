@@ -24,7 +24,7 @@ import { debounceTime, takeWhile } from 'rxjs/operators';
 export class QuantityInputComponent implements OnInit, OnDestroy {
   alive = true;
   @Input() product: BuyerProduct;
-  @Input() existingQty = 1;
+  @Input() existingQty;
   @Output() qtyChanged = new EventEmitter<number>();
   @Output() addedToCart = new EventEmitter<AddToCartEvent>();
   form: FormGroup;
@@ -35,13 +35,9 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (this.isQuantityRestricted()) {
-      this.existingQty = this.product.PriceSchedule.PriceBreaks[0].Quantity;
-    }
-
     this.form = this.formBuilder.group({
       quantity: [
-        this.existingQty,
+        this.existingQty || this.getDefaultQty(),
         [
           Validators.required,
           OcMinProductQty(this.product),
@@ -59,6 +55,12 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
       this.product.PriceSchedule &&
       this.product.PriceSchedule.RestrictedQuantity
     );
+  }
+
+  getDefaultQty(): number {
+    return this.isQuantityRestricted()
+      ? this.product.PriceSchedule.PriceBreaks[0].Quantity
+      : 1;
   }
 
   quantityChangeListener(): void {
@@ -81,13 +83,15 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
    */
   addToCart(event) {
     event.stopPropagation();
-    if (this.form.valid && !isNaN(this.form.value.quantity)) {
-      return this.addedToCart.emit({
-        product: this.product,
-        quantity: this.form.value.quantity,
-      });
+    if (!this.form.valid || isNaN(this.form.value.quantity)) {
+      return this.toastrService.error('Quantity is invalid', 'Error');
     }
-    this.toastrService.error('Quantity is invalid', 'Error');
+    this.addedToCart.emit({
+      product: this.product,
+      quantity: this.form.value.quantity,
+    });
+    // Reset form as indication of action
+    this.form.setValue({ quantity: this.getDefaultQty() });
   }
 
   ngOnDestroy() {

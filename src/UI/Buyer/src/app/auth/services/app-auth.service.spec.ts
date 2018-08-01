@@ -13,6 +13,7 @@ import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { AppStateService } from '@app-buyer/shared';
 
 describe('AppAuthService', () => {
   const mockCookieResponse = {
@@ -41,6 +42,9 @@ describe('AppAuthService', () => {
     scope: ['FullAccess'],
   };
   const appErrorHandler = { displayError: jasmine.createSpy('displayError') };
+  const appStateService = {
+    isLoggedIn: { next: jasmine.createSpy('next').and.returnValue(null) },
+  };
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -57,6 +61,7 @@ describe('AppAuthService', () => {
         OcTokenService,
         { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: appConfig },
+        { provide: AppStateService, useValue: appStateService },
       ],
     });
     appConfig = TestBed.get(applicationConfiguration);
@@ -87,6 +92,9 @@ describe('AppAuthService', () => {
       });
       it('should save the retrieved refresh token', () => {
         expect(tokenService.SetAccess).toHaveBeenCalledWith(mockToken);
+      });
+      it('should set isLoggedIn to true', () => {
+        expect(appStateService.isLoggedIn.next).toHaveBeenCalledWith(true);
       });
     });
     describe('on error', () => {
@@ -180,6 +188,9 @@ describe('AppAuthService', () => {
       });
       it('should navigate user to login page', () => {
         expect(router.navigate).toHaveBeenCalledWith(['/login']);
+      });
+      it('should set isLoggedIn to false', () => {
+        expect(appStateService.isLoggedIn.next).toHaveBeenCalledWith(false);
       });
     });
 

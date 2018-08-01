@@ -14,6 +14,7 @@ import { keys as _keys } from 'lodash';
 import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
 import * as jwtDecode from 'jwt-decode';
 import { isUndefined as _isUndefined } from 'lodash';
+import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 
 export const TokenRefreshAttemptNotPossible =
   'Token refresh attempt not possible';
@@ -32,6 +33,7 @@ export class AppAuthService {
     private cookieService: CookieService,
     private router: Router,
     private appErrorHandler: AppErrorHandler,
+    private appStateService: AppStateService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
     this.refreshToken = new BehaviorSubject<string>('');
@@ -41,6 +43,7 @@ export class AppAuthService {
     this.fetchingRefreshToken = true;
     return this.fetchRefreshToken().pipe(
       tap((token) => {
+        this.appStateService.isLoggedIn.next(true);
         this.ocTokenService.SetAccess(token);
         this.refreshToken.next(token);
       }),
@@ -108,6 +111,7 @@ export class AppAuthService {
         this.cookieService.remove(cookieName);
       }
     });
+    this.appStateService.isLoggedIn.next(false);
     return of(this.router.navigate(['/login']));
   }
 

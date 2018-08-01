@@ -7,8 +7,7 @@
       </div>
       <div class="col-9">
         <h6>
-          <a routerLink="/products/detail"
-             [queryParams]="{ID: lineitem.Product.ID}"
+          <a [routerLink]="['/products', lineitem.Product.ID]"
              class="link-text">{{lineitem.Product.Name}}</a>
 
           <small class="text-muted d-block">{{lineitem.Product.ID}}</small>

@@ -51,9 +51,10 @@ export class CheckoutConfirmComponent extends CheckoutSectionBaseComponent
   }
 
   saveComments() {
-    this.order.Comments = this.form.get('comments').value;
     this.ocOrderService
-      .Patch('outgoing', this.order.ID, this.order)
+      .Patch('outgoing', this.order.ID, {
+        Comments: this.form.get('comments').value,
+      })
       .subscribe((order) => {
         this.appStateService.orderSubject.next(order);
         this.continue.emit();

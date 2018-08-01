@@ -66,4 +66,14 @@ describe('OcMaxProductQty Validator', () => {
       expect(OcMaxProductQty(mockProduct)(new FormControl(1))).toBe(null);
     });
   });
+  describe('QuantityAvailable of zero should produce error', () => {
+    const mockProduct = {
+      Inventory: { QuantityAvailable: 0 },
+    };
+    it('should return a validation error on value larger than zero', () => {
+      expect(OcMaxProductQty(mockProduct)(new FormControl(1))).toEqual({
+        OcMaxProductQty: { max: 0, actual: 1 },
+      });
+    });
+  });
 });

@@ -8,9 +8,7 @@
                          btnText="Save and Continue"></shared-address-form>
   </div>
 </div>
-
-<shared-modal *ngIf="!isAnon && existingAddresses && existingAddresses.Items.length > 0"
-              id="{{ modalID }}"
+<shared-modal id="{{ modalID }}"
               modalTitle="Select Address">
   <shared-generic-browse [items]="existingAddresses?.Items"
                          [meta]="existingAddresses?.Meta"

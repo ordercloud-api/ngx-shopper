@@ -46,6 +46,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
+    this.close();
     this.modalService.remove(this.id);
     this.elementRef.nativeElement.remove();
   }
@@ -59,6 +60,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   // close modal
   close(): void {
+    this.modalService.onCloseSubject.next(this.id);
     this.isOpen = false;
     this.elementRef.nativeElement.style.display = 'none';
     document.body.classList.remove('shared-modal--open');

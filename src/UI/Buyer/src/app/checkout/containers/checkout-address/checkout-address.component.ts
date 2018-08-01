@@ -10,6 +10,7 @@ import {
   ListLineItem,
 } from '@ordercloud/angular-sdk';
 import { AppStateService, ModalService } from '@app-buyer/shared';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'checkout-address',
@@ -29,7 +30,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     page: undefined,
     search: undefined,
   };
-  modalID = 'checkout-select-address';
+  modalID: string;
 
   constructor(
     private ocMeService: OcMeService,
@@ -41,11 +42,21 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
   }
 
   ngOnInit() {
+    this.modalID = `checkout-select-address-${this.addressType}`;
+    this.clearFiltersOnModalClose();
     if (!this.isAnon) {
       this.getSavedAddresses();
     }
 
     this.setSelectedAddress();
+  }
+
+  clearFiltersOnModalClose() {
+    this.modalService.onCloseSubject
+      .pipe(filter((id) => id === this.modalID))
+      .subscribe(() =>
+        this.updateRequestOptions({ page: undefined, search: undefined })
+      );
   }
 
   updateRequestOptions(options: { page?: number; search?: string }) {

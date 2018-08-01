@@ -83,6 +83,13 @@ describe('PaymentSpendingAccountComponent', () => {
       component.order = { Total: 10 };
       spyOn(component.continue, 'emit');
     });
+    it('should throw error if no spending account was selected', () => {
+      component.selectedSpendingAccount = null;
+      fixture.detectChanges();
+      expect(() => component.validateAndContinue()).toThrow(
+        new Error('Please select a spending account')
+      );
+    });
     it('should throw error if not enough funds', () => {
       component.selectedSpendingAccount = { Balance: 0 };
       fixture.detectChanges();

@@ -38,10 +38,10 @@ describe('ProductDetailsComponent', () => {
     xp: { RelatedProducts: [], additionalImages: [] },
   };
 
-  const queryParams = new BehaviorSubject<any>({ ID: mockProductID });
+  const params = new BehaviorSubject<any>({ productID: mockProductID });
   const activatedRoute = {
     navigate: jasmine.createSpy('navigate'),
-    queryParams,
+    params,
   };
   const meService = {
     GetProduct: jasmine
