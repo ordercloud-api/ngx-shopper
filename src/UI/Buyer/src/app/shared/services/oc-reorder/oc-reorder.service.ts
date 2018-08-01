@@ -14,12 +14,12 @@ import {
 @Injectable()
 export class AppReorderService {
   constructor(
-    private ocLineItemService: AppLineItemService,
+    private appLineItemService: AppLineItemService,
     private meService: OcMeService
   ) {}
 
   order(orderID: string): Observable<orderReorderResponse> {
-    return this.ocLineItemService.listAll(orderID).pipe(
+    return this.appLineItemService.listAll(orderID).pipe(
       flatMap((list) => {
         let lineItems = of(list.Items); // this sets var into an observable
         let productIds = _map(list.Items, 'ProductID');
