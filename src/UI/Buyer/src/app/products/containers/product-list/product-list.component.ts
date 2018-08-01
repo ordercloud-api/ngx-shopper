@@ -132,12 +132,6 @@ export class ProductListComponent implements OnInit {
     return recursiveBuild(catID);
   }
 
-  toProductDetails(product) {
-    this.router.navigate(['/products/detail'], {
-      queryParams: { ID: product.ID },
-    });
-  }
-
   addToCart(event: AddToCartEvent) {
     this.appLineItemService
       .create(event.product, event.quantity)
