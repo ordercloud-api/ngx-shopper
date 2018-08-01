@@ -16,8 +16,11 @@
          *ngIf="order.LineItemCount">
       <div class="col-lg-4">
         <checkout-order-summary [order]="order"></checkout-order-summary>
+        <button class="btn btn-primary btn-block mb-4 font-weight-bold"
+                routerLink="/checkout">CHECKOUT</button>
       </div>
-      <div class="col-lg-8" *ngIf="productsSet">
+      <div class="col-lg-8"
+           *ngIf="productsSet">
         <shared-lineitem-list-wrapper>
           <shared-line-item-card *ngFor="let li of lineItems.Items"
                                  [lineitem]="li"

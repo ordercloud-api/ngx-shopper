@@ -1,8 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectorRef,
+  AfterViewChecked,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
-import { AppLineItemService } from '@app-buyer/shared';
+import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import { BuyerProduct, OcMeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
@@ -14,20 +20,21 @@ import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/fa
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss'],
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   @ViewChild(QuantityInputComponent)
   quantityInputComponent: QuantityInputComponent;
   quantityInputReady = false;
   product: BuyerProduct;
   relatedProducts$: Observable<BuyerProduct[]>;
   imageUrls: string[] = [];
-  quantity: number;
 
   constructor(
     private ocMeService: OcMeService,
     private activatedRoute: ActivatedRoute,
     private appLineItemService: AppLineItemService,
-    private favoriteProductsService: FavoriteProductsService
+    private favoriteProductsService: FavoriteProductsService,
+    private appStateService: AppStateService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -36,10 +43,10 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   getProductData(): Observable<BuyerProduct> {
-    return this.activatedRoute.queryParams.pipe(
-      flatMap((queryParams) => {
-        if (queryParams.ID) {
-          return this.ocMeService.GetProduct(queryParams.ID).pipe(
+    return this.activatedRoute.params.pipe(
+      flatMap((params) => {
+        if (params.productID) {
+          return this.ocMeService.GetProduct(params.productID).pipe(
             tap((prod) => {
               this.relatedProducts$ = this.getRelatedProducts(prod);
               if (!prod.xp) {
@@ -56,10 +63,6 @@ export class ProductDetailsComponent implements OnInit {
     );
   }
 
-  quantityChanged(qty: number): void {
-    this.quantity = qty;
-  }
-
   getRelatedProducts(product: BuyerProduct): Observable<BuyerProduct[]> {
     const queue = [];
     if (!product.xp || !product.xp.RelatedProducts) {
@@ -74,7 +77,9 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart(event: AddToCartEvent): void {
-    this.appLineItemService.create(event.product, event.quantity).subscribe();
+    this.appLineItemService
+      .create(event.product, event.quantity)
+      .subscribe(() => this.appStateService.addToCartSubject.next(event));
   }
 
   isOrderable(): boolean {
@@ -95,23 +100,30 @@ export class ProductDetailsComponent implements OnInit {
     // In OC, the price per item can depend on the quantity ordered. This info is stored on the PriceSchedule as a list of PriceBreaks.
     // Find the PriceBreak with the highest Quantity less than the quantity ordered. The price on that price break
     // is the cost per item.
-    if (!this.quantity) {
+    if (!this.quantityInputComponent || !this.quantityInputComponent.form) {
       return null;
     }
     if (!this.hasPrice()) {
       return 0;
     }
-
+    const quantity = this.quantityInputComponent.form.value.quantity;
     const priceBreaks = this.product.PriceSchedule.PriceBreaks;
     const startingBreak = _minBy(priceBreaks, 'Quantity');
 
     const selectedBreak = priceBreaks.reduce((current, candidate) => {
       return candidate.Quantity > current.Quantity &&
-        candidate.Quantity <= this.quantity
+        candidate.Quantity <= quantity
         ? candidate
         : current;
     }, startingBreak);
 
-    return selectedBreak.Price * this.quantity;
+    return selectedBreak.Price * quantity;
+  }
+
+  ngAfterViewChecked() {
+    // This manually triggers angular's change detection cycle and avoids the imfamous
+    // "Expression has changed after it was checked" error.
+    // If you remove the @ViewChild(QuantityInputComponent) this will be unecessary.
+    this.changeDetectorRef.detectChanges();
   }
 }

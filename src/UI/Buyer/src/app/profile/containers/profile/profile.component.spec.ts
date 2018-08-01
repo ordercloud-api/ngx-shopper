@@ -51,10 +51,14 @@ describe('ProfileComponent', () => {
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     component.tabs = [
-      { display: 'Details', route: 'details' },
-      { display: 'Addresses', route: 'addresses' },
-      { display: 'Payment Methods', route: 'payment-methods' },
-      { display: 'Orders', route: 'orders' },
+      { display: 'Details', route: ['/profile', 'details'] },
+      { display: 'Addresses', route: ['/profile', 'addresses'] },
+      { display: 'Payment Methods', route: ['/profile', 'payment-methods'] },
+      { display: 'My Orders', route: ['/profile', 'orders'] },
+      {
+        display: 'Orders To Approve',
+        route: ['/profile', 'orders', 'approval'],
+      },
     ];
     fixture.detectChanges();
   });
@@ -71,7 +75,7 @@ describe('ProfileComponent', () => {
     it('should set tab to first item in tabs array', () => {
       expect(component.selectTab).toHaveBeenCalledWith({
         display: 'Details',
-        route: 'details',
+        route: ['/profile', 'details'],
       });
       expect(component.selectedTab).toBe('Details');
     });

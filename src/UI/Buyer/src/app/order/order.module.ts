@@ -13,6 +13,8 @@ import { OrderResolve } from '@app-buyer/order/order.resolve';
 import { OrderShipmentsComponent } from '@app-buyer/order/containers/order-shipments/order-shipments.component';
 import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
 import { OrderReorderComponent } from '@app-buyer/order/containers/order-reorder/order-reorder.component';
+import { OrderAprovalComponent } from '@app-buyer/order/containers/order-approval/order-approval.component';
+import { OrderApprovalDetailsComponent } from './containers/order-approval-details/order-approval-details.component';
 
 @NgModule({
   imports: [SharedModule, OrderRoutingModule],
@@ -26,6 +28,8 @@ import { OrderReorderComponent } from '@app-buyer/order/containers/order-reorder
     OrderComponent,
     OrderShipmentsComponent,
     OrderReorderComponent,
+    OrderAprovalComponent,
+    OrderApprovalDetailsComponent,
   ],
   providers: [OrderResolve, ShipmentsResolve],
 })

@@ -3,11 +3,12 @@
   <nav class="breadcrumb"
        aria-label="breadcrumb">
     <a class="breadcrumb-item link-text"
-       [routerLink]="['/profile', 'orders']">All Orders</a>
+       [routerLink]="['..']">All Orders</a>
     <a class="breadcrumb-item link-text"
        aria-current="page">{{order.ID}}</a>
   </nav>
-  <order-reorder class="float-right pb-2 mt-2 mb-2" [orderID]='order.ID'></order-reorder>
+  <order-reorder class="float-right pb-2 mt-2 mb-2"
+                 [orderID]='order.ID'></order-reorder>
   <div class="pb-2 mt-4 mb-2">
     <h2> <span class="text-muted">Order #:</span> {{order.ID}}</h2>
     <small>Submitted on {{order.DateSubmitted | date: 'short'}}</small>

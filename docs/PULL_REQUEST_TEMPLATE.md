@@ -1,11 +1,11 @@
 # Description
 
-- Summary of the change and which issue is fixed. 
-- Relevant motivation and context. 
+- Summary of the change and which issue is fixed.
+- Relevant motivation and context.
 - List any dependencies that are required for this change.
 - Reference to related issues
 
-Fixes # (issue)
+For Reference # (issue)
 
 ## Type of change
 

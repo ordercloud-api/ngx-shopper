@@ -10,6 +10,7 @@ import {
 import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 import { of, Observable } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
+import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 
 @Injectable()
 export class HasTokenGuard implements CanActivate {
@@ -17,6 +18,7 @@ export class HasTokenGuard implements CanActivate {
     private ocTokenService: OcTokenService,
     private router: Router,
     private appAuthService: AppAuthService,
+    private appStateService: AppStateService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {}
   canActivate(): Observable<boolean> {
@@ -32,7 +34,6 @@ export class HasTokenGuard implements CanActivate {
     const refreshTokenExists =
       this.ocTokenService.GetRefresh() &&
       this.appAuthService.getRememberStatus();
-
     if (!isAccessTokenValid && refreshTokenExists) {
       return this.appAuthService.refresh().pipe(map(() => true));
     }
@@ -40,15 +41,18 @@ export class HasTokenGuard implements CanActivate {
     // send profiled users to login to get new token
     if (!isAccessTokenValid && !this.appConfig.anonymousShoppingEnabled) {
       this.router.navigate(['/login']);
+      return of(false);
     }
     // get new anonymous token and then let them continue
     if (!isAccessTokenValid && this.appConfig.anonymousShoppingEnabled) {
       return this.appAuthService.authAnonymous().pipe(
         flatMap(() => {
+          this.appStateService.isLoggedIn.next(true);
           return of(true);
         })
       );
     }
+    this.appStateService.isLoggedIn.next(true);
     return of(isAccessTokenValid);
   }
 

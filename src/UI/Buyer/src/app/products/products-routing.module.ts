@@ -8,7 +8,7 @@ import { ProductDetailsComponent } from '@app-buyer/products/containers/product-
 
 const routes: Routes = [
   { path: '', component: ProductListComponent },
-  { path: 'detail', component: ProductDetailsComponent },
+  { path: ':productID', component: ProductDetailsComponent },
 ];
 
 @NgModule({

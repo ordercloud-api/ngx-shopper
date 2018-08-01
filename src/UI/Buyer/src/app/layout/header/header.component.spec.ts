@@ -1,10 +1,4 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,13 +11,11 @@ import {
 } from '@app-buyer/shared';
 import {
   OcTokenService,
-  Configuration,
   OcAuthService,
   OcMeService,
   OcLineItemService,
   OcSupplierService,
   OcOrderService,
-  Order,
 } from '@ordercloud/angular-sdk';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -34,12 +26,12 @@ import {
   AppConfig,
 } from '@app-buyer/config/app.config';
 import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  const orderSubject$ = new BehaviorSubject<Order>(null);
+
+  const mockOrder = { ID: 'orderID' };
 
   const ocTokenService = { RemoveAccess: jasmine.createSpy('RemoveAccess') };
   const baseResolveService = { resetUser: jasmine.createSpy('resetUser') };
@@ -82,6 +74,7 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
+    component.alive = true;
     fixture.detectChanges();
   });
 
@@ -91,26 +84,15 @@ describe('HeaderComponent', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
-      component.popover = fixture.componentInstance.popover;
-      component.currentOrder = { LineItemCount: 0 };
-      spyOn(component, 'addedToCart');
+      appStateService.orderSubject.next(mockOrder);
+      spyOn(component, 'buildAddToCartNotification');
       component.ngOnInit();
     });
-    it('should call added to cart if line item count has changed', () => {
-      appStateService.orderSubject.next({ LineItemCount: 1 });
-      appStateService.orderSubject.next({ LineItemCount: 2 });
-      appStateService.orderSubject.subscribe((order) => {
-        expect(order.LineItemCount).toBe(2);
-        expect(component.addedToCart).toHaveBeenCalled();
-      });
+    it('should define currentOrder', () => {
+      expect(component.currentOrder).toEqual(mockOrder);
     });
-    it('should not call added to cart if line item count is the same', () => {
-      appStateService.orderSubject.next({ LineItemCount: 1 });
-      appStateService.orderSubject.next({ LineItemCount: 1 });
-      appStateService.orderSubject.subscribe((order) => {
-        expect(order.LineItemCount).toBe(1);
-        expect(component.addedToCart).not.toHaveBeenCalled();
-      });
+    it('should call buildAddToCartNotification', () => {
+      expect(component.buildAddToCartNotification).toHaveBeenCalled();
     });
   });
 
@@ -132,23 +114,5 @@ describe('HeaderComponent', () => {
       component.logout();
       expect(router.navigate).toHaveBeenCalledWith(['/login']);
     });
-  });
-
-  describe('addedToCart', () => {
-    beforeEach(() => {
-      spyOn(component.popover, 'open');
-      spyOn(component.popover, 'close');
-    });
-    it(
-      'should open popover and close it after 5 seconds',
-      fakeAsync(() => {
-        component.addedToCart();
-        expect(component.popover.open).toHaveBeenCalled();
-        tick(4500);
-        expect(component.popover.close).not.toHaveBeenCalled();
-        tick(500);
-        expect(component.popover.close).toHaveBeenCalled();
-      })
-    );
   });
 });

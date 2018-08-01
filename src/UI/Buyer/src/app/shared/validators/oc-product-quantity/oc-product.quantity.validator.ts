@@ -49,10 +49,10 @@ function getMaxQty(product: BuyerProduct): number {
   let quantityAvailable = Infinity;
   let permissionLimit = Infinity;
 
-  if (product.Inventory && product.Inventory.QuantityAvailable) {
+  if (product.Inventory && product.Inventory.QuantityAvailable != null) {
     quantityAvailable = product.Inventory.QuantityAvailable;
   }
-  if (product.PriceSchedule && product.PriceSchedule.MaxQuantity) {
+  if (product.PriceSchedule && product.PriceSchedule.MaxQuantity != null) {
     permissionLimit = product.PriceSchedule.MaxQuantity;
   }
   return Math.min(quantityAvailable, permissionLimit);

@@ -1,4 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  tick,
+  fakeAsync,
+} from '@angular/core/testing';
 
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -51,23 +57,28 @@ describe('QuantityInputComponent', () => {
   describe('quantityChanged', () => {
     beforeEach(() => {
       spyOn(component.qtyChanged, 'emit');
+      component.alive = true;
+      component.ngOnInit();
     });
-    it('should emit qtyChanged event is form is valid and quantity is a number', () => {
-      component.form.setErrors({});
-      component.form.controls['quantity'].setValue(6);
-      component.quantityChanged();
-      expect(component.qtyChanged.emit).toHaveBeenCalledWith(6);
-    });
+    it(
+      'should emit qtyChanged event if form is valid and quantity is a number ',
+      fakeAsync(() => {
+        component.form.setErrors({});
+        component.form.controls['quantity'].setValue(6);
+        tick(499);
+        expect(component.qtyChanged.emit).not.toHaveBeenCalled();
+        tick(500);
+        expect(component.qtyChanged.emit).toHaveBeenCalled();
+      })
+    );
     it('should not emit if form is invalid', () => {
       // min qty is set to 5 so this should be invalid
       component.form.controls['quantity'].setValue(2);
-      component.quantityChanged();
       expect(component.qtyChanged.emit).not.toHaveBeenCalled();
     });
     it('should not emit is quantity is not a number', () => {
       component.form.setErrors({});
       component.form.controls['quantity'].setValue('abc');
-      component.quantityChanged();
       expect(component.qtyChanged.emit).not.toHaveBeenCalled();
     });
   });
