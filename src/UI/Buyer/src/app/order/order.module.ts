@@ -13,7 +13,7 @@ import { OrderResolve } from '@app-buyer/order/order.resolve';
 import { OrderShipmentsComponent } from '@app-buyer/order/containers/order-shipments/order-shipments.component';
 import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
 import { OrderAprovalComponent } from '@app-buyer/order/containers/order-approval/order-approval.component';
-import { OrderApprovalDetailsComponent } from './containers/order-approval-details/order-approval-details.component';
+import { OrderApprovalDetailsComponent } from '@app-buyer/order/containers/order-approval-details/order-approval-details.component';
 
 @NgModule({
   imports: [SharedModule, OrderRoutingModule],

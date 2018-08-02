@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import {
   StateDefinition,
   CountryDefinition,
-} from '@app-buyer/shared/services/oc-geography/oc-geography.models';
+} from '@app-buyer/shared/services/geography/geography.models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OcGeographyService {
+export class AppGeographyService {
   getStates(): StateDefinition[] {
     return [
       { label: 'Alabama', abbreviation: 'AL', country: 'US' },

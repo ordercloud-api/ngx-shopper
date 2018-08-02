@@ -1,18 +1,18 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
+import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 describe('OcFormErrorService', () => {
   let service;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [OcFormErrorService],
+      providers: [AppFormErrorService],
     });
   });
 
   it('should be created', inject(
-    [OcFormErrorService],
-    (_service: OcFormErrorService) => {
+    [AppFormErrorService],
+    (_service: AppFormErrorService) => {
       service = _service;
       expect(service).toBeTruthy();
     }

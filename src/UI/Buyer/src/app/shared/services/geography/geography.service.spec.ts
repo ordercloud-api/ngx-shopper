@@ -1,17 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { OcGeographyService } from '@app-buyer/shared/services/oc-geography/oc-geography.service';
+import { AppGeographyService } from '@app-buyer/shared/services/geography/geography.service';
 
 describe('OcGeographyService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [OcGeographyService],
+      providers: [AppGeographyService],
     });
   });
 
   it('should be created', inject(
-    [OcGeographyService],
-    (service: OcGeographyService) => {
+    [AppGeographyService],
+    (service: AppGeographyService) => {
       expect(service).toBeTruthy();
     }
   ));

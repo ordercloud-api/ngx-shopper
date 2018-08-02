@@ -13,7 +13,7 @@ import {
   ListLineItem,
   LineItem,
 } from '@ordercloud/angular-sdk';
-import { AppLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
+import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import * as jwtDecode from 'jwt-decode';
 

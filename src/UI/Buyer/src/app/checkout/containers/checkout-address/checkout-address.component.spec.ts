@@ -7,11 +7,11 @@ import { of, BehaviorSubject, Subject } from 'rxjs';
 import { OcMeService, OcOrderService } from '@ordercloud/angular-sdk';
 import {
   AppStateService,
-  OcFormErrorService,
+  AppFormErrorService,
   ModalService,
 } from '@app-buyer/shared';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { OcGeographyService } from '@app-buyer/shared/services/oc-geography/oc-geography.service';
+import { AppGeographyService } from '@app-buyer/shared/services/geography/geography.service';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
 
 describe('CheckoutAddressComponent', () => {
@@ -70,12 +70,12 @@ describe('CheckoutAddressComponent', () => {
       ],
       imports: [ReactiveFormsModule],
       providers: [
-        OcFormErrorService,
+        AppFormErrorService,
         { provide: ModalService, useValue: modalService },
         { provide: OcMeService, useValue: meService },
         { provide: OcOrderService, useValue: orderService },
         { provide: AppStateService, useValue: appStateService },
-        OcGeographyService,
+        AppGeographyService,
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();

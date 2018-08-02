@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 // 3rd party
 import { BuyerAddress } from '@ordercloud/angular-sdk';
-import { OcGeographyService } from '@app-buyer/shared/services/oc-geography/oc-geography.service';
-import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
+import { AppGeographyService } from '@app-buyer/shared/services/geography/geography.service';
+import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 
 @Component({
   selector: 'shared-address-form',
@@ -20,9 +20,9 @@ export class AddressFormComponent implements OnInit {
   addressForm: FormGroup;
 
   constructor(
-    private ocGeography: OcGeographyService,
+    private ocGeography: AppGeographyService,
     private formBuilder: FormBuilder,
-    private formErrorService: OcFormErrorService
+    private formErrorService: AppFormErrorService
   ) {
     this.stateOptions = this.ocGeography.getStates().map((s) => s.abbreviation);
     this.countryOptions = this.ocGeography.getCountries();

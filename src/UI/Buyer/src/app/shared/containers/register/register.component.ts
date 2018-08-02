@@ -10,7 +10,7 @@ import {
 } from '@app-buyer/config/app.config';
 import { OcMatchFieldsValidator } from '@app-buyer/shared/validators/oc-match-fields/oc-match-fields.validator';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
-import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
+import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 
 @Component({
   selector: 'shared-register',
@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private appStateService: AppStateService,
     private activatedRoute: ActivatedRoute,
-    private formErrorService: OcFormErrorService,
+    private formErrorService: AppFormErrorService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
     this.appName = this.appConfig.appname;

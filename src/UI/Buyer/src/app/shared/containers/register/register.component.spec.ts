@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import {
   PhoneFormatPipe,
   AppStateService,
-  OcFormErrorService,
+  AppFormErrorService,
 } from '@app-buyer/shared';
 import { of, Subject } from 'rxjs';
 
@@ -63,7 +63,7 @@ describe('RegisterComponent', () => {
       declarations: [PhoneFormatPipe, RegisterComponent],
       imports: [ReactiveFormsModule, CookieModule.forRoot()],
       providers: [
-        { provide: OcFormErrorService, useValue: formErrorService },
+        { provide: AppFormErrorService, useValue: formErrorService },
         { provide: Router, useValue: router },
         { provide: OcTokenService, useValue: tokenService },
         { provide: OcMeService, useValue: meService },

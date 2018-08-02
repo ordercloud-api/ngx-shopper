@@ -23,9 +23,9 @@ export * from '@app-buyer/shared/guards/is-logged-in/is-logged-in.guard';
 export * from '@app-buyer/shared/services/app-state/app-state.service';
 export * from '@app-buyer/shared/services/authorize-net/authorize-net.service';
 export * from '@app-buyer/shared/services/base-resolve/base-resolve.service';
-export * from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
-export * from '@app-buyer/shared/services/oc-geography/oc-geography.service';
-export * from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
+export * from '@app-buyer/shared/services/form-error/form-error.service';
+export * from '@app-buyer/shared/services/geography/geography.service';
+export * from '@app-buyer/shared/services/line-item/line-item.service';
 export * from '@app-buyer/shared/services/modal/modal.service';
 
 // validators
