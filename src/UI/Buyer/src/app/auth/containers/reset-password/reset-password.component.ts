@@ -7,7 +7,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 // ordercloud
-import { OcMatchFieldsValidator, AppFormErrorService } from '@app-buyer/shared';
+import {
+  AppMatchFieldsValidator,
+  AppFormErrorService,
+} from '@app-buyer/shared';
 import {
   applicationConfiguration,
   AppConfig,
@@ -44,7 +47,7 @@ export class ResetPasswordComponent implements OnInit {
         password: '',
         passwordConfirm: '',
       },
-      { validator: OcMatchFieldsValidator('password', 'passwordConfirm') }
+      { validator: AppMatchFieldsValidator('password', 'passwordConfirm') }
     );
   }
 

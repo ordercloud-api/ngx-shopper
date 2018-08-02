@@ -9,9 +9,9 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
 import {
-  OcMinProductQty,
-  OcMaxProductQty,
-} from '@app-buyer/shared/validators/oc-product-quantity/oc-product.quantity.validator';
+  AppMinProductQty,
+  AppMaxProductQty,
+} from '@app-buyer/shared/validators/product-quantity/product.quantity.validator';
 import { ToastrService } from 'ngx-toastr';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { debounceTime, takeWhile } from 'rxjs/operators';
@@ -40,8 +40,8 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
         this.existingQty || this.getDefaultQty(),
         [
           Validators.required,
-          OcMinProductQty(this.product),
-          OcMaxProductQty(this.product),
+          AppMinProductQty(this.product),
+          AppMaxProductQty(this.product),
         ],
       ],
     });

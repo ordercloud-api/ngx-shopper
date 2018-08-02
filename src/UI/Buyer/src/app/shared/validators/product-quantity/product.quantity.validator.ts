@@ -5,7 +5,7 @@ import { BuyerProduct } from '@ordercloud/angular-sdk';
  * validate against the min quantity defined by an
  * ordercloud product's price schedule
  */
-export function OcMinProductQty(product: BuyerProduct): ValidatorFn {
+export function AppMinProductQty(product: BuyerProduct): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const minQty = getMinQty(product);
 
@@ -31,7 +31,7 @@ function getMinQty(product: BuyerProduct): number {
  * validate against the max quantity defined by an
  * ordercloud product's price schedule
  */
-export function OcMaxProductQty(product: BuyerProduct): ValidatorFn {
+export function AppMaxProductQty(product: BuyerProduct): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const maxQty = getMaxQty(product);
 

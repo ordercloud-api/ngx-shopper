@@ -29,8 +29,8 @@ export * from '@app-buyer/shared/services/line-item/line-item.service';
 export * from '@app-buyer/shared/services/modal/modal.service';
 
 // validators
-export * from '@app-buyer/shared/validators/oc-match-fields/oc-match-fields.validator';
-export * from '@app-buyer/shared/validators/oc-product-quantity/oc-product.quantity.validator';
+export * from '@app-buyer/shared/validators/match-fields/match-fields.validator';
+export * from '@app-buyer/shared/validators/product-quantity/product.quantity.validator';
 
 // modules
 export * from '@app-buyer/shared/shared-routing.module';

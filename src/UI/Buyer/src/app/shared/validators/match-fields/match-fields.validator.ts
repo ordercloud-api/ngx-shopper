@@ -3,7 +3,7 @@ import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 // takes the name of two form controls and validates that values are the same
 // form controls must be part of the same form group see app-reset-password-form component for example
 
-export function OcMatchFieldsValidator(
+export function AppMatchFieldsValidator(
   firstFieldName: string,
   secondFieldName: string
 ): ValidatorFn {
