@@ -1,9 +1,9 @@
 <div *ngIf="order$ | async; let order">
   <div class="row mb-5">
     <div class="col-6">
-      <shared-address-display [address]="(lineItems$ | async)?.Items[0].ShippingAddress"
-                              addressTitle="Shipping Address"
-                              *ngIf="order?.ShippingAddressID">
+      <shared-address-display *ngIf="(lineItems$ | async)?.Items[0].ShippingAddress"
+                              [address]="(lineItems$ | async)?.Items[0].ShippingAddress"
+                              addressTitle="Shipping Address">
       </shared-address-display>
       <shared-address-display [address]="order.BillingAddress"
                               addressTitle="Billing Address"
