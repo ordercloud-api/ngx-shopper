@@ -8,9 +8,9 @@ import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
-import { OcMatchFieldsValidator } from '@app-buyer/shared/validators/oc-match-fields/oc-match-fields.validator';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
+import { AppMatchFieldsValidator } from '@app-buyer/shared/validators/match-fields/match-fields.validator';
 
 @Component({
   selector: 'shared-register',
@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
 
     const validatorObj = this.shouldAllowUpdate
       ? {}
-      : { validator: OcMatchFieldsValidator('Password', 'ConfirmPassword') };
+      : { validator: AppMatchFieldsValidator('Password', 'ConfirmPassword') };
     if (!this.shouldAllowUpdate) {
       Object.assign(formObj, {
         Password: ['', [Validators.required, Validators.minLength(8)]],
