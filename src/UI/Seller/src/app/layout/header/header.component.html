@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light border-bottom">
+<nav class="navbar navbar-expand-lg navbar-light border-bottom bg-light">
   <div class="container px-3">
 
     <!-- Mobile Menu Toggle -->
@@ -24,7 +24,19 @@
         </li>
         <li class="nav-item">
           <a class="nav-link"
-             routerLink="/products">Products</a>
+             routerLink="/products">
+            <fa-icon [icon]="faBoxOpen"></fa-icon> Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/buyers">
+            <fa-icon [icon]="faTags"></fa-icon> Buyers</a>
+        </li>
+        <li class="nav-item float-right">
+          <a class="nav-link"
+             routerLink="/home"
+             (click)="logout()">
+            <fa-icon [icon]="faSignOutAlt"></fa-icon> Logout</a>
         </li>
       </ul>
     </div>

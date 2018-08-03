@@ -1,2 +1,2 @@
-<layout-header></layout-header>
-<layout-home></layout-home>
+<layout-header *ngIf="(isLoggedIn$ | async)"></layout-header>
+<router-outlet></router-outlet>k
