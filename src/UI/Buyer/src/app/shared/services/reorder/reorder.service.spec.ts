@@ -4,7 +4,6 @@ import { async, TestBed, inject } from '@angular/core/testing';
 import { AppReorderService } from '@app-buyer/shared/services/reorder/reorder.service';
 import { OrderReorderResponse } from '@app-buyer/shared/services/reorder/reorder.interface';
 import { OcMeService, BuyerProduct, LineItem } from '@ordercloud/angular-sdk';
-import { forEach aks _forEach, differenceBy as _differenceBy } from 'lodash';
 import { and } from '@angular/router/src/utils/collection';
 import { of } from 'rxjs';
 import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';

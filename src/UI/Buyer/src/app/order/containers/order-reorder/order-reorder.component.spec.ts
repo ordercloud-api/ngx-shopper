@@ -31,6 +31,12 @@ describe('OrderReorderComponent', () => {
           ValidLi: [{ Product: {}, Quantity: 2 }, { Product: {}, Quantity: 2 }],
           InvalidLi: [],
         })
+      ),
+    };
+    TestBed.configureTestingModule({
+      declarations: [OrderReorderComponent],
+      providers: [
+        { provide: ModalService, useValue: modalServiceTest },
         { provide: AppReorderService, useValue: AppReorderServiceTest },
         { provide: AppLineItemService, useValue: AppLineItemServiceTest },
       ],

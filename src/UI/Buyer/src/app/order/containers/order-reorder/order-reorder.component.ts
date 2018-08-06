@@ -9,7 +9,7 @@ import {
   AppLineItemService,
   AppReorderService,
 } from '@app-buyer/shared';
-import { orderReorderResponse } from '@app-buyer/shared/services/oc-reorder/oc-reorder.interface';
+import { OrderReorderResponse } from '@app-buyer/shared/services/reorder/reorder.interface';
 
 @Component({
   selector: 'order-reorder',
@@ -18,7 +18,7 @@ import { orderReorderResponse } from '@app-buyer/shared/services/oc-reorder/oc-r
 })
 export class OrderReorderComponent implements OnInit, OnDestroy {
   @Input() orderID: string;
-  reorderResponse$: Observable<orderReorderResponse>;
+  reorderResponse$: Observable<OrderReorderResponse>;
   modalID = 'Order-Reorder';
   alive = true;
   message = { string: null, classType: null };
@@ -41,7 +41,7 @@ export class OrderReorderComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateMessage(response: orderReorderResponse): void {
+  updateMessage(response: OrderReorderResponse): void {
     if (response.InvalidLi.length && !response.ValidLi.length) {
       this.message.string = `None of the line items on this order are available for reorder.`;
       this.message.classType = 'danger';
