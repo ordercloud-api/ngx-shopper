@@ -14,6 +14,7 @@ export class AppReorderService {
   ) {}
 
   public order(orderID: string): Observable<orderReorderResponse> {
+    if (!orderID) throw new Error('Needs Order ID');
     return this.appLineItemService.listAll(orderID).pipe(
       flatMap((list) => {
         let lineItems = of(list.Items); // this sets var into an observable
@@ -86,7 +87,7 @@ export class AppReorderService {
       if (!restrictedOrderQuantity) {
         return validOrderQuantity(li);
       } else {
-        withinPriceBreak = !!li.Product.PriceSchedule.PriceBreaks.find(
+        withinPriceBreak = li.Product.PriceSchedule.PriceBreaks.some(
           (pb) => pb.Quantity == li.Quantity
         );
         return withinPriceBreak && validOrderQuantity(li);
