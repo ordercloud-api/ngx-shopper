@@ -5,11 +5,11 @@ import { InjectionToken, DebugElement } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { of, BehaviorSubject } from 'rxjs';
 
-import { LoginComponent } from '@app-buyer/auth/containers/login/login.component';
+import { LoginComponent } from '@app-seller/auth/containers/login/login.component';
 import {
   applicationConfiguration,
   AppConfig,
-} from '@app-buyer/config/app.config';
+} from '@app-seller/config/app.config';
 
 import {
   Configuration,
@@ -17,9 +17,9 @@ import {
   OcTokenService,
 } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
-import { AppAuthService } from '@app-buyer/auth';
-import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
-import { AppStateService } from '@app-buyer/shared';
+import { AppAuthService } from '@app-seller/auth';
+import { AppErrorHandler } from '@app-seller/config/error-handling.config';
+import { AppStateService } from '@app-seller/shared';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -38,7 +38,7 @@ describe('LoginComponent', () => {
   const appAuthService = {
     setRememberStatus: jasmine.createSpy('setRememberStatus'),
   };
-  const appStateService = { isAnonSubject: new BehaviorSubject(false) };
+  const appStateService = { isLoggedIn: new BehaviorSubject(false) };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -105,13 +105,6 @@ describe('LoginComponent', () => {
       component.onSubmit();
       expect(ocTokenService.SetRefresh).toHaveBeenCalledWith('refresh123456');
       expect(appAuthService.setRememberStatus).toHaveBeenCalledWith(true);
-    });
-  });
-
-  describe('showRegisterLink', () => {
-    it('should be false when user is anonymous', () => {
-      appStateService.isAnonSubject.next(true);
-      expect(component.showRegisterLink()).toEqual(false);
     });
   });
 });

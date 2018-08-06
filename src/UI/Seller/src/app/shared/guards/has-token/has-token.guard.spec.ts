@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AppAuthService } from '@app-seller/auth';
 import { of } from 'rxjs';
 import { applicationConfiguration } from '@app-seller/config/app.config';
+import { AppStateService } from '@app-seller/shared/services/app-state/app-state.service';
 
 describe('HasTokenGuard', () => {
   let guard: HasTokenGuard;
@@ -46,6 +47,7 @@ describe('HasTokenGuard', () => {
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },
         { provide: OcTokenService, useValue: tokenService },
+        { provide: AppStateService, useValue: appStateService },
       ],
     });
     guard = TestBed.get(HasTokenGuard);
@@ -66,25 +68,6 @@ describe('HasTokenGuard', () => {
   });
 
   describe('canActivate', () => {
-    describe('user is anonymous', () => {
-      afterEach(() => {
-        appAuthService.authAnonymous.calls.reset();
-      });
-      it('should return true if token is valid', () => {
-        mockAccessToken = validToken;
-        guard.canActivate().subscribe((isTokenValid) => {
-          expect(isTokenValid).toBe(true);
-        });
-      });
-      it('should get new token and then return true if token is invalid', () => {
-        mockAccessToken = null;
-        guard.canActivate().subscribe((isTokenValid) => {
-          expect(appAuthService.authAnonymous).toHaveBeenCalled();
-          expect(appStateService.isLoggedIn.next).toHaveBeenCalledWith(true);
-          expect(isTokenValid).toBe(true);
-        });
-      });
-    });
     describe('user is logged in', () => {
       beforeEach(() => {
         appConfig.anonymousShoppingEnabled = false;

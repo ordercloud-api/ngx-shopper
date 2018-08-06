@@ -31,7 +31,7 @@ export class ProductTableComponent implements OnInit {
   }
 
   sortChanged(sortStr: string) {
-    Object.assign(this.requestOptions, { sortBy: sortStr });
+    Object.assign(this.requestOptions, { sortBy: sortStr, page: undefined });
     this.loadProducts();
   }
 
