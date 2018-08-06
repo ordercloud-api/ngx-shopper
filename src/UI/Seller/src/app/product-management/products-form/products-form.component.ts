@@ -31,7 +31,7 @@ export class ProductsFormComponent implements OnInit {
 
   setForm() {
     this.productForm = this.formBuilder.group({
-      //ID: [this._existingProduct.ID || ''],
+      ID: [this._existingProduct.ID || ''],
       Name: [this._existingProduct.Name || '', Validators.required],
       Description: [this._existingProduct.Description || ''],
       Active: [this._existingProduct.Active || false],
