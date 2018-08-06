@@ -1,0 +1,25 @@
+<button type="button"
+        class="btn  btn-secondary"
+        (click)="orderReorder()">Reorder</button>
+<shared-modal id="Order-Reorder"
+              modalTitle="Order Reorder">
+  <div *ngIf="reorderResponse$ | async as reorderResponse">
+    <div class="alert"
+         [ngClass]="{'alert-danger': message.classType == 'danger',
+                  'alert-warning': message.classType == 'warning',
+                  'alert-success': message.classType == 'success'}">
+      <p [innerHTML]='message.string'> </p>
+    </div>
+    <shared-lineitem-list-wrapper *ngIf="reorderResponse.InvalidLi.length">
+      <shared-line-item-card *ngFor="let li of reorderResponse.InvalidLi"
+                             [lineitem]="li"
+                             [productDetails]="li.Product"
+                             readOnly="true">
+      </shared-line-item-card>
+    </shared-lineitem-list-wrapper>
+    <button type="button"
+            class="btn btn-primary btn-lg btn-block"
+            [disabled]="!reorderResponse.ValidLi.length || !orderID"
+            (click)="addToCart()">Add to Cart</button>
+  </div>
+</shared-modal>
