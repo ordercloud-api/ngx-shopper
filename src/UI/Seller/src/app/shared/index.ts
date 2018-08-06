@@ -13,3 +13,4 @@ export * from '@app-seller/shared/models/decoded-token.interface';
 // services
 export * from '@app-seller/shared/services/form-error/form-error.service';
 export * from '@app-seller/shared/services/app-state/app-state.service';
+export * from '@app-seller/shared/services/modal/modal.service';

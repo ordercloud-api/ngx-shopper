@@ -2,6 +2,10 @@
 
 // Third party libraries
 @import 'vendor/_bootstrap.scss';
+@import 'vendor/ngx-toastr.scss';
+
+// Components in this app
+@import 'components/_modal.scss';
 
 .large-paddding-top {
   padding-top: 160px;

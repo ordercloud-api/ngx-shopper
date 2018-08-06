@@ -1,0 +1,59 @@
+<form (ngSubmit)="onSubmit()"
+      novalidate
+      [formGroup]="productForm"
+      name="RegisterForm">
+  <div class="form-group row">
+    <label for="ID"
+           class="col-sm-3 control-label font-weight-bold mt-1">ID</label>
+    <div class="col-sm-9">
+      <input type="text"
+             formControlName="ID"
+             class="form-control"
+             id="ID"
+             placeholder="(Optional)" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="name"
+           class="col-sm-3 control-label font-weight-bold mt-1">Name</label>
+    <div class="col-sm-9">
+      <input type="text"
+             formControlName="Name"
+             class="form-control"
+             id="name" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="description"
+           class="col-sm-3 control-label font-weight-bold mt-1">Description</label>
+    <div class="col-sm-9">
+      <textarea type="text"
+                formControlName="Description"
+                class="form-control"
+                id="description"
+                placeholder="(Optional)"></textarea>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="active"
+           class="col-sm-3 control-label font-weight-bold mt-1">Active</label>
+    <div class="col-sm-9">
+      <input type="checkbox"
+             formControlName="Active"
+             class="form-control mt-3"
+             id="active" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="featured"
+           class="col-sm-3 control-label font-weight-bold mt-1">Featured</label>
+    <div class="col-sm-9">
+      <input type="checkbox"
+             formControlName="Featured"
+             class="form-control mt-3"
+             id="featured" />
+    </div>
+  </div>
+  <button type="submit"
+          class="btn btn-primary mt-4 w-100">{{ btnText }}</button>
+</form>
