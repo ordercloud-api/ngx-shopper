@@ -18,14 +18,14 @@
       <thead>
         <tr>
           <th>
-            <shared-sort-table fieldName="ID"
-                               [currentSort]="requestOptions.sortBy"
-                               (sort)="sortChanged($event)">ID</shared-sort-table>
+            <shared-sort-column fieldName="ID"
+                                [currentSort]="requestOptions.sortBy"
+                                (sort)="sortChanged($event)">ID</shared-sort-column>
           </th>
           <th>
-            <shared-sort-table fieldName="Name"
-                               [currentSort]="requestOptions.sortBy"
-                               (sort)="sortChanged($event)">Name</shared-sort-table>
+            <shared-sort-column fieldName="Name"
+                                [currentSort]="requestOptions.sortBy"
+                                (sort)="sortChanged($event)">Name</shared-sort-column>
           </th>
           <th>Active</th>
           <th>Delete</th>

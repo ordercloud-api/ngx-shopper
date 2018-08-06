@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'shared-sort-table',
+  selector: 'shared-sort-column',
   templateUrl: './sort-table-header.component.html',
   styleUrls: ['./sort-table-header.component.scss'],
 })
@@ -10,9 +10,6 @@ export class SortTableHeaderComponent {
   constructor() {}
   faCaretUp = faCaretUp;
   faCaretDown = faCaretDown;
-
-  // The text to display to the user on the header for this column
-  @Input() displayName: string;
 
   // The name of the field providing data to this column. For example, ID, Description, Active
   @Input() fieldName: string;
