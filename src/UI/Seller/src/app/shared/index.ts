@@ -1,4 +1,4 @@
-//module
+// module
 export * from '@app-seller/shared/shared.module';
 
 // guards

@@ -3,6 +3,7 @@ import { NgModule, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 // 3rd party UI
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -10,6 +11,8 @@ import { SharedRoutingModule } from '@app-seller/shared/shared-routing.module';
 import { HasTokenGuard } from '@app-seller/shared/guards/has-token/has-token.guard';
 import { AppErrorHandler } from '@app-seller/config/error-handling.config';
 import { AppStateService } from '@app-seller/shared/services/app-state/app-state.service';
+import { SearchComponent } from '@app-seller/shared/components/search/search.component';
+import { SortTableHeaderComponent } from './components/sort-table-header/sort-table-header.component';
 
 @NgModule({
   imports: [
@@ -21,6 +24,7 @@ import { AppStateService } from '@app-seller/shared/services/app-state/app-state
 
     // 3rd party UI
     FontAwesomeModule,
+    NgbPaginationModule.forRoot(),
   ],
   exports: [
     // angular
@@ -30,8 +34,12 @@ import { AppStateService } from '@app-seller/shared/services/app-state/app-state
 
     // 3rd party UI
     FontAwesomeModule,
+    NgbPaginationModule,
+
+    SearchComponent,
+    SortTableHeaderComponent,
   ],
-  declarations: [],
+  declarations: [SearchComponent, SortTableHeaderComponent],
 
   /**
    * DO NOT define providers here
