@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AppLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
-import { orderReorderResponse } from '@app-buyer/shared/services/oc-reorder/oc-reorder.interface';
+import { OrderReorderResponse } from '@app-buyer/shared/services/reorder/reorder.interface';
 import { Observable, of, forkJoin } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { OcMeService, BuyerProduct, LineItem } from '@ordercloud/angular-sdk';
 import { forEach as _forEach, differenceBy as _differenceBy } from 'lodash';
+import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 
 @Injectable()
 export class AppReorderService {
@@ -13,13 +13,13 @@ export class AppReorderService {
     private meService: OcMeService
   ) {}
 
-  public order(orderID: string): Observable<orderReorderResponse> {
+  public order(orderID: string): Observable<OrderReorderResponse> {
     if (!orderID) throw new Error('Needs Order ID');
     return this.appLineItemService.listAll(orderID).pipe(
       flatMap((list) => {
-        let lineItems = of(list.Items); // this sets var into an observable
-        let productIds = list.Items.map((item) => item.ProductID);
-        let validProducts = this.getValidProducts(productIds);
+        const lineItems = of(list.Items); // this sets var into an observable
+        const productIds = list.Items.map((item) => item.ProductID);
+        const validProducts = this.getValidProducts(productIds);
         return forkJoin([validProducts, lineItems]);
       }),
       flatMap((results) => this.isProductInLiValid(results[0], results[1])),
@@ -32,7 +32,7 @@ export class AppReorderService {
     validProducts: BuyerProduct[] = []
   ): Observable<BuyerProduct[]> {
     validProducts = validProducts;
-    let chunk = productIds.splice(0, 25);
+    const chunk = productIds.splice(0, 25);
     return this.meService
       .ListProducts({ filters: { ID: chunk.join('|') } })
       .pipe(
@@ -50,14 +50,14 @@ export class AppReorderService {
   private isProductInLiValid(
     products: BuyerProduct[],
     lineItems: LineItem[]
-  ): Observable<orderReorderResponse> {
-    let validProductIDs = products.map((p) => p.ID);
-    let validLi: LineItem[] = [];
-    let invalidLi: LineItem[] = [];
+  ): Observable<OrderReorderResponse> {
+    const validProductIDs = products.map((p) => p.ID);
+    const validLi: LineItem[] = [];
+    const invalidLi: LineItem[] = [];
 
     _forEach(lineItems, (li) => {
       if (validProductIDs.indexOf(li.ProductID) > -1) {
-        let product = products.find((p) => p.ID == li.ProductID);
+        const product = products.find((p) => p.ID === li.ProductID);
         li.Product = product;
         validLi.push(li);
       } else {
@@ -68,11 +68,11 @@ export class AppReorderService {
   }
 
   private hasInventory(
-    response: orderReorderResponse
-  ): Observable<orderReorderResponse> {
+    response: OrderReorderResponse
+  ): Observable<OrderReorderResponse> {
     // compare new validLi with old validLi and push difference into the new invalid[] + old invalid array.
-    let newOrderResponse: orderReorderResponse;
-    let newValidLi = response.ValidLi.filter(isValidToOrder);
+    let newOrderResponse: OrderReorderResponse;
+    const newValidLi = response.ValidLi.filter(isValidToOrder);
     let newInvalidLi = _differenceBy(response.ValidLi, newValidLi, 'ProductID');
 
     newInvalidLi = newInvalidLi.concat(response.InvalidLi);
@@ -81,20 +81,21 @@ export class AppReorderService {
     return of(newOrderResponse);
 
     function isValidToOrder(li) {
-      let restrictedOrderQuantity = li.Product.PriceSchedule.RestrictedQuantity;
+      const restrictedOrderQuantity =
+        li.Product.PriceSchedule.RestrictedQuantity;
       let withinPriceBreak;
 
       if (!restrictedOrderQuantity) {
         return validOrderQuantity(li);
       } else {
         withinPriceBreak = li.Product.PriceSchedule.PriceBreaks.some(
-          (pb) => pb.Quantity == li.Quantity
+          (pb) => pb.Quantity === li.Quantity
         );
         return withinPriceBreak && validOrderQuantity(li);
       }
     }
     function validOrderQuantity(li) {
-      let inventory = li.Product.Inventory;
+      const inventory = li.Product.Inventory;
       if (!inventory || !inventory.Enabled || inventory.OrderCanExceed) {
         return true;
       }

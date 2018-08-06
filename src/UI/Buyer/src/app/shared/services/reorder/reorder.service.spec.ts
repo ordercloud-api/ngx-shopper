@@ -1,20 +1,20 @@
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { element } from 'protractor';
 import { async, TestBed, inject } from '@angular/core/testing';
-import { AppLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
-import { AppReorderService } from '@app-buyer/shared/services/oc-reorder/oc-reorder.service';
-import { orderReorderResponse } from '@app-buyer/shared/services/oc-reorder/oc-reorder.interface';
+import { AppReorderService } from '@app-buyer/shared/services/reorder/reorder.service';
+import { OrderReorderResponse } from '@app-buyer/shared/services/reorder/reorder.interface';
 import { OcMeService, BuyerProduct, LineItem } from '@ordercloud/angular-sdk';
-import { forEach as _forEach, differenceBy as _differenceBy } from 'lodash';
-import { and } from '../../../../../../node_modules/@angular/router/src/utils/collection';
+import { forEach aks _forEach, differenceBy as _differenceBy } from 'lodash';
+import { and } from '@angular/router/src/utils/collection';
 import { of } from 'rxjs';
+import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 
 describe('ReOrder Service', () => {
-  let mockLineItems = {
+  const mockLineItems = {
     Items: [{ ProductID: 'someID' }, { ProductID: 'someID2' }],
     Meta: {},
   };
-  let mockReOrderResponse = {
+  const mockReOrderResponse = {
     ValidLi: [
       {
         ProductID: 'someID',
@@ -37,9 +37,9 @@ describe('ReOrder Service', () => {
     ],
     InvalidLi: [{ ProductID: 'someID2' }],
   };
-  let mockBuyerProducts = [{ ID: 'someID' }];
-  let mockProductIds = ['someID', 'someID2'];
-  let mockProductIdsJoin = 'someID|someID2';
+  const mockBuyerProducts = [{ ID: 'someID' }];
+  const mockProductIds = ['someID', 'someID2'];
+  const mockProductIdsJoin = 'someID|someID2';
 
   let service;
   let response;

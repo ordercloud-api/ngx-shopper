@@ -27,7 +27,7 @@ export * from '@app-buyer/shared/services/form-error/form-error.service';
 export * from '@app-buyer/shared/services/geography/geography.service';
 export * from '@app-buyer/shared/services/line-item/line-item.service';
 export * from '@app-buyer/shared/services/modal/modal.service';
-export * from '@app-buyer/shared/services/oc-reorder/oc-reorder.service';
+export * from '@app-buyer/shared/services/reorder/reorder.service';
 
 // validators
 export * from '@app-buyer/shared/validators/match-fields/match-fields.validator';

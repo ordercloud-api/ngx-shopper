@@ -3,10 +3,10 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'shared-sort-column',
-  templateUrl: './sort-table-header.component.html',
-  styleUrls: ['./sort-table-header.component.scss'],
+  templateUrl: './sort-column.component.html',
+  styleUrls: ['./sort-column.component.scss'],
 })
-export class SortTableHeaderComponent {
+export class SortColumnComponent {
   constructor() {}
   faCaretUp = faCaretUp;
   faCaretDown = faCaretDown;

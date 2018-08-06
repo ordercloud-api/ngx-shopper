@@ -12,7 +12,7 @@ import { HasTokenGuard } from '@app-seller/shared/guards/has-token/has-token.gua
 import { AppErrorHandler } from '@app-seller/config/error-handling.config';
 import { AppStateService } from '@app-seller/shared/services/app-state/app-state.service';
 import { SearchComponent } from '@app-seller/shared/components/search/search.component';
-import { SortTableHeaderComponent } from './components/sort-table-header/sort-table-header.component';
+import { SortColumnComponent } from '@app-seller/shared/components/sort-column/sort-column.component';
 
 @NgModule({
   imports: [
@@ -37,9 +37,9 @@ import { SortTableHeaderComponent } from './components/sort-table-header/sort-ta
     NgbPaginationModule,
 
     SearchComponent,
-    SortTableHeaderComponent,
+    SortColumnComponent,
   ],
-  declarations: [SearchComponent, SortTableHeaderComponent],
+  declarations: [SearchComponent, SortColumnComponent],
 
   /**
    * DO NOT define providers here

@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SortTableHeaderComponent } from './sort-table-header.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { SortColumnComponent } from '@app-seller/shared/components/sort-column/sort-column.component';
 
 describe('SortTableHeaderComponent', () => {
-  let component: SortTableHeaderComponent;
-  let fixture: ComponentFixture<SortTableHeaderComponent>;
+  let component: SortColumnComponent;
+  let fixture: ComponentFixture<SortColumnComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SortTableHeaderComponent],
+      declarations: [SortColumnComponent],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SortTableHeaderComponent);
+    fixture = TestBed.createComponent(SortColumnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
