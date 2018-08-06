@@ -37,4 +37,11 @@ export class SortTableHeaderComponent {
     }
     this.sort.emit(sort);
   }
+
+  showCaretIcon(): boolean {
+    return (
+      this.currentSort === this.fieldName ||
+      this.currentSort === `!${this.fieldName}`
+    );
+  }
 }
