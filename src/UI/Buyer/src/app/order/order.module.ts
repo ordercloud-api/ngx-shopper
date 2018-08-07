@@ -14,7 +14,7 @@ import { OrderShipmentsComponent } from '@app-buyer/order/containers/order-shipm
 import { ShipmentsResolve } from '@app-buyer/order/shipments.resolve';
 import { OrderReorderComponent } from '@app-buyer/order/containers/order-reorder/order-reorder.component';
 import { OrderAprovalComponent } from '@app-buyer/order/containers/order-approval/order-approval.component';
-import { OrderApprovalDetailsComponent } from './containers/order-approval-details/order-approval-details.component';
+import { OrderApprovalDetailsComponent } from '@app-buyer/order/containers/order-approval-details/order-approval-details.component';
 
 @NgModule({
   imports: [SharedModule, OrderRoutingModule],

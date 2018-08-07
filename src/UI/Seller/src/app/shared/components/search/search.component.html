@@ -1,0 +1,25 @@
+<form [formGroup]="form">
+  <label for="search-addon"
+         class="sr-only">{{placeholderText || 'Search...'}}</label>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <div class="input-group-text">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </div>
+    </div>
+    <input type="search"
+           class="form-control"
+           placeholder="{{placeholderText || 'Search...'}}"
+           aria-label="Product search"
+           id="search-addon"
+           formControlName="search"
+           (keyup.enter)="search()">
+    <div *ngIf="showClear()"
+         class="input-group-append">
+      <div (click)="clear()"
+           class="input-group-text text-danger icon-button--hover-reactive">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </div>
+    </div>
+  </div>
+</form>

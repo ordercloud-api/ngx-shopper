@@ -1,0 +1,48 @@
+<section class="login large-paddding-top">
+  <div class="text-center">
+    <h1 class="display-4">{{appConfig.appname}}</h1>
+  </div>
+  <div class="mx-auto mt-4"
+       style="max-width:350px;">
+    <h3 class="text-center headline-text">Account Login</h3>
+    <form (ngSubmit)="onSubmit()"
+          [formGroup]="form"
+          name="LoginForm"
+          autocomplete="off"
+          novalidate>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input formControlName="username"
+               id="username"
+               type="text"
+               class="form-control"
+               placeholder="Username"
+               autocapitalize="off"
+               autofocus />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input formControlName="password"
+               type="password"
+               class="form-control"
+               placeholder="Password"
+               id="password" />
+      </div>
+      <div class="form-group text-center">
+        <div class="checkbox">
+          <label for="rememberMeId">
+                    <input formControlName="rememberMe" type="checkbox" id="rememberMeId">
+                    Remember Me
+                </label>
+        </div>
+      </div>
+      <button id="submitBtn"
+              type="submit"
+              [disabled]="!form.valid"
+              class="btn btn-primary btn-lg btn-block">Submit</button>
+    </form>
+    <button type="button"
+            class="btn btn-link btn-block text-center"
+            routerLink="/forgot-password">Forgot Password</button>
+  </div>
+</section>

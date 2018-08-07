@@ -26,13 +26,13 @@ export class LoginComponent implements OnInit {
     private appAuthService: AppAuthService,
     private ocTokenService: OcTokenService,
     private router: Router,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private appStateService: AppStateService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {}
 
   ngOnInit() {
-    this.form = this.fb.group({
+    this.form = this.formBuilder.group({
       username: '',
       password: '',
       rememberMe: false,

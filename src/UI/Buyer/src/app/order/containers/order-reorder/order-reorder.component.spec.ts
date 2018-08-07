@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { OrderReorderComponent } from '@app-buyer/order/containers/order-reorder/order-reorder.component.ts';
+import { OrderReorderComponent } from '@app-buyer/order/containers/order-reorder/order-reorder.component';
 import {
   ModalService,
   AppReorderService,

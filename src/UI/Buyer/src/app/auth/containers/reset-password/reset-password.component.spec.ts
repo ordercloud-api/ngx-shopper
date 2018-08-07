@@ -17,7 +17,7 @@ import {
 } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { ToastrService } from 'ngx-toastr';
-import { OcFormErrorService } from '@app-buyer/shared';
+import { AppFormErrorService } from '@app-buyer/shared';
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
@@ -47,7 +47,7 @@ describe('ResetPasswordComponent', () => {
         { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: ToastrService, useValue: toastrService },
-        { provide: OcFormErrorService, useValue: formErrorService },
+        { provide: AppFormErrorService, useValue: formErrorService },
         {
           provide: applicationConfiguration,
           useValue: new InjectionToken<AppConfig>('app.config'),

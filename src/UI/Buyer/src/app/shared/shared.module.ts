@@ -30,11 +30,11 @@ import {
 import { BaseResolve } from '@app-buyer/shared/resolves/base.resolve';
 import { SharedRoutingModule } from '@app-buyer/shared/shared-routing.module';
 import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
-import { AppLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
+import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 import { AuthorizeNetService } from '@app-buyer/shared/services/authorize-net/authorize-net.service';
-import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
+import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
-import { AppReorderService } from '@app-buyer/shared/services/oc-reorder/oc-reorder.service';
+import { AppReorderService } from '@app-buyer/shared/services/reorder/reorder.service';
 
 // pipes
 import { PhoneFormatPipe } from '@app-buyer/shared/pipes/phone-format/phone-format.pipe';
@@ -190,7 +190,7 @@ export class SharedModule {
         AuthorizeNetService,
         BaseResolve,
         BaseResolveService,
-        OcFormErrorService,
+        AppFormErrorService,
         AppLineItemService,
         ModalService,
         PhoneFormatPipe,
