@@ -12,8 +12,7 @@
     "lib": ["es2017", "dom"],
     "baseUrl": ".",
     "paths": {
-      "@app-buyer/*": ["Buyer/src/app/*"],
-      "@app-seller/*": ["Seller/src/app/*"]
+      "@app-seller/*": ["src/app/*"]
     }
   }
 }
