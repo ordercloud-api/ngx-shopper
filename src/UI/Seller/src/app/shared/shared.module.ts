@@ -3,7 +3,10 @@ import { NgModule, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbPaginationModule,
+  NgbTabsetModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 // 3rd party UI
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -28,6 +31,7 @@ import { AppFormErrorService } from '@app-seller/shared/services/form-error/form
     // 3rd party UI
     FontAwesomeModule,
     NgbPaginationModule.forRoot(),
+    NgbTabsetModule.forRoot(),
   ],
   exports: [
     // angular
@@ -38,7 +42,9 @@ import { AppFormErrorService } from '@app-seller/shared/services/form-error/form
     // 3rd party UI
     FontAwesomeModule,
     NgbPaginationModule,
+    NgbTabsetModule,
 
+    // app components
     SearchComponent,
     SortColumnComponent,
     ModalComponent,

@@ -18,3 +18,21 @@
   line-height: 0.5;
   border-radius: 0.2rem;
 }
+
+// Styling for action icons
+.icon-button--hover-reactive {
+  font-size: 18px;
+  :hover {
+    opacity: 0.5;
+  }
+}
+
+// invalid inputs
+.form-control.ng-dirty.ng-invalid {
+  border: solid 1px red;
+}
+
+.error-message {
+  font-size: 15px;
+  color: $form-feedback-invalid-color;
+}

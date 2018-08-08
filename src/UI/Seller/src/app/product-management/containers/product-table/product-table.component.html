@@ -47,7 +47,7 @@
       <tbody>
         <tr *ngFor="let product of products.Items">
           <td>{{product.ID}}</td>
-          <td><a>{{product.Name}}</a></td>
+          <td><a [routerLink]="['/products', product.ID]">{{product.Name}}</a></td>
           <td class="text-center">
             <fa-icon aria-hidden="true"
                      [ngClass]="{'text-success': product.Active}"

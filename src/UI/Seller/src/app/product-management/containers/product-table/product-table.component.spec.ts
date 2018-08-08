@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductTableComponent } from '@app-seller/product-management/product-table/product-table.component';
 import { of } from 'rxjs';
 import { OcProductService } from '@ordercloud/angular-sdk';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ProductTableComponent } from '@app-seller/product-management/containers/product-table/product-table.component';
 
 describe('ProductTableComponent', () => {
   let component: ProductTableComponent;

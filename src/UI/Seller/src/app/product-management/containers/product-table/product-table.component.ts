@@ -7,7 +7,7 @@ import {
 import { faCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { ModalService } from '@app-seller/shared';
-import { ToastrService } from '../../../../../node_modules/ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'products-table',

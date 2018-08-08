@@ -6,6 +6,7 @@ export * from '@app-seller/shared/guards/has-token/has-token.guard';
 
 // validators
 export * from '@app-seller/shared/validators/match-fields/match-fields.validator';
+export * from '@app-seller/shared/validators/id-field/id-field.validator';
 
 // models
 export * from '@app-seller/shared/models/decoded-token.interface';

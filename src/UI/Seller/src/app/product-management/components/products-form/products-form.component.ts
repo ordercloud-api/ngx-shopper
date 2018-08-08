@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from '@ordercloud/angular-sdk';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AppFormErrorService } from '@app-seller/shared';
+import { AppFormErrorService, AppIdValidator } from '@app-seller/shared';
 
 @Component({
   selector: 'products-form',
@@ -31,7 +31,7 @@ export class ProductsFormComponent implements OnInit {
 
   setForm() {
     this.productForm = this.formBuilder.group({
-      ID: [this._existingProduct.ID || ''],
+      ID: [this._existingProduct.ID || '', AppIdValidator()],
       Name: [this._existingProduct.Name || '', Validators.required],
       Description: [this._existingProduct.Description || ''],
       Active: [this._existingProduct.Active || false],
@@ -56,6 +56,6 @@ export class ProductsFormComponent implements OnInit {
   // control display of error messages
   protected hasRequiredError = (controlName: string) =>
     this.formErrorService.hasRequiredError(controlName, this.productForm);
-  protected hasValidEmailError = () =>
-    this.formErrorService.hasValidEmailError(this.productForm.get('Email'));
+  protected hasInvalidIdError = () =>
+    this.formErrorService.hadInvalidIdError(this.productForm.get('ID'));
 }
