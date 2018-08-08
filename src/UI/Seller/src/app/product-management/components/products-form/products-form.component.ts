@@ -57,5 +57,5 @@ export class ProductsFormComponent implements OnInit {
   protected hasRequiredError = (controlName: string) =>
     this.formErrorService.hasRequiredError(controlName, this.productForm);
   protected hasInvalidIdError = () =>
-    this.formErrorService.hadInvalidIdError(this.productForm.get('ID'));
+    this.formErrorService.hasInvalidIdError(this.productForm.get('ID'));
 }

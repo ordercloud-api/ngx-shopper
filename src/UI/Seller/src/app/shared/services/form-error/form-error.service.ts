@@ -19,7 +19,7 @@ export class AppFormErrorService {
     return form.hasError('ocMatchFields');
   }
 
-  hadInvalidIdError(input: FormControl | AbstractControl) {
+  hasInvalidIdError(input: FormControl | AbstractControl) {
     return input.hasError('invalidIdError') && input.dirty;
   }
 

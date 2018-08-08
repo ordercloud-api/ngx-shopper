@@ -39,8 +39,7 @@ export class ProductDetailsComponent implements OnInit {
 
   updateProduct(product: Product): void {
     if (!product.ID) {
-      this.toastrService.error('Cannot update a product without an ID');
-      return;
+      throw Error('Cannot update a product without an ID');
     }
 
     this.ocProductService

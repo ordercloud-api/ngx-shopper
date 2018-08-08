@@ -7,7 +7,6 @@ import {
 import { faCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { ModalService } from '@app-seller/shared';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'products-table',
@@ -24,8 +23,7 @@ export class ProductTableComponent implements OnInit {
 
   constructor(
     private ocProductService: OcProductService,
-    private modalService: ModalService,
-    private toasterService: ToastrService
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
