@@ -1,0 +1,44 @@
+<div class="container mt-4"
+     *ngIf="product">
+  <div class="row">
+    <div class="col-12">
+      <nav class="breadcrumb"
+           aria-label="breadcrumb">
+        <a class="breadcrumb-item link-text"
+           [routerLink]="['/products']">All Products</a>
+        <a class="breadcrumb-item link-text">{{ product.Name }}</a>
+      </nav>
+    </div>
+  </div>
+  <h4>
+    <small class="text-muted">Product</small> <br> {{ product.Name}}
+  </h4>
+  <div class="mt-3">
+    <ngb-tabset>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon [icon]="faBoxOpen"></fa-icon> Product
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div class="m-3"
+               style="max-width: 800px">
+            <products-form btnText="Update Product Info"
+                           [existingProduct]="product"
+                           (formSubmitted)="updateProduct($event)"></products-form>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon [icon]="faImage"></fa-icon> Images
+        </ng-template>
+        <ng-template ngbTabContent>
+          <products-details-images></products-details-images>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+  <div class="mt-3">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -3,10 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategoryNavComponent } from '@app-buyer/products/components/category-nav/category-nav.component';
 import { TreeModule } from 'angular-tree-component';
 import { CategoryTreeNode } from '@app-buyer/products/models/category-tree-node.class';
+import { BehaviorSubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 describe('CategoryNavComponent', () => {
   let component: CategoryNavComponent;
   let fixture: ComponentFixture<CategoryNavComponent>;
+  let mockCategoryID = '12345';
   const TreeNode = (fields) => {
     const node = new CategoryTreeNode();
     if (fields.id) {
@@ -25,9 +28,16 @@ describe('CategoryNavComponent', () => {
     return node;
   };
 
+  const queryParams = new BehaviorSubject<any>({ category: mockCategoryID });
+  const activatedRoute = {
+    navigate: jasmine.createSpy('navigate'),
+    queryParams,
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CategoryNavComponent],
+      providers: [{ provide: ActivatedRoute, useValue: activatedRoute }],
       imports: [TreeModule],
     }).compileComponents();
   }));
