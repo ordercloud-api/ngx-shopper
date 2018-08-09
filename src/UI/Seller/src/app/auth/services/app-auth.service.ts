@@ -106,24 +106,6 @@ export class AppAuthService {
     return of(this.router.navigate(['/login']));
   }
 
-  authAnonymous(): Observable<string> {
-    return this.ocAuthService
-      .Anonymous(this.appConfig.clientID, this.appConfig.scope)
-      .pipe(
-        map((authResponse) => authResponse.access_token),
-        tap((token) => this.ocTokenService.SetAccess(token)),
-        catchError((ex) => {
-          this.appErrorHandler.displayError(ex);
-          return this.logout();
-        })
-      );
-  }
-
-  isUserAnon(): boolean {
-    const anonOrderID = jwtDecode(this.ocTokenService.GetAccess()).orderid;
-    return !_isUndefined(anonOrderID);
-  }
-
   setRememberStatus(status: boolean): void {
     this.cookieService.putObject(this.rememberMeCookieName, { status: status });
   }
