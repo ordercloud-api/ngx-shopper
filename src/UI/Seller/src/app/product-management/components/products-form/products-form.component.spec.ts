@@ -3,7 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductsFormComponent } from './products-form.component';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AppFormErrorService } from '@app-seller/shared';
-import { RouterTestingModule } from '../../../../../../node_modules/@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserModule } from '@angular/platform-browser';
 
 describe('ProductsFormComponent', () => {
   let component: ProductsFormComponent;
@@ -26,7 +27,7 @@ describe('ProductsFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProductsFormComponent],
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, BrowserModule],
       providers: [
         FormBuilder,
         { provide: AppFormErrorService, useValue: formErrorService },
@@ -72,7 +73,10 @@ describe('ProductsFormComponent', () => {
     });
     it('should emit formSubmitted event', () => {
       component['onSubmit']();
-      expect(component.formSubmitted.emit).toHaveBeenCalledWith(mockProduct);
+      expect(component.formSubmitted.emit).toHaveBeenCalledWith({
+        ...mockProduct,
+        Featured: false,
+      });
     });
   });
 

@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { applicationConfiguration } from '@app-buyer/config/app.config';
+import { applicationConfiguration } from '@app-seller/config/app.config';
 
 import {
   OcAuthService,
@@ -8,12 +8,12 @@ import {
 } from '@ordercloud/angular-sdk';
 import { CookieModule, CookieService } from 'ngx-cookie';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
-import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
+import { AppErrorHandler } from '@app-seller/config/error-handling.config';
+import { AppAuthService } from '@app-seller/auth/services/app-auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { AppStateService } from '@app-buyer/shared';
+import { AppStateService } from '@app-seller/shared';
 
 describe('AppAuthService', () => {
   const mockCookieResponse = {
@@ -149,13 +149,6 @@ describe('AppAuthService', () => {
           mockRefreshToken,
           mockClientID
         );
-      });
-      it('should call auth anonymous if refresh failed and user is anonymous', () => {
-        spyOn(authService, 'RefreshToken').and.returnValue(throwError(null));
-        spyOn(appAuthService, 'authAnonymous').and.returnValue(of(null));
-        appConfig.anonymousShoppingEnabled = true;
-        appAuthService.fetchRefreshToken().subscribe();
-        expect(appAuthService.authAnonymous).toHaveBeenCalled();
       });
     });
     describe('and does not have a refresh token', () => {
