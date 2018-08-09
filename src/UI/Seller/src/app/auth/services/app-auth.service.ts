@@ -14,6 +14,7 @@ import { keys as _keys } from 'lodash';
 import { AppErrorHandler } from '@app-seller/config/error-handling.config';
 import * as jwtDecode from 'jwt-decode';
 import { isUndefined as _isUndefined } from 'lodash';
+import { AppStateService } from '@app-seller/shared/services/app-state/app-state.service';
 
 export const TokenRefreshAttemptNotPossible =
   'Token refresh attempt not possible';
@@ -32,6 +33,7 @@ export class AppAuthService {
     private cookieService: CookieService,
     private router: Router,
     private appErrorHandler: AppErrorHandler,
+    private appStateService: AppStateService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
     this.refreshToken = new BehaviorSubject<string>('');
@@ -43,6 +45,7 @@ export class AppAuthService {
       tap((token) => {
         this.ocTokenService.SetAccess(token);
         this.refreshToken.next(token);
+        this.appStateService.isLoggedIn.next(true);
       }),
       catchError((error) => {
         if (
@@ -99,25 +102,8 @@ export class AppAuthService {
         this.cookieService.remove(cookieName);
       }
     });
+    this.appStateService.isLoggedIn.next(false);
     return of(this.router.navigate(['/login']));
-  }
-
-  authAnonymous(): Observable<string> {
-    return this.ocAuthService
-      .Anonymous(this.appConfig.clientID, this.appConfig.scope)
-      .pipe(
-        map((authResponse) => authResponse.access_token),
-        tap((token) => this.ocTokenService.SetAccess(token)),
-        catchError((ex) => {
-          this.appErrorHandler.displayError(ex);
-          return this.logout();
-        })
-      );
-  }
-
-  isUserAnon(): boolean {
-    const anonOrderID = jwtDecode(this.ocTokenService.GetAccess()).orderid;
-    return !_isUndefined(anonOrderID);
   }
 
   setRememberStatus(status: boolean): void {

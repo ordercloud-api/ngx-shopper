@@ -17,7 +17,7 @@ import {
   OcTokenService,
 } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
-import { AppAuthService } from '@app-seller/auth';
+import { AppAuthService } from '@app-seller/auth/services/app-auth.service';
 import { AppErrorHandler } from '@app-seller/config/error-handling.config';
 import { AppStateService } from '@app-seller/shared';
 
