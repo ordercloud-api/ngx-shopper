@@ -17,6 +17,8 @@ import { CookieModule } from 'ngx-cookie';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app-seller/shared';
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressHttpModule } from '@ngx-progressbar/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,6 +31,8 @@ import { SharedModule } from '@app-seller/shared';
     BrowserAnimationsModule,
     BrowserModule,
     LayoutModule,
+    NgProgressModule.forRoot(),
+    NgProgressHttpModule,
     OrderCloudModule.forRoot(OcSDKConfig),
     CookieModule.forRoot(),
     ToastrModule.forRoot(),

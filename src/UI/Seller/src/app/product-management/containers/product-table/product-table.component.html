@@ -1,5 +1,18 @@
 <div class="container mt-4">
-  <h1>Products</h1>
+  <div class="row">
+    <div class="col-8">
+      <h1>Products</h1>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary float-right mt-3"
+              (click)="openNewProductModal()"><fa-icon [icon]="faPlusCircle"></fa-icon> New Product</button>
+      <shared-modal id="{{ modalID }}"
+                    modalTitle="Create A New Product - Basic Info">
+        <products-form btnText="Save"
+                       (formSubmitted)="addProduct($event)"></products-form>
+      </shared-modal>
+    </div>
+  </div>
   <div class="mt-4"
        *ngIf="products">
     <shared-search class="mt-1"
@@ -34,7 +47,7 @@
       <tbody>
         <tr *ngFor="let product of products.Items">
           <td>{{product.ID}}</td>
-          <td><a>{{product.Name}}</a></td>
+          <td><a [routerLink]="['/products', product.ID]">{{product.Name}}</a></td>
           <td class="text-center">
             <fa-icon aria-hidden="true"
                      [ngClass]="{'text-success': product.Active}"

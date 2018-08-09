@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import * as jwtDecode from 'jwt-decode';
-import { AppAuthService } from '@app-seller/auth/services/app-auth.service';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DecodedOrderCloudToken } from '@app-seller/shared/models/decoded-token.interface';
 import { OcTokenService } from '@ordercloud/angular-sdk';
 import { AppStateService } from '@app-seller/shared/services/app-state/app-state.service';
+import { AppAuthService } from '@app-seller/auth/services/app-auth.service';
 
 @Injectable()
 export class HasTokenGuard implements CanActivate {

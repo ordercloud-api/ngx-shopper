@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ListBuyerProduct, OcProductService } from '@ordercloud/angular-sdk';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  ListBuyerProduct,
+  OcProductService,
+  Product,
+} from '@ordercloud/angular-sdk';
+import { faCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { ModalService } from '@app-seller/shared';
 
 @Component({
   selector: 'products-table',
@@ -13,11 +18,20 @@ export class ProductTableComponent implements OnInit {
   requestOptions = { search: undefined, page: undefined, sortBy: undefined };
   faTrash = faTrashAlt;
   faCircle = faCircle;
+  faPlusCircle = faPlusCircle;
+  modalID = 'NewProductModal';
 
-  constructor(private ocProductService: OcProductService) {}
+  constructor(
+    private ocProductService: OcProductService,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit() {
     this.loadProducts();
+  }
+
+  openNewProductModal() {
+    this.modalService.open(this.modalID);
   }
 
   pageChanged(page: number) {
@@ -43,6 +57,13 @@ export class ProductTableComponent implements OnInit {
 
   deleteProduct(productID) {
     this.ocProductService.Delete(productID).subscribe(() => {
+      this.loadProducts();
+    });
+  }
+
+  addProduct(product: Product) {
+    this.modalService.close(this.modalID);
+    this.ocProductService.Create(product).subscribe(() => {
       this.loadProducts();
     });
   }
