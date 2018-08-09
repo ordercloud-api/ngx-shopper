@@ -16,7 +16,7 @@ export const ocAppConfig: AppConfig = {
     'MeXpAdmin',
     'Shopper',
     'CategoryReader',
-    'ProductReader',
+    'ProductAdmin',
     'SupplierReader',
     'SupplierAddressReader',
     'BuyerReader',

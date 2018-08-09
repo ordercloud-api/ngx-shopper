@@ -1,4 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 
-// Third party libraries 
+// Third party libraries
 @import 'vendor/_bootstrap.scss';
+@import 'vendor/ngx-toastr.scss';
+
+// Components in this app
+@import 'components/_modal.scss';
+
+.large-paddding-top {
+  padding-top: 160px;
+}
+
+// extra-small buttons were removed from bootstrap 4
+.btn-xs {
+  padding: 0.25rem 0.4rem;
+  font-size: 0.875rem;
+  line-height: 0.5;
+  border-radius: 0.2rem;
+}
+
+// Styling for action icons
+.icon-button--hover-reactive {
+  font-size: 18px;
+  :hover {
+    opacity: 0.5;
+  }
+}
+
+// invalid inputs
+.form-control.ng-dirty.ng-invalid {
+  border: solid 1px red;
+}
+
+.error-message {
+  font-size: 15px;
+  color: $form-feedback-invalid-color;
+}

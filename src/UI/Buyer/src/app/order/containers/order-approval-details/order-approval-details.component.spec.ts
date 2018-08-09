@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderApprovalDetailsComponent } from './order-approval-details.component';
+import { OrderApprovalDetailsComponent } from '@app-buyer/order/containers/order-approval-details/order-approval-details.component';
 import { OcOrderService } from '@ordercloud/angular-sdk';
 import {
   ActivatedRoute,

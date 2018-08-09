@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CreateCardDetails } from '@app-buyer/shared';
-import { OcFormErrorService } from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
+import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import {
   faCcVisa,
@@ -17,7 +17,7 @@ import {
 export class CreditCardFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private formErrorService: OcFormErrorService
+    private formErrorService: AppFormErrorService
   ) {}
 
   @Output() formSubmitted = new EventEmitter<CreateCardDetails>();
