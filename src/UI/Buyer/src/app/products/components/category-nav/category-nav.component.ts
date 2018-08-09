@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ListCategory, Category } from '@ordercloud/angular-sdk';
 import { ITreeOptions } from 'angular-tree-component';
 import { CategoryTreeNode } from '@app-buyer/products/models/category-tree-node.class';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'products-category-nav',
@@ -12,7 +13,11 @@ export class CategoryNavComponent implements OnInit {
   @Input() categories: ListCategory;
   @Output() selection = new EventEmitter<CategoryTreeNode>();
   categoryTree: CategoryTreeNode[];
+  private activeCategoryID: string;
   options: ITreeOptions = {
+    nodeClass: (node: CategoryTreeNode) => {
+      return this.activeCategoryID == node.id ? 'font-weight-bold' : null;
+    },
     actionMapping: {
       mouse: {
         click: (_tree, _node, _$event) => {
@@ -23,10 +28,15 @@ export class CategoryNavComponent implements OnInit {
     animateExpand: true,
   };
 
-  constructor() {}
+  constructor(
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     this.categoryTree = this.buildCategoryTree(this.categories.Items);
+    this.activatedRoute.queryParams.subscribe((queryParams) => {
+      this.activeCategoryID = queryParams.category;
+    })
   }
 
   buildCategoryTree(ocCategories: Category[]): CategoryTreeNode[] {
