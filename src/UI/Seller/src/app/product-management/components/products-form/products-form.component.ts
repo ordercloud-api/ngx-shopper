@@ -26,7 +26,17 @@ export class ProductsFormComponent implements OnInit {
   @Input()
   set existingProduct(product: Product) {
     this._existingProduct = product || {};
-    this.setForm();
+    if (!this.productForm) {
+      this.setForm();
+      return;
+    }
+    this.productForm.setValue({
+      ID: this._existingProduct.ID || '',
+      Name: this._existingProduct.Name || '',
+      Description: this._existingProduct.Description || '',
+      Active: !!this._existingProduct.Active,
+      Featured: this._existingProduct.xp && this._existingProduct.xp.Featured,
+    });
   }
 
   setForm() {
@@ -34,7 +44,7 @@ export class ProductsFormComponent implements OnInit {
       ID: [this._existingProduct.ID || '', AppIdValidator()],
       Name: [this._existingProduct.Name || '', Validators.required],
       Description: [this._existingProduct.Description || ''],
-      Active: [this._existingProduct.Active || false],
+      Active: [!!this._existingProduct.Active],
       Featured: [this._existingProduct.xp && this._existingProduct.xp.Featured],
     });
   }
@@ -48,7 +58,6 @@ export class ProductsFormComponent implements OnInit {
       ...this.productForm.value,
       xp: { Featured: this.productForm.value.Featured },
     };
-    delete product.Featured;
 
     this.formSubmitted.emit(product);
   }
