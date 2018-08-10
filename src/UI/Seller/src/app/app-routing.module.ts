@@ -16,8 +16,8 @@ const routes: Routes = [
         loadChildren: './product-management/products.module#ProductsModule',
       },
       {
-        path: 'buyers',
-        loadChildren: './buyer-management/buyers.module#BuyersModule',
+        path: 'users',
+        loadChildren: './user-management/user.module#UserModule',
       },
     ],
   },

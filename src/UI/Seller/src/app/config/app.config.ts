@@ -12,6 +12,7 @@ export const ocAppConfig: AppConfig = {
   scope: [
     'MeAddressAdmin',
     'MeAdmin',
+    'BuyerUserAdmin',
     'MeCreditCardAdmin',
     'MeXpAdmin',
     'Shopper',
