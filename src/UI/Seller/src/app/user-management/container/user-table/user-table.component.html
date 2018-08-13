@@ -4,7 +4,7 @@
       <h1>Users</h1>
     </div>
     <div class="col-4">
-      <button class="btn btn-primary float-right mt-3" (click)="openModal(createModalID)">
+      <button class="btn btn-primary float-right mt-3" (click)="openCreateModal()">
         <fa-icon [icon]="faPlusCircle"></fa-icon> New User</button>
       <shared-modal id="{{ createModalID }}" modalTitle="Create A New User">
         <user-form btnText="Create" (formSubmitted)="addUser($event)"></user-form>
@@ -51,7 +51,7 @@
           <tr *ngFor="let user of users.Items">
             <td>{{ user.ID }}</td>
             <td>
-              <a [routerLink]="" (click)="openModal(editModalID, user)">{{ user.Username }}</a>
+              <a [routerLink]="" (click)="openEditModal(user)">{{ user.Username }}</a>
             </td>
             <td>{{ user.FirstName }}</td>
             <td>{{ user.LastName }}</td>

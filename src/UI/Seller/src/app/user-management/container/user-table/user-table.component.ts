@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { BaseBrowse, ModalService } from '@app-seller/shared';
 import { OcUserService, User, ListUser } from '@ordercloud/angular-sdk';
 import {
@@ -6,6 +6,10 @@ import {
   faPlusCircle,
   faCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  AppConfig,
+  applicationConfiguration,
+} from '@app-seller/config/app.config';
 
 @Component({
   selector: 'user-table',
@@ -23,7 +27,8 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
 
   constructor(
     private ocUserService: OcUserService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
     // The BaseBrowse super class contains functionality for search, sort, and pagination.
     super();
@@ -33,36 +38,42 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
     this.loadData();
   }
 
-  openModal(id: string, user?: User) {
+  openCreateModal() {
+    this.modalService.open(this.createModalID);
+  }
+
+  openEditModal(user: User) {
     this.selectedUser = user;
-    this.modalService.open(id);
+    this.modalService.open(this.editModalID);
   }
 
   // Overrides a method in BaseBrowse
   loadData(): void {
     // this.requestOptions is inherited from BaseBrowse
     this.ocUserService
-      .List('A', this.requestOptions)
+      .List(this.appConfig.buyerID, this.requestOptions)
       .subscribe((x) => (this.users = x));
   }
 
   deleteUser(userID) {
-    this.ocUserService.Delete('A', userID).subscribe(() => {
+    this.ocUserService.Delete(this.appConfig.buyerID, userID).subscribe(() => {
       this.loadData();
     });
   }
 
   addUser(user: User) {
     this.modalService.close(this.createModalID);
-    this.ocUserService.Create('A', user).subscribe(() => {
+    this.ocUserService.Create(this.appConfig.buyerID, user).subscribe(() => {
       this.loadData();
     });
   }
 
   editUser(user: User) {
     this.modalService.close(this.editModalID);
-    this.ocUserService.Patch('A', user.ID, user).subscribe(() => {
-      this.loadData();
-    });
+    this.ocUserService
+      .Patch(this.appConfig.buyerID, user.ID, user)
+      .subscribe(() => {
+        this.loadData();
+      });
   }
 }

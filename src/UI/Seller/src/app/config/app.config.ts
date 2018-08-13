@@ -9,6 +9,7 @@ export const ocAppConfig: AppConfig = {
   appname: 'OrderCloud Admin',
   clientID: environment.clientID,
   middlewareUrl: environment.middlewareUrl,
+  buyerID: environment.buyerID,
   scope: [
     'MeAddressAdmin',
     'MeAdmin',
@@ -41,6 +42,12 @@ export interface AppConfig {
    * you own or are a contributor to on the [dashboard](https://developer.ordercloud.io/dashboard)
    */
   clientID: string;
+
+  /**
+   * The identifier of the buyer org. This admin app is designed to manage a single Buyer organization. The OC
+   * API supports multiple buyer organizations per seller, but this app is not currently indended for that architecture.
+   */
+  buyerID: string;
 
   /**
    * base path to middleware

@@ -63,8 +63,9 @@ export class UserFormComponent implements OnInit {
   }
 
   // control display of error messages
-  protected hasRequiredError = (controlName: string) =>
+  protected hasRequiredError = (controlName: string) => {
     this.formErrorService.hasRequiredError(controlName, this.userForm);
+  };
   protected hasInvalidIdError = () =>
     this.formErrorService.hasInvalidIdError(this.userForm.get('ID'));
 }
