@@ -1,9 +1,8 @@
 /**
  * All the OC API "List" endpoints share a common pagination, searching, and sorting functionality.
  *
- * Use this as a super class for table ir list components that need those features.
+ * Use this as a super class for table or list components that need those features.
  */
-
 export abstract class BaseBrowse {
   requestOptions = { search: undefined, page: undefined, sortBy: undefined };
 
