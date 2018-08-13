@@ -80,34 +80,4 @@ describe('ProductTableComponent', () => {
       expect(component.loadProducts).toHaveBeenCalled();
     });
   });
-
-  describe('requestOptions', () => {
-    it('should search, reseting page', () => {
-      component.requestOptions = { page: 2, search: 'hose', sortBy: 'ID' };
-      component.searchChanged('newSearch');
-      expect(ocProductService.List).toHaveBeenCalledWith({
-        page: undefined,
-        search: 'newSearch',
-        sortBy: 'ID',
-      });
-    });
-    it('should change page, keeping search + sort', () => {
-      component.requestOptions = { page: 2, search: 'hose', sortBy: 'ID' };
-      component.pageChanged(3);
-      expect(ocProductService.List).toHaveBeenCalledWith({
-        page: 3,
-        search: 'hose',
-        sortBy: 'ID',
-      });
-    });
-    it('should sort, resting page ', () => {
-      component.requestOptions = { page: 2, search: 'hose', sortBy: 'ID' };
-      component.sortChanged('!ID');
-      expect(ocProductService.List).toHaveBeenCalledWith({
-        page: undefined,
-        search: 'hose',
-        sortBy: '!ID',
-      });
-    });
-  });
 });
