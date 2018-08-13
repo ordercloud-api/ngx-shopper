@@ -5,8 +5,8 @@ import {
 } from '@app-seller/config/app.config';
 import {
   faBoxOpen,
-  faTags,
   faSignOutAlt,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { OcTokenService } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ import { AppStateService } from '@app-seller/shared';
 export class HeaderComponent implements OnInit {
   isCollapsed = true;
   faBoxOpen = faBoxOpen;
-  faTags = faTags;
+  faUser = faUser;
   faSignOutAlt = faSignOutAlt;
 
   constructor(

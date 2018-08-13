@@ -1,10 +1,10 @@
 // core services
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BuyerTableComponent } from '@app-seller/buyer-management/buyer-table/buyer-table.component';
+import { UserTableComponent } from '@app-seller/user-management/container/user-table/user-table.component';
 
 const routes: Routes = [
-  { path: '', component: BuyerTableComponent },
+  { path: '', component: UserTableComponent },
   //{ path: ':productID', component: ProductDetailsComponent },
 ];
 
@@ -12,4 +12,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class BuyersRoutingModule {}
+export class UserRoutingModule {}

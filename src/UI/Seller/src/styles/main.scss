@@ -7,6 +7,10 @@
 // Components in this app
 @import 'components/_modal.scss';
 
+html {
+  font-size: 0.9rem;
+}
+
 .large-paddding-top {
   padding-top: 160px;
 }
