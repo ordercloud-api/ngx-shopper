@@ -14,17 +14,15 @@ Password: fails345
 
 ### Building the Buyer App Locally
 
-1.  Navigate to the UI Directory with `cd src/UI`
+1.  If you have not before, install the [Angular CLI](https://github.com/angular/angular-cli/wiki) globally on your machine with `npm install -g @angular/cli`
 
-2.  If you have not before, install the [Angular CLI](https://github.com/angular/angular-cli/wiki) globally on your machine with `npm install -g @angular/cli`
+2.  Navigate to the Buyer Directory with `cd src/UI/Buyer`
 
 3.  Install dependencies with `npm install`
 
-4.  Enter your buyer organization's `clientID` in [environment.ts](src/UI/Buyer/src/environments/environment.ts) (src/UI/Buyer/src/environments/environment.ts)
+4.  Enter your seller organization's `clientID` in [environment.ts](src/UI/Seller/src/environments/environment.ts) (src/UI/Seller/src/environments/environment.ts)
 
-5.  Navigate to `src/UI/Buyer`, the root directory of the buyer app.
-
-6.  Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+5.  Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Other Useful Commands
 

@@ -1,0 +1,55 @@
+/* MODAL STYLES
+-------------------------------*/
+shared-modal {
+  /* modals are hidden by default */
+  display: none;
+
+  .shared-modal {
+    /* modal container fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* z-index must be higher than .jw-modal-background */
+    z-index: 1000000;
+
+    /* enables scrolling for tall modals */
+    overflow: auto;
+
+    .shared-modal__body {
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+
+      padding: 20px;
+      background: #fff;
+
+      /* margin exposes part of the modal background */
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+  }
+
+  .shared-modal__background {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* semi-transparent black  */
+    background-color: #000;
+    opacity: 0.6;
+
+    /* z-index must be below .jw-modal and above everything else  */
+    z-index: 90000;
+  }
+}
+
+body.shared-modal--open {
+  /* body overflow is hidden to hide main scrollbar when modal window is open */
+  overflow: hidden;
+}

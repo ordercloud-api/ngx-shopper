@@ -23,15 +23,15 @@ export * from '@app-buyer/shared/guards/is-logged-in/is-logged-in.guard';
 export * from '@app-buyer/shared/services/app-state/app-state.service';
 export * from '@app-buyer/shared/services/authorize-net/authorize-net.service';
 export * from '@app-buyer/shared/services/base-resolve/base-resolve.service';
-export * from '@app-buyer/shared/services/oc-form-error/oc-form-error.service';
-export * from '@app-buyer/shared/services/oc-geography/oc-geography.service';
-export * from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
+export * from '@app-buyer/shared/services/form-error/form-error.service';
+export * from '@app-buyer/shared/services/geography/geography.service';
+export * from '@app-buyer/shared/services/line-item/line-item.service';
 export * from '@app-buyer/shared/services/modal/modal.service';
-export * from '@app-buyer/shared/services/oc-reorder/oc-reorder.service';
+export * from '@app-buyer/shared/services/reorder/reorder.service';
 
 // validators
-export * from '@app-buyer/shared/validators/oc-match-fields/oc-match-fields.validator';
-export * from '@app-buyer/shared/validators/oc-product-quantity/oc-product.quantity.validator';
+export * from '@app-buyer/shared/validators/match-fields/match-fields.validator';
+export * from '@app-buyer/shared/validators/product-quantity/product.quantity.validator';
 
 // modules
 export * from '@app-buyer/shared/shared-routing.module';
