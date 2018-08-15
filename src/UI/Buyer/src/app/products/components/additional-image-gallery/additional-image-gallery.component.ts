@@ -1,14 +1,18 @@
-import { Component, Input, HostListener } from '@angular/core';
+import { takeWhile } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { fromEvent } from 'rxjs';
+
 
 @Component({
   selector: 'products-additional-image-gallery',
   templateUrl: './additional-image-gallery.component.html',
   styleUrls: ['./additional-image-gallery.component.scss'],
 })
-export class AdditionalImageGalleryComponent {
+export class AdditionalImageGalleryComponent implements OnInit {
   // gallerySize can be changed and the component logic + behavior will all work. However, the UI may look wonky.
   private readonly gallerySize = 5;
+  private alive = true;
 
   @Input() imgUrls: string[];
   selectedIndex = 0;
@@ -21,10 +25,20 @@ export class AdditionalImageGalleryComponent {
   constructor() {
     this.isResponsiveView = window.innerWidth > 900;
   }
+  ngOnInit() {
+    fromEvent(window, 'resize')
+      .pipe(
+        // only subscribe to event while directive
+        // is alive to prevent memory leak
+        takeWhile(() => this.alive)
+      )
+      .subscribe(() => {
+        this.onResize();
+      })
+  }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.isResponsiveView = event.target.innerWidth > 900;
+  onResize() {
+    this.isResponsiveView = window.innerWidth > 900;
   }
 
   select(url: string): void {
@@ -69,5 +83,9 @@ export class AdditionalImageGalleryComponent {
         this.startIndex = Math.max(this.imgUrls.length - this.gallerySize, 0);
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.alive = false;
   }
 }
