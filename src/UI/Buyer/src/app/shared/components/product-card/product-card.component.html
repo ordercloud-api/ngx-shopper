@@ -9,6 +9,7 @@
   </div>
   <img class="card-img-top img-fluid flex-shrink-0"
        [routerLink]="['/products', product.ID]"
+       appFallbackImage
        src="{{ product.xp?.primaryImageURL || 'http://placehold.it/300x300' }}"
        alt="{{product.ID}}">
   <div class="card-body d-flex flex-column justify-content-between bg-light">

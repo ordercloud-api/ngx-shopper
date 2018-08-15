@@ -43,6 +43,7 @@ import { PaymentMethodDisplayPipe } from '@app-buyer/shared/pipes/payment-method
 
 // directives
 import { PhoneInputDirective } from '@app-buyer/shared/directives/phone-input/phone-input.directive';
+import { FallbackImageDirective } from './directives/fallback-image/fallback-image.directive';
 
 // guards
 import { HasTokenGuard } from '@app-buyer/shared/guards/has-token/has-token.guard';
@@ -134,6 +135,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
     CreditCardFormComponent,
     LineItemListWrapperComponent,
     PhoneInputDirective,
+    FallbackImageDirective,
     LineItemCardComponent,
     ShipperTrackingPipe,
     ShipperTrackingSupportedPipe,
@@ -157,6 +159,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
     CreditCardDisplayComponent,
     CreditCardFormComponent,
     PhoneInputDirective,
+    FallbackImageDirective,
     SearchComponent,
     CreditCardIconComponent,
     LineItemCardComponent,
