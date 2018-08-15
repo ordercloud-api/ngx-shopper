@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductDetailsComponent } from './product-details.component';
+import { ProductDetailsComponent } from '@app-seller/product-management/containers/product-details/product-details.component';
 import { OcProductService } from '@ordercloud/angular-sdk';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';

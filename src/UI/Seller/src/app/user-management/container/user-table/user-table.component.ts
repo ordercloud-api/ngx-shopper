@@ -35,7 +35,7 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
   }
 
   ngOnInit() {
-    this.loadData();
+    this.loadsssData();
   }
 
   openCreateModal() {
@@ -48,7 +48,7 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
   }
 
   // Overrides a method in BaseBrowse
-  loadData(): void {
+  loadsssData(): void {
     // this.requestOptions is inherited from BaseBrowse
     this.ocUserService
       .List(this.appConfig.buyerID, this.requestOptions)

@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { UserTableComponent } from './user-table.component';
+import { UserTableComponent } from '@app-seller/user-management/container/user-table/user-table.component';
 import { of } from 'rxjs';
 import { ModalService } from '@app-seller/shared';
 import { OcUserService } from '@ordercloud/angular-sdk';
