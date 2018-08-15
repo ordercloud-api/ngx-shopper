@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
+import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 import { orderReorderResponse } from '@app-buyer/shared/services/oc-reorder/oc-reorder.interface';
 import { Observable, of, forkJoin } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
@@ -11,7 +11,7 @@ export class AppReorderService {
   constructor(
     private appLineItemService: AppLineItemService,
     private meService: OcMeService
-  ) {}
+  ) { }
 
   public order(orderID: string): Observable<orderReorderResponse> {
     if (!orderID) throw new Error('Needs Order ID');

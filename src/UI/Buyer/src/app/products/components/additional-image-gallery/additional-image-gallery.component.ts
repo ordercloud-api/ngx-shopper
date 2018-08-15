@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostListener } from '@angular/core';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -16,7 +16,16 @@ export class AdditionalImageGalleryComponent {
   endIndex = this.gallerySize - 1;
   faAngleLeft = faAngleLeft;
   faAngleRight = faAngleRight;
-  constructor() {}
+  isResponsiveView: boolean;
+
+  constructor() {
+    this.isResponsiveView = window.innerWidth > 900;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.isResponsiveView = event.target.innerWidth > 900;
+  }
 
   select(url: string): void {
     this.selectedIndex = this.imgUrls.indexOf(url);

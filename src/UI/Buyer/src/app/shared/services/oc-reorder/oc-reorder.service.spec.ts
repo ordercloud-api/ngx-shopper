@@ -1,7 +1,7 @@
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { element } from 'protractor';
 import { async, TestBed, inject } from '@angular/core/testing';
-import { AppLineItemService } from '@app-buyer/shared/services/oc-line-item/oc-line-item.service';
+import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 import { AppReorderService } from '@app-buyer/shared/services/oc-reorder/oc-reorder.service';
 import { orderReorderResponse } from '@app-buyer/shared/services/oc-reorder/oc-reorder.interface';
 import { OcMeService, BuyerProduct, LineItem } from '@ordercloud/angular-sdk';
@@ -43,8 +43,8 @@ describe('ReOrder Service', () => {
 
   let service;
   let response;
-  let appLineItemService = { listAll: () => {} };
-  let meService = { ListProducts: () => {} };
+  let appLineItemService = { listAll: () => { } };
+  let meService = { ListProducts: () => { } };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
