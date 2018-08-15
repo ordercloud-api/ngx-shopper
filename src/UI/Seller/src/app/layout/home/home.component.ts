@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private ocBuyerService: OcBuyerService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {}
 
@@ -89,9 +89,8 @@ export class HomeComponent implements OnInit {
       // Make API call to image storage integration. API should return the url at which the file is stored.
       // Then, use commented out code below to save this URL in OrderCloud. Delete the toastr.
 
-      // const url = 'http://example.com';
-      // this.carouselForm.setValue({ URL: url});
-      // this.textChanges();
+      // const url = 'http://example.com'
+      // this.addSlide({ URL: url, headerText: '', bodyText: ''});
 
       const message =
         'File upload functionality requires an integration with file storage. For Developers: details in file carousel-slide-display.component.ts';
