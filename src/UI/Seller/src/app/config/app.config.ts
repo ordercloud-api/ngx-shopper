@@ -21,7 +21,7 @@ export const ocAppConfig: AppConfig = {
     'ProductAdmin',
     'SupplierReader',
     'SupplierAddressReader',
-    'BuyerReader',
+    'BuyerAdmin',
     'OverrideUnitPrice',
     'OrderAdmin',
     'OverrideTax',

@@ -1,4 +1,4 @@
-import { BaseBrowse } from './base-browse.class';
+import { BaseBrowse } from '@app-seller/shared/models/base-browse.class';
 
 class TestBaseBrowse extends BaseBrowse {}
 
