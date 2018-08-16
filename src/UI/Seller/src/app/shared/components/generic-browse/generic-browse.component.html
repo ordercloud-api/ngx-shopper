@@ -1,0 +1,24 @@
+<shared-search class="mt-1"
+               placeholderText="Search {{ searchPlaceholder }}..."
+               (searched)="search.emit($event)"></shared-search>
+<div *ngIf="meta?.TotalPages > 1"
+     class="my-2 row">
+  <div class="col-12">
+    <div class="float-right">
+      {{ ((meta.Page - 1) * meta.PageSize) + 1 }} - {{ meta.Page * meta.PageSize }} of {{ meta?.TotalCount }} results
+    </div>
+  </div>
+</div>
+<div class="table-responsive">
+  <ng-content></ng-content>
+</div>
+<div class="card bg-light p-3 mt-3 w-100 text-center"
+     *ngIf="meta?.TotalPages === 0">
+  <p class="mb-0">No {{ searchPlaceholder }} found</p>
+</div>
+<ngb-pagination *ngIf="meta?.TotalPages > 1"
+                class="d-flex justify-content-center"
+                [collectionSize]="meta.TotalCount"
+                [pageSize]="meta.PageSize"
+                [(page)]="meta.Page"
+                (pageChange)="page.emit($event)"></ngb-pagination>
