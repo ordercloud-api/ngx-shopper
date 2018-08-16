@@ -3,6 +3,7 @@
          [src]="imgUrls[selectedIndex] || 'http://placehold.it/500x500'"
          appFallbackImage
          [imageZoom]="imgUrls[selectedIndex]"
+         [allowZoom]="isResponsiveView"
          [lensWidth]="600"
          [lensHeight]="400"
          [maxZoomLevel]=".6">
