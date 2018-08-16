@@ -19,6 +19,11 @@ const routes: Routes = [
         path: 'users',
         loadChildren: './user-management/user.module#UserModule',
       },
+      {
+        path: 'usergroups',
+        loadChildren:
+          './user-group-management/user-group.module#UserGroupModule',
+      },
     ],
   },
 ];

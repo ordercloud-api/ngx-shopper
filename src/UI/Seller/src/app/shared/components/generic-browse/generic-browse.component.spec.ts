@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GenericBrowseComponent } from './generic-browse.component';
+import { GenericBrowseComponent } from '@app-seller/shared/components/generic-browse/generic-browse.component';
 
 describe('GenericBrowseComponent', () => {
   let component: GenericBrowseComponent;
@@ -8,9 +8,8 @@ describe('GenericBrowseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GenericBrowseComponent ]
-    })
-    .compileComponents();
+      declarations: [GenericBrowseComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
