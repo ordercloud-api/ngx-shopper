@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { BaseBrowse, ModalService } from '@app-seller/shared';
 import { OcUserService, User, ListUser } from '@ordercloud/angular-sdk';
 import {
   faTrashAlt,
@@ -10,6 +9,8 @@ import {
   AppConfig,
   applicationConfiguration,
 } from '@app-seller/config/app.config';
+import { BaseBrowse } from '@app-seller/shared/models/base-browse.class';
+import { ModalService } from '@app-seller/shared/services/modal/modal.service';
 
 @Component({
   selector: 'user-table',

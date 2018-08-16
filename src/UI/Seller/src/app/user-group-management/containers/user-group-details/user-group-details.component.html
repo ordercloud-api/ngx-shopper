@@ -28,11 +28,12 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab>
+      <ngb-tab>k
         <ng-template ngbTabTitle>
-          <fa-icon [icon]="faUser"></fa-icon> Users
+          <fa-icon [icon]="faUser"></fa-icon> User Assignments
         </ng-template>
         <ng-template ngbTabContent>
+          <user-table></user-table>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

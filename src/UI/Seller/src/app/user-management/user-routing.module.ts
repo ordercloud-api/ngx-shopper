@@ -1,7 +1,7 @@
 // core services
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserTableComponent } from '@app-seller/user-management/container/user-table/user-table.component';
+import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
 
 const routes: Routes = [
   { path: '', component: UserTableComponent },

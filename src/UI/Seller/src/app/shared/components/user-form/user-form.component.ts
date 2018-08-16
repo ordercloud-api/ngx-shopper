@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '@ordercloud/angular-sdk';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AppFormErrorService, AppIdValidator } from '@app-seller/shared';
+import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
+import { AppIdValidator } from '@app-seller/shared/validators/id-field/id-field.validator';
 
 @Component({
   selector: 'user-form',

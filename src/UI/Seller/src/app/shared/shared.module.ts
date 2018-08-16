@@ -21,6 +21,8 @@ import { ModalComponent } from '@app-seller/shared/components/modal/modal.compon
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
 import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/carousel-slide-display/carousel-slide-display.component';
 import { GenericBrowseComponent } from '@app-seller/shared/components/generic-browse/generic-browse.component';
+import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
+import { UserFormComponent } from '@app-seller/shared/components/user-form/user-form.component';
 
 @NgModule({
   imports: [
@@ -53,6 +55,8 @@ import { GenericBrowseComponent } from '@app-seller/shared/components/generic-br
     ModalComponent,
     CarouselSlideDisplayComponent,
     GenericBrowseComponent,
+    UserTableComponent,
+    UserFormComponent,
   ],
   declarations: [
     SearchComponent,
@@ -60,6 +64,8 @@ import { GenericBrowseComponent } from '@app-seller/shared/components/generic-br
     ModalComponent,
     CarouselSlideDisplayComponent,
     GenericBrowseComponent,
+    UserTableComponent,
+    UserFormComponent,
   ],
 
   /**
