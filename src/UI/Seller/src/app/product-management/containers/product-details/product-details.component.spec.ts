@@ -12,7 +12,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 describe('ProductDetailsComponent', () => {
   let component: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
-  const mockProduct = { ID: 'myID' };
+  const mockProduct = { ID: 'myID', prevID: 'usedtobethis' };
 
   const productService = {
     Get: jasmine.createSpy('Get').and.returnValue(of(mockProduct)),
@@ -69,14 +69,14 @@ describe('ProductDetailsComponent', () => {
 
   describe('updateProduct', () => {
     it('should throw error if no product ID', () => {
-      expect(() => component.updateProduct({})).toThrow(
+      expect(() => component.updateProduct({ prevID: null })).toThrow(
         new Error('Cannot update a product without an ID')
       );
     });
     it('should update the product', () => {
       component.updateProduct(mockProduct);
       expect(productService.Patch).toHaveBeenCalledWith(
-        mockProduct.ID,
+        mockProduct.prevID,
         mockProduct
       );
     });

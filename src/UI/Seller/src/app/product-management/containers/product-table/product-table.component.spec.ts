@@ -47,7 +47,7 @@ describe('ProductTableComponent', () => {
   describe('loadProducts', () => {
     beforeEach(() => {
       component.products = undefined;
-      component.loadProducts();
+      component.loadData();
     });
     it('should set products using OCProductsService', () => {
       expect(ocProductService.List).toHaveBeenCalled();
@@ -57,19 +57,19 @@ describe('ProductTableComponent', () => {
 
   describe('deleteProducts', () => {
     beforeEach(() => {
-      spyOn(component, 'loadProducts');
+      spyOn(component, 'loadData');
       component.products = undefined;
       component.deleteProduct('testID');
     });
     it('should deleted products using OCProductsService', () => {
       expect(ocProductService.Delete).toHaveBeenCalledWith('testID');
-      expect(component.loadProducts).toHaveBeenCalled();
+      expect(component.loadData).toHaveBeenCalled();
     });
   });
 
   describe('addProducts', () => {
     beforeEach(() => {
-      spyOn(component, 'loadProducts');
+      spyOn(component, 'loadData');
       component.addProduct(mockProductList.Items[0]);
     });
     it('should deleted products using OCProductsService', () => {
@@ -77,7 +77,7 @@ describe('ProductTableComponent', () => {
       expect(ocProductService.Create).toHaveBeenCalledWith(
         mockProductList.Items[0]
       );
-      expect(component.loadProducts).toHaveBeenCalled();
+      expect(component.loadData).toHaveBeenCalled();
     });
   });
 });

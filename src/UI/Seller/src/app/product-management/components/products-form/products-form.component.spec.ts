@@ -75,6 +75,7 @@ describe('ProductsFormComponent', () => {
       component['onSubmit']();
       expect(component.formSubmitted.emit).toHaveBeenCalledWith({
         ...mockProduct,
+        prevID: component['_existingProduct'].ID,
         Featured: false,
       });
     });

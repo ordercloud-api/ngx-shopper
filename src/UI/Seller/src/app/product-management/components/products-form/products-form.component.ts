@@ -56,6 +56,7 @@ export class ProductsFormComponent implements OnInit {
 
     const product = {
       ...this.productForm.value,
+      prevID: this._existingProduct.ID,
       xp: { Featured: this.productForm.value.Featured },
     };
 
