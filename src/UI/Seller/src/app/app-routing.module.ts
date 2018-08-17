@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HasTokenGuard as HasToken } from '@app-seller/shared';
 import { HomeComponent } from '@app-seller/layout/home/home.component';
+import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
 
 const routes: Routes = [
   {
@@ -17,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'users',
-        loadChildren: './user-management/user.module#UserModule',
+        component: UserTableComponent,
       },
       {
         path: 'usergroups',

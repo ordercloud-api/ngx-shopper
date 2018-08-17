@@ -80,7 +80,7 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
       .subscribe((users) => {
         //const users = users;
         if (this.columns.indexOf('Assign') < 0 || !this.userGroupID) {
-          return;
+          return (this.users = users);
         }
         const queue = users.Items.map((user) => {
           return this.ocUserGroupService.ListUserAssignments(
