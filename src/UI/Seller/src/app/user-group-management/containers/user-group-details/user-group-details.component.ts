@@ -1,9 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { faUsers, faUser } from '@fortawesome/free-solid-svg-icons';
-import { UserGroup, OcUserGroupService } from '@ordercloud/angular-sdk';
+import {
+  UserGroup,
+  OcUserGroupService,
+  UserGroupAssignment,
+} from '@ordercloud/angular-sdk';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import { flatMap, tap } from 'rxjs/operators';
 import {
   AppConfig,
   applicationConfiguration,
@@ -18,6 +22,8 @@ export class UserGroupDetailsComponent implements OnInit {
   usergroup: UserGroup;
   faUsers = faUsers;
   faUser = faUser;
+  // UserID's assigned to this group;
+  userAssignments: string[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,10 +32,10 @@ export class UserGroupDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getProductData().subscribe((x) => (this.usergroup = x));
+    this.getUserGroup().subscribe((x) => (this.usergroup = x));
   }
 
-  getProductData(): Observable<UserGroup> {
+  getUserGroup(): Observable<UserGroup> {
     return this.activatedRoute.params.pipe(
       flatMap((params) => {
         if (params.userGroupID) {
