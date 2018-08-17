@@ -1,11 +1,109 @@
 /**
- * This file has linting rules for the Buyer directory only.
- * Rules here override project-wide rules found in /src/UI/tslint.json
+ * This file contains linting rules for the entire UI.
+ * Directory-specific rules in Buyer/tslint.json or Seller/tslint.json may override these rules.
  */
 {
-  "extends": "./../tslint.json",
-  "rulesDirectory": ["../node_modules/codelyzer", "../custom_lint_rules"],
+  "rulesDirectory": ["./node_modules/codelyzer"],
   "rules": {
-    "ban-seller-import": true
+    "arrow-return-shorthand": true,
+    "arrow-parens": [true],
+    "ban": [
+      true,
+      {
+        "name": "fdescribe",
+        "message": "No focus"
+      },
+      {
+        "name": "fit",
+        "message": "No focus"
+      },
+      {
+        "name": "xdescribe",
+        "message": "No exclude"
+      },
+      {
+        "name": "xit",
+        "message": "No exclude"
+      }
+    ],
+    "callable-types": true,
+    "class-name": true,
+    "deprecation": {
+      "severity": "warn"
+    },
+    "forin": true,
+    "import-blacklist": [true, "rxjs/Rx"],
+    "interface-over-type-literal": true,
+    "label-position": true,
+    "member-access": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ],
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    "no-construct": true,
+    "no-debugger": true,
+    "no-duplicate-super": true,
+    "no-empty": false,
+    "no-empty-interface": true,
+    "no-eval": true,
+    "no-inferrable-types": [true, "ignore-params"],
+    "no-misused-new": true,
+    "no-non-null-assertion": true,
+    "no-shadowed-variable": true,
+    "no-string-literal": false,
+    "no-string-throw": true,
+    "no-switch-case-fall-through": true,
+    "no-unnecessary-initializer": true,
+    "no-unused-expression": true,
+    "no-use-before-declare": true,
+    "no-var-keyword": true,
+    "object-literal-sort-keys": false,
+    "only-arrow-functions": [
+      true,
+      "allow-declarations",
+      "allow-named-functions"
+    ],
+    "prefer-const": true,
+    "prefer-template": true,
+    "radix": true,
+    "triple-equals": [true, "allow-null-check"],
+    "unified-signatures": true,
+    "variable-name": false,
+    "directive-selector": [true, "attribute", "app", "camelCase"],
+    "component-selector": [
+      true,
+      "element",
+      [
+        "auth",
+        "config",
+        "layout",
+        "profile",
+        "shared",
+        "products",
+        "order",
+        "checkout"
+      ],
+      "kebab-case"
+    ],
+    "no-output-on-prefix": true,
+    "use-input-property-decorator": true,
+    "use-output-property-decorator": true,
+    "use-host-property-decorator": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "use-life-cycle-interface": true,
+    "use-pipe-transform-interface": true,
+    "component-class-suffix": true,
+    "directive-class-suffix": true
   }
 }

@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { applicationConfiguration } from '@app-buyer/config/app.config';
+import { applicationConfiguration } from '@app-seller/config/app.config';
 
 import {
   OcAuthService,
@@ -8,12 +8,12 @@ import {
 } from '@ordercloud/angular-sdk';
 import { CookieModule, CookieService } from 'ngx-cookie';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
-import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
+import { AppErrorHandler } from '@app-seller/config/error-handling.config';
+import { AppAuthService } from '@app-seller/auth/services/app-auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { AppStateService } from '@app-buyer/shared';
+import { AppStateService } from '@app-seller/shared';
 
 describe('AppAuthService', () => {
   const mockCookieResponse = {
@@ -150,30 +150,6 @@ describe('AppAuthService', () => {
           mockClientID
         );
       });
-      it('should call auth anonymous if refresh failed and user is anonymous', () => {
-        spyOn(authService, 'RefreshToken').and.returnValue(throwError(null));
-        spyOn(appAuthService, 'authAnonymous').and.returnValue(of(null));
-        appConfig.anonymousShoppingEnabled = true;
-        appAuthService.fetchRefreshToken().subscribe();
-        expect(appAuthService.authAnonymous).toHaveBeenCalled();
-      });
-    });
-    describe('and does not have a refresh token', () => {
-      beforeEach(() => {
-        spyOn(tokenService, 'GetRefresh').and.returnValue(null);
-      });
-      it('should attempt to auth anonymous if user is anonymous', () => {
-        appConfig.anonymousShoppingEnabled = true;
-        spyOn(appAuthService, 'authAnonymous').and.returnValue(of(null));
-      });
-      it('should throw error if user is not anonymous', () => {
-        spyOn(appAuthService, 'authAnonymous').and.returnValue(of(null));
-        appConfig.anonymousShoppingEnabled = false;
-        expect(() => {
-          appAuthService.fetchRefreshToken().subscribe();
-        }).toThrow();
-        expect(appAuthService.authAnonymous).not.toHaveBeenCalled();
-      });
     });
 
     describe('logout', () => {
@@ -193,53 +169,7 @@ describe('AppAuthService', () => {
         expect(appStateService.isLoggedIn.next).toHaveBeenCalledWith(false);
       });
     });
-
-    describe('authAnonymous', () => {
-      beforeEach(() => {
-        spyOn(appAuthService, 'logout').and.returnValue(of(null));
-      });
-      it('should call authService.Anonymous', () => {
-        spyOn(authService, 'Anonymous').and.returnValue(
-          of({ access_token: mockToken })
-        );
-        appAuthService.authAnonymous().subscribe();
-        expect(authService.Anonymous).toHaveBeenCalledWith(mockClientID, [
-          'FullAccess',
-        ]);
-      });
-      it('should display error if authService.Anonymous fails', () => {
-        spyOn(authService, 'Anonymous').and.returnValue(throwError('error'));
-        appAuthService.authAnonymous().subscribe();
-        expect(appErrorHandler.displayError).toHaveBeenCalledWith('error');
-      });
-      it('should log user out if austhService.Anonymous fails', () => {
-        spyOn(authService, 'Anonymous').and.returnValue(throwError('error'));
-        appAuthService.authAnonymous().subscribe();
-        expect(appAuthService.logout).toHaveBeenCalled();
-      });
-    });
-    describe('isUserAnon', () => {
-      // tslint:disable:max-line-length
-      const tokenWithOrderId =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3IiOiJhbm9uX3VzZXIiLCJjaWQiOiI4MDIxODkzNi0zNTBiLTQxMDUtYTFmYy05NjJhZjAyM2Q2NjYiLCJvcmRlcmlkIjoiSVlBSnFOWVVpRVdyTy1Lei1TalpqUSIsInVzcnR5cGUiOiJidXllciIsInJvbGUiOlsiQnV5ZXJSZWFkZXIiLCJNZUFkbWluIiwiTWVDcmVkaXRDYXJkQWRtaW4iLCJNZUFkZHJlc3NBZG1pbiIsIk1lWHBBZG1pbiIsIlBhc3N3b3JkUmVzZXQiLCJTaGlwbWVudFJlYWRlciIsIlNob3BwZXIiLCJBZGRyZXNzUmVhZGVyIl0sImlzcyI6Imh0dHBzOi8vYXV0aC5vcmRlcmNsb3VkLmlvIiwiYXVkIjoiaHR0cHM6Ly9hcGkub3JkZXJjbG91ZC5pbyIsImV4cCI6MTUyNzA5Nzc0MywibmJmIjoxNTI2NDkyOTQzfQ.MBV7dqBq8RXSZZ8vEGidcfH8vSwOR55yHzvAq1w2bLc';
-      const tokenWithoutOrderID =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3IiOiJjaGlwb3RsZWNyaGlzdGlhbiIsImNpZCI6Ijc1NzMwMTc4LWU0MjQtNGM0OS1iM2Q3LTE3Mzg1Nzg0YjE5MSIsInVzcnR5cGUiOiJidXllciIsInJvbGUiOlsiQnV5ZXJSZWFkZXIiLCJDYXRhbG9nUmVhZGVyIiwiTWVBZG1pbiIsIk1lQ3JlZGl0Q2FyZEFkbWluIiwiTWVBZGRyZXNzQWRtaW4iLCJNZVhwQWRtaW4iLCJQYXNzd29yZFJlc2V0IiwiU2hpcG1lbnRSZWFkZXIiLCJTaG9wcGVyIiwiT3JkZXJSZWFkZXIiLCJBZGRyZXNzQWRtaW4iLCJVc2VyR3JvdXBBZG1pbiJdLCJpc3MiOiJodHRwczovL2F1dGgub3JkZXJjbG91ZC5pbyIsImF1ZCI6Imh0dHBzOi8vYXBpLm9yZGVyY2xvdWQuaW8iLCJleHAiOjE1MjY1Mjg3NzQsIm5iZiI6MTUyNjQ5Mjc3NH0.uqh3_yLXTCSpzLxk6B4gbPX0wmQF4JIZTEHRXvPD9r0';
-      it('should call tokenService.GetAccess', () => {
-        spyOn(tokenService, 'GetAccess').and.returnValue(tokenWithOrderId);
-        appAuthService.isUserAnon();
-        expect(tokenService.GetAccess).toHaveBeenCalled();
-      });
-      it('should return true if token has orderid property', () => {
-        spyOn(tokenService, 'GetAccess').and.returnValue(tokenWithOrderId);
-        const isUserAnon = appAuthService.isUserAnon();
-        expect(isUserAnon).toBe(true);
-      });
-      it('should return false if token does not have orderid property', () => {
-        spyOn(tokenService, 'GetAccess').and.returnValue(tokenWithoutOrderID);
-        const isUserAnon = appAuthService.isUserAnon();
-        expect(isUserAnon).toBe(false);
-      });
-    });
+    
     describe('setRememberStatus', () => {
       const statusTrue = true;
       beforeEach(() => {

@@ -2,7 +2,7 @@
 
 // import { TestBed, inject } from '@angular/core/testing';
 
-// import { AppLineItemService } from './oc-line-item.service';
+// import { AppLineItemService } from './line-item.service';
 // import { AppStateService } from '@app-buyer/shared';
 // import { OcLineItemService, OcOrderService, OcTokenService, Configuration } from '@ordercloud/angular-sdk';
 // import { HttpClient, HttpHandler } from '@angular/common/http';
