@@ -53,7 +53,6 @@ export class UserGroupFormComponent implements OnInit {
     const group = {
       ...this.userGroupForm.value,
       prevID: this._existingUserGroup.ID,
-      xp: { Featured: this.userGroupForm.value.Featured },
     };
 
     this.formSubmitted.emit(group);

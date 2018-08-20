@@ -22,8 +22,6 @@ export class UserGroupDetailsComponent implements OnInit {
   usergroup: UserGroup;
   faUsers = faUsers;
   faUser = faUser;
-  // UserID's assigned to this group;
-  userAssignments: string[];
 
   constructor(
     private activatedRoute: ActivatedRoute,

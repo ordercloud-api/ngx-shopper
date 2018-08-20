@@ -18,8 +18,7 @@ import {
 } from '@app-seller/config/app.config';
 import { BaseBrowse } from '@app-seller/shared/models/base-browse.class';
 import { ModalService } from '@app-seller/shared/services/modal/modal.service';
-import { forkJoin } from '../../../../../node_modules/rxjs';
-import { map } from '../../../../../node_modules/rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'user-table',
@@ -73,6 +72,7 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
   }
 
   // Overrides a method in BaseBrowse
+  // TODO - I think this observable stuff can be made cleaner with operators
   loadData(): void {
     // this.requestOptions is inherited from BaseBrowse
     this.ocUserService
