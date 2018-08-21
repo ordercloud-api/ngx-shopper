@@ -7,7 +7,6 @@ import { ProductsFormComponent } from '@app-seller/product-management/components
 import { ProductDetailsComponent } from '@app-seller/product-management/containers/product-details/product-details.component';
 import { ProductDetailsImagesComponent } from '@app-seller/product-management/components/product-details-images/product-details-images.component';
 import { FormsModule } from '@angular/forms';
-import { ProductImageCardComponent } from './components/product-image-card/product-image-card.component';
 
 @NgModule({
   imports: [SharedModule, ProductsRoutingModule, FormsModule],
@@ -16,7 +15,6 @@ import { ProductImageCardComponent } from './components/product-image-card/produ
     ProductsFormComponent,
     ProductDetailsComponent,
     ProductDetailsImagesComponent,
-    ProductImageCardComponent,
   ],
 })
 export class ProductsModule {}

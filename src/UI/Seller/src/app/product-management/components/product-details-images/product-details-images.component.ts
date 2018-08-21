@@ -3,10 +3,10 @@ import { Product } from '@ordercloud/angular-sdk';
 import {
   faTrashAlt,
   faUpload,
-  faCheckSquare,
   faCrown,
 } from '@fortawesome/free-solid-svg-icons';
 import { ProductUpdate } from '@app-seller/product-management/containers/product-details/product-details.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'products-details-images',
@@ -20,19 +20,35 @@ export class ProductDetailsImagesComponent {
   faUpload = faUpload;
   faCrown = faCrown;
 
-  constructor() {}
+  constructor(private toastrService: ToastrService) {}
 
   deleteImage(index: number) {
-    this.product.xp.additionalImages.splice(index, 1);
+    this.product.xp.imageURLs.splice(index, 1);
     this.update.emit(this.product);
   }
 
-  addImage(url: string) {}
+  addImage(event) {
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      const file: File = fileList[0];
+      // Make API call to image storage integration. API should return the url at which the file is stored.
+      // Then, use commented out code below to save this URL in OrderCloud. Delete the toastr.
 
-  makeImagePrimary(url: string, index: number) {
-    this.product.xp.additionalImages.splice(index, 1);
-    this.product.xp.additionalImages.unshift(this.product.xp.primaryImageURL);
-    this.product.xp.primaryImageURL = url;
+      // const url = 'http://example.com';
+      // this.product.xp.imageURLs.push(url)
+      // this.update.emit(this.product);
+
+      const message =
+        'File upload functionality requires an integration with file storage. For Developers: details in file carousel-slide-display.component.ts';
+      this.toastrService.warning(message);
+      console.log(message);
+    }
+  }
+
+  // The image that appears on a buyer's product list is the first element of the imageURLs array.
+  setPrimaryImage(url: string, index: number) {
+    this.product.xp.imageURLs.splice(index, 1);
+    this.product.xp.imageURLs.unshift(url);
     this.update.emit(this.product);
   }
 }
