@@ -33,7 +33,8 @@
           <fa-icon [icon]="faImage"></fa-icon> Images
         </ng-template>
         <ng-template ngbTabContent>
-          <products-details-images></products-details-images>
+          <products-details-images [product]="product"
+                                   (update)="updateProduct($event)"></products-details-images>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

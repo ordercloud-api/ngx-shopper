@@ -38,17 +38,15 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   updateProduct(product: ProductUpdate): void {
-    if (!product.prevID) {
-      throw Error('Cannot update a product without an ID');
-    }
+    const productID = product.prevID || product.ID;
 
     this.ocProductService
-      .Patch(product.prevID, product)
+      .Patch(productID, product)
       .subscribe((x) => (this.product = x));
   }
 }
 
-interface ProductUpdate extends Product {
+export interface ProductUpdate extends Product {
   // ID can be changed in the form, so we need the previous ID to ensure we update the correct record
-  prevID: string;
+  prevID?: string;
 }
