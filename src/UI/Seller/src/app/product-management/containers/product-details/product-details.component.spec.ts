@@ -68,17 +68,15 @@ describe('ProductDetailsComponent', () => {
   });
 
   describe('updateProduct', () => {
-    it('should throw error if no product ID', () => {
-      expect(() => component.updateProduct({ prevID: null })).toThrow(
-        new Error('Cannot update a product without an ID')
-      );
+    it('should update using prevID if defined', () => {
+      const mock = { prevID: '1', ID: '2' };
+      component.updateProduct(mock);
+      expect(productService.Patch).toHaveBeenCalledWith(mock.prevID, mock);
     });
-    it('should update the product', () => {
-      component.updateProduct(mockProduct);
-      expect(productService.Patch).toHaveBeenCalledWith(
-        mockProduct.prevID,
-        mockProduct
-      );
+    it('should update using ID if no prevID', () => {
+      const mock = { ID: '2' };
+      component.updateProduct(mock);
+      expect(productService.Patch).toHaveBeenCalledWith(mock.ID, mock);
     });
   });
 });
