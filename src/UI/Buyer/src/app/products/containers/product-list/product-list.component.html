@@ -74,6 +74,7 @@
           </products-product-card>
         </div>
         <ngb-pagination *ngIf="productList.Meta.TotalPages > 1"
+                        maxSize="10"
                         class="d-flex justify-content-center"
                         [collectionSize]="productList.Meta.TotalCount"
                         [pageSize]="productList.Meta.PageSize"

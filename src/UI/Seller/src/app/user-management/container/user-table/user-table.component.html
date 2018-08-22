@@ -4,44 +4,64 @@
       <h1>Users</h1>
     </div>
     <div class="col-4">
-      <button class="btn btn-primary float-right mt-3" (click)="openCreateModal()">
+      <button class="btn btn-primary float-right mt-3"
+              (click)="openCreateModal()">
         <fa-icon [icon]="faPlusCircle"></fa-icon> New User</button>
-      <shared-modal id="{{ createModalID }}" modalTitle="Create A New User">
-        <user-form btnText="Create" (formSubmitted)="addUser($event)"></user-form>
+      <shared-modal id="{{ createModalID }}"
+                    modalTitle="Create A New User">
+        <user-form btnText="Create"
+                   (formSubmitted)="addUser($event)"></user-form>
       </shared-modal>
-      <shared-modal id="{{ editModalID }}" modalTitle="Update User">
-        <user-form btnText="Save" [existingUser]="selectedUser" (formSubmitted)="editUser($event)"></user-form>
+      <shared-modal id="{{ editModalID }}"
+                    modalTitle="Update User">
+        <user-form btnText="Save"
+                   [existingUser]="selectedUser"
+                   (formSubmitted)="editUser($event)"></user-form>
       </shared-modal>
     </div>
   </div>
-  <div class="mt-4" *ngIf="users">
-    <shared-search class="mt-1" placeholderText="Search users..." (searched)="searchChanged($event)"></shared-search>
-    <div *ngIf="users.Meta?.TotalPages > 1" class="my-2 row">
+  <div class="mt-4"
+       *ngIf="users">
+    <shared-search class="mt-1"
+                   placeholderText="Search users..."
+                   (searched)="searchChanged($event)"></shared-search>
+    <div *ngIf="users.Meta?.TotalPages > 1"
+         class="my-2 row">
       <div class="col-12">
         <div class="float-right">
-          {{ ((users.Meta.Page - 1) * users.Meta.PageSize) + 1 }} - {{ users.Meta.Page * users.Meta.PageSize }} of {{ users.Meta?.TotalCount
-          }} results
+          {{ ((users.Meta.Page - 1) * users.Meta.PageSize) + 1 }} - {{ users.Meta.Page * users.Meta.PageSize }} of {{ users.Meta?.TotalCount }} results
         </div>
       </div>
     </div>
     <div class="table-responsive">
-      <table *ngIf="users.Items.length" class="table table-striped table-bordered mt-3">
+      <table *ngIf="users.Items.length"
+             class="table table-striped table-bordered mt-3">
         <thead>
           <tr>
             <th>
-              <shared-sort-column fieldName="ID" [currentSort]="requestOptions.sortBy" (sort)="sortChanged($event)">ID</shared-sort-column>
+              <shared-sort-column fieldName="ID"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">ID</shared-sort-column>
             </th>
             <th>
-              <shared-sort-column fieldName="Username" [currentSort]="requestOptions.sortBy" (sort)="sortChanged($event)">Username</shared-sort-column>
+              <shared-sort-column fieldName="Username"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">Username</shared-sort-column>
             </th>
             <th>
-              <shared-sort-column fieldName="FirstName" [currentSort]="requestOptions.sortBy" (sort)="sortChanged($event)">First Name</shared-sort-column>
+              <shared-sort-column fieldName="FirstName"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">First Name</shared-sort-column>
             </th>
             <th>
-              <shared-sort-column fieldName="LastName" [currentSort]="requestOptions.sortBy" (sort)="sortChanged($event)">Last Name</shared-sort-column>
+              <shared-sort-column fieldName="LastName"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">Last Name</shared-sort-column>
             </th>
             <th>
-              <shared-sort-column fieldName="Email" [currentSort]="requestOptions.sortBy" (sort)="sortChanged($event)">Email</shared-sort-column>
+              <shared-sort-column fieldName="Email"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">Email</shared-sort-column>
             </th>
             <th>Active</th>
             <th></th>
@@ -51,16 +71,20 @@
           <tr *ngFor="let user of users.Items">
             <td>{{ user.ID }}</td>
             <td>
-              <a [routerLink]="" (click)="openEditModal(user)">{{ user.Username }}</a>
+              <a [routerLink]=""
+                 (click)="openEditModal(user)">{{ user.Username }}</a>
             </td>
             <td>{{ user.FirstName }}</td>
             <td>{{ user.LastName }}</td>
             <td>{{ user.Email }}</td>
             <td class="text-center">
-              <fa-icon aria-hidden="true" [ngClass]="{'text-success': user.Active}" [icon]="faCircle"></fa-icon>
+              <fa-icon aria-hidden="true"
+                       [ngClass]="{'text-success': user.Active}"
+                       [icon]="faCircle"></fa-icon>
             </td>
             <td>
-              <button (click)="deleteUser(user.ID)" class="btn btn-danger btn-xs">
+              <button (click)="deleteUser(user.ID)"
+                      class="btn btn-danger btn-xs">
                 <fa-icon [icon]="faTrash"></fa-icon>
                 <span class="hidden-xs"> Delete</span>
               </button>
@@ -69,10 +93,16 @@
         </tbody>
       </table>
     </div>
-    <div class="card bg-light p-3 m-4 text-center" *ngIf="users.Items && users.Items.length === 0">
+    <div class="card bg-light p-3 m-4 text-center"
+         *ngIf="users.Items && users.Items.length === 0">
       <p class="mb-0">No users found</p>
     </div>
-    <ngb-pagination *ngIf="users.Meta?.TotalPages > 1" class="d-flex justify-content-center" [collectionSize]="users.Meta.TotalCount"
-      [pageSize]="users.Meta.PageSize" [(page)]="users.Meta.Page" (pageChange)="pageChanged($event)"></ngb-pagination>
+    <ngb-pagination *ngIf="users.Meta?.TotalPages > 1"
+                    class="d-flex justify-content-center"
+                    [collectionSize]="users.Meta.TotalCount"
+                    [pageSize]="users.Meta.PageSize"
+                    maxSize="10"
+                    [(page)]="users.Meta.Page"
+                    (pageChange)="pageChanged($event)"></ngb-pagination>
   </div>
 </div>
