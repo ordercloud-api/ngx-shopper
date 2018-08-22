@@ -14,7 +14,7 @@ export class AdditionalImageGalleryComponent implements OnInit {
   private readonly gallerySize = 5;
   private alive = true;
 
-  @Input() imgUrls: string[];
+  @Input() imgUrls: string[] = [];
   selectedIndex = 0;
   startIndex = 0;
   endIndex = this.gallerySize - 1;

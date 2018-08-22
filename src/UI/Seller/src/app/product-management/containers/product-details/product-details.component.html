@@ -22,9 +22,9 @@
         <ng-template ngbTabContent>
           <div class="m-3"
                style="max-width: 800px">
-            <products-form btnText="Update Product Info"
-                           [existingProduct]="product"
-                           (formSubmitted)="updateProduct($event)"></products-form>
+            <product-form btnText="Update Product Info"
+                          [existingProduct]="product"
+                          (formSubmitted)="updateProduct($event)"></product-form>
           </div>
         </ng-template>
       </ngb-tab>
@@ -33,7 +33,8 @@
           <fa-icon [icon]="faImage"></fa-icon> Images
         </ng-template>
         <ng-template ngbTabContent>
-          <products-details-images></products-details-images>
+          <product-images [product]="product"
+                          (update)="updateProduct($event)"></product-images>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

@@ -24,5 +24,5 @@ export abstract class BaseBrowse {
   }
 
   // Override this method in the sub class
-  loadData() {}
+  abstract loadData();
 }
