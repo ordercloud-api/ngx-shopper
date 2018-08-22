@@ -14,6 +14,7 @@ export const ocAppConfig: AppConfig = {
     'MeAddressAdmin',
     'MeAdmin',
     'BuyerUserAdmin',
+    'UserGroupAdmin',
     'MeCreditCardAdmin',
     'MeXpAdmin',
     'Shopper',

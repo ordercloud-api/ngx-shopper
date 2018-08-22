@@ -19,8 +19,7 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private ocProductService: OcProductService,
-    private toastrService: ToastrService
+    private ocProductService: OcProductService
   ) {}
 
   ngOnInit() {
