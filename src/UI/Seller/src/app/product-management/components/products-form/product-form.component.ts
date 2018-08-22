@@ -4,11 +4,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppFormErrorService, AppIdValidator } from '@app-seller/shared';
 
 @Component({
-  selector: 'products-form',
-  templateUrl: './products-form.component.html',
-  styleUrls: ['./products-form.component.scss'],
+  selector: 'product-form',
+  templateUrl: './product-form.component.html',
+  styleUrls: ['./product-form.component.scss'],
 })
-export class ProductsFormComponent implements OnInit {
+export class ProductFormComponent implements OnInit {
   private _existingProduct: Product = {};
   @Input() btnText: string;
   @Output() formSubmitted = new EventEmitter();
@@ -56,7 +56,6 @@ export class ProductsFormComponent implements OnInit {
 
     const product = {
       ...this.productForm.value,
-      prevID: this._existingProduct.ID,
       xp: { Featured: this.productForm.value.Featured },
     };
 

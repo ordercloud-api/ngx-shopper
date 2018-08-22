@@ -5,17 +5,16 @@ import {
   faUpload,
   faCrown,
 } from '@fortawesome/free-solid-svg-icons';
-import { ProductUpdate } from '@app-seller/product-management/containers/product-details/product-details.component';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'products-details-images',
-  templateUrl: './product-details-images.component.html',
-  styleUrls: ['./product-details-images.component.scss'],
+  selector: 'product-images',
+  templateUrl: './product-images.component.html',
+  styleUrls: ['./product-images.component.scss'],
 })
-export class ProductDetailsImagesComponent {
+export class ProductImagesComponent {
   @Input() product: Product;
-  @Output() update = new EventEmitter<ProductUpdate>();
+  @Output() update = new EventEmitter<Product>();
   faTrash = faTrashAlt;
   faUpload = faUpload;
   faCrown = faCrown;

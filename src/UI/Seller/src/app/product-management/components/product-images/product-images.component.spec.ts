@@ -1,25 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductDetailsImagesComponent } from '@app-seller/product-management/components/product-details-images/product-details-images.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrService } from 'ngx-toastr';
+import { ProductImagesComponent } from '@app-seller/product-management/components/product-images/product-images.component';
 
-describe('ProductDetailsImagesComponent', () => {
-  let component: ProductDetailsImagesComponent;
-  let fixture: ComponentFixture<ProductDetailsImagesComponent>;
+describe('ProductImagesComponent', () => {
+  let component: ProductImagesComponent;
+  let fixture: ComponentFixture<ProductImagesComponent>;
   const toastrService = { warning: jasmine.createSpy('warning') };
   const mockProduct = { xp: { imageURLs: ['A', 'B', 'C', 'D'] } };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductDetailsImagesComponent],
+      declarations: [ProductImagesComponent],
       imports: [FontAwesomeModule],
       providers: [{ provide: ToastrService, useValue: toastrService }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductDetailsImagesComponent);
+    fixture = TestBed.createComponent(ProductImagesComponent);
     component = fixture.componentInstance;
     component.product = mockProduct;
     fixture.detectChanges();
