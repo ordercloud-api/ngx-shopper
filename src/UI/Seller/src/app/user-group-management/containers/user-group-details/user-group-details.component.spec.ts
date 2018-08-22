@@ -15,7 +15,6 @@ describe('UserGroupDetailsComponent', () => {
   const mockUserGroup = {
     ID: 'userGroupID',
     Name: 'MyGroup',
-    prevID: 'nomore',
   };
   const ocUserGroupService = {
     Get: jasmine.createSpy('Get').and.returnValue(of({})),
@@ -66,16 +65,11 @@ describe('UserGroupDetailsComponent', () => {
   });
 
   describe('updateUserGroup', () => {
-    it('should throw error if no user ID', () => {
-      expect(() => component.updateUserGroup({ prevID: null })).toThrow(
-        new Error('Cannot update a user group without an ID')
-      );
-    });
     it('should update the usergroup', () => {
       component.updateUserGroup(mockUserGroup);
       expect(ocUserGroupService.Patch).toHaveBeenCalledWith(
         'buyerID',
-        mockUserGroup.prevID,
+        component.userGroupID,
         mockUserGroup
       );
     });

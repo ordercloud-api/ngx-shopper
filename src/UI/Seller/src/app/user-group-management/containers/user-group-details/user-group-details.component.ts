@@ -5,7 +5,7 @@ import {
   OcUserGroupService,
   UserGroupAssignment,
 } from '@ordercloud/angular-sdk';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 import {
@@ -20,12 +20,14 @@ import {
 })
 export class UserGroupDetailsComponent implements OnInit {
   usergroup: UserGroup;
+  userGroupID: string;
   faUsers = faUsers;
   faUser = faUser;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private ocUserGroupService: OcUserGroupService,
+    private router: Router,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {}
 
@@ -37,6 +39,7 @@ export class UserGroupDetailsComponent implements OnInit {
     return this.activatedRoute.params.pipe(
       flatMap((params) => {
         if (params.userGroupID) {
+          this.userGroupID = params.userGroupID;
           return this.ocUserGroupService.Get(
             this.appConfig.buyerID,
             params.userGroupID
@@ -46,18 +49,14 @@ export class UserGroupDetailsComponent implements OnInit {
     );
   }
 
-  updateUserGroup(group: UserGroupUpdate): void {
-    if (!group.prevID) {
-      throw Error('Cannot update a user group without an ID');
-    }
-
+  updateUserGroup(group: UserGroup): void {
     this.ocUserGroupService
-      .Patch(this.appConfig.buyerID, group.prevID, group)
-      .subscribe((x) => (this.usergroup = x));
+      .Patch(this.appConfig.buyerID, this.userGroupID, group)
+      .subscribe((x) => {
+        this.usergroup = x;
+        if (this.userGroupID !== this.usergroup.ID) {
+          this.router.navigateByUrl(`/usergroups/${this.usergroup.ID}`);
+        }
+      });
   }
-}
-
-interface UserGroupUpdate extends UserGroup {
-  // ID can be changed in the form, so we need the previous ID to ensure we update the correct record
-  prevID: string;
 }

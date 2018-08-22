@@ -50,12 +50,7 @@ export class UserGroupFormComponent implements OnInit {
       return this.formErrorService.displayFormErrors(this.userGroupForm);
     }
 
-    const group = {
-      ...this.userGroupForm.value,
-      prevID: this._existingUserGroup.ID,
-    };
-
-    this.formSubmitted.emit(group);
+    this.formSubmitted.emit(this.userGroupForm.value);
   }
 
   // control display of error messages

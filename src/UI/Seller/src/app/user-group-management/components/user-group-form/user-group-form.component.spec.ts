@@ -64,7 +64,6 @@ describe('UserGroupFormComponent', () => {
       component['onSubmit']();
       expect(component.formSubmitted.emit).toHaveBeenCalledWith({
         ...mockUserGroup,
-        prevID: component['_existingUserGroup'].ID,
       });
     });
   });
