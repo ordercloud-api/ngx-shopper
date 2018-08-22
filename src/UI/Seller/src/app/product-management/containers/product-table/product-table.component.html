@@ -73,6 +73,7 @@
       <p class="mb-0">No products found</p>
     </div>
     <ngb-pagination *ngIf="products.Meta?.TotalPages > 1"
+                    maxSize="10"
                     class="d-flex justify-content-center"
                     [collectionSize]="products.Meta.TotalCount"
                     [pageSize]="products.Meta.PageSize"
