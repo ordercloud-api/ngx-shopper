@@ -2,7 +2,7 @@
 import { NgModule, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {
   NgbPaginationModule,
   NgbTabsetModule,
@@ -19,6 +19,10 @@ import { SortColumnComponent } from '@app-seller/shared/components/sort-column/s
 import { ModalService } from '@app-seller/shared/services/modal/modal.service';
 import { ModalComponent } from '@app-seller/shared/components/modal/modal.component';
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
+import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/carousel-slide-display/carousel-slide-display.component';
+import { GenericBrowseComponent } from '@app-seller/shared/components/generic-browse/generic-browse.component';
+import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
+import { UserFormComponent } from '@app-seller/shared/components/user-form/user-form.component';
 
 @NgModule({
   imports: [
@@ -30,6 +34,7 @@ import { AppFormErrorService } from '@app-seller/shared/services/form-error/form
 
     // 3rd party UI
     FontAwesomeModule,
+    FormsModule,
     NgbPaginationModule.forRoot(),
     NgbTabsetModule.forRoot(),
   ],
@@ -48,8 +53,20 @@ import { AppFormErrorService } from '@app-seller/shared/services/form-error/form
     SearchComponent,
     SortColumnComponent,
     ModalComponent,
+    CarouselSlideDisplayComponent,
+    GenericBrowseComponent,
+    UserTableComponent,
+    UserFormComponent,
   ],
-  declarations: [SearchComponent, SortColumnComponent, ModalComponent],
+  declarations: [
+    SearchComponent,
+    SortColumnComponent,
+    ModalComponent,
+    CarouselSlideDisplayComponent,
+    GenericBrowseComponent,
+    UserTableComponent,
+    UserFormComponent,
+  ],
 
   /**
    * DO NOT define providers here

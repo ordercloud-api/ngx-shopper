@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserFormComponent } from './user-form.component';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AppFormErrorService } from '@app-seller/shared';
+import { UserFormComponent } from '@app-seller/shared/components/user-form/user-form.component';
 
 describe('UserFormComponent', () => {
   let component: UserFormComponent;

@@ -1,16 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { UserTableComponent } from './user-table.component';
 import { of } from 'rxjs';
 import { ModalService } from '@app-seller/shared';
-import { OcUserService } from '@ordercloud/angular-sdk';
+import { OcUserService, OcUserGroupService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration } from '@app-seller/config/app.config';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
 
 describe('UserTableComponent', () => {
   let component: UserTableComponent;
   let fixture: ComponentFixture<UserTableComponent>;
   const mockUserList = { Items: [{ ID: 'userID' }] };
+  const mockUserAssignmentList = {
+    Items: [{ UserID: 'userID', UserGroupID: 'group' }],
+  };
   const ocUserService = {
     List: jasmine.createSpy('List').and.returnValue(of(mockUserList)),
     Create: jasmine
@@ -20,6 +23,17 @@ describe('UserTableComponent', () => {
     Patch: jasmine
       .createSpy('Patch')
       .and.returnValue(of(mockUserList.Items[0])),
+  };
+  const ocUserGroupService = {
+    ListUserAssignments: jasmine
+      .createSpy('ListUserAssignments')
+      .and.returnValue(of(mockUserAssignmentList)),
+    SaveUserAssignment: jasmine
+      .createSpy('SaveUserAssignment')
+      .and.returnValue(of(mockUserAssignmentList.Items[0])),
+    DeleteUserAssignment: jasmine
+      .createSpy('DeleteUserAssignment')
+      .and.returnValue(of({})),
   };
 
   const modalService = {
@@ -34,6 +48,7 @@ describe('UserTableComponent', () => {
       providers: [
         { provide: ModalService, useValue: modalService },
         { provide: OcUserService, useValue: ocUserService },
+        { provide: OcUserGroupService, useValue: ocUserGroupService },
         {
           provide: applicationConfiguration,
           useValue: { buyerID: 'buyerID' },
@@ -53,14 +68,51 @@ describe('UserTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('loadUsers', () => {
-    beforeEach(() => {
+  describe('loadData', () => {
+    it('should set users using OCUsersService', () => {
       component.users = undefined;
       component.loadData();
-    });
-    it('should set users using OCUsersService', () => {
       expect(ocUserService.List).toHaveBeenCalled();
-      expect(component.users).toEqual(mockUserList);
+    });
+    it('should not get usergroup assignments if no userGroupID', () => {
+      component.userGroupID = undefined;
+      component.columns = ['Assign'];
+      component.loadData();
+      expect(ocUserGroupService.ListUserAssignments).not.toHaveBeenCalled();
+    });
+    it('should not get usergroup assignments if no assigned column', () => {
+      component.userGroupID = 'group';
+      component.columns = [];
+      component.loadData();
+      expect(ocUserGroupService.ListUserAssignments).not.toHaveBeenCalled();
+    });
+    it('should get usergroup assignments if column and ID', () => {
+      component.userGroupID = 'group';
+      component.columns = ['Assign'];
+      component.loadData();
+      expect(ocUserGroupService.ListUserAssignments).toHaveBeenCalled();
+      expect((component.users.Items[0] as any).Assigned).toEqual(true);
+    });
+  });
+
+  describe('assignUser', () => {
+    beforeEach(() => {
+      component.userGroupID = 'group';
+    });
+    it('should create assignment when parameter is true', () => {
+      component.assignUser('userID', true);
+      expect(ocUserGroupService.SaveUserAssignment).toHaveBeenCalledWith(
+        'buyerID',
+        { UserID: 'userID', UserGroupID: 'group' }
+      );
+    });
+    it('should delete assignment when parameter is false', () => {
+      component.assignUser('userID', false);
+      expect(ocUserGroupService.DeleteUserAssignment).toHaveBeenCalledWith(
+        'buyerID',
+        'group',
+        'userID'
+      );
     });
   });
 
@@ -93,14 +145,14 @@ describe('UserTableComponent', () => {
   describe('editUser', () => {
     beforeEach(() => {
       spyOn(component, 'loadData');
-      component.editUser({ ID: 'userID' });
+      component.editUser(component.users.Items[0]);
     });
     it('should edit a users using OCUsersService', () => {
       expect(modalService.close).toHaveBeenCalled();
       expect(ocUserService.Patch).toHaveBeenCalledWith(
         'buyerID',
-        'userID',
-        mockUserList.Items[0]
+        component.users.Items[0].ID,
+        component.users.Items[0]
       );
       expect(component.loadData).toHaveBeenCalled();
     });
