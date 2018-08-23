@@ -24,12 +24,25 @@ export class HasTokenGuard implements CanActivate {
   canActivate(): Observable<boolean> {
     /**
      * very simple test to make sure a token exists,
-     * can be parsed and has a valid expiration time
+     * can be parsed and has a valid expiration time.
      *
-     * shouldn't be depended on for actual token validation.
-     * if the token is actually not valid it will fail on a call
-     * and the refresh-token interceptor will handle it correctly
+     * Shouldn't be depended on for actual token validation.
+     * The API will block invalid tokens
+     * and the client-side refresh-token interceptor will handle it correctly
      */
+
+    // check for impersonation superseeds existing tokens to allow impersonating buyers sequentially.
+    if (window.location.pathname === '/impersonation') {
+      const match = /token=([^&]*)/.exec(window.location.search);
+      if (match) {
+        this.ocTokenService.SetAccess(match[1]);
+        this.appStateService.isLoggedIn.next(true);
+        return of(true);
+      } else {
+        alert(`Missing url query param 'token'`);
+      }
+    }
+
     const isAccessTokenValid = this.isTokenValid();
     const refreshTokenExists =
       this.ocTokenService.GetRefresh() &&
