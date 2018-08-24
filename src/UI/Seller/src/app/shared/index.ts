@@ -10,6 +10,8 @@ export * from '@app-seller/shared/validators/id-field/id-field.validator';
 
 // models
 export * from '@app-seller/shared/models/decoded-token.interface';
+export * from '@app-seller/shared/models/base-browse.class';
+export * from '@app-seller/shared/components/carousel-slide-display/carousel-slide.interface';
 
 // services
 export * from '@app-seller/shared/services/form-error/form-error.service';

@@ -1,6 +1,57 @@
 <div class="container">
-  <div class="jumbotron mt-4">
+  <div class="jumbotron my-4">
     <h1 class="display-4">OrderCloud Seller</h1>
     <p class="lead">Welcome to the home page. Manange Products. Manage Users and Permissions.</p>
   </div>
+  <div class="row mb-2">
+    <div class="col-8">
+      <h2>Announcement</h2>
+    </div>
+    <div class="col-4">
+      <button (click)="saveAnnouncement()"
+              [disabled]="announcementUnchanged()"
+              class="btn btn-primary float-right">
+        <fa-icon [icon]="faSave"></fa-icon> Save Changes</button>
+    </div>
+  </div>
+  <form *ngIf="announcementForm"
+        novalidate
+        [formGroup]="announcementForm"
+        name="AnnouncementForm">
+    <div class="form-group">
+      <label for="annouce"
+             class="col-sm-3 control-label font-weight-bold mt-1 sr-only">ID</label>
+      <div>
+        <textarea type="text"
+                  formControlName="announcement"
+                  class="form-control"
+                  id="annouce"
+                  placeholder="Type here..."></textarea>
+      </div>
+    </div>
+  </form>
+  <div class="row mt-5 mb-2">
+    <div class="col-8">
+      <h2>Carousel Slides</h2>
+    </div>
+    <div class="col-4">
+      <form>
+        <input [hidden]="true"
+               id="carsousel-image"
+               type="file"
+               (change)="fileChange($event)"
+               placeholder="Upload file">
+        <label for="carsousel-image"
+               class="btn btn-primary float-right">
+          <fa-icon [icon]="faUpload"></fa-icon> New Slide</label>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="buyer">
+    <shared-carousel-slide-display *ngFor="let slide of buyer.xp.carouselSlides"
+                                   [slide]="slide"
+                                   (delete)="deleteSlide($event)"
+                                   (save)="updateSlide($event)"></shared-carousel-slide-display>
+  </div>
+  >>>>>>> development
 </div>

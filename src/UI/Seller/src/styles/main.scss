@@ -7,6 +7,10 @@
 // Components in this app
 @import 'components/_modal.scss';
 
+html {
+  font-size: 0.9rem;
+}
+
 .large-paddding-top {
   padding-top: 160px;
 }
@@ -22,9 +26,17 @@
 // Styling for action icons
 .icon-button--hover-reactive {
   font-size: 18px;
+  cursor: pointer;
   :hover {
     opacity: 0.5;
   }
+}
+.icon-button--hover-reactive.disabled {
+  opacity: 0.5;
+  :hover {
+    opacity: 1;
+  }
+  cursor: default;
 }
 
 // invalid inputs

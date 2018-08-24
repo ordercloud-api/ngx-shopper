@@ -49,13 +49,6 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
           return this.ocMeService.GetProduct(params.productID).pipe(
             tap((prod) => {
               this.relatedProducts$ = this.getRelatedProducts(prod);
-              if (!prod.xp) {
-                return;
-              }
-              this.imageUrls = [
-                prod.xp.primaryImageURL,
-                ...prod.xp.additionalImages,
-              ];
             })
           );
         }

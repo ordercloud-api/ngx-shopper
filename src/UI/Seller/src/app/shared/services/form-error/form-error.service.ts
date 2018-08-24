@@ -24,8 +24,7 @@ export class AppFormErrorService {
   }
 
   hasRequiredError(controlName: string, form: FormGroup) {
-    return (
-      form.get(controlName).hasError('required') && form.get(controlName).dirty
-    );
+    const control = form.get(controlName);
+    return control && control.hasError('required') && control.dirty;
   }
 }

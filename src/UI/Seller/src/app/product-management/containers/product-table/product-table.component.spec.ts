@@ -47,7 +47,7 @@ describe('ProductTableComponent', () => {
   describe('loadProducts', () => {
     beforeEach(() => {
       component.products = undefined;
-      component.loadProducts();
+      component.loadData();
     });
     it('should set products using OCProductsService', () => {
       expect(ocProductService.List).toHaveBeenCalled();
@@ -57,19 +57,19 @@ describe('ProductTableComponent', () => {
 
   describe('deleteProducts', () => {
     beforeEach(() => {
-      spyOn(component, 'loadProducts');
+      spyOn(component, 'loadData');
       component.products = undefined;
       component.deleteProduct('testID');
     });
     it('should deleted products using OCProductsService', () => {
       expect(ocProductService.Delete).toHaveBeenCalledWith('testID');
-      expect(component.loadProducts).toHaveBeenCalled();
+      expect(component.loadData).toHaveBeenCalled();
     });
   });
 
   describe('addProducts', () => {
     beforeEach(() => {
-      spyOn(component, 'loadProducts');
+      spyOn(component, 'loadData');
       component.addProduct(mockProductList.Items[0]);
     });
     it('should deleted products using OCProductsService', () => {
@@ -77,37 +77,7 @@ describe('ProductTableComponent', () => {
       expect(ocProductService.Create).toHaveBeenCalledWith(
         mockProductList.Items[0]
       );
-      expect(component.loadProducts).toHaveBeenCalled();
-    });
-  });
-
-  describe('requestOptions', () => {
-    it('should search, reseting page', () => {
-      component.requestOptions = { page: 2, search: 'hose', sortBy: 'ID' };
-      component.searchChanged('newSearch');
-      expect(ocProductService.List).toHaveBeenCalledWith({
-        page: undefined,
-        search: 'newSearch',
-        sortBy: 'ID',
-      });
-    });
-    it('should change page, keeping search + sort', () => {
-      component.requestOptions = { page: 2, search: 'hose', sortBy: 'ID' };
-      component.pageChanged(3);
-      expect(ocProductService.List).toHaveBeenCalledWith({
-        page: 3,
-        search: 'hose',
-        sortBy: 'ID',
-      });
-    });
-    it('should sort, resting page ', () => {
-      component.requestOptions = { page: 2, search: 'hose', sortBy: 'ID' };
-      component.sortChanged('!ID');
-      expect(ocProductService.List).toHaveBeenCalledWith({
-        page: undefined,
-        search: 'hose',
-        sortBy: '!ID',
-      });
+      expect(component.loadData).toHaveBeenCalled();
     });
   });
 });

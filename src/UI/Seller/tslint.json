@@ -89,9 +89,9 @@
         "layout",
         "profile",
         "shared",
-        "products",
+        "product",
         "order",
-        "checkout"
+        "user"
       ],
       "kebab-case"
     ],
