@@ -10,6 +10,8 @@ export const ocAppConfig: AppConfig = {
   clientID: environment.clientID,
   middlewareUrl: environment.middlewareUrl,
   buyerID: environment.buyerID,
+  buyerClientID: environment.buyerClientID,
+  buyerUrl: environment.buyerUrl,
   scope: [
     'MeAddressAdmin',
     'MeAdmin',
@@ -27,6 +29,7 @@ export const ocAppConfig: AppConfig = {
     'OrderAdmin',
     'OverrideTax',
     'OverrideShipping',
+    'BuyerImpersonation',
   ],
 };
 
@@ -49,6 +52,16 @@ export interface AppConfig {
    * API supports multiple buyer organizations per seller, but this app is not currently indended for that architecture.
    */
   buyerID: string;
+
+  /**
+   * The client ID of the buyer org.
+   */
+  buyerClientID: string;
+
+  /**
+   * base path to buyer site
+   */
+  buyerUrl: string;
 
   /**
    * base path to middleware
