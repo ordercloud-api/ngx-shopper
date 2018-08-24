@@ -9,7 +9,7 @@ import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { ModalService, BaseBrowse } from '@app-seller/shared';
 
 @Component({
-  selector: 'products-table',
+  selector: 'product-table',
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.scss'],
 })

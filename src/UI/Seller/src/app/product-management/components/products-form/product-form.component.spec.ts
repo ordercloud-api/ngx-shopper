@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductsFormComponent } from './products-form.component';
+import { ProductFormComponent } from '@app-seller/product-management/components/products-form/product-form.component';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AppFormErrorService } from '@app-seller/shared';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserModule } from '@angular/platform-browser';
 
 describe('ProductsFormComponent', () => {
-  let component: ProductsFormComponent;
-  let fixture: ComponentFixture<ProductsFormComponent>;
+  let component: ProductFormComponent;
+  let fixture: ComponentFixture<ProductFormComponent>;
 
   const mockProduct = {
     ID: '1',
@@ -26,7 +26,7 @@ describe('ProductsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductsFormComponent],
+      declarations: [ProductFormComponent],
       imports: [ReactiveFormsModule, RouterTestingModule, BrowserModule],
       providers: [
         FormBuilder,
@@ -36,7 +36,7 @@ describe('ProductsFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductsFormComponent);
+    fixture = TestBed.createComponent(ProductFormComponent);
     component = fixture.componentInstance;
     component.existingProduct = mockProduct;
     fixture.detectChanges();
