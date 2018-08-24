@@ -91,11 +91,12 @@ export class HomeComponent implements OnInit {
 
       // const url = 'http://example.com'
       // this.addSlide({ URL: url, headerText: '', bodyText: ''});
-
       const message =
-        'File upload functionality requires an integration with file storage. For Developers: details in file carousel-slide-display.component.ts';
-      this.toastrService.warning(message);
-      console.log(message);
+        'File upload functionality requires an integration with file storage. Developers can find details at https://github.com/ordercloud-api/ngx-shopper/blob/development/src/UI/Seller/src/app/layout/home/home.component.ts';
+      this.toastrService.warning(message, null, {
+        disableTimeOut: true,
+        closeButton: true,
+      });
     }
   }
 }
