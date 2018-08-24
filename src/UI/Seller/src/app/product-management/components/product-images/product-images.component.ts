@@ -42,6 +42,7 @@ export class ProductImagesComponent {
       this.toastrService.warning(message, null, {
         disableTimeOut: true,
         closeButton: true,
+        tapToDismiss: false,
       });
     }
   }

@@ -95,6 +95,7 @@ export class HomeComponent implements OnInit {
         'File upload functionality requires an integration with file storage. Developers can find details at https://github.com/ordercloud-api/ngx-shopper/blob/development/src/UI/Seller/src/app/layout/home/home.component.ts';
       this.toastrService.warning(message, null, {
         disableTimeOut: true,
+        tapToDismiss: false,
         closeButton: true,
       });
     }
