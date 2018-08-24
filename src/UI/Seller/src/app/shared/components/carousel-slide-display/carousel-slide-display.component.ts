@@ -50,9 +50,12 @@ export class CarouselSlideDisplayComponent implements OnInit {
       // this.textChanges();
 
       const message =
-        'File upload functionality requires an integration with file storage. For Developers: details in file carousel-slide-display.component.ts';
-      this.toastrService.warning(message);
-      console.log(message);
+        'File upload functionality requires an integration with file storage. Developers can find details at https://github.com/ordercloud-api/ngx-shopper/blob/development/src/UI/Seller/src/app/shared/components/carousel-slide-display/carousel-slide-display.component.ts';
+      this.toastrService.warning(message, null, {
+        disableTimeOut: true,
+        closeButton: true,
+        tapToDismiss: false,
+      });
     }
   }
 
