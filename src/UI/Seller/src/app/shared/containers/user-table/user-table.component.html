@@ -14,6 +14,8 @@
       </shared-modal>
       <shared-modal id="{{ editModalID }}"
                     modalTitle="Update User">
+        <button class="btn btn-primary mb-3"
+                (click)="getImpersonationToken(selectedUser.ID)"><fa-icon [icon]="faUser"></fa-icon> Impersonate User</button>
         <user-form btnText="Save"
                    [existingUser]="selectedUser"
                    (formSubmitted)="editUser($event)"></user-form>

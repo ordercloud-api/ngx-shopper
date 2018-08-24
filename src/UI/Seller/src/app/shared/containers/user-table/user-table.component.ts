@@ -4,13 +4,13 @@ import {
   User,
   ListUser,
   OcUserGroupService,
-  ListUserGroup,
-  Meta,
+  OcTokenService,
 } from '@ordercloud/angular-sdk';
 import {
   faTrashAlt,
   faPlusCircle,
   faCircle,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   AppConfig,
@@ -31,6 +31,7 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
   faTrash = faTrashAlt;
   faCircle = faCircle;
   faPlusCircle = faPlusCircle;
+  faUser = faUser;
   createModalID = 'CreateUserModal';
   editModalID = 'EditUserModal';
   // Default Columns.
@@ -138,6 +139,20 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
       .Patch(this.appConfig.buyerID, user.ID, user)
       .subscribe(() => {
         this.loadData();
+      });
+  }
+
+  getImpersonationToken(userID: string) {
+    this.ocUserService
+      .GetAccessToken(this.appConfig.buyerID, userID, {
+        ClientID: this.appConfig.buyerClientID,
+        Roles: ['FullAccess'],
+      })
+      .subscribe((res) => {
+        window.open(
+          `${this.appConfig.buyerUrl}/impersonation?token=${res.access_token}`,
+          '_blank'
+        );
       });
   }
 }
