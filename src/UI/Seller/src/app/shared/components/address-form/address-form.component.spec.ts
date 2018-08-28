@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
+import { AddressFormComponent } from '@app-seller/shared/components/address-form/address-form.component';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { AppGeographyService } from '@app-buyer/shared';
 import { of } from 'rxjs';
 import { OcMeService } from '@ordercloud/angular-sdk';
-import { AppFormErrorService } from '@app-buyer/shared';
+import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
+import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
 
 describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
@@ -16,7 +16,7 @@ describe('AddressFormComponent', () => {
   };
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
-    hasValidEmailError: jasmine.createSpy('hasValidEmailError'),
+    hasInvalidIdError: jasmine.createSpy('hasInValidIdError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
   };
 
@@ -38,6 +38,7 @@ describe('AddressFormComponent', () => {
     component = fixture.componentInstance;
     component.existingAddress = {
       ID: '',
+      AddressName: 'My Address',
       FirstName: 'Crhistian',
       LastName: 'Ramirez',
       Street1: '404 5th st sw',
@@ -63,6 +64,7 @@ describe('AddressFormComponent', () => {
     it('should initialize form correctly', () => {
       expect(component.addressForm.value).toEqual({
         ID: '',
+        AddressName: 'My Address',
         FirstName: 'Crhistian',
         LastName: 'Ramirez',
         Street1: '404 5th st sw',
@@ -89,6 +91,7 @@ describe('AddressFormComponent', () => {
       component['onSubmit']();
       expect(component.formSubmitted.emit).toHaveBeenCalledWith({
         ID: '',
+        AddressName: 'My Address',
         FirstName: 'Crhistian',
         LastName: 'Ramirez',
         Street1: '404 5th st sw',
@@ -110,17 +113,6 @@ describe('AddressFormComponent', () => {
       expect(formErrorService.hasRequiredError).toHaveBeenCalledWith(
         'FirstName',
         component.addressForm
-      );
-    });
-  });
-
-  describe('hasValidEmailError', () => {
-    beforeEach(() => {
-      component['hasValidEmailError']();
-    });
-    it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasValidEmailError).toHaveBeenCalledWith(
-        component.addressForm.get('Email')
       );
     });
   });

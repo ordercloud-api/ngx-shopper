@@ -54,7 +54,7 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
   }
 
   // Overrides a method in BaseBrowse
-  // TODO - I think this observable stuff can be made cleaner with operators
+  // TODO - I think the nested subscribes can be made cleaner with operators
   loadData(): void {
     // this.requestOptions is inherited from BaseBrowse
     this.ocAddressService
