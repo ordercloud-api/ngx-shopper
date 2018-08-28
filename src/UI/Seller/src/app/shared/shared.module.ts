@@ -60,6 +60,7 @@ import { AddressFormComponent } from '@app-seller/shared/components/address-form
     GenericBrowseComponent,
     UserTableComponent,
     UserFormComponent,
+    AddressTableComponent,
     AddressFormComponent,
   ],
   declarations: [

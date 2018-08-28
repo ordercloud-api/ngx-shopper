@@ -3,7 +3,8 @@ import {
   ListAddress,
   Address,
   OcAddressService,
-  OcUserGroupService,
+  ListAddressAssignment,
+  AddressAssignment,
 } from '@ordercloud/angular-sdk';
 import { faTrashAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from '@app-seller/shared/services/modal/modal.service';
@@ -12,6 +13,7 @@ import {
   applicationConfiguration,
 } from '@app-seller/config/app.config';
 import { BaseBrowse } from '@app-seller/shared/models/base-browse.class';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'address-table',
@@ -26,12 +28,11 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
   createModalID = 'CreateAddressModal';
   editModalID = 'EditAddressModal';
 
-  // Only use this when assigning users to user groups.
+  // If this is undefined, assignments will be to the buyer org. If defined, assignements are to the userGroup.
   @Input() userGroupID: string;
 
   constructor(
     private ocAddressService: OcAddressService,
-    private ocUserGroupService: OcUserGroupService,
     private modalService: ModalService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
@@ -58,25 +59,81 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
     // this.requestOptions is inherited from BaseBrowse
     this.ocAddressService
       .List(this.appConfig.buyerID, this.requestOptions)
-      .subscribe((addresses) => (this.addresses = addresses));
+      .subscribe((addresses) => {
+        const queue = addresses.Items.map((address) => {
+          return this.ocAddressService.ListAssignments(this.appConfig.buyerID, {
+            addressID: address.ID,
+          });
+        });
+        forkJoin(queue).subscribe((res: any) => {
+          this.addresses = addresses;
+          res = res.filter((assignments) => assignments.Items.length > 0);
+          res.forEach((assignments) => {
+            const assignment = this.userGroupID
+              ? this.getGroupAssignment(assignments)
+              : this.getBuyerAssignment(assignments);
+            if (!assignment) return;
+            const index = this.addresses.Items.findIndex(
+              (address) => address.ID === assignment.AddressID
+            );
+            (this.addresses.Items[index] as any).IsShipping =
+              assignment.IsShipping;
+            (this.addresses.Items[index] as any).IsBilling =
+              assignment.IsBilling;
+          });
+        });
+      });
   }
 
-  // assignUser(userID: string, assigned: boolean) {
-  //   if (assigned) {
-  //     this.ocUserGroupService
-  //       .SaveUserAssignment(this.appConfig.buyerID, {
-  //         UserID: userID,
-  //         UserGroupID: this.userGroupID,
-  //       })
-  //       .subscribe();
-  //   } else {
-  //     this.ocUserGroupService
-  //       .DeleteUserAssignment(this.appConfig.buyerID, this.userGroupID, userID)
-  //       .subscribe();
-  //   }
-  // }
+  getBuyerAssignment(assignments: ListAddressAssignment): AddressAssignment {
+    return assignments.Items.filter((x) => !x.UserGroupID)[0];
+  }
 
-  deleteAddress(addressID) {
+  getGroupAssignment(assignments: ListAddressAssignment): AddressAssignment {
+    return assignments.Items.filter(
+      (x) => x.UserGroupID === this.userGroupID
+    )[0];
+  }
+
+  assignShipping(addressID: string, assigned: boolean): void {
+    const address = this.addresses.Items.find((x) => x.ID === addressID);
+    this.updateAssignment(<AddressAssignment>{
+      AddressID: addressID,
+      UserGroupID: this.userGroupID || undefined,
+      IsBilling: (address as any).IsBilling,
+      IsShipping: assigned,
+    });
+  }
+
+  assignBilling(addressID: string, assigned: boolean): void {
+    const address = this.addresses.Items.find((x) => x.ID === addressID);
+    this.updateAssignment(<AddressAssignment>{
+      AddressID: addressID,
+      UserGroupID: this.userGroupID || undefined,
+      IsBilling: assigned,
+      IsShipping: (address as any).IsShipping || false,
+    });
+  }
+
+  updateAssignment(assignment: AddressAssignment) {
+    if (assignment.IsBilling || assignment.IsShipping) {
+      this.ocAddressService
+        .SaveAssignment(this.appConfig.buyerID, assignment)
+        .subscribe(() => {
+          this.loadData();
+        });
+    } else {
+      this.ocAddressService
+        .DeleteAssignment(this.appConfig.buyerID, assignment.AddressID, {
+          userGroupID: assignment.UserGroupID || undefined,
+        })
+        .subscribe(() => {
+          this.loadData();
+        });
+    }
+  }
+
+  deleteAddress(addressID): void {
     this.ocAddressService
       .Delete(this.appConfig.buyerID, addressID)
       .subscribe(() => {
@@ -84,7 +141,7 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
       });
   }
 
-  addAddress(address: Address) {
+  addAddress(address: Address): void {
     this.modalService.close(this.createModalID);
     this.ocAddressService
       .Create(this.appConfig.buyerID, address)
@@ -93,7 +150,7 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
       });
   }
 
-  editAddress(address: Address) {
+  editAddress(address: Address): void {
     this.modalService.close(this.editModalID);
     this.ocAddressService
       .Patch(this.appConfig.buyerID, address.ID, address)

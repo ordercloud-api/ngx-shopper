@@ -14,7 +14,7 @@
         </shared-address-form>
       </shared-modal>
       <shared-modal id="{{ editModalID }}"
-                    modalTitle="Update User">
+                    modalTitle="Update Address">
         <shared-address-form btnText="Save"
                              [existingAddress]="selectedAddress"
                              (formSubmitted)="editAddress($event)">
@@ -57,15 +57,15 @@
             <th>
               <form class="text-center">
                 <input type="checkbox"
-                       (change)="assignAddress(user.ID, $event.target.checked)"
-                       [checked]="address.Assigned">
+                       (change)="assignShipping(address.ID, $event.target.checked)"
+                       [checked]="address.IsShipping">
               </form>
             </th>
             <th>
               <form class="text-center">
                 <input type="checkbox"
-                       (change)="assignAddress(address.ID, $event.target.checked)"
-                       [checked]="address.Assigned">
+                       (change)="assignBilling(address.ID, $event.target.checked)"
+                       [checked]="address.IsBilling">
               </form>
             </th>
             <td> <a [routerLink]=""
