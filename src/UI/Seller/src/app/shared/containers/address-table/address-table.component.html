@@ -22,6 +22,10 @@
       </shared-modal>
     </div>
   </div>
+  <div class="alert alert-info mt-2"
+       role="alert">
+    Checking "Billing" or "Shipping" will make this address available to<strong> {{ getAlertText() }}</strong>
+  </div>
   <div class="mt-4"
        *ngIf="addresses">
     <shared-generic-browse [meta]="addresses?.Meta"

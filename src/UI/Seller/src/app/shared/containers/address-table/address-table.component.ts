@@ -158,4 +158,8 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
         this.loadData();
       });
   }
+
+  getAlertText(): string {
+    return this.userGroupID ? 'this user group.' : 'all users.';
+  }
 }

@@ -79,7 +79,6 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
     this.ocUserService
       .List(this.appConfig.buyerID, this.requestOptions)
       .subscribe((users) => {
-        //const users = users;
         if (this.columns.indexOf('Assign') < 0 || !this.userGroupID) {
           return (this.users = users);
         }
