@@ -30,6 +30,7 @@ export const ocAppConfig: AppConfig = {
     'OverrideTax',
     'OverrideShipping',
     'BuyerImpersonation',
+    'AddressAdmin',
   ],
 };
 
