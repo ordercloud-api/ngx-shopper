@@ -6,14 +6,14 @@ import {
 } from '@ordercloud/angular-sdk';
 import { faCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import { ModalService } from '@app-seller/shared';
+import { ModalService, BaseBrowse } from '@app-seller/shared';
 
 @Component({
-  selector: 'products-table',
+  selector: 'product-table',
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.scss'],
 })
-export class ProductTableComponent implements OnInit {
+export class ProductTableComponent extends BaseBrowse implements OnInit {
   products: ListBuyerProduct;
   requestOptions = { search: undefined, page: undefined, sortBy: undefined };
   faTrash = faTrashAlt;
@@ -24,32 +24,20 @@ export class ProductTableComponent implements OnInit {
   constructor(
     private ocProductService: OcProductService,
     private modalService: ModalService
-  ) {}
+  ) {
+    // BaseBrowse super class handles sorting, searching, and pagination
+    super();
+  }
 
   ngOnInit() {
-    this.loadProducts();
+    this.loadData();
   }
 
   openNewProductModal() {
     this.modalService.open(this.modalID);
   }
 
-  pageChanged(page: number) {
-    Object.assign(this.requestOptions, { page: page });
-    this.loadProducts();
-  }
-
-  searchChanged(searchStr: string) {
-    Object.assign(this.requestOptions, { search: searchStr, page: undefined });
-    this.loadProducts();
-  }
-
-  sortChanged(sortStr: string) {
-    Object.assign(this.requestOptions, { sortBy: sortStr, page: undefined });
-    this.loadProducts();
-  }
-
-  loadProducts() {
+  loadData() {
     this.ocProductService
       .List(this.requestOptions)
       .subscribe((x) => (this.products = x));
@@ -57,14 +45,14 @@ export class ProductTableComponent implements OnInit {
 
   deleteProduct(productID) {
     this.ocProductService.Delete(productID).subscribe(() => {
-      this.loadProducts();
+      this.loadData();
     });
   }
 
   addProduct(product: Product) {
     this.modalService.close(this.modalID);
     this.ocProductService.Create(product).subscribe(() => {
-      this.loadProducts();
+      this.loadData();
     });
   }
 }

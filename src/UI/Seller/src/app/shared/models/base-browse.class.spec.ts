@@ -1,6 +1,8 @@
-import { BaseBrowse } from './base-browse.class';
+import { BaseBrowse } from '@app-seller/shared/models/base-browse.class';
 
-class TestBaseBrowse extends BaseBrowse {}
+class TestBaseBrowse extends BaseBrowse {
+  loadData() {}
+}
 
 const component = new TestBaseBrowse();
 

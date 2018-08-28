@@ -43,6 +43,7 @@ import { PaymentMethodDisplayPipe } from '@app-buyer/shared/pipes/payment-method
 
 // directives
 import { PhoneInputDirective } from '@app-buyer/shared/directives/phone-input/phone-input.directive';
+import { FallbackImageDirective } from './directives/fallback-image/fallback-image.directive';
 
 // guards
 import { HasTokenGuard } from '@app-buyer/shared/guards/has-token/has-token.guard';
@@ -75,6 +76,7 @@ import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-t
 import { GenericBrowseComponent } from '@app-buyer/shared/components/generic-browse/generic-browse.component';
 import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
+import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
 
 @NgModule({
   imports: [
@@ -134,6 +136,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
     CreditCardFormComponent,
     LineItemListWrapperComponent,
     PhoneInputDirective,
+    FallbackImageDirective,
     LineItemCardComponent,
     ShipperTrackingPipe,
     ShipperTrackingSupportedPipe,
@@ -147,6 +150,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
     OrderPaymentListComponent,
   ],
   declarations: [
+    ChangePasswordFormComponent,
     RegisterComponent,
     PhoneFormatPipe,
     OrderStatusDisplayPipe,
@@ -157,6 +161,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
     CreditCardDisplayComponent,
     CreditCardFormComponent,
     PhoneInputDirective,
+    FallbackImageDirective,
     SearchComponent,
     CreditCardIconComponent,
     LineItemCardComponent,

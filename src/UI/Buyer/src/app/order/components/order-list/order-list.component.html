@@ -69,6 +69,7 @@
   <p class="mb-0">No orders found</p>
 </div>
 <ngb-pagination *ngIf="orders.Meta.TotalPages > 1"
+                maxSize="10"
                 class="d-flex justify-content-center"
                 [collectionSize]="orders.Meta.TotalCount"
                 [pageSize]="orders.Meta.PageSize"
