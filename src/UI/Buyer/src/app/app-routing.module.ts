@@ -28,6 +28,7 @@ const routes: Routes = [
         loadChildren: './products/products.module#ProductsModule',
       },
       { path: '', loadChildren: './checkout/checkout.module#CheckoutModule' },
+      { path: 'impersonation', redirectTo: '/home' },
     ],
   },
 ];
