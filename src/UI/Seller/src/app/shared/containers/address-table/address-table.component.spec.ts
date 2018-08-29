@@ -96,7 +96,7 @@ describe('AddressTableComponent', () => {
       component.addresses = undefined;
       component.userGroupID = 'groupID';
       component.loadData();
-      expect(component.addresses.Items[0]).toEqual({
+      expect(component.addresses.Items[0]).toEqual(<Address>{
         ID: 'address1',
         IsShipping: true,
         IsBilling: true,
