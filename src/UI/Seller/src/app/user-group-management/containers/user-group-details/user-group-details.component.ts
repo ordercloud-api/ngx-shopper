@@ -1,5 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { faUsers, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+  faUsers,
+  faUser,
+  faMapMarkerAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   UserGroup,
   OcUserGroupService,
@@ -23,6 +27,7 @@ export class UserGroupDetailsComponent implements OnInit {
   userGroupID: string;
   faUsers = faUsers;
   faUser = faUser;
+  faMapMarker = faMapMarkerAlt;
 
   constructor(
     private activatedRoute: ActivatedRoute,

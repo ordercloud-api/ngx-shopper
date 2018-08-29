@@ -24,4 +24,16 @@ export class AppFormErrorService {
       form.get(controlName).hasError('required') && form.get(controlName).dirty
     );
   }
+
+  hasPatternError(controlName: string, form: FormGroup) {
+    return (
+      form.get(controlName).hasError('pattern') && form.get(controlName).dirty
+    );
+  }
+
+  hasMinLengthError(controlName: string, form: FormGroup) {
+    return (
+      form.get(controlName).hasError('minlength') && form.get(controlName).dirty
+    );
+  }
 }

@@ -91,7 +91,8 @@
         "shared",
         "products",
         "order",
-        "checkout"
+        "checkout",
+        "static"
       ],
       "kebab-case"
     ],

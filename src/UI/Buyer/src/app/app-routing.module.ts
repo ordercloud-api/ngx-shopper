@@ -1,12 +1,16 @@
 // components
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FaqComponent } from './static-pages/faq/faq.component';
+import { SupportComponent } from './static-pages/support/support.component';
+
 import {
   BaseResolve,
   IsLoggedInGuard as isLoggedIn,
   HasTokenGuard as HasToken,
 } from '@app-buyer/shared';
 import { HomeComponent } from '@app-buyer/layout/home/home.component';
+import { TermsAndConditionsComponent } from '@app-buyer/static-pages/terms-and-conditions/terms-and-conditions.component';
 
 const routes: Routes = [
   {
@@ -24,6 +28,18 @@ const routes: Routes = [
         canActivate: [isLoggedIn],
       },
       {
+        path: 'support',
+        component: SupportComponent
+      },
+      {
+        path: 'faq',
+        component: FaqComponent
+      },
+      {
+        path: 'terms-and-conditions',
+        component: TermsAndConditionsComponent
+      },
+      {
         path: 'products',
         loadChildren: './products/products.module#ProductsModule',
       },
@@ -37,4 +53,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
