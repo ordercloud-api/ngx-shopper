@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HasTokenGuard as HasToken } from '@app-seller/shared';
 import { HomeComponent } from '@app-seller/layout/home/home.component';
 import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
+import { AddressTableComponent } from '@app-seller/shared/containers/address-table/address-table.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
       {
         path: 'products',
         loadChildren: './product-management/products.module#ProductsModule',
+      },
+      {
+        path: 'addresses',
+        component: AddressTableComponent,
       },
       {
         path: 'users',
