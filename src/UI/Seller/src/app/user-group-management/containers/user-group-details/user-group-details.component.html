@@ -37,6 +37,14 @@
                       [userGroupID]="usergroup.ID"></user-table>
         </ng-template>
       </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon [icon]="faMapMarker"></fa-icon> Address Assignments
+        </ng-template>
+        <ng-template ngbTabContent>
+          <address-table [userGroupID]="usergroup.ID"></address-table>
+        </ng-template>
+      </ngb-tab>
     </ngb-tabset>
   </div>
   <div class="mt-3">

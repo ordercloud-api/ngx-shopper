@@ -23,6 +23,9 @@ import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/car
 import { GenericBrowseComponent } from '@app-seller/shared/components/generic-browse/generic-browse.component';
 import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
 import { UserFormComponent } from '@app-seller/shared/components/user-form/user-form.component';
+import { AddressTableComponent } from './containers/address-table/address-table.component';
+import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
+import { AddressFormComponent } from '@app-seller/shared/components/address-form/address-form.component';
 
 @NgModule({
   imports: [
@@ -57,6 +60,8 @@ import { UserFormComponent } from '@app-seller/shared/components/user-form/user-
     GenericBrowseComponent,
     UserTableComponent,
     UserFormComponent,
+    AddressTableComponent,
+    AddressFormComponent,
   ],
   declarations: [
     SearchComponent,
@@ -66,6 +71,8 @@ import { UserFormComponent } from '@app-seller/shared/components/user-form/user-
     GenericBrowseComponent,
     UserTableComponent,
     UserFormComponent,
+    AddressTableComponent,
+    AddressFormComponent,
   ],
 
   /**
@@ -79,6 +86,7 @@ import { UserFormComponent } from '@app-seller/shared/components/user-form/user-
     AppStateService,
     ModalService,
     AppFormErrorService,
+    AppGeographyService,
   ],
 })
 export class SharedModule {
