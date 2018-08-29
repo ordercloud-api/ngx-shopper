@@ -76,6 +76,7 @@ import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-t
 import { GenericBrowseComponent } from '@app-buyer/shared/components/generic-browse/generic-browse.component';
 import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
+import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
 
 @NgModule({
   imports: [
@@ -149,6 +150,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
     OrderPaymentListComponent,
   ],
   declarations: [
+    ChangePasswordFormComponent,
     RegisterComponent,
     PhoneFormatPipe,
     OrderStatusDisplayPipe,

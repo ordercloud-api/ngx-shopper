@@ -1,9 +1,14 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { OcMeService, OcTokenService } from '@ordercloud/angular-sdk';
-import { tap } from 'rxjs/operators';
+import {
+  OcMeService,
+  OcTokenService,
+  MeUser,
+  OcAuthService,
+} from '@ordercloud/angular-sdk';
+import { tap, takeWhile, flatMap } from 'rxjs/operators';
 import {
   applicationConfiguration,
   AppConfig,
@@ -11,44 +16,63 @@ import {
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 import { AppMatchFieldsValidator } from '@app-buyer/shared/validators/match-fields/match-fields.validator';
+import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
 
 @Component({
   selector: 'shared-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit {
-  shouldAllowUpdate: boolean;
+export class RegisterComponent implements OnInit, OnDestroy {
   form: FormGroup;
+  me: MeUser;
+  alive = true;
   appName: string;
+  shouldAllowUpdate: boolean;
+  changePasswordModalId = 'forgotPasswordModal';
 
   constructor(
-    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private appStateService: AppStateService,
+    private formBuilder: FormBuilder,
+    private formErrorService: AppFormErrorService,
+    private modalService: ModalService,
+    private ocAuthService: OcAuthService,
     private ocMeService: OcMeService,
     private ocTokenService: OcTokenService,
-    private toasterService: ToastrService,
     private router: Router,
-    private appStateService: AppStateService,
-    private activatedRoute: ActivatedRoute,
-    private formErrorService: AppFormErrorService,
+    private toastrService: ToastrService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
     this.appName = this.appConfig.appname;
-    this.activatedRoute.data
-      .pipe(
-        tap(
-          ({ shouldAllowUpdate }) =>
-            (this.shouldAllowUpdate = shouldAllowUpdate)
-        )
-      )
-      .subscribe();
   }
 
   ngOnInit() {
+    this.identifyShouldAllowUpdate();
     this.setForm();
     if (this.shouldAllowUpdate) {
       this.getMeData();
     }
+  }
+
+  private identifyShouldAllowUpdate() {
+    /**
+     * this component is used in two places:
+     * in auth when first registering (!shouldAllowUpdate)
+     * in profile when editing current user (shouldAllowUpdate)
+     */
+    this.activatedRoute.data
+      .pipe(
+        takeWhile(() => this.alive),
+        tap(({ shouldAllowUpdate }) => {
+          this.shouldAllowUpdate = shouldAllowUpdate;
+        })
+      )
+      .subscribe();
+  }
+
+  openChangePasswordModal() {
+    this.modalService.open(this.changePasswordModalId);
   }
 
   private setForm() {
@@ -68,7 +92,29 @@ export class RegisterComponent implements OnInit {
         ConfirmPassword: ['', [Validators.required, Validators.minLength(8)]],
       });
     }
-    this.form = this.fb.group(formObj, validatorObj);
+    this.form = this.formBuilder.group(formObj, validatorObj);
+  }
+
+  onChangePassword({ currentPassword, newPassword }) {
+    return this.ocAuthService
+      .Login(
+        this.me.Username,
+        currentPassword,
+        this.appConfig.clientID,
+        this.appConfig.scope
+      )
+      .pipe(
+        flatMap(() => {
+          return this.ocMeService
+            .ResetPasswordByToken({
+              NewPassword: newPassword,
+            })
+        })
+      )
+      .subscribe(() => {
+        this.toastrService.success('Account Info Updated', 'Success');
+        this.modalService.close(this.changePasswordModalId);
+      })
   }
 
   onSubmit() {
@@ -76,7 +122,7 @@ export class RegisterComponent implements OnInit {
       return this.formErrorService.displayFormErrors(this.form);
     }
 
-    const me = this.form.value;
+    const me = <MeUser>this.form.value;
     me.Username = me.Email;
     me.Active = true;
 
@@ -88,31 +134,24 @@ export class RegisterComponent implements OnInit {
   }
 
   private register(me) {
-    this.ocMeService.Register(this.ocTokenService.GetAccess(), me).subscribe(
-      () => {
-        this.toasterService.success('New User Created');
+    this.ocMeService
+      .Register(this.ocTokenService.GetAccess(), me)
+      .subscribe(() => {
+        this.toastrService.success('New User Created');
         this.router.navigate(['/login']);
-      },
-      (error) => {
-        throw error;
-      }
-    );
+      });
   }
 
   private update(me) {
-    this.ocMeService.Patch(me).subscribe(
-      (res) => {
-        this.appStateService.userSubject.next(res);
-        this.toasterService.success('Account Info Updated');
-      },
-      (error) => {
-        throw error;
-      }
-    );
+    this.ocMeService.Patch(me).subscribe((res) => {
+      this.appStateService.userSubject.next(res);
+      this.toastrService.success('Account Info Updated');
+    });
   }
 
   private getMeData() {
     this.ocMeService.Get().subscribe((me) => {
+      this.me = me;
       this.form.setValue({
         FirstName: me.FirstName,
         LastName: me.LastName,
@@ -120,6 +159,10 @@ export class RegisterComponent implements OnInit {
         Email: me.Email,
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.alive = false;
   }
 
   // control display of error messages
