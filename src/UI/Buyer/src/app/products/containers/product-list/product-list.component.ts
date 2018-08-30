@@ -57,7 +57,6 @@ export class ProductListComponent implements OnInit {
   getProductData(): Observable<ListBuyerProduct> {
     return this.activatedRoute.queryParams.pipe(
       tap((queryParams) => {
-        debugger;
         this.hasFavoriteProductsFilter =
           queryParams.favoriteProducts === 'true';
         this.hasQueryParams = !_isEmpty(queryParams);
