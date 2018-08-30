@@ -37,7 +37,7 @@ describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   const queryParams = new BehaviorSubject<any>(mockQueryParams);
-  const meService = {
+  const ocMeService = {
     ListProducts: jasmine
       .createSpy('ListProducts')
       .and.returnValue(mockProductData),
@@ -52,6 +52,7 @@ describe('ProductListComponent', () => {
   };
   const favoriteProductsService = {
     loadFavorites: jasmine.createSpy('loadFavorites'),
+    favorites: ['Id1', 'Id2']
   };
   let appStateService: AppStateService;
 
@@ -82,7 +83,7 @@ describe('ProductListComponent', () => {
           provide: ActivatedRoute,
           useValue: { queryParams, snapshot: { queryParams: mockQueryParams } },
         },
-        { provide: OcMeService, useValue: meService },
+        { provide: OcMeService, useValue: ocMeService },
         { provide: FavoriteProductsService, useValue: favoriteProductsService },
       ],
     }).compileComponents();
@@ -123,13 +124,96 @@ describe('ProductListComponent', () => {
     });
   });
 
+  describe('getProductData', () => {
+    beforeEach(() => {
+      spyOn(component, 'buildBreadCrumbs');
+      component.getProductData();
+    })
+    afterEach(() => {
+      ocMeService.ListProducts.calls.reset();
+    })
+    describe('hasFavoriteProductsFilter class member', () => {
+      it('should be true if query params has favoriteProducts set to true', () => {
+        queryParams.next({ favoriteProducts: 'true' });
+        expect(component.hasFavoriteProductsFilter).toBe(true);
+      })
+      it('should be false if query params does not favoriteProducts', () => {
+        queryParams.next({});
+        expect(component.hasFavoriteProductsFilter).toBe(false);
+      })
+      it('should be false if query params is anything other than true', () => {
+        queryParams.next({ favoriteProducts: 'something else thats not true' });
+        expect(component.hasFavoriteProductsFilter).toBe(false);
+      })
+    })
+    describe('hasQueryParams class member', () => {
+      it('should be true if queryParams is a non-empty object', () => {
+        queryParams.next({ anyValue: 'true' });
+        expect(component.hasQueryParams).toBe(true);
+      })
+      it('should be false if queryParams is an empty object', () => {
+        queryParams.next({});
+        expect(component.hasQueryParams).toBe(false);
+      })
+    })
+    it('should build bread crumbs', () => {
+      queryParams.next({ category: 'CategoryID' });
+      expect(component.buildBreadCrumbs).toHaveBeenCalledWith('CategoryID');
+    })
+    describe('favorite products filter query', () => {
+      // afterEach(() => {
+      //   ocMeService.ListProducts.calls.reset();
+      // })
+      const blankFilters = {
+        categoryID: undefined,
+        page: undefined,
+        search: undefined,
+        sortBy: undefined,
+        filters: {}
+      }
+      it('should add query if the query parameter favoriteProducts is set to true', () => {
+        queryParams.next({ favoriteProducts: 'true' });
+        const expected = { ...blankFilters, ...{ filters: { ID: 'Id1|Id2' } } }
+        expect(ocMeService.ListProducts).toHaveBeenCalledWith(expected)
+        queryParams.next({ favoriteProducts: 'true' });
+      })
+      it('should not add query if the query parameter favoriteProducts is set to false', () => {
+        queryParams.next({ favoriteProducts: 'false' });
+        const expected = { ...blankFilters }
+        expect(ocMeService.ListProducts).toHaveBeenCalledWith(expected)
+      })
+      it('should not add query if the query parameter favoriteProducts is not defined', () => {
+        queryParams.next({});
+        const expected = { ...blankFilters }
+        expect(ocMeService.ListProducts).toHaveBeenCalledWith(expected)
+      })
+    })
+    it('should correctly set parameters for list call', () => {
+      const mockQps = {
+        category: 'CategoryID',
+        page: '3',
+        pageSize: '30',
+        sortBy: 'ID',
+      };
+      queryParams.next(mockQps)
+      expect(ocMeService.ListProducts).toHaveBeenCalledWith({
+        categoryID: 'CategoryID',
+        page: '3',
+        search: undefined,
+        sortBy: 'ID',
+        filters: {}
+      });
+    })
+
+  })
+
   describe('getCategories', () => {
     beforeEach(() => {
       spyOn(component, 'buildBreadCrumbs');
       component.getCategories();
     });
     it('should list categories', () => {
-      expect(meService.ListCategories).toHaveBeenCalledWith({ depth: 'all' });
+      expect(ocMeService.ListCategories).toHaveBeenCalledWith({ depth: 'all' });
     });
     it('should build breadcrumbs with categoryid from queryparam', () => {
       expect(component.buildBreadCrumbs).toHaveBeenCalledWith(
@@ -137,6 +221,16 @@ describe('ProductListComponent', () => {
       );
     });
   });
+
+  describe('clearAllFilters', () => {
+    beforeEach(() => {
+      spyOn((component as any).router, 'navigate');
+      component.clearAllFilters();
+    })
+    it('should reload state with no query parameters', () => {
+      expect(component['router'].navigate).toHaveBeenCalledWith([]);
+    })
+  })
 
   describe('changePage', () => {
     const mockPage = 2;
@@ -158,21 +252,6 @@ describe('ProductListComponent', () => {
       component.changeCategory(mockCategory);
       const newQueryParams = Object.assign({ category: mockCategory });
       queryParams.next({ newQueryParams });
-      expect(navigateSpy).toHaveBeenCalledWith([], {
-        queryParams: newQueryParams,
-      });
-    });
-  });
-
-  describe('sortStratChanged', () => {
-    it('should reload state with no search', () => {
-      const navigateSpy = spyOn((<any>component).router, 'navigate');
-      const newSort = '!Name';
-      component.sortForm.controls['sortBy'].setValue(newSort);
-      component.sortStratChanged();
-      const newQueryParams = Object.assign({}, mockQueryParams, {
-        sortBy: newSort,
-      });
       expect(navigateSpy).toHaveBeenCalledWith([], {
         queryParams: newQueryParams,
       });

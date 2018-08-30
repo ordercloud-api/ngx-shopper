@@ -38,11 +38,12 @@
             class="btn btn-primary btn-block small"
             type="submit"
             (click)="quantityInputComponent.addToCart($event)">
-            Add <span class="d-md-none d-lg-inline">to Cart</span>
-        </button>
+      Add <span class="d-md-none d-lg-inline">to Cart</span>
+    </button>
     <button *ngIf="isViewOnlyProduct"
             [routerLink]="['/products', product.ID]"
-            class="btn btn-default btn-block btn-outline-dark">View <span class="d-sm-none d-lg-inline">Product</span>
-      </button>
+            class="btn btn-default btn-block btn-outline-dark">View
+      <span class="d-sm-none d-lg-inline">Product</span>
+    </button>
   </div>
 </div>
