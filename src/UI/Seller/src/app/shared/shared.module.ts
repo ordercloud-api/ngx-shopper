@@ -30,6 +30,8 @@ import { AppGeographyService } from '@app-seller/shared/services/geography/geogr
 import { AddressFormComponent } from '@app-seller/shared/components/address-form/address-form.component';
 import { CategoryManagementComponent } from './containers/category-management/category-management.component';
 import { CategoryFormComponent } from './components/category-form/category-form.component';
+import { CategoryDetailComponent } from './containers/category-detail/category-detail.component';
+import { CategoryDetailsComponent } from './containers/category-details/category-details.component';
 
 @NgModule({
   imports: [
@@ -68,6 +70,9 @@ import { CategoryFormComponent } from './components/category-form/category-form.
     UserFormComponent,
     AddressTableComponent,
     AddressFormComponent,
+    CategoryManagementComponent,
+    CategoryFormComponent,
+    CategoryDetailsComponent,
   ],
   declarations: [
     SearchComponent,
@@ -81,6 +86,7 @@ import { CategoryFormComponent } from './components/category-form/category-form.
     AddressFormComponent,
     CategoryManagementComponent,
     CategoryFormComponent,
+    CategoryDetailsComponent,
   ],
 
   /**

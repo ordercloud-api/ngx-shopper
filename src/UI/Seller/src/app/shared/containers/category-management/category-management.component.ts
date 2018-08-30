@@ -13,6 +13,7 @@ import { ModalService } from '@app-seller/shared/services/modal/modal.service';
 import { CategoryTreeNode } from '@app-seller/shared/models/category-tree-node.class';
 import { ITreeOptions } from 'angular-tree-component';
 import { forkJoin, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'category-management',
@@ -31,7 +32,9 @@ export class CategoryManagementComponent implements OnInit {
     allowDrop: true,
     actionMapping: {
       mouse: {
-        click: (_tree, _node, _$event) => {},
+        click: (_tree, _node, _$event) => {
+          this.router.navigateByUrl(`/categories/${_node.data.id}`);
+        },
       },
     },
     animateExpand: true,
@@ -40,6 +43,7 @@ export class CategoryManagementComponent implements OnInit {
   constructor(
     private ocCategoryService: OcCategoryService,
     private modalService: ModalService,
+    private router: Router,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {}
 

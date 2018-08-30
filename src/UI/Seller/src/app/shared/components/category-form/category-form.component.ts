@@ -27,7 +27,7 @@ export class CategoryFormComponent implements OnInit {
   }
 
   @Input()
-  set existingProduct(category: Category) {
+  set existingCategory(category: Category) {
     this._existingCategory = category || {};
     if (!this.categoryForm) {
       this.setForm();
