@@ -17,19 +17,8 @@ export const ocAppConfig: AppConfig = {
     'MeCreditCardAdmin',
     'MeXpAdmin',
     'Shopper',
-    'CategoryReader',
-    'ProductReader',
-    'SupplierReader',
-    'SupplierAddressReader',
     'BuyerReader',
     'PasswordReset',
-
-    // TODO: remove these from base app once we have suitable integration endpoints
-    // to handle shipping tax and cost
-    'OverrideUnitPrice',
-    'OrderAdmin',
-    'OverrideTax',
-    'OverrideShipping',
   ],
   availablePaymentMethods: [
     PaymentMethod.PurchaseOrder,
