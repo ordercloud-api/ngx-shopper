@@ -1,10 +1,10 @@
 <form (ngSubmit)="onSubmit()"
       novalidate
       [formGroup]="productForm"
-      name="RegisterForm">
+      name="ProductForm">
   <div class="form-group row">
     <label for="ID"
-           class="col-sm-3 control-label font-weight-bold mt-1">ID</label>
+           class="col-sm-3 control-label font-weight-bold mt-1">Product ID</label>
     <div class="col-sm-9">
       <input type="text"
              formControlName="ID"
@@ -17,7 +17,7 @@
         class="error-message">ID can only contain characters Aa-Zz 0-9 - _</span>
   <div class="form-group row">
     <label for="name"
-           class="col-sm-3 control-label font-weight-bold mt-1">Name</label>
+           class="col-sm-3 control-label font-weight-bold mt-1">Product Name</label>
     <div class="col-sm-9">
       <input type="text"
              formControlName="Name"
@@ -29,7 +29,7 @@
         class="error-message">Name is Required</span>
   <div class="form-group row">
     <label for="description"
-           class="col-sm-3 control-label font-weight-bold mt-1">Description</label>
+           class="col-sm-3 control-label font-weight-bold mt-1">Product Description</label>
     <div class="col-sm-9">
       <textarea type="text"
                 formControlName="Description"

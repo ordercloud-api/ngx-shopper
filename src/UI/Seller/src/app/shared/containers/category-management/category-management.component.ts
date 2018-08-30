@@ -20,7 +20,7 @@ import { forkJoin, Observable } from 'rxjs';
   styleUrls: ['./category-management.component.scss'],
 })
 export class CategoryManagementComponent implements OnInit {
-  createModalID = 'CreateCategoryModal';
+  modalID = 'CreateCategoryModal';
   faTrash = faTrashAlt;
   faPlusCircle = faPlusCircle;
   catalogID: string;
@@ -47,6 +47,17 @@ export class CategoryManagementComponent implements OnInit {
     // The default for a new OC buyer organization is one Catalog with ID equal to the buyerID
     this.catalogID = this.appConfig.buyerID;
     this.loadCategories();
+  }
+
+  openModal() {
+    this.modalService.open(this.modalID);
+  }
+
+  addCategory(category: Category) {
+    this.modalService.close(this.modalID);
+    this.ocCategoryService.Create(this.catalogID, category).subscribe(() => {
+      this.loadCategories();
+    });
   }
 
   onMoveNode($event): void {

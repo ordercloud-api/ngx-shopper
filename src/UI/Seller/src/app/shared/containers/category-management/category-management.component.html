@@ -5,14 +5,14 @@
     </div>
     <div class="col-4">
       <button class="btn btn-primary float-right mt-3"
-              (click)="openCreateModal()">
+              (click)="openModal()">
         <fa-icon [icon]="faPlusCircle"></fa-icon> New Category
       </button>
-      <shared-modal id="{{ createModalID }}"
+      <shared-modal id="{{ modalID }}"
                     modalTitle="Create A New Category">
-        <!-- <shared-address-form btnText="Create"
-                             (formSubmitted)="addAddress($event)">
-        </shared-address-form> -->
+        <category-form btnText="Create"
+                       (formSubmitted)="addCategory($event)">
+        </category-form>
       </shared-modal>
     </div>
   </div>
