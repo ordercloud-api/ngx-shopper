@@ -16,7 +16,7 @@ abstract class FavoritesService<T extends { ID?: string }> {
   constructor(
     private appStateService: AppStateService,
     private ocMeService: OcMeService
-  ) {}
+  ) { }
 
   loadFavorites(): void {
     if (this.favorites !== null) {
@@ -42,6 +42,7 @@ abstract class FavoritesService<T extends { ID?: string }> {
     const request = { xp: {} };
     request.xp[this.XpFieldName] = this.favorites;
     this.ocMeService.Patch(request).subscribe((me) => {
+      this.appStateService.userSubject.next(me);
       this.favorites = me.xp[this.XpFieldName];
     });
   }
