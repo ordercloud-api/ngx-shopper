@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { OcMeService, ListOrder } from '@ordercloud/angular-sdk';
 import { MeOrderListOptions } from '@app-buyer/order/models/me-order-list-options';
@@ -12,10 +12,10 @@ import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favo
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.scss'],
 })
-export class OrderHistoryComponent implements OnInit {
+export class OrderHistoryComponent implements AfterViewInit {
   alive = true;
   orders$: Observable<ListOrder>;
-  showfavoritesOnly = false;
+  hasFavoriteOrdersFilter = false;
   sortBy: string;
 
   constructor(
@@ -23,9 +23,9 @@ export class OrderHistoryComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private favoriteOrdersService: FavoriteOrdersService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.orders$ = this.listOrders();
   }
 
@@ -57,14 +57,19 @@ export class OrderHistoryComponent implements OnInit {
     this.router.navigate([], { queryParams });
   }
 
-  protected filterByFavorite(favoritesOnly: boolean): void {
-    this.showfavoritesOnly = favoritesOnly;
-    this.orders$ = this.listOrders();
+  protected filterByFavorite(favoriteOrders: boolean): void {
+    if (favoriteOrders) {
+      this.addQueryParam({ favoriteOrders: true });
+    } else {
+      // set to undefined so we dont pollute url with unnecessary query params
+      this.addQueryParam({ favoriteOrders: undefined });
+    }
   }
 
   protected listOrders(): Observable<ListOrder> {
     return this.activatedRoute.queryParamMap.pipe(
       flatMap((queryParams) => {
+        this.hasFavoriteOrdersFilter = queryParams.get('favoriteOrders') === 'true';
         this.sortBy = queryParams.get('sortBy');
         // we set param values to undefined so the sdk ignores them (dont show in headers)
         const listOptions: MeOrderListOptions = {
@@ -73,12 +78,17 @@ export class OrderHistoryComponent implements OnInit {
           page: parseInt(queryParams.get('page'), 10) || undefined,
           filters: {
             status: queryParams.get('status') || `!${OrderStatus.Unsubmitted}`,
-            datesubmitted: queryParams.getAll('datesubmitted') || undefined,
-            ID: this.showfavoritesOnly
-              ? this.favoriteOrdersService.favorites.join('|')
-              : undefined,
+            datesubmitted: queryParams.getAll('datesubmitted') || undefined
           },
         };
+        if (
+          queryParams.get('favoriteProducts') === 'true' &&
+          this.favoriteOrdersService.favorites
+        ) {
+          listOptions.filters['ID'] = this.favoriteOrdersService.favorites.join('|');
+        } else {
+          delete listOptions.filters['ID'];
+        }
         return this.ocMeService.ListOrders(listOptions);
       })
     );

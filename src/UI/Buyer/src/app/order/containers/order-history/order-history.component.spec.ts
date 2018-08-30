@@ -17,6 +17,7 @@ import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderStatusDisplayPipe } from '@app-buyer/shared/pipes/order-status-display/order-status-display.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AppStateService } from '@app-buyer/shared';
 
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
@@ -57,6 +58,7 @@ describe('OrderHistoryComponent', () => {
       imports: [ReactiveFormsModule, NgbPaginationModule, NgbRootModule],
       providers: [
         DatePipe,
+        { provide: AppStateService, useValue: {} },
         { provide: OcMeService, useValue: meService },
         { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: activatedRoute },
@@ -75,10 +77,10 @@ describe('OrderHistoryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
+  describe('ngAfterViewInit', () => {
     beforeEach(() => {
       spyOn(component as any, 'listOrders');
-      component.ngOnInit();
+      component.ngAfterViewInit();
     });
     it('should call list orders', () => {
       expect(component['listOrders']).toHaveBeenCalled();
@@ -145,8 +147,7 @@ describe('OrderHistoryComponent', () => {
       page: 1,
       filters: {
         status: 'Open',
-        datesubmitted: ['5-30-18'],
-        ID: undefined,
+        datesubmitted: ['5-30-18']
       },
     };
     beforeEach(() => {
@@ -167,14 +168,15 @@ describe('OrderHistoryComponent', () => {
   describe('filterByFavorite', () => {
     beforeEach(() => {
       meService.ListOrders.calls.reset();
+      spyOn(component as any, 'addQueryParam');
     });
     it('should show favorites only when true', () => {
       component['filterByFavorite'](true);
-      expect(component.showfavoritesOnly).toEqual(true);
+      expect(component['addQueryParam']).toHaveBeenCalledWith({ favoriteOrders: true })
     });
     it('should show all products when false', () => {
       component['filterByFavorite'](false);
-      expect(component.showfavoritesOnly).toEqual(false);
+      expect(component['addQueryParam']).toHaveBeenCalledWith({ favoriteOrders: undefined })
     });
   });
 });
