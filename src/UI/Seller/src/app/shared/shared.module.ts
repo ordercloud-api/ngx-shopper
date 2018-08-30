@@ -29,6 +29,7 @@ import { AddressTableComponent } from './containers/address-table/address-table.
 import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
 import { AddressFormComponent } from '@app-seller/shared/components/address-form/address-form.component';
 import { CategoryManagementComponent } from './containers/category-management/category-management.component';
+import { CategoryFormComponent } from './components/category-form/category-form.component';
 
 @NgModule({
   imports: [
@@ -79,6 +80,7 @@ import { CategoryManagementComponent } from './containers/category-management/ca
     AddressTableComponent,
     AddressFormComponent,
     CategoryManagementComponent,
+    CategoryFormComponent,
   ],
 
   /**
