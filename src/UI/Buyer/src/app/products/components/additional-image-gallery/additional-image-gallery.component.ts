@@ -3,7 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { fromEvent } from 'rxjs';
 
-
 @Component({
   selector: 'products-additional-image-gallery',
   templateUrl: './additional-image-gallery.component.html',
@@ -34,7 +33,7 @@ export class AdditionalImageGalleryComponent implements OnInit {
       )
       .subscribe(() => {
         this.onResize();
-      })
+      });
   }
 
   onResize() {

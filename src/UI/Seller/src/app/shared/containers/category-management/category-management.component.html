@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-8">
+      <h1>Categories</h1>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary float-right mt-3"
+              (click)="openCreateModal()">
+        <fa-icon [icon]="faPlusCircle"></fa-icon> New Category
+      </button>
+      <shared-modal id="{{ createModalID }}"
+                    modalTitle="Create A New Category">
+        <!-- <shared-address-form btnText="Create"
+                             (formSubmitted)="addAddress($event)">
+        </shared-address-form> -->
+      </shared-modal>
+    </div>
+  </div>
+  <div *ngIf="categoryTree">
+    <!-- For more info about tree component see https://angular2-tree.readme.io/docs/getting-started -->
+    <tree-root [nodes]="categoryTree"
+               [options]="treeOptions"
+               class="list-group p-3"
+               (moveNode)="onMoveNode($event)">
+      <ng-template #treeNodeWrapperTemplate
+                   let-node
+                   let-index="index">
+        <div class="node-wrapper"
+             [style.padding-left]="node.getNodePadding()">
+          <tree-node-expander [node]="node"></tree-node-expander>
+          <div class="node-content-wrapper"
+               [class.node-content-wrapper-active]="node.isActive"
+               [class.node-content-wrapper-focused]="node.isFocused"
+               (click)="node.mouseAction('click', $event)"
+               (dblclick)="node.mouseAction('dblClick', $event)"
+               (contextmenu)="node.mouseAction('contextMenu', $event)"
+               (treeDrop)="node.onDrop($event)"
+               [treeAllowDrop]="node.allowDrop"
+               [treeDrag]="node"
+               [treeDragEnabled]="node.allowDrag()">
+            <tree-node-content [class]='node.getClass()'
+                               [node]="node"
+                               [index]="index"></tree-node-content>
+          </div>
+        </div>
+      </ng-template>
+    </tree-root>
+  </div>
+</div>

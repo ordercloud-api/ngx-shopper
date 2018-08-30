@@ -5,6 +5,7 @@ import { HasTokenGuard as HasToken } from '@app-seller/shared';
 import { HomeComponent } from '@app-seller/layout/home/home.component';
 import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
 import { AddressTableComponent } from '@app-seller/shared/containers/address-table/address-table.component';
+import { CategoryManagementComponent } from '@app-seller/shared/containers/category-management/category-management.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'products',
         loadChildren: './product-management/products.module#ProductsModule',
+      },
+      {
+        path: 'categories',
+        component: CategoryManagementComponent,
       },
       {
         path: 'addresses',

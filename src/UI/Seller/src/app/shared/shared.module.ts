@@ -9,7 +9,9 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 // 3rd party UI
+import { TreeModule } from 'angular-tree-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { SharedRoutingModule } from '@app-seller/shared/shared-routing.module';
 import { HasTokenGuard } from '@app-seller/shared/guards/has-token/has-token.guard';
 import { AppErrorHandler } from '@app-seller/config/error-handling.config';
@@ -26,6 +28,7 @@ import { UserFormComponent } from '@app-seller/shared/components/user-form/user-
 import { AddressTableComponent } from './containers/address-table/address-table.component';
 import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
 import { AddressFormComponent } from '@app-seller/shared/components/address-form/address-form.component';
+import { CategoryManagementComponent } from './containers/category-management/category-management.component';
 
 @NgModule({
   imports: [
@@ -36,6 +39,7 @@ import { AddressFormComponent } from '@app-seller/shared/components/address-form
     ReactiveFormsModule,
 
     // 3rd party UI
+    TreeModule,
     FontAwesomeModule,
     FormsModule,
     NgbPaginationModule.forRoot(),
@@ -48,6 +52,7 @@ import { AddressFormComponent } from '@app-seller/shared/components/address-form
     ReactiveFormsModule,
 
     // 3rd party UI
+    TreeModule,
     FontAwesomeModule,
     NgbPaginationModule,
     NgbTabsetModule,
@@ -73,6 +78,7 @@ import { AddressFormComponent } from '@app-seller/shared/components/address-form
     UserFormComponent,
     AddressTableComponent,
     AddressFormComponent,
+    CategoryManagementComponent,
   ],
 
   /**
