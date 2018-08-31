@@ -6,16 +6,16 @@
   'abstracts/functions',
   'abstracts/mixins';
 
+// Theme Variables - must come before vendor
+@import
+  'themes/_override-bootstrap-variables',
+  'themes/_custom-variables';
+
 // Vendors
 @import
   'vendor/bootstrap',
   'vendor/normalize',
   'vendor/ngx-toastr';
-
-// Theme Variables
-@import
-'themes/default';
-// 'themes/_theme';
 
 // Scaffolding
 @import
@@ -50,3 +50,8 @@
 // 3rd party libraries
 @import 
   '~angular-tree-component/dist/angular-tree-component.css';
+
+// Theme
+  @import
+  'themes/default',
+  'themes/_theme';
