@@ -32,14 +32,13 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     private ocMeService: OcMeService,
     private activatedRoute: ActivatedRoute,
     private appLineItemService: AppLineItemService,
-    private favoriteProductsService: FavoriteProductsService,
     private appStateService: AppStateService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    protected favoriteProductService: FavoriteProductsService // used in template
   ) {}
 
   ngOnInit(): void {
     this.getProductData().subscribe((x) => (this.product = x));
-    this.favoriteProductsService.loadFavorites();
   }
 
   getProductData(): Observable<BuyerProduct> {

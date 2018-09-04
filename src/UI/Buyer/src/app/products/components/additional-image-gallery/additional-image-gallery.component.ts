@@ -1,15 +1,14 @@
 import { takeWhile } from 'rxjs/operators';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { fromEvent } from 'rxjs';
-
 
 @Component({
   selector: 'products-additional-image-gallery',
   templateUrl: './additional-image-gallery.component.html',
   styleUrls: ['./additional-image-gallery.component.scss'],
 })
-export class AdditionalImageGalleryComponent implements OnInit {
+export class AdditionalImageGalleryComponent implements OnInit, OnDestroy {
   // gallerySize can be changed and the component logic + behavior will all work. However, the UI may look wonky.
   private readonly gallerySize = 5;
   private alive = true;
@@ -34,7 +33,7 @@ export class AdditionalImageGalleryComponent implements OnInit {
       )
       .subscribe(() => {
         this.onResize();
-      })
+      });
   }
 
   onResize() {

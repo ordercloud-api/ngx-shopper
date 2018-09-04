@@ -3,7 +3,7 @@ import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { OcMeService, ListOrder } from '@ordercloud/angular-sdk';
 import { MeOrderListOptions } from '@app-buyer/order/models/me-order-list-options';
 import { Observable } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { flatMap } from 'rxjs/operators';
 import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
@@ -23,7 +23,7 @@ export class OrderHistoryComponent implements AfterViewInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private favoriteOrdersService: FavoriteOrdersService
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     this.orders$ = this.listOrders();
@@ -68,29 +68,33 @@ export class OrderHistoryComponent implements AfterViewInit {
 
   protected listOrders(): Observable<ListOrder> {
     return this.activatedRoute.queryParamMap.pipe(
-      flatMap((queryParams) => {
-        this.hasFavoriteOrdersFilter = queryParams.get('favoriteOrders') === 'true';
-        this.sortBy = queryParams.get('sortBy');
+      flatMap((queryParamMap) => {
+        this.sortBy = queryParamMap.get('sortBy');
         // we set param values to undefined so the sdk ignores them (dont show in headers)
         const listOptions: MeOrderListOptions = {
           sortBy: this.sortBy || undefined,
-          search: queryParams.get('search') || undefined,
-          page: parseInt(queryParams.get('page'), 10) || undefined,
+          search: queryParamMap.get('search') || undefined,
+          page: parseInt(queryParamMap.get('page'), 10) || undefined,
           filters: {
-            status: queryParams.get('status') || `!${OrderStatus.Unsubmitted}`,
-            datesubmitted: queryParams.getAll('datesubmitted') || undefined
+            ID: this.buildFavoriteOrdersQuery(queryParamMap),
+            status:
+              queryParamMap.get('status') || `!${OrderStatus.Unsubmitted}`,
+            datesubmitted: queryParamMap.getAll('datesubmitted') || undefined,
           },
         };
-        if (
-          queryParams.get('favoriteProducts') === 'true' &&
-          this.favoriteOrdersService.favorites
-        ) {
-          listOptions.filters['ID'] = this.favoriteOrdersService.favorites.join('|');
-        } else {
-          delete listOptions.filters['ID'];
-        }
         return this.ocMeService.ListOrders(listOptions);
       })
     );
+  }
+
+  private buildFavoriteOrdersQuery(
+    queryParamMap: ParamMap
+  ): string | undefined {
+    this.hasFavoriteOrdersFilter =
+      queryParamMap.get('favoriteOrders') === 'true';
+    const favorites = this.favoriteOrdersService.getFavorites();
+    return this.hasFavoriteOrdersFilter && favorites && favorites.length
+      ? favorites.join('|')
+      : undefined;
   }
 }

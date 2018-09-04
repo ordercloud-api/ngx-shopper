@@ -18,6 +18,7 @@ import { take } from 'rxjs/operators';
 import { OrderStatusDisplayPipe } from '@app-buyer/shared/pipes/order-status-display/order-status-display.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppStateService } from '@app-buyer/shared';
+import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
@@ -44,6 +45,10 @@ describe('OrderHistoryComponent', () => {
     queryParamMap,
   };
 
+  let favoriteOrdersService = {
+    getFavorites: () => {},
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -62,9 +67,11 @@ describe('OrderHistoryComponent', () => {
         { provide: OcMeService, useValue: meService },
         { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: activatedRoute },
+        { provide: FavoriteOrdersService, useValue: favoriteOrdersService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();
+    favoriteOrdersService = TestBed.get(FavoriteOrdersService);
   }));
 
   beforeEach(() => {
@@ -140,6 +147,25 @@ describe('OrderHistoryComponent', () => {
     });
   });
 
+  describe('filterByFavorite', () => {
+    beforeEach(() => {
+      meService.ListOrders.calls.reset();
+      spyOn(component as any, 'addQueryParam');
+    });
+    it('should show favorites only when true', () => {
+      component['filterByFavorite'](true);
+      expect(component['addQueryParam']).toHaveBeenCalledWith({
+        favoriteOrders: true,
+      });
+    });
+    it('should show all products when false', () => {
+      component['filterByFavorite'](false);
+      expect(component['addQueryParam']).toHaveBeenCalledWith({
+        favoriteOrders: undefined,
+      });
+    });
+  });
+
   describe('listOrders', () => {
     const expected = {
       sortBy: '!ID',
@@ -147,13 +173,17 @@ describe('OrderHistoryComponent', () => {
       page: 1,
       filters: {
         status: 'Open',
-        datesubmitted: ['5-30-18']
+        datesubmitted: ['5-30-18'],
+        ID: '1|2|3',
       },
     };
     beforeEach(() => {
       meService.ListOrders.calls.reset();
     });
     it('should call meService.ListOrders with correct parameters', () => {
+      spyOn(component as any, 'buildFavoriteOrdersQuery').and.returnValue(
+        '1|2|3'
+      );
       component['listOrders']()
         .pipe(take(1))
         .subscribe(() => {
@@ -165,18 +195,64 @@ describe('OrderHistoryComponent', () => {
     });
   });
 
-  describe('filterByFavorite', () => {
-    beforeEach(() => {
-      meService.ListOrders.calls.reset();
-      spyOn(component as any, 'addQueryParam');
+  describe('buildFavoriteOrdersQuery', () => {
+    describe('hasFavoriteOrdersFilter', () => {
+      it('should be true if favoriteOrders param is string "true"', () => {
+        component['buildFavoriteOrdersQuery'](
+          convertToParamMap({ favoriteOrders: 'true' })
+        );
+        expect(component.hasFavoriteOrdersFilter).toBe(true);
+      });
+      it('should be false if favoriteOrders param is undefined', () => {
+        component['buildFavoriteOrdersQuery'](
+          convertToParamMap({ favoriteOrders: undefined })
+        );
+        expect(component.hasFavoriteOrdersFilter).toBe(false);
+      });
+      it('should be false if favoriteOrders param is null', () => {
+        component['buildFavoriteOrdersQuery'](
+          convertToParamMap({ favoriteOrders: null })
+        );
+        expect(component.hasFavoriteOrdersFilter).toBe(false);
+      });
+      it('should be false if favoriteOrders param does not exist', () => {
+        component['buildFavoriteOrdersQuery'](
+          convertToParamMap({ anotherParam: 'blah' })
+        );
+        expect(component.hasFavoriteOrdersFilter).toBe(false);
+      });
     });
-    it('should show favorites only when true', () => {
-      component['filterByFavorite'](true);
-      expect(component['addQueryParam']).toHaveBeenCalledWith({ favoriteOrders: true })
-    });
-    it('should show all products when false', () => {
-      component['filterByFavorite'](false);
-      expect(component['addQueryParam']).toHaveBeenCalledWith({ favoriteOrders: undefined })
+    describe('result', () => {
+      const queryParamWithFavorites = convertToParamMap({
+        favoriteOrders: 'true',
+      });
+      const queryParamWithoutFavorites = convertToParamMap({
+        someParam: 'blah',
+      });
+      it('should be undefined if query param does not include "favoriteOrders"', () => {
+        spyOn(favoriteOrdersService, 'getFavorites').and.returnValue(['ID1']);
+        const result = component['buildFavoriteOrdersQuery'](
+          queryParamWithoutFavorites
+        );
+        expect(result).toBeUndefined();
+      });
+      it('should be undefined if favorites array has a length of 0', () => {
+        spyOn(favoriteOrdersService, 'getFavorites').and.returnValue([]);
+        const result = component['buildFavoriteOrdersQuery'](
+          queryParamWithFavorites
+        );
+        expect(result).toBeUndefined();
+      });
+      it('should be defined if "favoriteOrders" query param is "true" and favorites array has values', () => {
+        spyOn(favoriteOrdersService, 'getFavorites').and.returnValue([
+          'ID1',
+          'ID2',
+        ]);
+        const result = component['buildFavoriteOrdersQuery'](
+          queryParamWithFavorites
+        );
+        expect(result).toBe('ID1|ID2');
+      });
     });
   });
 });

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderComponent } from '@app-buyer/order/containers/order/order.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { Subject, of } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -14,17 +14,13 @@ describe('OrderComponent', () => {
   const dataSubject = new Subject<any>();
   const activatedRoute = { data: dataSubject };
 
-  const favoriteOrdersService = {
-    loadFavorites: jasmine.createSpy('loadFavorites').and.returnValue(of(null)),
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FaIconComponent, OrderComponent],
       imports: [RouterTestingModule],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRoute },
-        { provide: FavoriteOrdersService, useValue: favoriteOrdersService },
+        { provide: FavoriteOrdersService, useValue: {} },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();
@@ -49,9 +45,6 @@ describe('OrderComponent', () => {
         expect(order).toEqual({ ID: 'mockOrderID' });
       });
       dataSubject.next({ orderResolve: { order: { ID: 'mockOrderID' } } });
-    });
-    it('should load favorites', () => {
-      expect(favoriteOrdersService.loadFavorites).toHaveBeenCalled();
     });
   });
 });
