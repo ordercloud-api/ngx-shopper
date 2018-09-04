@@ -6,4 +6,4 @@ export * from '@app-buyer/products/containers/product-details/product-details.co
 export * from '@app-buyer/products/components/additional-image-gallery/additional-image-gallery.component';
 
 // models
-export * from '@app-buyer/products/models/product-sort-strats.enum';
+export * from '@app-buyer/products/models/product-sort-strategy.enum';

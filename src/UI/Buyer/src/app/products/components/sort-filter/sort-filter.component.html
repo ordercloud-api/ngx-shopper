@@ -1,0 +1,15 @@
+<form [formGroup]="form">
+  <div class="form-group float-right">
+    <select class="form-control"
+            formControlName="strategy"
+            (change)="sortStrategyChanged()">
+      <option [ngValue]="null"
+              disabled>None</option>
+      <option [ngValue]="option.key"
+              *ngFor="let option of options | mapToIterable">
+        {{ option.value }}
+      </option>
+    </select>
+  </div>
+  <div class="float-right mt-1 mr-2">Sort By</div>
+</form>

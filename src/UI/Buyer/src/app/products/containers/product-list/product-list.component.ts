@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import {
   ListBuyerProduct,
   OcMeService,
   Category,
   ListCategory,
 } from '@ordercloud/angular-sdk';
-import { ProductSortStrats } from '@app-buyer/products/models/product-sort-strats.enum';
+import { ProductSortStrategy } from '@app-buyer/products/models/product-sort-strategy.enum';
 import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -25,8 +24,6 @@ export class ProductListComponent implements OnInit {
   productList$: Observable<ListBuyerProduct>;
   categories: ListCategory;
   categoryCrumbs: Category[] = [];
-  sortOptions = ProductSortStrats;
-  sortForm: FormGroup;
   searchTerm = null;
   hasQueryParams = false;
   hasFavoriteProductsFilter = false;
@@ -36,20 +33,13 @@ export class ProductListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private ocMeService: OcMeService,
     private router: Router,
-    private formBuilder: FormBuilder,
     private appLineItemService: AppLineItemService,
     private favoriteProductsService: FavoriteProductsService,
-    private appStateService: AppStateService,
-  ) { }
+    private appStateService: AppStateService
+  ) {}
 
   ngOnInit() {
     this.productList$ = this.getProductData();
-    this.favoriteProductsService.loadFavorites();
-    this.sortForm = this.formBuilder.group({
-      sortBy: this.sortOptions[
-        this.activatedRoute.snapshot.queryParams['sortBy']
-      ],
-    });
     this.getCategories();
     this.configureRouter();
   }
@@ -67,14 +57,12 @@ export class ProductListComponent implements OnInit {
         const filter = {};
 
         // add filter for favorite products if it exists
-        if (
-          queryParams.favoriteProducts === 'true' &&
-          this.favoriteProductsService.favorites
-        ) {
-          filter['ID'] = this.favoriteProductsService.favorites.join('|');
-        } else {
-          delete filter['ID'];
-        }
+        const favorites = this.favoriteProductsService.getFavorites();
+        filter['ID'] =
+          queryParams.favoriteProducts === 'true' && favorites
+            ? favorites.join('|')
+            : undefined;
+
         return this.ocMeService.ListProducts({
           categoryID: queryParams.category,
           page: queryParams.page,
@@ -108,8 +96,8 @@ export class ProductListComponent implements OnInit {
     this.addQueryParam({ category });
   }
 
-  sortStratChanged(): void {
-    this.addQueryParam({ sortBy: this.sortForm.value.sortBy });
+  changeSortStrategy(sortBy: ProductSortStrategy): void {
+    this.addQueryParam({ sortBy });
   }
 
   refineByFavorites() {

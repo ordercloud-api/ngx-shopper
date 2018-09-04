@@ -18,11 +18,10 @@ export class OrderComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private favoriteOrdersService: FavoriteOrdersService
+    protected favoriteOrdersService: FavoriteOrdersService // used in template
   ) {}
 
   ngOnInit() {
-    this.favoriteOrdersService.loadFavorites();
     this.order$ = this.activatedRoute.data.pipe(
       map(({ orderResolve }) => orderResolve.order)
     );
