@@ -9,6 +9,7 @@ import { AdditionalImageGalleryComponent } from '@app-buyer/products/components/
 import { ImageZoomModule } from 'angular2-image-zoom';
 import { PriceFilterComponent } from '@app-buyer/products/components/price-filter/price-filter.component';
 import { CategoryNavComponent } from '@app-buyer/products/components/category-nav/category-nav.component';
+import { SortFilterComponent } from './components/sort-filter/sort-filter.component';
 
 @NgModule({
   imports: [SharedModule, ProductsRoutingModule, ImageZoomModule, TreeModule],
@@ -18,6 +19,7 @@ import { CategoryNavComponent } from '@app-buyer/products/components/category-na
     AdditionalImageGalleryComponent,
     PriceFilterComponent,
     CategoryNavComponent,
+    SortFilterComponent,
   ],
 })
 export class ProductsModule {}

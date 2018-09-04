@@ -12,16 +12,10 @@ import {
   NgbDateCustomParserFormatter,
 } from '@app-buyer/config/date-picker.config';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
-import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 describe('OrderListComponent', () => {
   let component: OrderListComponent;
   let fixture: ComponentFixture<OrderListComponent>;
-
-  const favoriteOrdersService = {
-    loadFavorites: jasmine.createSpy('loadFavorites').and.returnValue(of(null)),
-  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,7 +27,6 @@ describe('OrderListComponent', () => {
           provide: NgbDateParserFormatter,
           useClass: NgbDateCustomParserFormatter,
         },
-        { provide: FavoriteOrdersService, useValue: favoriteOrdersService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();
@@ -51,13 +44,6 @@ describe('OrderListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    it('should call loadFavorites', () => {
-      component.ngOnInit();
-      expect(favoriteOrdersService.loadFavorites).toHaveBeenCalled();
-    });
   });
 
   describe('updateSort', () => {

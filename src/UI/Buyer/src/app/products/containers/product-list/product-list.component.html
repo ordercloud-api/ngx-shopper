@@ -44,26 +44,14 @@
         <div class="col-auto">
           <div class="m-0 mt-1">
             <span *ngIf="productList.Meta.TotalPages > 1">
-              {{ ((productList.Meta.Page - 1) * productList.Meta.PageSize) + 1 }} - {{productList.Meta.Page * productList.Meta.PageSize}} of
+              {{ ((productList.Meta.Page - 1) * productList.Meta.PageSize) + 1 }} - {{productList.Meta.Page * productList.Meta.PageSize}}
+              of
             </span>{{productList.Meta.TotalCount}} results
           </div>
         </div>
         <div class="col-auto">
-          <form [formGroup]="sortForm">
-            <div class="form-group float-right">
-              <select class="form-control"
-                      formControlName="sortBy"
-                      (change)="sortStratChanged()">
-                <option [ngValue]="null"
-                        disabled>None</option>
-                <option [ngValue]="sortOption.key"
-                        *ngFor="let sortOption of sortOptions | mapToIterable">
-                  {{ sortOption.value }}
-                </option>
-              </select>
-            </div>
-            <div class="float-right mt-1 mr-2">Sort By</div>
-          </form>
+          <products-sort-filter [sortStrategy]="activatedRoute.queryParams.sortBy"
+                                (sortStrategyChange)="changeSortStrategy($event)"></products-sort-filter>
         </div>
       </div>
       <div class="card"
