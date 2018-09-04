@@ -16,7 +16,8 @@
       </shared-modal>
     </div>
   </div>
-  <div *ngIf="categoryTree">
+  <div class="oc-category-tree"
+       *ngIf="categoryTree">
     <!-- For more info about tree component see https://angular2-tree.readme.io/docs/getting-started -->
     <tree-root [nodes]="categoryTree"
                [options]="treeOptions"
@@ -28,7 +29,7 @@
         <div class="node-wrapper"
              [style.padding-left]="node.getNodePadding()">
           <tree-node-expander [node]="node"></tree-node-expander>
-          <div class="node-content-wrapper"
+          <div class="node-content-wrapper border p-2"
                [class.node-content-wrapper-active]="node.isActive"
                [class.node-content-wrapper-focused]="node.isFocused"
                (click)="node.mouseAction('click', $event)"
@@ -38,12 +39,24 @@
                [treeAllowDrop]="node.allowDrop"
                [treeDrag]="node"
                [treeDragEnabled]="node.allowDrag()">
-            <tree-node-content [class]='node.getClass()'
-                               [node]="node"
-                               [index]="index"></tree-node-content>
+            <a [routerLink]="['/categories', node.data.category.ID]">{{ node.data.category.Name }}</a>
+            <fa-icon [ngClass]="{'text-success': node.data.category.Active}"
+                     style="right: 85px;"
+                     [icon]="faCircle"
+                     class="pull-right"></fa-icon>
+            <button (click)="deleteCategory(node.data.category.ID, $event); $event.stopPropagation()"
+                    class="btn btn-danger btn-xs pull-right"
+                    style="right: 10px;">
+              <fa-icon [icon]="faTrash"></fa-icon>
+              <span class="hidden-xs"> Delete</span>
+            </button>
           </div>
         </div>
       </ng-template>
     </tree-root>
+  </div>
+  <div class="card bg-light p-3 mt-3 w-100 text-center"
+       *ngIf="categories?.length === 0">
+    <p class="mb-0">No categories found</p>
   </div>
 </div>

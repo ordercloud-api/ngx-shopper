@@ -1,17 +1,17 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { faTrashAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import {
-  ListCategory,
-  Category,
-  OcCategoryService,
-} from '@ordercloud/angular-sdk';
+  faTrashAlt,
+  faPlusCircle,
+  faCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import { Category, OcCategoryService } from '@ordercloud/angular-sdk';
 import {
   AppConfig,
   applicationConfiguration,
 } from '@app-seller/config/app.config';
 import { ModalService } from '@app-seller/shared/services/modal/modal.service';
 import { CategoryTreeNode } from '@app-seller/shared/models/category-tree-node.class';
-import { ITreeOptions } from 'angular-tree-component';
+import { ITreeOptions, TreeNode } from 'angular-tree-component';
 import { forkJoin, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -24,20 +24,15 @@ export class CategoryManagementComponent implements OnInit {
   modalID = 'CreateCategoryModal';
   faTrash = faTrashAlt;
   faPlusCircle = faPlusCircle;
+  faCircle = faCircle;
   catalogID: string;
   categories: Category[];
   categoryTree: CategoryTreeNode[];
   treeOptions: ITreeOptions = {
     allowDrag: true,
     allowDrop: true,
-    actionMapping: {
-      mouse: {
-        click: (_tree, _node, _$event) => {
-          this.router.navigateByUrl(`/categories/${_node.data.id}`);
-        },
-      },
-    },
     animateExpand: true,
+    levelPadding: 40,
   };
 
   constructor(
@@ -57,11 +52,27 @@ export class CategoryManagementComponent implements OnInit {
     this.modalService.open(this.modalID);
   }
 
-  addCategory(category: Category) {
+  addCategory(category: Category): void {
     this.modalService.close(this.modalID);
     this.ocCategoryService.Create(this.catalogID, category).subscribe(() => {
       this.loadCategories();
     });
+  }
+
+  deleteCategory(categoryID: string, $event): void {
+    $event.stopPropagation();
+    this.ocCategoryService.Delete(this.catalogID, categoryID).subscribe(() => {
+      this.loadCategories();
+    });
+  }
+
+  loadCategories(): void {
+    this.ocCategoryService
+      .List(this.catalogID, { depth: 'all', pageSize: 100 })
+      .subscribe((categories) => {
+        this.categories = categories.Items;
+        this.categoryTree = this.buildCategoryTree(categories.Items);
+      });
   }
 
   onMoveNode($event): void {
@@ -96,15 +107,6 @@ export class CategoryManagementComponent implements OnInit {
       );
     });
     forkJoin(queue).subscribe(() => this.loadCategories());
-  }
-
-  loadCategories(): void {
-    this.ocCategoryService
-      .List(this.catalogID, { depth: 'all', pageSize: 100 })
-      .subscribe((categories) => {
-        this.categories = categories.Items;
-        this.categoryTree = this.buildCategoryTree(categories.Items);
-      });
   }
 
   buildCategoryTree(ocCategories: Category[]): CategoryTreeNode[] {
