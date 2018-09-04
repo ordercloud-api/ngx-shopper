@@ -29,7 +29,8 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
   editModalID = 'EditAddressModal';
 
   // If this is undefined, assignments will be to the buyer org. If defined, assignements are to the userGroup.
-  @Input() userGroupID: string;
+  @Input()
+  userGroupID: string;
 
   constructor(
     private ocAddressService: OcAddressService,
@@ -116,21 +117,20 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
   }
 
   updateAssignment(assignment: AddressAssignment) {
-    if (assignment.IsBilling || assignment.IsShipping) {
-      this.ocAddressService
-        .SaveAssignment(this.appConfig.buyerID, assignment)
-        .subscribe(() => {
-          this.loadData();
-        });
-    } else {
-      this.ocAddressService
-        .DeleteAssignment(this.appConfig.buyerID, assignment.AddressID, {
-          userGroupID: assignment.UserGroupID || undefined,
-        })
-        .subscribe(() => {
-          this.loadData();
-        });
-    }
+    const request =
+      assignment.IsBilling || assignment.IsShipping
+        ? this.ocAddressService.SaveAssignment(
+            this.appConfig.buyerID,
+            assignment
+          )
+        : this.ocAddressService.DeleteAssignment(
+            this.appConfig.buyerID,
+            assignment.AddressID,
+            {
+              userGroupID: assignment.UserGroupID || undefined,
+            }
+          );
+    request.subscribe(() => this.loadData());
   }
 
   deleteAddress(addressID): void {

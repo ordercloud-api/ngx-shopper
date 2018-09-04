@@ -30,8 +30,9 @@ import { AppGeographyService } from '@app-seller/shared/services/geography/geogr
 import { AddressFormComponent } from '@app-seller/shared/components/address-form/address-form.component';
 import { CategoryManagementComponent } from './containers/category-management/category-management.component';
 import { CategoryFormComponent } from './components/category-form/category-form.component';
-import { CategoryDetailComponent } from './containers/category-detail/category-detail.component';
 import { CategoryDetailsComponent } from './containers/category-details/category-details.component';
+import { ProductTableComponent } from '@app-seller/shared/containers/product-table/product-table.component';
+import { ProductFormComponent } from '@app-seller/shared/components/products-form/product-form.component';
 
 @NgModule({
   imports: [
@@ -73,6 +74,8 @@ import { CategoryDetailsComponent } from './containers/category-details/category
     CategoryManagementComponent,
     CategoryFormComponent,
     CategoryDetailsComponent,
+    ProductTableComponent,
+    ProductFormComponent,
   ],
   declarations: [
     SearchComponent,
@@ -87,6 +90,8 @@ import { CategoryDetailsComponent } from './containers/category-details/category
     CategoryManagementComponent,
     CategoryFormComponent,
     CategoryDetailsComponent,
+    ProductTableComponent,
+    ProductFormComponent,
   ],
 
   /**

@@ -4,7 +4,6 @@ import {
   User,
   ListUser,
   OcUserGroupService,
-  OcTokenService,
 } from '@ordercloud/angular-sdk';
 import {
   faTrashAlt,
@@ -47,7 +46,8 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
   ];
 
   // Only use this when assigning users to user groups.
-  @Input() userGroupID: string;
+  @Input()
+  userGroupID: string;
 
   constructor(
     private ocUserService: OcUserService,
@@ -105,18 +105,17 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
   }
 
   assignUser(userID: string, assigned: boolean) {
-    if (assigned) {
-      this.ocUserGroupService
-        .SaveUserAssignment(this.appConfig.buyerID, {
+    const request = assigned
+      ? this.ocUserGroupService.SaveUserAssignment(this.appConfig.buyerID, {
           UserID: userID,
           UserGroupID: this.userGroupID,
         })
-        .subscribe();
-    } else {
-      this.ocUserGroupService
-        .DeleteUserAssignment(this.appConfig.buyerID, this.userGroupID, userID)
-        .subscribe();
-    }
+      : this.ocUserGroupService.DeleteUserAssignment(
+          this.appConfig.buyerID,
+          this.userGroupID,
+          userID
+        );
+    request.subscribe();
   }
 
   deleteUser(userID) {

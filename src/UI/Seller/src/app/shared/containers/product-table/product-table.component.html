@@ -6,7 +6,8 @@
     <div class="col-4">
       <button class="btn btn-primary float-right mt-3"
               (click)="openNewProductModal()">
-        <fa-icon [icon]="faPlusCircle"></fa-icon> New Product</button>
+        <fa-icon [icon]="faPlusCircle"></fa-icon> New Product
+      </button>
       <shared-modal id="{{ modalID }}"
                     modalTitle="Create A New Product - Basic Info">
         <product-form btnText="Save"
@@ -24,32 +25,41 @@
              class="table table-striped table-bordered mt-3">
         <thead>
           <tr>
-            <th>
+            <th *ngIf="columns.indexOf('Assign') > -1">Assigned</th>
+            <th *ngIf="columns.indexOf('ID') > -1">
               <shared-sort-column fieldName="ID"
                                   [currentSort]="requestOptions.sortBy"
                                   (sort)="sortChanged($event)">ID</shared-sort-column>
             </th>
-            <th>
+            <th *ngIf="columns.indexOf('Name') > -1">
               <shared-sort-column fieldName="Name"
                                   [currentSort]="requestOptions.sortBy"
                                   (sort)="sortChanged($event)">Name</shared-sort-column>
             </th>
-            <th>Active</th>
-            <th>Delete</th>
+            <th *ngIf="columns.indexOf('Active') > -1">Active</th>
+            <th *ngIf="columns.indexOf('Delete') > -1">Delete</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let product of products.Items">
-            <td>{{product.ID}}</td>
-            <td>
+            <th *ngIf="columns.indexOf('Assign') > -1">
+              <form class="text-center">
+                <input type="checkbox"
+                       (change)="assignProduct(product.ID, $event.target.checked)"
+                       [checked]="product.Assigned">
+              </form>
+            </th>
+            <td *ngIf="columns.indexOf('ID') > -1">{{product.ID}}</td>
+            <td *ngIf="columns.indexOf('Name') > -1">
               <a [routerLink]="['/products', product.ID]">{{product.Name}}</a>
             </td>
-            <td class="text-center">
+            <td *ngIf="columns.indexOf('Active') > -1"
+                class="text-center">
               <fa-icon aria-hidden="true"
                        [ngClass]="{'text-success': product.Active}"
                        [icon]="faCircle"></fa-icon>
             </td>
-            <td>
+            <td *ngIf="columns.indexOf('Delete') > -1">
               <button (click)="deleteProduct(product.ID)"
                       class="btn btn-danger btn-xs">
                 <fa-icon [icon]="faTrash"></fa-icon>

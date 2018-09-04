@@ -28,6 +28,15 @@
           </div>
         </ng-template>
       </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon [icon]="faBoxOpen"></fa-icon> Assign Products
+        </ng-template>
+        <ng-template ngbTabContent>
+          <product-table [categoryID]="category.ID"
+                         [columns]="['Assign', 'ID', 'Name', 'Active', 'Delete']"></product-table>
+        </ng-template>
+      </ngb-tab>
     </ngb-tabset>
   </div>
 </div>

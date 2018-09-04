@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Category, OcCategoryService } from '@ordercloud/angular-sdk';
-import { faSitemap } from '@fortawesome/free-solid-svg-icons';
+import { faSitemap, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
@@ -19,6 +19,7 @@ export class CategoryDetailsComponent implements OnInit {
   categoryID: string;
   catalogID: string;
   faSitemap = faSitemap;
+  faBoxOpen = faBoxOpen;
 
   constructor(
     private activatedRoute: ActivatedRoute,
