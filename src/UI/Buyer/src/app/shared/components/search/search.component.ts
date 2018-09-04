@@ -23,7 +23,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   faTimes = faTimes;
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({ search: '' });

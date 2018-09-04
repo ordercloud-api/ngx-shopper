@@ -8,11 +8,11 @@ import {
   Category,
   ListCategory,
 } from '@ordercloud/angular-sdk';
-import { ProductSortStrategy } from '@app-buyer/products/models/product-sort-strategy.enum';
 import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
+import { ProductSortStrategy } from '@app-buyer/products/models/product-sort-strategy.enum';
 import { isEmpty as _isEmpty } from 'lodash';
 
 @Component({
@@ -35,8 +35,8 @@ export class ProductListComponent implements OnInit {
     private router: Router,
     private appLineItemService: AppLineItemService,
     private favoriteProductsService: FavoriteProductsService,
-    private appStateService: AppStateService
-  ) {}
+    private appStateService: AppStateService,
+  ) { }
 
   ngOnInit() {
     this.productList$ = this.getProductData();
