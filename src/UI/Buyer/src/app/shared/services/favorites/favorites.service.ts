@@ -34,7 +34,6 @@ abstract class FavoritesService<T extends { ID?: string }> {
     const me = this.appStateService.userSubject.value;
     return me.xp &&
       me.xp[this.XpFieldName] &&
-      me.xp[this.XpFieldName] &&
       me.xp[this.XpFieldName] instanceof Array
       ? me.xp[this.XpFieldName]
       : [];
