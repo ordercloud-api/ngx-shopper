@@ -11,7 +11,7 @@ import { faCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { BaseBrowse } from '@app-seller/shared/models/base-browse.class';
 import { ModalService } from '@app-seller/shared/services/modal/modal.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import {
   applicationConfiguration,
   AppConfig,
@@ -60,26 +60,23 @@ export class ProductTableComponent extends BaseBrowse implements OnInit {
       if (this.columns.indexOf('Assign') < 0 || !this.categoryID) {
         return (this.products = products);
       }
-      const queue = products.Items.map((product) => {
-        return this.ocCategoryService.ListProductAssignments(this.catalogID, {
-          productID: product.ID,
-          categoryID: this.categoryID,
-        });
-      });
-      forkJoin(queue).subscribe(
+      const requests = products.Items.map((prod) => this.getAssignment(prod));
+      forkJoin(requests).subscribe(
         (assignments: ListCategoryProductAssignment[]) => {
-          assignments = assignments.filter(
-            (assignment) => assignment.Items.length > 0
-          );
-          assignments.forEach((assignment) => {
-            const index = products.Items.findIndex(
-              (product) => product.ID === assignment.Items[0].ProductID
-            );
+          assignments.forEach((assignment, index) => {
+            if (assignment.Items.length === 0) return;
             (products.Items[index] as any).Assigned = true;
           });
           this.products = products;
         }
       );
+    });
+  }
+
+  getAssignment(product: Product): Observable<ListCategoryProductAssignment> {
+    return this.ocCategoryService.ListProductAssignments(this.catalogID, {
+      productID: product.ID,
+      categoryID: this.categoryID,
     });
   }
 

@@ -4,6 +4,7 @@ import {
   User,
   ListUser,
   OcUserGroupService,
+  ListUserGroupAssignment,
 } from '@ordercloud/angular-sdk';
 import {
   faTrashAlt,
@@ -82,26 +83,22 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
         if (this.columns.indexOf('Assign') < 0 || !this.userGroupID) {
           return (this.users = users);
         }
-        const queue = users.Items.map((user) => {
-          return this.ocUserGroupService.ListUserAssignments(
-            this.appConfig.buyerID,
-            {
-              userGroupID: this.userGroupID,
-              userID: user.ID,
-            }
-          );
-        });
-        forkJoin(queue).subscribe((res: any) => {
-          res = res.filter((group) => group.Items.length > 0);
-          res.forEach((group) => {
-            const index = users.Items.findIndex(
-              (user) => user.ID === group.Items[0].UserID
-            );
+        const queue = users.Items.map((user) => this.getAssignment(user));
+        forkJoin(queue).subscribe((res: ListUserGroupAssignment[]) => {
+          res.forEach((group, index) => {
+            if (group.Items.length === 0) return;
             (users.Items[index] as any).Assigned = true;
           });
           this.users = users;
         });
       });
+  }
+
+  getAssignment(user: User) {
+    return this.ocUserGroupService.ListUserAssignments(this.appConfig.buyerID, {
+      userGroupID: this.userGroupID,
+      userID: user.ID,
+    });
   }
 
   assignUser(userID: string, assigned: boolean) {

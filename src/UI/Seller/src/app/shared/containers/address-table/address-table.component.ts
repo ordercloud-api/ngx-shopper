@@ -13,7 +13,7 @@ import {
   applicationConfiguration,
 } from '@app-seller/config/app.config';
 import { BaseBrowse } from '@app-seller/shared/models/base-browse.class';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
 @Component({
   selector: 'address-table',
@@ -61,22 +61,16 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
     this.ocAddressService
       .List(this.appConfig.buyerID, this.requestOptions)
       .subscribe((addresses) => {
-        const queue = addresses.Items.map((address) => {
-          return this.ocAddressService.ListAssignments(this.appConfig.buyerID, {
-            addressID: address.ID,
-          });
-        });
-        forkJoin(queue).subscribe((res: any) => {
-          this.addresses = addresses;
-          res = res.filter((assignments) => assignments.Items.length > 0);
-          res.forEach((assignments) => {
+        this.addresses = addresses;
+        const requests = this.addresses.Items.map((address) =>
+          this.getAssignment(address)
+        );
+        forkJoin(requests).subscribe((res: ListAddressAssignment[]) => {
+          res.forEach((assignments, index) => {
             const assignment = this.userGroupID
-              ? this.getGroupAssignment(assignments)
-              : this.getBuyerAssignment(assignments);
+              ? this.findGroupAssignment(assignments)
+              : this.findBuyerAssignment(assignments);
             if (!assignment) return;
-            const index = this.addresses.Items.findIndex(
-              (address) => address.ID === assignment.AddressID
-            );
             (this.addresses.Items[index] as any).IsShipping =
               assignment.IsShipping;
             (this.addresses.Items[index] as any).IsBilling =
@@ -86,11 +80,17 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
       });
   }
 
-  getBuyerAssignment(assignments: ListAddressAssignment): AddressAssignment {
+  getAssignment(address: Address): Observable<ListAddressAssignment> {
+    return this.ocAddressService.ListAssignments(this.appConfig.buyerID, {
+      addressID: address.ID,
+    });
+  }
+
+  findBuyerAssignment(assignments: ListAddressAssignment): AddressAssignment {
     return assignments.Items.filter((x) => !x.UserGroupID)[0];
   }
 
-  getGroupAssignment(assignments: ListAddressAssignment): AddressAssignment {
+  findGroupAssignment(assignments: ListAddressAssignment): AddressAssignment {
     return assignments.Items.filter(
       (x) => x.UserGroupID === this.userGroupID
     )[0];
