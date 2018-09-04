@@ -10,11 +10,10 @@
       <h1 class="h1 my-0">{{ product.Name }}</h1>
       <span class="text-muted">ID: {{ product.ID }}</span>
       <span class="ml-3">
-        <shared-toggle-favorite 
-          title="Favorite"
-          (click)="$event.stopPropagation()"
-          [favorite]="favoriteProductsService.isFavorite(product)"
-          (favoriteChanged)="favoriteProductsService.setFavoriteValue($event, product)">
+        <shared-toggle-favorite title="Favorite"
+                                (click)="$event.stopPropagation()"
+                                [favorite]="favoriteProductsService.isFavorite(product)"
+                                (favoriteChanged)="favoriteProductsService.setFavoriteValue($event, product)">
         </shared-toggle-favorite>
       </span>
       <hr>
@@ -26,7 +25,8 @@
         </shared-quantity-input>
         <button class="btn btn-primary ml-2"
                 type="submit"
-                (click)="quantityInputComponent.addToCart($event)">Add to Cart <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span></button>
+                (click)="quantityInputComponent.addToCart($event)">Add to Cart
+          <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span></button>
       </div>
       <ng-template #viewOnly>
         <div class="alert alert-info">

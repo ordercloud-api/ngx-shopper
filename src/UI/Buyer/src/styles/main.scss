@@ -1,21 +1,20 @@
 @charset 'UTF-8';
 
-// Abstracts
+// Theme Variables - must come before vendor
 @import
-  'abstracts/variables',
-  'abstracts/functions',
-  'abstracts/mixins';
+  'themes/my-first-theme/variables';
 
 // Vendors
 @import
   'vendor/bootstrap',
   'vendor/normalize',
   'vendor/ngx-toastr';
-
-// Theme Variables
+  
+// Abstracts
 @import
-'themes/default';
-// 'themes/_theme';
+  'abstracts/variables',
+  'abstracts/functions',
+  'abstracts/mixins';
 
 // Scaffolding
 @import
@@ -50,3 +49,7 @@
 // 3rd party libraries
 @import 
   '~angular-tree-component/dist/angular-tree-component.css';
+
+// Theme
+  @import
+  'themes/my-first-theme/styles';

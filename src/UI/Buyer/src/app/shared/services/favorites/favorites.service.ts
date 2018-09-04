@@ -1,5 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { OcMeService, BuyerProduct, Order } from '@ordercloud/angular-sdk';
+import {
+  OcMeService,
+  BuyerProduct,
+  Order,
+  MeUser,
+} from '@ordercloud/angular-sdk';
+import { AppStateService } from '@app-buyer/shared';
 
 abstract class FavoritesService<T extends { ID?: string }> {
   protected readonly XpFieldName: string;
@@ -7,14 +13,17 @@ abstract class FavoritesService<T extends { ID?: string }> {
   // Array of object IDs
   public favorites: string[] = null;
 
-  constructor(private ocMeService: OcMeService) {}
+  constructor(
+    private appStateService: AppStateService,
+    private ocMeService: OcMeService
+  ) { }
 
   loadFavorites(): void {
     if (this.favorites !== null) {
       return;
     }
 
-    this.ocMeService.Get().subscribe((me) => {
+    this.appStateService.userSubject.subscribe((me: MeUser) => {
       this.favorites =
         me.xp && me.xp[this.XpFieldName] ? me.xp[this.XpFieldName] : [];
     });
@@ -25,11 +34,6 @@ abstract class FavoritesService<T extends { ID?: string }> {
   }
 
   setFavoriteValue(isFav: boolean, object: T): void {
-    // TODO - is there a better solution if the favorites havn't loaded yet?
-    if (this.favorites === null) {
-      return;
-    }
-
     if (isFav) {
       this.favorites.push(object.ID);
     } else {
@@ -38,6 +42,7 @@ abstract class FavoritesService<T extends { ID?: string }> {
     const request = { xp: {} };
     request.xp[this.XpFieldName] = this.favorites;
     this.ocMeService.Patch(request).subscribe((me) => {
+      this.appStateService.userSubject.next(me);
       this.favorites = me.xp[this.XpFieldName];
     });
   }
@@ -49,8 +54,11 @@ abstract class FavoritesService<T extends { ID?: string }> {
 export class FavoriteProductsService extends FavoritesService<BuyerProduct> {
   protected readonly XpFieldName = 'FavoriteProducts';
 
-  constructor(@Inject(OcMeService) ocMeService: OcMeService) {
-    super(ocMeService);
+  constructor(
+    @Inject(AppStateService) appStateService: AppStateService,
+    @Inject(OcMeService) ocMeService: OcMeService
+  ) {
+    super(appStateService, ocMeService);
   }
 }
 
@@ -60,7 +68,10 @@ export class FavoriteProductsService extends FavoritesService<BuyerProduct> {
 export class FavoriteOrdersService extends FavoritesService<Order> {
   protected readonly XpFieldName = 'FavoriteOrders';
 
-  constructor(@Inject(OcMeService) ocMeService: OcMeService) {
-    super(ocMeService);
+  constructor(
+    @Inject(AppStateService) appStateService: AppStateService,
+    @Inject(OcMeService) ocMeService: OcMeService
+  ) {
+    super(appStateService, ocMeService);
   }
 }

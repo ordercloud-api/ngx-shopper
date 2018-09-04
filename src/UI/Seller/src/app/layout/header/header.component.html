@@ -29,6 +29,11 @@
         </li>
         <li class="nav-item">
           <a class="nav-link"
+             routerLink="/addresses">
+            <fa-icon [icon]="faMapMarker"></fa-icon> Addresses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
              routerLink="/users">
             <fa-icon [icon]="faUser"></fa-icon> Users</a>
         </li>
@@ -37,7 +42,9 @@
              routerLink="/usergroups">
             <fa-icon [icon]="faUsers"></fa-icon> User Groups</a>
         </li>
-        <li class="nav-item float-right">
+      </ul>
+      <ul class="navbar-nav float-right">
+        <li class="nav-item pull-right">
           <a class="nav-link"
              routerLink="/home"
              (click)="logout()">
