@@ -12,6 +12,7 @@ import {
   NgbDateCustomParserFormatter,
 } from '@app-buyer/config/date-picker.config';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 describe('OrderListComponent', () => {
   let component: OrderListComponent;
@@ -27,6 +28,7 @@ describe('OrderListComponent', () => {
           provide: NgbDateParserFormatter,
           useClass: NgbDateCustomParserFormatter,
         },
+        { provide: FavoriteOrdersService, useValue: {} },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();

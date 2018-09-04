@@ -81,7 +81,8 @@ describe('ForgotPasswordComponent', () => {
         URL: 'http://localhost:9876',
       });
       expect(toastrService.success).toHaveBeenCalledWith(
-        'Password Reset Email Sent!'
+        'Password Reset Email Sent!',
+        'Success'
       );
       expect(router.navigateByUrl).toHaveBeenCalledWith('/login');
     });
