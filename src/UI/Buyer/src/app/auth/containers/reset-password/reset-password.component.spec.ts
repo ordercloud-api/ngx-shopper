@@ -35,6 +35,8 @@ describe('ResetPasswordComponent', () => {
   };
   const formErrorService = {
     hasPasswordMismatchError: jasmine.createSpy('hasPasswordMismatchError'),
+    hasRequiredError: jasmine.createSpy('hasRequiredError'),
+    hasStrongPasswordError: jasmine.createSpy('hasStrongPasswordError'),
   };
 
   beforeEach(async(() => {
@@ -66,12 +68,11 @@ describe('ResetPasswordComponent', () => {
     expect(component).toBeTruthy();
   });
   describe('ngOnInit', () => {
-    const formbuilder = new FormBuilder();
     beforeEach(() => {
       component.ngOnInit();
     });
     it('should set the form values to empty strings, and the local vars to the matching query params', () => {
-      expect(component.resetPasswordForm.value).toEqual({
+      expect(component.form.value).toEqual({
         password: '',
         passwordConfirm: '',
       });
@@ -85,32 +86,66 @@ describe('ResetPasswordComponent', () => {
   });
   describe('onSubmit', () => {
     beforeEach(() => {
+      setValidForm();
       component['appConfig'].clientID = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
-
       component.onSubmit();
     });
-    it('should call the PasswordService ResetPasswordByVerificationCode method, Toastr success method, and route to login', () => {
+    it('should call ResetPasswordByVerificationCode', () => {
       expect(
         ocPasswordService.ResetPasswordByVerificationCode
       ).toHaveBeenCalledWith('pwverificationcode', {
         ClientID: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-        Password: component.resetPasswordForm.value.password,
+        Password: component.form.value.password,
         Username: component.username,
       });
+    });
+    it('should call success toastr', () => {
       expect(toastrService.success).toHaveBeenCalledWith(
-        'Password Reset Successfully'
+        'Password Reset',
+        'Success'
       );
+    });
+    it('should route user to login', () => {
       expect(router.navigateByUrl).toHaveBeenCalledWith('/login');
     });
   });
 
-  describe('passwordMismatchError', () => {
+  function setValidForm() {
+    component.form.controls['password'].setValue('fails345');
+    component.form.controls['passwordConfirm'].setValue('fails345');
+  }
+
+  describe('hasRequiredError', () => {
     beforeEach(() => {
-      component['passwordMismatchError']();
+      component['hasRequiredError']('password');
+    });
+    it('should call formErrorService.hasRequiredError', () => {
+      expect(formErrorService.hasRequiredError).toHaveBeenCalledWith(
+        'password',
+        component.form
+      );
+    });
+  });
+
+  describe('hasPasswordMismatchError', () => {
+    beforeEach(() => {
+      component['hasPasswordMismatchError']();
     });
     it('should call formErrorService.hasRequiredError', () => {
       expect(formErrorService.hasPasswordMismatchError).toHaveBeenCalledWith(
-        component.resetPasswordForm
+        component.form
+      );
+    });
+  });
+
+  describe('hasStrongPasswordError', () => {
+    beforeEach(() => {
+      component['hasStrongPasswordError']('password');
+    });
+    it('should call formErrorService.hasStrongPasswordError', () => {
+      expect(formErrorService.hasStrongPasswordError).toHaveBeenCalledWith(
+        'password',
+        component.form
       );
     });
   });
