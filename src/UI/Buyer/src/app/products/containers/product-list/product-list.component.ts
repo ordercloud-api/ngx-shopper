@@ -29,6 +29,7 @@ export class ProductListComponent implements OnInit {
   hasFavoriteProductsFilter = false;
   closeIcon = faTimes;
   isModalOpen = false;
+  createModalID = 'selectCategory';
 
   constructor(
     private activatedRoute: ActivatedRoute,
