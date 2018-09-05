@@ -1,3 +1,4 @@
+import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductListComponent } from '@app-buyer/products/containers/product-list/product-list.component';
@@ -5,6 +6,7 @@ import {
   PageTitleComponent,
   AppLineItemService,
   AppStateService,
+  ModalService
 } from '@app-buyer/shared';
 import {
   NgbPaginationModule,
@@ -26,6 +28,9 @@ import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-t
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 import { SortFilterComponent } from '@app-buyer/products/components/sort-filter/sort-filter.component';
 import { ProductSortStrategy } from '@app-buyer/products/models/product-sort-strategy.enum';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+
 
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
@@ -55,6 +60,10 @@ describe('ProductListComponent', () => {
   const favoriteProductsService = {
     getFavorites: () => ['Id1', 'Id2'],
   };
+  const modalService = {
+    open: jasmine.createSpy('openCategoryModal'),
+    close: jasmine.createSpy('closeCategoryModal'),
+  };
   let appStateService: AppStateService;
 
   beforeEach(async(() => {
@@ -67,7 +76,7 @@ describe('ProductListComponent', () => {
         CategoryNavComponent,
         ToggleFavoriteComponent,
         MapToIterablePipe,
-        SortFilterComponent,
+        SortFilterComponent
       ],
       imports: [
         NgbPaginationModule,
@@ -87,7 +96,9 @@ describe('ProductListComponent', () => {
         },
         { provide: OcMeService, useValue: ocMeService },
         { provide: FavoriteProductsService, useValue: favoriteProductsService },
+        { provide: ModalService, useValue: modalService },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
     appStateService = TestBed.get(AppStateService);
   }));
@@ -96,6 +107,7 @@ describe('ProductListComponent', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     component.categoryCrumbs = [];
+    component.isModalOpen = true;
     fixture.detectChanges();
   });
 
@@ -250,8 +262,10 @@ describe('ProductListComponent', () => {
     it('should reload state with category set as query params', () => {
       const navigateSpy = spyOn((<any>component).router, 'navigate');
       component.changeCategory(mockCategory);
+      expect(modalService.close).toHaveBeenCalled();
       const newQueryParams = Object.assign({ category: mockCategory });
       queryParams.next({ newQueryParams });
+
       expect(navigateSpy).toHaveBeenCalledWith([], {
         queryParams: newQueryParams,
       });

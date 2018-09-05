@@ -8,11 +8,11 @@ import {
   Category,
   ListCategory,
 } from '@ordercloud/angular-sdk';
-import { ProductSortStrategy } from '@app-buyer/products/models/product-sort-strategy.enum';
-import { AppLineItemService, AppStateService } from '@app-buyer/shared';
+import { AppLineItemService, AppStateService, ModalService } from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
+import { ProductSortStrategy } from '@app-buyer/products/models/product-sort-strategy.enum';
 import { isEmpty as _isEmpty } from 'lodash';
 
 @Component({
@@ -28,6 +28,8 @@ export class ProductListComponent implements OnInit {
   hasQueryParams = false;
   hasFavoriteProductsFilter = false;
   closeIcon = faTimes;
+  isModalOpen = false;
+  createModalID = 'selectCategory';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -35,8 +37,9 @@ export class ProductListComponent implements OnInit {
     private router: Router,
     private appLineItemService: AppLineItemService,
     private favoriteProductsService: FavoriteProductsService,
-    private appStateService: AppStateService
-  ) {}
+    private appStateService: AppStateService,
+    private modalService: ModalService
+  ) { }
 
   ngOnInit() {
     this.productList$ = this.getProductData();
@@ -94,6 +97,7 @@ export class ProductListComponent implements OnInit {
 
   changeCategory(category: string): void {
     this.addQueryParam({ category });
+    if (this.isModalOpen){this.closeCategoryModal()}
   }
 
   changeSortStrategy(sortBy: ProductSortStrategy): void {
@@ -143,6 +147,15 @@ export class ProductListComponent implements OnInit {
     this.appLineItemService
       .create(event.product, event.quantity)
       .subscribe(() => this.appStateService.addToCartSubject.next(event));
+  }
+
+  openCategoryModal() {
+    this.modalService.open("selectCategory")
+    this.isModalOpen = true;
+  }
+  closeCategoryModal() {
+    this.isModalOpen = false;
+    this.modalService.close("selectCategory")
   }
 
   configureRouter() {
