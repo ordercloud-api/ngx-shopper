@@ -14,6 +14,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AppStateService } from '@app-buyer/shared';
+import { catchError, finalize } from 'rxjs/operators';
 
 describe('AppAuthService', () => {
   const mockCookieResponse = {
@@ -169,10 +170,20 @@ describe('AppAuthService', () => {
       it('should throw error if user is not anonymous', () => {
         spyOn(appAuthService, 'authAnonymous').and.returnValue(of(null));
         appConfig.anonymousShoppingEnabled = false;
-        expect(() => {
-          appAuthService.fetchRefreshToken().subscribe();
-        }).toThrow();
-        expect(appAuthService.authAnonymous).not.toHaveBeenCalled();
+        let threwError = false;
+        appAuthService
+          .fetchRefreshToken()
+          .pipe(
+            catchError((error) => {
+              threwError = true;
+              return error;
+            }),
+            finalize(() => {
+              expect(threwError).toBe(true);
+              expect(appAuthService.authAnonymous).not.toHaveBeenCalled();
+            })
+          )
+          .subscribe();
       });
     });
 
