@@ -10,7 +10,7 @@ import { OrderListComponent } from '@app-buyer/order/components/order-list/order
 
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgbPaginationModule, NgbRootModule } from '@ng-bootstrap/ng-bootstrap';
-import { OcMeService, OcOrderService } from '@ordercloud/angular-sdk';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { DatePipe } from '@angular/common';
 import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { of, Subject } from 'rxjs';
@@ -43,6 +43,7 @@ describe('OrderHistoryComponent', () => {
       },
     },
     queryParamMap,
+    queryParams: new Subject(),
   };
 
   let favoriteOrdersService = {
