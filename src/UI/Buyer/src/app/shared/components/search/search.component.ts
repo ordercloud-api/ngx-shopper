@@ -8,7 +8,8 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { debounceTime, takeWhile } from 'rxjs/operators';
+import { debounceTime, takeWhile, filter } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'shared-search',
@@ -23,11 +24,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   faTimes = faTimes;
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({ search: '' });
     this.onFormChanges();
+    this.onQueryParamChanges();
   }
 
   private onFormChanges() {
@@ -38,6 +43,15 @@ export class SearchComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.search();
+      });
+  }
+
+  private onQueryParamChanges() {
+    // clear search bar if products are no longer filtered by search term
+    this.activatedRoute.queryParams
+      .pipe(filter((queryParams) => typeof queryParams.search === 'undefined'))
+      .subscribe(() => {
+        this.form.controls['search'].setValue('');
       });
   }
 
