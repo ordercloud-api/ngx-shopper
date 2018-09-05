@@ -6,6 +6,7 @@ export * from '@app-buyer/auth/containers/reset-password/reset-password.componen
 // interceptors
 export * from '@app-buyer/auth/interceptors/refresh-token/refresh-token.interceptor';
 export * from '@app-buyer/auth/interceptors/auto-append-token/auto-append-token.interceptor';
+export * from '@app-buyer/auth/interceptors/cache/cache-interceptor';
 
 // services
 export * from '@app-buyer/auth/services/app-auth.service';

@@ -6,11 +6,8 @@ import {
 } from '@angular/common/http/testing';
 
 import { AutoAppendTokenInterceptor } from '@app-buyer/auth/interceptors/auto-append-token/auto-append-token.interceptor';
-import {
-  applicationConfiguration,
-  AppConfig,
-} from '@app-buyer/config/app.config';
-import { OcTokenService, Configuration } from '@ordercloud/angular-sdk';
+import { applicationConfiguration } from '@app-buyer/config/app.config';
+import { OcTokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 
 describe('AutoAppendTokenInterceptor', () => {
