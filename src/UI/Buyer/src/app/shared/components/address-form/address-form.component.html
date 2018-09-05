@@ -80,9 +80,11 @@
       <select formControlName="State"
               class="form-control"
               id="State">
-          <option [ngValue]="null" disabled>State</option>
-          <option *ngFor="let State of stateOptions" [value]="State">{{ State }}</option>
-        </select>
+        <option [ngValue]="null"
+                disabled>State</option>
+        <option *ngFor="let State of stateOptions"
+                [value]="State">{{ State }}</option>
+      </select>
       <span *ngIf="hasRequiredError('State')"
             class="error-message">State is required</span>
     </div>
@@ -106,9 +108,11 @@
       <select formControlName="Country"
               class="form-control"
               id="Country">
-         <option [ngValue]="null" disabled>Country</option>
-         <option *ngFor="let country of countryOptions" [value]="country.abbreviation">{{ country.label }}</option>
-       </select>
+        <option [ngValue]="null"
+                disabled>Country</option>
+        <option *ngFor="let country of countryOptions"
+                [value]="country.abbreviation">{{ country.label }}</option>
+      </select>
       <span *ngIf="hasRequiredError('Country')"
             class="error-message">Country is required</span>
     </div>
@@ -122,8 +126,6 @@
              appPhoneInput
              placeholder="Phone Number"
              autocomplete="off" />
-      <span *ngIf="hasRequiredError('Phone')"
-            class="error-message">Phone is required</span>
     </div>
   </div>
   <button type="submit"
