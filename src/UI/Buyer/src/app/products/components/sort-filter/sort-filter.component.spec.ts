@@ -28,10 +28,25 @@ describe('SortFilterComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       spyOn(component as any, 'setForm');
+      spyOn(component as any, 'getOptions');
       component.ngOnInit();
+    });
+    it('should set options', () => {
+      expect(component['getOptions']).toHaveBeenCalled();
     });
     it('should set the form', () => {
       expect(component['setForm']).toHaveBeenCalled();
+    });
+  });
+
+  describe('setForm', () => {
+    beforeEach(() => {
+      component['setForm']();
+    });
+    it('should initialize the form', () => {
+      expect(component.form.value).toEqual({
+        strategy: null,
+      });
     });
   });
 
