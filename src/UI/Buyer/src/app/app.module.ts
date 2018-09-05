@@ -32,6 +32,7 @@ import { FaqComponent } from './static-pages/faq/faq.component';
 import {
   AutoAppendTokenInterceptor,
   RefreshTokenInterceptor,
+  CacheInterceptor,
 } from '@app-buyer/auth';
 
 // date picker config
@@ -40,7 +41,12 @@ import { NgbDateNativeAdapter } from '@app-buyer/config/date-picker.config';
 import { TermsAndConditionsComponent } from './static-pages/terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
-  declarations: [AppComponent, SupportComponent, FaqComponent, TermsAndConditionsComponent],
+  declarations: [
+    AppComponent,
+    SupportComponent,
+    FaqComponent,
+    TermsAndConditionsComponent,
+  ],
   imports: [
     /**
      * app modules
@@ -75,8 +81,13 @@ import { TermsAndConditionsComponent } from './static-pages/terms-and-conditions
       useClass: RefreshTokenInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
+      multi: true,
+    },
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
