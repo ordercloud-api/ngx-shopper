@@ -96,3 +96,10 @@
     </div>
   </div>
 </section>
+
+<shared-modal id="selectCategory"
+              modalTitle="Select Category">
+  <products-category-nav *ngIf="categories?.Items?.length"
+                         [categories]="categories"
+                         (selection)="changeCategory($event)"></products-category-nav>
+</shared-modal>
