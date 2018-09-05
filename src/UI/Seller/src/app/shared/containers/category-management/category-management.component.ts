@@ -1,19 +1,25 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import {
   faTrashAlt,
   faPlusCircle,
   faCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { Category, OcCategoryService } from '@ordercloud/angular-sdk';
+import {
+  Category,
+  OcCategoryService,
+  ListCategoryAssignment,
+} from '@ordercloud/angular-sdk';
 import {
   AppConfig,
   applicationConfiguration,
 } from '@app-seller/config/app.config';
 import { ModalService } from '@app-seller/shared/services/modal/modal.service';
-import { CategoryTreeNode } from '@app-seller/shared/models/category-tree-node.class';
-import { ITreeOptions, TreeNode } from 'angular-tree-component';
+import {
+  CategoryTreeNode,
+  AssignedCategory,
+} from '@app-seller/shared/models/category-tree-node.class';
+import { ITreeOptions } from 'angular-tree-component';
 import { forkJoin, Observable } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'category-management',
@@ -25,8 +31,12 @@ export class CategoryManagementComponent implements OnInit {
   faTrash = faTrashAlt;
   faPlusCircle = faPlusCircle;
   faCircle = faCircle;
+  // Use for assigning categories to user groups
+  @Input()
+  userGroupID: string;
+
   catalogID: string;
-  categories: Category[];
+  categories: AssignedCategory[];
   categoryTree: CategoryTreeNode[];
   treeOptions: ITreeOptions = {
     allowDrag: true,
@@ -38,7 +48,6 @@ export class CategoryManagementComponent implements OnInit {
   constructor(
     private ocCategoryService: OcCategoryService,
     private modalService: ModalService,
-    private router: Router,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {}
 
@@ -60,7 +69,6 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   deleteCategory(categoryID: string, $event): void {
-    $event.stopPropagation();
     this.ocCategoryService.Delete(this.catalogID, categoryID).subscribe(() => {
       this.loadCategories();
     });
@@ -70,11 +78,70 @@ export class CategoryManagementComponent implements OnInit {
     this.ocCategoryService
       .List(this.catalogID, { depth: 'all', pageSize: 100 })
       .subscribe((categories) => {
-        this.categories = categories.Items;
-        this.categoryTree = this.buildCategoryTree(categories.Items);
+        const requests = categories.Items.map((cat) => this.getAssignment(cat));
+        forkJoin(requests).subscribe((res: ListCategoryAssignment[]) => {
+          res.forEach((assignment, index) => {
+            if (assignment.Items.length === 0) return;
+            (categories.Items[index] as AssignedCategory).Assigned =
+              assignment.Items[0].Visible &&
+              assignment.Items[0].ViewAllProducts;
+          });
+          this.categories = categories.Items as AssignedCategory[];
+          this.categoryTree = this.buildCategoryTree(this.categories);
+          this.cascadeParentAssignments();
+        });
       });
   }
 
+  // For now, assigning a parent categories automatically assigns all children.
+  // This is shown to the user through category.AssignedByParent field.
+  cascadeParentAssignments() {
+    function checkNode(node: CategoryTreeNode): CategoryTreeNode {
+      if (
+        node.parent &&
+        (node.parent.category.Assigned || node.parent.category.AssignedByParent)
+      ) {
+        node.category.AssignedByParent = true;
+      }
+      node.children = node.children.map((child) => checkNode(child));
+      return node;
+    }
+
+    this.categoryTree = this.categoryTree.map((topLevelCat) =>
+      checkNode(topLevelCat)
+    );
+  }
+
+  getAssignment(category: Category) {
+    return this.ocCategoryService.ListAssignments(this.catalogID, {
+      buyerID: this.appConfig.buyerID,
+      categoryID: category.ID,
+      userGroupID: this.userGroupID || undefined,
+    });
+  }
+
+  // For now, all assignments default to visible: true, ViewAllProducts: true.
+  assignCategory(categoryID: string, assigned: boolean) {
+    const request = assigned
+      ? this.ocCategoryService.SaveAssignment(this.catalogID, {
+          CategoryID: categoryID,
+          BuyerID: this.appConfig.buyerID,
+          UserGroupID: this.userGroupID || undefined,
+          Visible: true,
+          ViewAllProducts: true,
+        })
+      : this.ocCategoryService.DeleteAssignment(
+          this.catalogID,
+          categoryID,
+          this.appConfig.buyerID,
+          {
+            userGroupID: this.userGroupID || undefined,
+          }
+        );
+    request.subscribe(() => this.loadCategories());
+  }
+
+  // uses OC property category.ListOrder to save the display order of categories
   onMoveNode($event): void {
     // sibling categories in the new location
     const siblings: Category[] = $event.to.parent.children.map(
@@ -88,30 +155,31 @@ export class CategoryManagementComponent implements OnInit {
     const moved: Category = siblings.find(
       (x) => x.ID === $event.node.category.ID
     );
+    // updates the parentID if category became nested
     moved.ParentID = $event.to.parent.virtual ? null : $event.to.parent.id;
 
-    // of the sibling categories, the original moved one and the displaced ones
-    const reordered: Category[] = siblings.filter((category, index) => {
-      return (
-        category.ID === moved.ID ||
+    // of the sibling categories get the displaced ones
+    const displaced: Category[] = siblings.filter(
+      (category, index) =>
         this.categories.find((x) => x.ID === category.ID).ListOrder !== index
-      );
-    });
+    );
 
-    const queue: Observable<Category>[] = reordered.map((category) => {
-      category.ListOrder = (category as any).siblingIndex;
-      return this.ocCategoryService.Patch(
-        this.catalogID,
-        category.ID,
-        category
-      );
-    });
+    const queue: Observable<Category>[] = [moved, ...displaced].map(
+      (category) => {
+        category.ListOrder = (category as any).siblingIndex;
+        return this.ocCategoryService.Patch(
+          this.catalogID,
+          category.ID,
+          category
+        );
+      }
+    );
     forkJoin(queue).subscribe(() => this.loadCategories());
   }
 
-  buildCategoryTree(ocCategories: Category[]): CategoryTreeNode[] {
+  buildCategoryTree(ocCategories: AssignedCategory[]): CategoryTreeNode[] {
     const orderedIDs = ocCategories.map((x) => x.ID);
-    // key is ID, value is Node
+    // in nodeDictionary, key is categoryID, value is a CategoryTreeNode
     const nodeDict = ocCategories.reduce((acc, x) => {
       const node = new CategoryTreeNode();
       node.id = x.ID;
@@ -136,8 +204,10 @@ export class CategoryManagementComponent implements OnInit {
     });
 
     // Return all top-level nodes in order
-    return orderedIDs
-      .map((x) => nodeDict[x])
-      .filter((x) => !x.category.ParentID);
+    return orderedIDs.map((x) => nodeDict[x]).filter((x) => !x.parent);
+  }
+
+  getAlertText(): string {
+    return this.userGroupID ? 'this user group.' : 'all users.';
   }
 }

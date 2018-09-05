@@ -3,12 +3,9 @@ import {
   faUsers,
   faUser,
   faMapMarkerAlt,
+  faSitemap,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  UserGroup,
-  OcUserGroupService,
-  UserGroupAssignment,
-} from '@ordercloud/angular-sdk';
+import { UserGroup, OcUserGroupService } from '@ordercloud/angular-sdk';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
@@ -28,6 +25,7 @@ export class UserGroupDetailsComponent implements OnInit {
   faUsers = faUsers;
   faUser = faUser;
   faMapMarker = faMapMarkerAlt;
+  faSitemap = faSitemap;
 
   constructor(
     private activatedRoute: ActivatedRoute,

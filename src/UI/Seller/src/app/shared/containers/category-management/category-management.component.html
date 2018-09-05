@@ -16,6 +16,10 @@
       </shared-modal>
     </div>
   </div>
+  <div class="alert alert-info mt-2"
+       role="alert">
+    Checking a category will it available to<strong> {{ getAlertText() }}</strong>
+  </div>
   <div class="oc-category-tree"
        *ngIf="categoryTree">
     <!-- For more info about tree component see https://angular2-tree.readme.io/docs/getting-started -->
@@ -29,16 +33,19 @@
         <div class="node-wrapper"
              [style.padding-left]="node.getNodePadding()">
           <tree-node-expander [node]="node"></tree-node-expander>
-          <div class="node-content-wrapper border p-2"
+          <div class="node-content-wrapper p-2"
                [class.node-content-wrapper-active]="node.isActive"
                [class.node-content-wrapper-focused]="node.isFocused"
-               (click)="node.mouseAction('click', $event)"
-               (dblclick)="node.mouseAction('dblClick', $event)"
-               (contextmenu)="node.mouseAction('contextMenu', $event)"
                (treeDrop)="node.onDrop($event)"
                [treeAllowDrop]="node.allowDrop"
                [treeDrag]="node"
                [treeDragEnabled]="node.allowDrag()">
+            <form class="text-center mr-2">
+              <input type="checkbox"
+                     (change)="assignCategory(node.data.category.ID, $event.target.checked)"
+                     [checked]="node.data.category.Assigned || node.data.category.AssignedByParent"
+                     [disabled]="node.data.category.AssignedByParent">
+            </form>
             <a [routerLink]="['/categories', node.data.category.ID]">{{ node.data.category.Name }}</a>
             <fa-icon [ngClass]="{'text-success': node.data.category.Active}"
                      style="right: 85px;"

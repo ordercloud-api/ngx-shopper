@@ -45,6 +45,14 @@
           <address-table [userGroupID]="usergroup.ID"></address-table>
         </ng-template>
       </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon [icon]="faSitemap"></fa-icon> Category Assignments
+        </ng-template>
+        <ng-template ngbTabContent>
+          <category-management [userGroupID]="usergroup.ID"></category-management>
+        </ng-template>
+      </ngb-tab>
     </ngb-tabset>
   </div>
 </div>

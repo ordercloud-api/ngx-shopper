@@ -64,8 +64,6 @@ export class CategoryNavComponent implements OnInit {
     });
 
     // Return all top-level nodes in order
-    return orderedIDs
-      .map((x) => nodeDict[x])
-      .filter((x) => !x.category.ParentID);
+    return orderedIDs.map((x) => nodeDict[x]).filter((x) => !x.parent);
   }
 }
