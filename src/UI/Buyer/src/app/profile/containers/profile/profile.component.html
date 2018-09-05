@@ -1,6 +1,23 @@
 <div class="container mt-3">
   <div class="row">
-    <div class="col-md-3 col-sm-4">
+    <div class="row d-md-none flex-grow-1 mx-1">
+      <div class="col-sm-12">
+        <div ngbDropdown>
+          <button class="btn btn-block btn-default btn-outline-dark mb-2"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle>Account Selections</button>
+          <div ngbDropdownMenu
+               aria-labelledby="dropdownBasic1"
+               class="w-100 text-center">
+            <button *ngFor="let tab of tabs"
+                    class="dropdown-item"
+                    (click)="selectTab(tab)"
+                    [routerLink]="tab.route">{{ tab.display }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3  d-none d-md-flex">
       <ul class="nav flex-column">
         <li class="nav-item side-nav-button"
             *ngFor="let tab of tabs">
@@ -11,8 +28,13 @@
         </li>
       </ul>
     </div>
-    <div class="col-md-9 col-sm-8">
+    <div class="col-md-9 col-sm-12">
       <router-outlet></router-outlet>
+      <button class=" d-md-none mt-4 btn btn-danger btn-lg btn-block"
+              routerLink="/home"
+              (click)="logout()"
+              *ngIf="!(anonymous$ | async)">Log Out</button>
     </div>
+
   </div>
 </div>

@@ -1,6 +1,9 @@
-<form [formGroup]="form">
-  <div class="form-group float-right">
-    <select class="form-control"
+<form class="d-flex"
+      [formGroup]="form">
+  <label class="pt-1 pr-1 d-none d-md-block">Sort By</label>
+  <div class="form-group flex-grow-1 flex-md-grow-0">
+    <label class="d-md-none mb-2">Sort By</label>
+    <select class="form-control "
             formControlName="strategy"
             (change)="sortStrategyChanged()">
       <option [ngValue]="null"
@@ -11,5 +14,5 @@
       </option>
     </select>
   </div>
-  <div class="float-right mt-1 mr-2">Sort By</div>
+
 </form>
