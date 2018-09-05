@@ -8,8 +8,8 @@
             (change)="sortStrategyChanged()">
       <option [ngValue]="null"
               disabled>None</option>
-      <option [ngValue]="option.key"
-              *ngFor="let option of options | mapToIterable">
+      <option *ngFor="let option of options"
+              [ngValue]="option.label">
         {{ option.value }}
       </option>
     </select>

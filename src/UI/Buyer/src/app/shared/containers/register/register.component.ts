@@ -77,6 +77,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   private setForm() {
     const formObj = {
+      Username: ['', Validators.required],
       FirstName: ['', Validators.required],
       LastName: ['', Validators.required],
       Email: ['', [Validators.required, Validators.email]],
@@ -105,16 +106,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
       )
       .pipe(
         flatMap(() => {
-          return this.ocMeService
-            .ResetPasswordByToken({
-              NewPassword: newPassword,
-            })
+          return this.ocMeService.ResetPasswordByToken({
+            NewPassword: newPassword,
+          });
         })
       )
       .subscribe(() => {
         this.toastrService.success('Account Info Updated', 'Success');
         this.modalService.close(this.changePasswordModalId);
-      })
+      });
   }
 
   onSubmit() {
@@ -123,7 +123,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
     const me = <MeUser>this.form.value;
-    me.Username = me.Email;
     me.Active = true;
 
     if (this.shouldAllowUpdate) {
@@ -153,6 +152,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.ocMeService.Get().subscribe((me) => {
       this.me = me;
       this.form.setValue({
+        Username: me.Username,
         FirstName: me.FirstName,
         LastName: me.LastName,
         Phone: me.Phone,

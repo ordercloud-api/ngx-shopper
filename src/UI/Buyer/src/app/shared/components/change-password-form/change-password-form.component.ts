@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppMatchFieldsValidator } from '@app-buyer/shared/validators/match-fields/match-fields.validator';
 import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 import { MeUser } from '@ordercloud/angular-sdk';
+import { ValidateStrongPassword } from '@app-buyer/shared/validators/strong-password/strong-password.validator';
 
 @Component({
   selector: 'shared-change-password-form',
@@ -37,9 +38,7 @@ export class ChangePasswordFormComponent implements OnInit {
           '',
           [
             Validators.required,
-            Validators.minLength(8),
-            // matches when there's at least one number and one letter
-            Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
+            ValidateStrongPassword, // password must include one number, one letter and have min length of 8
           ],
         ],
         confirmNewPassword: [''],
@@ -64,8 +63,6 @@ export class ChangePasswordFormComponent implements OnInit {
     this.formErrorService.hasRequiredError(controlName, this.form);
   protected hasPasswordMismatchError = (): boolean =>
     this.formErrorService.hasPasswordMismatchError(this.form);
-  protected hasPatternError = (controlName: string): boolean =>
-    this.formErrorService.hasPatternError(controlName, this.form);
-  protected hasMinLengthError = (controlName: string): boolean =>
-    this.formErrorService.hasMinLengthError(controlName, this.form);
+  protected hasStrongPasswordError = (controlName: string): boolean =>
+    this.formErrorService.hasStrongPasswordError(controlName, this.form);
 }

@@ -19,7 +19,7 @@ import {
   AppStateService,
   AppFormErrorService,
 } from '@app-buyer/shared';
-import { of, Subject, BehaviorSubject, throwError } from 'rxjs';
+import { of, Subject, BehaviorSubject } from 'rxjs';
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
 import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -31,6 +31,7 @@ describe('RegisterComponent', () => {
 
   const appStateService = { userSubject: new Subject<any>() };
   const me = {
+    Username: 'crhistianr',
     FirstName: 'Crhistian',
     LastName: 'Ramirez',
     Email: 'crhistian@gmail.com',
@@ -52,7 +53,9 @@ describe('RegisterComponent', () => {
     Get: jasmine.createSpy('Get').and.returnValue(of(me)),
     Patch: jasmine.createSpy('Patch').and.returnValue(of(me)),
     Register: jasmine.createSpy('Register').and.returnValue(of(null)),
-    ResetPasswordByToken: jasmine.createSpy('ResetPasswordByToken').and.returnValue(of(null))
+    ResetPasswordByToken: jasmine
+      .createSpy('ResetPasswordByToken')
+      .and.returnValue(of(null)),
   };
   const activatedRoute = {
     data: new BehaviorSubject({ shouldAllowUpdate: true }),
@@ -66,8 +69,7 @@ describe('RegisterComponent', () => {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
     hasValidEmailError: jasmine.createSpy('hasValidEmailError'),
     hasPasswordMismatchError: jasmine.createSpy('hasPasswordMismatchError'),
-    hasPatternError: jasmine.createSpy('hasPatternError'),
-    hasMinLengthError: jasmine.createSpy('hasMinLengthError'),
+    hasStrongPasswordError: jasmine.createSpy('hasStrongPasswordError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
   };
   const modalService = {
@@ -75,10 +77,10 @@ describe('RegisterComponent', () => {
     close: jasmine.createSpy('close'),
     add: jasmine.createSpy('add'),
     remove: jasmine.createSpy('remove'),
-    onCloseSubject: new Subject<string>()
+    onCloseSubject: new Subject<string>(),
   };
   let ocAuthService = {
-    Login: () => { },
+    Login: () => {},
   };
 
   beforeEach(async(() => {
@@ -133,7 +135,7 @@ describe('RegisterComponent', () => {
     it('should identify whether component should allow update or just creation', () => {
       component.ngOnInit();
       expect(component['identifyShouldAllowUpdate']).toHaveBeenCalled();
-    })
+    });
     it('should call getMeData if shouldAllowUpdate is true', () => {
       activatedRoute.data.next({ shouldAllowUpdate: true });
       component.ngOnInit();
@@ -152,17 +154,18 @@ describe('RegisterComponent', () => {
       mockModalId = 'mock id';
       component.changePasswordModalId = mockModalId;
       component.openChangePasswordModal();
-    })
+    });
     it('should open modal', () => {
-      expect(modalService.open).toHaveBeenCalledWith(mockModalId)
-    })
-  })
+      expect(modalService.open).toHaveBeenCalledWith(mockModalId);
+    });
+  });
 
   describe('setForm', () => {
     it('should set form with password and confirmPassword if shouldAllowUpdate is false', () => {
       component.shouldAllowUpdate = false;
       component['setForm']();
       expect(component.form.value).toEqual({
+        Username: '',
         FirstName: '',
         LastName: '',
         Email: '',
@@ -175,6 +178,7 @@ describe('RegisterComponent', () => {
       component.shouldAllowUpdate = true;
       component['setForm']();
       expect(component.form.value).toEqual({
+        Username: '',
         FirstName: '',
         LastName: '',
         Email: '',
@@ -186,31 +190,45 @@ describe('RegisterComponent', () => {
   describe('onChangePassword', () => {
     beforeEach(() => {
       component.me = { Username: 'crhistian' };
-    })
+    });
     afterEach(() => {
       ocMeService.ResetPasswordByToken.calls.reset();
-    })
+    });
     it('should verify user knows current password for security purposes', () => {
       spyOn(ocAuthService, 'Login').and.returnValue(of(null));
-      component.onChangePassword({ currentPassword: 'password123', newPassword: 'new-pw' });
+      component.onChangePassword({
+        currentPassword: 'password123',
+        newPassword: 'new-pw',
+      });
       expect(ocAuthService.Login).toHaveBeenCalledWith(
         component.me.Username,
         'password123',
         component['appConfig'].clientID,
-        component['appConfig'].scope)
-    })
+        component['appConfig'].scope
+      );
+    });
     it('should reset password if verification of current password succeeds', () => {
-      spyOn(ocAuthService, 'Login').and.returnValue(of(null))
-      component.onChangePassword({ currentPassword: 'incorrect-pw', newPassword: 'new-pw' });
-      expect(ocMeService.ResetPasswordByToken).toHaveBeenCalledWith({ NewPassword: 'new-pw' });
-    })
+      spyOn(ocAuthService, 'Login').and.returnValue(of(null));
+      component.onChangePassword({
+        currentPassword: 'incorrect-pw',
+        newPassword: 'new-pw',
+      });
+      expect(ocMeService.ResetPasswordByToken).toHaveBeenCalledWith({
+        NewPassword: 'new-pw',
+      });
+    });
     it('should close modal on successful change', () => {
-      component.changePasswordModalId = 'mockModalId'
-      spyOn(ocAuthService, 'Login').and.returnValue(of(null))
-      component.onChangePassword({ currentPassword: 'incorrect-pw', newPassword: 'new-pw' });
-      expect(component['modalService'].close).toHaveBeenCalledWith('mockModalId');
-    })
-  })
+      component.changePasswordModalId = 'mockModalId';
+      spyOn(ocAuthService, 'Login').and.returnValue(of(null));
+      component.onChangePassword({
+        currentPassword: 'incorrect-pw',
+        newPassword: 'new-pw',
+      });
+      expect(component['modalService'].close).toHaveBeenCalledWith(
+        'mockModalId'
+      );
+    });
+  });
 
   describe('onSubmit', () => {
     beforeEach(() => {
@@ -268,6 +286,7 @@ describe('RegisterComponent', () => {
     });
     it('should set form with me data', () => {
       expect(component.form.setValue).toHaveBeenCalledWith({
+        Username: me.Username,
         FirstName: me.FirstName,
         LastName: me.LastName,
         Phone: me.Phone,
