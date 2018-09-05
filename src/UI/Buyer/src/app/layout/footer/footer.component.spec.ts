@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FooterComponent } from '@app-buyer/layout/footer/footer.component';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -8,7 +9,7 @@ describe('FooterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FooterComponent],
+      declarations: [FooterComponent, FaIconComponent],
     }).compileComponents();
   }));
 

@@ -1,8 +1,9 @@
 <!-- TOP NAV -->
 <nav class="navbar navbar-expand navbar-dark bg-dark"
      *ngIf="showHeader()">
-  <div class="container px-3">
-    <div class="navbar-nav navbar-expand">
+  <div class="container ">
+    <!--Support and FAQ-->
+    <div class="navbar-nav navbar-expand d-none d-md-flex">
       <a class="nav-item nav-link"
          routerLink="/support"
          routerLinkActive="active">
@@ -18,24 +19,55 @@
         <small class="d-none d-sm-block">FAQ</small>
       </a>
     </div>
+    <!--Home Mobile-->
+    <div class="navbar-nav navbar-expand d-md-none">
+      <a class="nav-item nav-link"
+         routerLink="/home"
+         routerLinkActive="active">
+        <fa-icon class="mr-1"
+                 [icon]="faHome"></fa-icon>
+      </a>
+      <a class="nav-item nav-link d-block"
+         routerLink="/products"
+         routerLinkActive="active">
+        <small>Browse Products</small>
+      </a>
+    </div>
+    <!--Profile and Logout-->
     <div class="navbar-nav navbar-expand">
       <div *ngIf="!(anonymous$ | async)"
-           class="nav-item header-text-not-link mr-2"><small>Hi, {{ (user$ | async)?.FirstName }}!</small></div>
+           class="nav-item header-text-not-link mr-2 d-none d-md-flex"><small>Hi, {{ (user$ | async)?.FirstName }}!</small></div>
       <a class="nav-item nav-link"
          routerLink="/profile"
          routerLinkActive="active"
          *ngIf="!(anonymous$ | async)">
         <fa-icon class="mr-1"
                  [icon]="faUserCircle"></fa-icon>
-        <small class="d-none d-sm-block">My Profile</small>
+        <span class="d-none d-sm-block">My Profile</span>
       </a>
-      <a class="nav-item nav-link"
+      <a class="nav-item nav-link d-none d-md-flex"
          routerLink="/home"
          (click)="logout()"
          *ngIf="!(anonymous$ | async)">
         <fa-icon class="mr-1"
                  [icon]="faSignOutAlt"></fa-icon>
         <small class="d-none d-sm-block">Logout</small>
+      </a>
+      <!--Shopping Cart-->
+      <a class="nav-item nav-link d-md-none"
+         routerLink="/cart"
+         routerLinkActive="active"
+         ngbPopover="Item(s) Added to Cart"
+         placement="bottom"
+         triggers="manual"
+         #p="ngbPopover">
+        <span class="d-none d-lg-inline">Cart </span>
+        <fa-layers class="fa-fw">
+          <fa-icon [icon]="faShoppingCart"></fa-icon>
+          <fa-layers-counter *ngIf="currentOrder && currentOrder.LineItemCount"
+                             class="badge__counter--large"
+                             [content]="currentOrder.LineItemCount"></fa-layers-counter>
+        </fa-layers>
       </a>
       <a class="nav-item nav-link"
          routerLink="/login"
@@ -54,8 +86,14 @@
 </nav>
 
 
+<div class="d-md-none">
+  <shared-search class="mt-1 "
+                 placeholderText="Search Products..."
+                 (searched)="searchProducts($event)"></shared-search>
+</div>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom"
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom d-none d-md-block"
      *ngIf="showHeader()">
   <div class="container px-3">
 
@@ -72,7 +110,7 @@
     </button>
 
     <!-- Collapsible Navbar Menu -->
-    <div class="collapse navbar-collapse"
+    <div class="collapse navbar-collapse "
          id="navbarSupportedContent"
          [ngClass]="{'show': !isCollapsed}">
       <ul class="navbar-nav mr-auto">
@@ -86,6 +124,7 @@
         </li>
       </ul>
     </div>
+
 
     <!-- Product Search -->
     <shared-search class="mt-1"
@@ -102,12 +141,15 @@
            placement="bottom"
            triggers="manual"
            #p="ngbPopover">
-             <span class="d-none d-lg-inline">Cart </span>
-             <fa-layers class="fa-fw">
-              <fa-icon [icon]="faShoppingCart" size="lg"></fa-icon>
-              <fa-layers-counter *ngIf="currentOrder && currentOrder.LineItemCount" class="badge__counter--large" [content]="currentOrder.LineItemCount"></fa-layers-counter>
-            </fa-layers>
-          </a>
+          <span class="d-none d-lg-inline">Cart </span>
+          <fa-layers class="fa-fw">
+            <fa-icon [icon]="faShoppingCart"
+                     size="lg"></fa-icon>
+            <fa-layers-counter *ngIf="currentOrder && currentOrder.LineItemCount"
+                               class="badge__counter--large"
+                               [content]="currentOrder.LineItemCount"></fa-layers-counter>
+          </fa-layers>
+        </a>
       </li>
     </ul>
   </div>

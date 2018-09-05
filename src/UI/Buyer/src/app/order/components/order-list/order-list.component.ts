@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { ListOrder } from '@ordercloud/angular-sdk';
 import { OrderListColumn } from '@app-buyer/order/models/order-list-column';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,7 @@ import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favo
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.scss'],
 })
-export class OrderListComponent implements OnInit {
+export class OrderListComponent {
   @Input() orders: ListOrder;
   @Input() columns: OrderListColumn[];
   @Input() sortBy: string;
@@ -18,11 +18,9 @@ export class OrderListComponent implements OnInit {
   @Output() updatedSort = new EventEmitter<string>();
   @Output() changedPage = new EventEmitter<number>();
 
-  constructor(private favoriteOrdersService: FavoriteOrdersService) {}
-
-  ngOnInit() {
-    this.favoriteOrdersService.loadFavorites();
-  }
+  constructor(
+    protected favoriteOrderService: FavoriteOrdersService // used in template
+  ) {}
 
   protected updateSort(selectedSortBy) {
     let sortBy;

@@ -52,8 +52,7 @@ describe('ProductDetailsComponent', () => {
     create: jasmine.createSpy('create').and.returnValue(of(null)),
   };
   const favoriteProductsService = {
-    loadFavorites: jasmine.createSpy('loadFavorites'),
-    isFavorite: jasmine.createSpy('isFavorite').and.returnValue(true),
+    isFavorite: () => jasmine.createSpy('isFavorite').and.returnValue(true),
   };
 
   beforeEach(async(() => {
@@ -71,7 +70,10 @@ describe('ProductDetailsComponent', () => {
         OcLineItemService,
         { provide: OcMeService, useValue: meService },
         { provide: AppLineItemService, useValue: ocLineItemService },
-        { provide: FavoriteProductsService, useValue: favoriteProductsService },
+        {
+          provide: FavoriteProductsService,
+          useValue: favoriteProductsService,
+        },
         OcOrderService,
         RouterTestingModule,
         OcTokenService,
@@ -100,9 +102,6 @@ describe('ProductDetailsComponent', () => {
     });
     it('should call getProductData', () => {
       expect(component.getProductData).toHaveBeenCalled();
-    });
-    it('should load favorites', () => {
-      expect(favoriteProductsService.loadFavorites).toHaveBeenCalled();
     });
   });
 

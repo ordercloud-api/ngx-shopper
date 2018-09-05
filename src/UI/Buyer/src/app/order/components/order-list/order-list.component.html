@@ -8,39 +8,39 @@
         <th (click)="updateSort('ID')"
             *ngIf="columns.indexOf('ID') > -1">
           <button class="btn btn-link font-weight-bold">
-              ID
-              <fa-icon *ngIf="sortBy === 'ID' || sortBy === '!ID'"
-                       [icon]="sortBy === 'ID' ? faCaretDown : faCaretUp"></fa-icon>
+            ID
+            <fa-icon *ngIf="sortBy === 'ID' || sortBy === '!ID'"
+                     [icon]="sortBy === 'ID' ? faCaretDown : faCaretUp"></fa-icon>
           </button>
         </th>
         <th (click)="updateSort('Status')"
             *ngIf="columns.indexOf('Status') > -1">
           <button class="btn btn-link font-weight-bold">
-                Status
-                <fa-icon *ngIf="sortBy === 'Status' || sortBy === '!Status'"
-                         [icon]="sortBy === 'Status' ? faCaretDown : faCaretUp"></fa-icon>
-            </button>
+            Status
+            <fa-icon *ngIf="sortBy === 'Status' || sortBy === '!Status'"
+                     [icon]="sortBy === 'Status' ? faCaretDown : faCaretUp"></fa-icon>
+          </button>
         </th>
         <th (click)="updateSort('DateSubmitted')"
             *ngIf="columns.indexOf('DateSubmitted') > -1">
           <button class="btn btn-link font-weight-bold">
-                Date Submitted
-                <fa-icon *ngIf="sortBy === 'DateSubmitted' || sortBy === '!DateSubmitted'"
-                         [icon]="sortBy === 'DateSubmitted' ? faCaretDown : faCaretUp"></fa-icon>
-            </button>
+            Date Submitted
+            <fa-icon *ngIf="sortBy === 'DateSubmitted' || sortBy === '!DateSubmitted'"
+                     [icon]="sortBy === 'DateSubmitted' ? faCaretDown : faCaretUp"></fa-icon>
+          </button>
         </th>
         <th *ngIf="columns.indexOf('SubmittedBy') > -1">
           <button class="btn btn-link font-weight-bold">
-                Submitted By
-            </button>
+            Submitted By
+          </button>
         </th>
         <th (click)="updateSort('Total')"
             *ngIf="columns.indexOf('Total') > -1">
           <button class="btn btn-link font-weight-bold">
-                Total
-                <fa-icon *ngIf="sortBy === 'Total' || sortBy === '!Total'"
-                         [icon]="sortBy === 'Total' ? faCaretDown : faCaretUp"></fa-icon>
-            </button>
+            Total
+            <fa-icon *ngIf="sortBy === 'Total' || sortBy === '!Total'"
+                     [icon]="sortBy === 'Total' ? faCaretDown : faCaretUp"></fa-icon>
+          </button>
         </th>
       </tr>
     </thead>
@@ -49,8 +49,8 @@
           [routerLink]="[ order.ID ]">
         <td *ngIf="columns.indexOf('Favorite') > -1"
             (click)="$event.stopPropagation()">
-          <shared-toggle-favorite [favorite]="favoriteOrdersService.isFavorite(order)"
-                                  (favoriteChanged)="favoriteOrdersService.setFavoriteValue($event, order)">
+          <shared-toggle-favorite [favorite]="favoriteOrderService.isFavorite(order)"
+                                  (favoriteChanged)="favoriteOrderService.setFavoriteValue($event, order)">
           </shared-toggle-favorite>
         </td>
         <td *ngIf="columns.indexOf('ID')> -1">{{order.ID}}</td>

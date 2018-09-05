@@ -11,6 +11,7 @@ import {
   faQuestionCircle,
   faUserCircle,
   faSignOutAlt,
+  faHome
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -45,6 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   faQuestionCircle = faQuestionCircle;
   faSignOutAlt = faSignOutAlt;
   faUserCircle = faUserCircle;
+  faHome = faHome;
 
   constructor(
     private appStateService: AppStateService,
@@ -52,7 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private baseResolveService: BaseResolveService,
     private router: Router,
     @Inject(applicationConfiguration) protected appConfig: AppConfig
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.appStateService.orderSubject

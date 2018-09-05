@@ -9,15 +9,27 @@
         <a *ngFor="let cat of categoryCrumbs"
            class="breadcrumb-item link-text"
            [queryParams]="{ category: cat.ID }"
-           [routerLink]="['/products']">{{ cat.Name }}</a>
+           [routerLink]="['/products']">{{
+          cat.Name }}</a>
       </nav>
+    </div>
+  </div>
+  <div class="d-md-none mb-2">
+    <button class="btn btn-block btn-default btn-outline-dark mb-2"
+            (click)="openCategoryModal()">Select Category</button>
+    <div class="col-xs-6">
+      <div (click)="refineByFavorites()">
+        <label>Refine By</label>
+        <button class="btn btn-block btn-default btn-outline-dark mb-2"
+                for="favorite">
+          <shared-toggle-favorite id="favorite"
+                                  [favorite]="hasFavoriteProductsFilter"></shared-toggle-favorite> My Favorites
+        </button>
+      </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-4 col-lg-3 d-md-block d-sm-none d-none">
-      <products-category-nav *ngIf="categories"
-                             [categories]="categories"
-                             (selection)="changeCategory($event)"></products-category-nav>
       <div class="card mb-4">
         <div class="card-header p-3">
           <h5 class="card-title mb-0">
@@ -25,38 +37,38 @@
           </h5>
         </div>
         <div class="p-3">
-          <shared-toggle-favorite id="favorite"
-                                  [favorite]="favsFilterOn"
-                                  (favoriteChanged)="setFavsFilter($event)"></shared-toggle-favorite>
-          <label class="ml-2 cursor-pointer"
-                 (click)="refineByFavorites()"
-                 for="favorite"> My Favorites</label>
+          <div (click)="refineByFavorites()">
+            <shared-toggle-favorite id="favorite"
+                                    [favorite]="hasFavoriteProductsFilter"></shared-toggle-favorite>
+            <label class="ml-2"
+                   for="favorite"> My Favorites</label>
+          </div>
         </div>
       </div>
+      <products-category-nav *ngIf="categories?.Items?.length"
+                             [categories]="categories"
+                             (selection)="changeCategory($event)"></products-category-nav>
     </div>
-    <div class="col-lg-9 col-md-8">
-      <div class="row justify-content-between">
-        <div class="col-auto">
-          <div class="m-0 mt-1">
+    <div class="col-lg-9 col-md-8 ">
+      <div class="row flex-wrap-reverse">
+
+        <div class="col-12 col-md-auto mr-auto ">
+          <div class="m-0 mt-1 text-center">
             <span *ngIf="productList.Meta.TotalPages > 1">
-             {{ ((productList.Meta.Page - 1) * productList.Meta.PageSize) + 1 }} - {{productList.Meta.Page * productList.Meta.PageSize}} of 
+              {{ ((productList.Meta.Page - 1) * productList.Meta.PageSize) + 1 }} - {{productList.Meta.Page * productList.Meta.PageSize}}
+              of
             </span>{{productList.Meta.TotalCount}} results
           </div>
         </div>
-        <div class="col-auto">
-          <form [formGroup]="sortForm">
-            <div class="form-group float-right">
-              <select class="form-control"
-                      formControlName="sortBy"
-                      (change)="sortStratChanged()">
-              <option [ngValue]="null" disabled>None</option>
-              <option [ngValue]="sortOption.key" *ngFor="let sortOption of sortOptions | mapToIterable">
-                {{ sortOption.value }}
-              </option>
-            </select>
-            </div>
-            <div class="float-right mt-1 mr-2">Sort By</div>
-          </form>
+        <div class="col-12 d-md-none mb-2">
+          <button *ngIf="hasQueryParams"
+                  class="btn btn-block btn-default btn-outline-dark mb-2"
+                  type="button"
+                  (click)="clearAllFilters()">Clear All Filters</button>
+        </div>
+        <div class="col-12 col-md-auto ">
+          <products-sort-filter [sortStrategy]="activatedRoute.queryParams.sortBy"
+                                (sortStrategyChange)="changeSortStrategy($event)"></products-sort-filter>
         </div>
       </div>
       <div class="card"
@@ -83,4 +95,10 @@
       </div>
     </div>
   </div>
+  <shared-modal id="{{ createModalID }}"
+                modalTitle="Select Category">
+    <products-category-nav *ngIf="categories?.Items?.length"
+                           [categories]="categories"
+                           (selection)="changeCategory($event)"></products-category-nav>
+  </shared-modal>
 </section>

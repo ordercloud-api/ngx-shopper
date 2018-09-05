@@ -1,20 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import {
   ListBuyerProduct,
   OcMeService,
   Category,
   ListCategory,
 } from '@ordercloud/angular-sdk';
-import { ProductSortStrats } from '@app-buyer/products/models/product-sort-strats.enum';
-import { AppLineItemService, AppStateService } from '@app-buyer/shared';
+import { AppLineItemService, AppStateService, ModalService } from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
+import { ProductSortStrategy } from '@app-buyer/products/models/product-sort-strategy.enum';
+import { isEmpty as _isEmpty } from 'lodash';
 
 @Component({
   selector: 'products-list',
@@ -25,32 +24,25 @@ export class ProductListComponent implements OnInit {
   productList$: Observable<ListBuyerProduct>;
   categories: ListCategory;
   categoryCrumbs: Category[] = [];
-  sortOptions = ProductSortStrats;
-  sortForm: FormGroup;
-  favsFilterOn = false;
   searchTerm = null;
+  hasQueryParams = false;
+  hasFavoriteProductsFilter = false;
   closeIcon = faTimes;
-  @ViewChild(ToggleFavoriteComponent)
-  toggleFavoriteComponent: ToggleFavoriteComponent;
+  isModalOpen = false;
+  createModalID = 'selectCategory';
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private ocMeService: OcMeService,
     private router: Router,
-    private formBuilder: FormBuilder,
     private appLineItemService: AppLineItemService,
     private favoriteProductsService: FavoriteProductsService,
-    private appStateService: AppStateService
-  ) {}
+    private appStateService: AppStateService,
+    private modalService: ModalService
+  ) { }
 
   ngOnInit() {
     this.productList$ = this.getProductData();
-    this.favoriteProductsService.loadFavorites();
-    this.sortForm = this.formBuilder.group({
-      sortBy: this.sortOptions[
-        this.activatedRoute.snapshot.queryParams['sortBy']
-      ],
-    });
     this.getCategories();
     this.configureRouter();
   }
@@ -58,14 +50,22 @@ export class ProductListComponent implements OnInit {
   getProductData(): Observable<ListBuyerProduct> {
     return this.activatedRoute.queryParams.pipe(
       tap((queryParams) => {
+        this.hasFavoriteProductsFilter =
+          queryParams.favoriteProducts === 'true';
+        this.hasQueryParams = !_isEmpty(queryParams);
         this.categoryCrumbs = this.buildBreadCrumbs(queryParams.category);
       }),
       flatMap((queryParams) => {
         this.searchTerm = queryParams.search || null;
-        // set filter to undefined if it doesn't exist so queryParam is ignored entirely
-        const filter = this.favsFilterOn
-          ? { ID: this.favoriteProductsService.favorites.join('|') }
-          : undefined;
+        const filter = {};
+
+        // add filter for favorite products if it exists
+        const favorites = this.favoriteProductsService.getFavorites();
+        filter['ID'] =
+          queryParams.favoriteProducts === 'true' && favorites
+            ? favorites.join('|')
+            : undefined;
+
         return this.ocMeService.ListProducts({
           categoryID: queryParams.category,
           page: queryParams.page,
@@ -87,16 +87,32 @@ export class ProductListComponent implements OnInit {
       });
   }
 
+  clearAllFilters() {
+    this.router.navigate([]);
+  }
+
   changePage(page: number): void {
     this.addQueryParam({ page });
   }
 
   changeCategory(category: string): void {
     this.addQueryParam({ category });
+    if (this.isModalOpen){this.closeCategoryModal()}
   }
 
-  sortStratChanged(): void {
-    this.addQueryParam({ sortBy: this.sortForm.value.sortBy });
+  changeSortStrategy(sortBy: ProductSortStrategy): void {
+    this.addQueryParam({ sortBy });
+  }
+
+  refineByFavorites() {
+    const queryParams = this.activatedRoute.snapshot.queryParams;
+    if (queryParams.favoriteProducts === 'true') {
+      // favorite products was previously set to true so toggle off
+      // set to undefined so we dont pollute url with unnecessary query params
+      this.addQueryParam({ favoriteProducts: undefined });
+    } else {
+      this.addQueryParam({ favoriteProducts: true });
+    }
   }
 
   private addQueryParam(newParam: object): void {
@@ -105,11 +121,6 @@ export class ProductListComponent implements OnInit {
       ...newParam,
     };
     this.router.navigate([], { queryParams });
-  }
-
-  setFavsFilter(filterOn: boolean) {
-    this.favsFilterOn = filterOn;
-    this.productList$ = this.getProductData();
   }
 
   buildBreadCrumbs(catID: string): Category[] {
@@ -138,12 +149,13 @@ export class ProductListComponent implements OnInit {
       .subscribe(() => this.appStateService.addToCartSubject.next(event));
   }
 
-  refineByFavorites() {
-    this.toggleFavoriteComponent.favorite = !this.toggleFavoriteComponent
-      .favorite;
-    this.toggleFavoriteComponent.favoriteChanged.emit(
-      this.toggleFavoriteComponent.favorite
-    );
+  openCategoryModal() {
+    this.modalService.open("selectCategory")
+    this.isModalOpen = true;
+  }
+  closeCategoryModal() {
+    this.isModalOpen = false;
+    this.modalService.close("selectCategory")
   }
 
   configureRouter() {

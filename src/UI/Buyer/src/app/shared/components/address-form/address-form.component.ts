@@ -47,7 +47,7 @@ export class AddressFormComponent implements OnInit {
       City: [this._existingAddress.City || '', Validators.required],
       State: [this._existingAddress.State || null, Validators.required],
       Zip: [this._existingAddress.Zip || '', Validators.required],
-      Phone: [this._existingAddress.Phone || '', Validators.required],
+      Phone: [this._existingAddress.Phone || ''],
       Country: [this._existingAddress.Country || null, Validators.required],
       ID: this._existingAddress.ID || '',
     });
