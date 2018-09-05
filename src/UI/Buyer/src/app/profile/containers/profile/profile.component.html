@@ -8,12 +8,11 @@
                   ngbDropdownToggle>Account Selections</button>
           <div ngbDropdownMenu
                aria-labelledby="dropdownBasic1"
-               class="account-dropdown-list">
+               class="w-100 text-center">
             <button *ngFor="let tab of tabs"
                     class="dropdown-item"
                     (click)="selectTab(tab)"
                     [routerLink]="tab.route">{{ tab.display }}</button>
-
           </div>
         </div>
       </div>

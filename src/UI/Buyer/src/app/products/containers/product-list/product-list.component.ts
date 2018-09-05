@@ -97,7 +97,7 @@ export class ProductListComponent implements OnInit {
 
   changeCategory(category: string): void {
     this.addQueryParam({ category });
-    if (this.isModalOpen) this.closeCategoryModal()
+    if (this.isModalOpen){this.closeCategoryModal()}
   }
 
   changeSortStrategy(sortBy: ProductSortStrategy): void {
