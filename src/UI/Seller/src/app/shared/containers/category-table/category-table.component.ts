@@ -22,11 +22,11 @@ import { ITreeOptions } from 'angular-tree-component';
 import { forkJoin, Observable } from 'rxjs';
 
 @Component({
-  selector: 'category-management',
-  templateUrl: './category-management.component.html',
-  styleUrls: ['./category-management.component.scss'],
+  selector: 'category-table',
+  templateUrl: './category-table.component.html',
+  styleUrls: ['./category-table.component.scss'],
 })
-export class CategoryManagementComponent implements OnInit {
+export class CategoryTableComponent implements OnInit {
   modalID = 'CreateCategoryModal';
   faTrash = faTrashAlt;
   faPlusCircle = faPlusCircle;
@@ -96,20 +96,17 @@ export class CategoryManagementComponent implements OnInit {
   // For now, assigning a parent categories automatically assigns all children.
   // This is shown to the user through category.AssignedByParent field.
   cascadeParentAssignments() {
-    function checkNode(node: CategoryTreeNode): CategoryTreeNode {
+    function checkNode(node: CategoryTreeNode) {
       if (
         node.parent &&
         (node.parent.category.Assigned || node.parent.category.AssignedByParent)
       ) {
         node.category.AssignedByParent = true;
       }
-      node.children = node.children.map((child) => checkNode(child));
-      return node;
+      node.children.forEach((child) => checkNode(child));
     }
 
-    this.categoryTree = this.categoryTree.map((topLevelCat) =>
-      checkNode(topLevelCat)
-    );
+    this.categoryTree.forEach((topLevelCat) => checkNode(topLevelCat));
   }
 
   getAssignment(category: Category) {

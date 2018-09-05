@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 describe('CategoryNavComponent', () => {
   let component: CategoryNavComponent;
   let fixture: ComponentFixture<CategoryNavComponent>;
-  let mockCategoryID = '12345';
+  const mockCategoryID = '12345';
   const TreeNode = (fields) => {
     const node = new CategoryTreeNode();
     if (fields.id) {
@@ -18,8 +18,8 @@ describe('CategoryNavComponent', () => {
     if (fields.children) {
       node.children = fields.children;
     }
-    if (fields.data) {
-      node.data = fields.data;
+    if (fields.category) {
+      node.category = fields.category;
     }
     if (fields.parent) {
       node.parent = fields.parent;
@@ -63,8 +63,18 @@ describe('CategoryNavComponent', () => {
     it('should return correctly when no nesting', () => {
       const input = [{ ID: 'a' }, { ID: 'b' }];
       const expectedResult = [
-        TreeNode({ id: 'a', name: undefined, data: input[0], children: [] }),
-        TreeNode({ id: 'b', name: undefined, data: input[1], children: [] }),
+        TreeNode({
+          id: 'a',
+          name: undefined,
+          category: input[0],
+          children: [],
+        }),
+        TreeNode({
+          id: 'b',
+          name: undefined,
+          category: input[1],
+          children: [],
+        }),
       ];
 
       expect(component.buildCategoryTree(input)).toEqual(expectedResult);
@@ -76,10 +86,10 @@ describe('CategoryNavComponent', () => {
         { ID: 'c', ParentID: 'b' },
         { ID: 'd', ParentID: 'c' },
       ];
-      const a = TreeNode({ id: 'a', name: undefined, data: input[0] });
-      const b = TreeNode({ id: 'b', name: undefined, data: input[1] });
-      const c = TreeNode({ id: 'c', name: undefined, data: input[2] });
-      const d = TreeNode({ id: 'd', name: undefined, data: input[3] });
+      const a = TreeNode({ id: 'a', name: undefined, category: input[0] });
+      const b = TreeNode({ id: 'b', name: undefined, category: input[1] });
+      const c = TreeNode({ id: 'c', name: undefined, category: input[2] });
+      const d = TreeNode({ id: 'd', name: undefined, category: input[3] });
 
       d.children = [];
       c.children = [d];

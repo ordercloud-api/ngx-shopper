@@ -1,10 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { of } from 'rxjs';
-import { OcProductService } from '@ordercloud/angular-sdk';
+import { OcProductService, OcCategoryService } from '@ordercloud/angular-sdk';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ProductTableComponent } from '@app-seller/product-management/containers/product-table/product-table.component';
 import { ModalService } from '@app-seller/shared';
+import { ProductTableComponent } from '@app-seller/shared/containers/product-table/product-table.component';
+import { applicationConfiguration } from '@app-seller/config/app.config';
 
 describe('ProductTableComponent', () => {
   let component: ProductTableComponent;
@@ -16,6 +17,11 @@ describe('ProductTableComponent', () => {
       .createSpy('Create')
       .and.returnValue(of(mockProductList.Items[0])),
     Delete: jasmine.createSpy('Delete').and.returnValue(of({})),
+  };
+  const ocCategoryService = {
+    ListProductAssignments: jasmine.createSpy('ListProductAssignments'),
+    SaveProductAssignment: jasmine.createSpy('SaveProductAssignment'),
+    DeleteProductAssignments: jasmine.createSpy('DeleteProductAssignment'),
   };
 
   const modalService = {
@@ -29,6 +35,8 @@ describe('ProductTableComponent', () => {
       providers: [
         { provide: OcProductService, useValue: ocProductService },
         { provide: ModalService, useValue: modalService },
+        { provide: OcCategoryService, useValue: ocCategoryService },
+        { provide: applicationConfiguration, useValue: { buyerID: 'buyerID' } },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

@@ -28,7 +28,7 @@ import { UserFormComponent } from '@app-seller/shared/components/user-form/user-
 import { AddressTableComponent } from './containers/address-table/address-table.component';
 import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
 import { AddressFormComponent } from '@app-seller/shared/components/address-form/address-form.component';
-import { CategoryManagementComponent } from './containers/category-management/category-management.component';
+import { CategoryTableComponent } from './containers/category-table/category-table.component';
 import { CategoryFormComponent } from './components/category-form/category-form.component';
 import { CategoryDetailsComponent } from './containers/category-details/category-details.component';
 import { ProductTableComponent } from '@app-seller/shared/containers/product-table/product-table.component';
@@ -71,7 +71,7 @@ import { ProductFormComponent } from '@app-seller/shared/components/products-for
     UserFormComponent,
     AddressTableComponent,
     AddressFormComponent,
-    CategoryManagementComponent,
+    CategoryTableComponent,
     CategoryFormComponent,
     CategoryDetailsComponent,
     ProductTableComponent,
@@ -87,7 +87,7 @@ import { ProductFormComponent } from '@app-seller/shared/components/products-for
     UserFormComponent,
     AddressTableComponent,
     AddressFormComponent,
-    CategoryManagementComponent,
+    CategoryTableComponent,
     CategoryFormComponent,
     CategoryDetailsComponent,
     ProductTableComponent,

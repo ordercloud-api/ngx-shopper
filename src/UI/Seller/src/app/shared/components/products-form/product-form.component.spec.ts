@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductFormComponent } from '@app-seller/product-management/components/products-form/product-form.component';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AppFormErrorService } from '@app-seller/shared';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserModule } from '@angular/platform-browser';
+import { ProductFormComponent } from '@app-seller/shared/components/products-form/product-form.component';
 
 describe('ProductsFormComponent', () => {
   let component: ProductFormComponent;

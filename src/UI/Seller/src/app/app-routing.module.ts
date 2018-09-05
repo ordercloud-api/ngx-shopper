@@ -5,8 +5,8 @@ import { HasTokenGuard as HasToken } from '@app-seller/shared';
 import { HomeComponent } from '@app-seller/layout/home/home.component';
 import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
 import { AddressTableComponent } from '@app-seller/shared/containers/address-table/address-table.component';
-import { CategoryManagementComponent } from '@app-seller/shared/containers/category-management/category-management.component';
 import { CategoryDetailsComponent } from '@app-seller/shared/containers/category-details/category-details.component';
+import { CategoryTableComponent } from '@app-seller/shared/containers/category-table/category-table.component';
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: CategoryManagementComponent,
+        component: CategoryTableComponent,
       },
       {
         path: 'categories/:categoryID',
