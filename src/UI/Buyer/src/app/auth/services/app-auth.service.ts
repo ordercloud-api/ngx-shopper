@@ -98,7 +98,7 @@ export class AppAuthService {
       return this.authAnonymous();
     }
 
-    throwError(TokenRefreshAttemptNotPossible);
+    return throwError(TokenRefreshAttemptNotPossible);
   }
 
   logout(): Observable<any> {
