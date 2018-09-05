@@ -19,7 +19,7 @@ import {
   AppStateService,
   AppFormErrorService,
 } from '@app-buyer/shared';
-import { of, Subject, BehaviorSubject, throwError } from 'rxjs';
+import { of, Subject, BehaviorSubject } from 'rxjs';
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
 import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -31,6 +31,7 @@ describe('RegisterComponent', () => {
 
   const appStateService = { userSubject: new Subject<any>() };
   const me = {
+    Username: 'crhistianr',
     FirstName: 'Crhistian',
     LastName: 'Ramirez',
     Email: 'crhistian@gmail.com',
@@ -164,6 +165,7 @@ describe('RegisterComponent', () => {
       component.shouldAllowUpdate = false;
       component['setForm']();
       expect(component.form.value).toEqual({
+        Username: '',
         FirstName: '',
         LastName: '',
         Email: '',
@@ -176,6 +178,7 @@ describe('RegisterComponent', () => {
       component.shouldAllowUpdate = true;
       component['setForm']();
       expect(component.form.value).toEqual({
+        Username: '',
         FirstName: '',
         LastName: '',
         Email: '',
@@ -283,6 +286,7 @@ describe('RegisterComponent', () => {
     });
     it('should set form with me data', () => {
       expect(component.form.setValue).toHaveBeenCalledWith({
+        Username: me.Username,
         FirstName: me.FirstName,
         LastName: me.LastName,
         Phone: me.Phone,
