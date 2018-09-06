@@ -23,6 +23,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   faSearch = faSearch;
   faTimes = faTimes;
   form: FormGroup;
+  previousSearchTerm = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,11 +39,14 @@ export class SearchComponent implements OnInit, OnDestroy {
   private onFormChanges() {
     this.form.controls['search'].valueChanges
       .pipe(
+        filter((searchTerm) => searchTerm !== this.previousSearchTerm),
         debounceTime(500),
         takeWhile(() => this.alive)
       )
-      .subscribe(() => {
-        this.search();
+      .subscribe((searchTerm) => {
+        this.previousSearchTerm = searchTerm;
+        // emit as undefined if empty string so sdk ignores parameter completely
+        this.searched.emit(searchTerm || undefined);
       });
   }
 
@@ -53,15 +57,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.form.controls['search'].setValue('');
       });
-  }
-
-  private search() {
-    let searchTerm = this.form.get('search').value;
-    if (!searchTerm) {
-      // emit as undefined so sdk ignores parameter completely
-      searchTerm = undefined;
-    }
-    this.searched.emit(searchTerm);
   }
 
   showClear(): boolean {

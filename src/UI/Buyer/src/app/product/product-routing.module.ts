@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // product components
-import { ProductListComponent } from '@app-buyer/products/containers/product-list/product-list.component';
-import { ProductDetailsComponent } from '@app-buyer/products/containers/product-details/product-details.component';
+import { ProductListComponent } from '@app-buyer/product/containers/product-list/product-list.component';
+import { ProductDetailsComponent } from '@app-buyer/product/containers/product-details/product-details.component';
 
 const routes: Routes = [
   { path: '', component: ProductListComponent },

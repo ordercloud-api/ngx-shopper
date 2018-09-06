@@ -8,15 +8,19 @@ import {
   Category,
   ListCategory,
 } from '@ordercloud/angular-sdk';
-import { AppLineItemService, AppStateService, ModalService } from '@app-buyer/shared';
+import {
+  AppLineItemService,
+  AppStateService,
+  ModalService,
+} from '@app-buyer/shared';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
-import { ProductSortStrategy } from '@app-buyer/products/models/product-sort-strategy.enum';
+import { ProductSortStrategy } from '@app-buyer/product/models/product-sort-strategy.enum';
 import { isEmpty as _isEmpty } from 'lodash';
 
 @Component({
-  selector: 'products-list',
+  selector: 'product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
 })
@@ -39,7 +43,7 @@ export class ProductListComponent implements OnInit {
     private favoriteProductsService: FavoriteProductsService,
     private appStateService: AppStateService,
     private modalService: ModalService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.productList$ = this.getProductData();
@@ -97,7 +101,9 @@ export class ProductListComponent implements OnInit {
 
   changeCategory(category: string): void {
     this.addQueryParam({ category });
-    if (this.isModalOpen){this.closeCategoryModal()}
+    if (this.isModalOpen) {
+      this.closeCategoryModal();
+    }
   }
 
   changeSortStrategy(sortBy: ProductSortStrategy): void {
@@ -150,12 +156,12 @@ export class ProductListComponent implements OnInit {
   }
 
   openCategoryModal() {
-    this.modalService.open("selectCategory")
+    this.modalService.open('selectCategory');
     this.isModalOpen = true;
   }
   closeCategoryModal() {
     this.isModalOpen = false;
-    this.modalService.close("selectCategory")
+    this.modalService.close('selectCategory');
   }
 
   configureRouter() {

@@ -45,9 +45,9 @@
           </div>
         </div>
       </div>
-      <products-category-nav *ngIf="categories?.Items?.length"
+      <product-category-nav *ngIf="categories?.Items?.length"
                              [categories]="categories"
-                             (selection)="changeCategory($event)"></products-category-nav>
+                             (selection)="changeCategory($event)"></product-category-nav>
     </div>
     <div class="col-lg-9 col-md-8 ">
       <div class="row flex-wrap-reverse">
@@ -67,8 +67,8 @@
                   (click)="clearAllFilters()">Clear All Filters</button>
         </div>
         <div class="col-12 col-md-auto ">
-          <products-sort-filter [sortStrategy]="activatedRoute.queryParams.sortBy"
-                                (sortStrategyChange)="changeSortStrategy($event)"></products-sort-filter>
+          <product-sort-filter [sortStrategy]="activatedRoute.queryParams.sortBy"
+                                (sortStrategyChange)="changeSortStrategy($event)"></product-sort-filter>
         </div>
       </div>
       <div class="card"
@@ -77,13 +77,13 @@
       </div>
       <div *ngIf="productList.Items.length > 0">
         <div class="product-list-grid row align-items-stretch">
-          <products-product-card *ngFor="let product of productList.Items"
+          <product-product-card *ngFor="let product of productList.Items"
                                  [product]="product"
                                  [favorite]="favoriteProductsService.isFavorite(product)"
                                  (setFavorite)="favoriteProductsService.setFavoriteValue($event, product)"
                                  class="col-sm-6 col-md-4 col-xl-3 d-flex"
                                  (addedToCart)="addToCart($event)">
-          </products-product-card>
+          </product-product-card>
         </div>
         <ngb-pagination *ngIf="productList.Meta.TotalPages > 1"
                         maxSize="10"
@@ -97,8 +97,8 @@
   </div>
   <shared-modal id="{{ createModalID }}"
                 modalTitle="Select Category">
-    <products-category-nav *ngIf="categories?.Items?.length"
+    <product-category-nav *ngIf="categories?.Items?.length"
                            [categories]="categories"
-                           (selection)="changeCategory($event)"></products-category-nav>
+                           (selection)="changeCategory($event)"></product-category-nav>
   </shared-modal>
 </section>
