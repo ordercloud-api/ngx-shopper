@@ -11,8 +11,7 @@ describe('ChangePasswordFormComponent', () => {
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
     hasPasswordMismatchError: jasmine.createSpy('hasPasswordMismatchError'),
-    hasPatternError: jasmine.createSpy('hasPatternError'),
-    hasMinLengthError: jasmine.createSpy('hasMinLengthError'),
+    hasStrongPasswordError: jasmine.createSpy('hasStrongPasswordError'),
   };
 
   beforeEach(async(() => {
@@ -96,19 +95,5 @@ describe('ChangePasswordFormComponent', () => {
         expect(component.form.reset).toHaveBeenCalled();
       });
     });
-
-    describe('new password validation', () => {
-      beforeEach(() => {
-        component.form.controls.currentPassword.setValue('valid password');
-      })
-      it('should be valid when there are > 8 characters, one number, one letter', () => {
-        component.form.controls.newPassword.setValue('fails345');
-        component.form.controls.confirmNewPassword.setValue('fails345');
-      })
-      it('should be invalid if there are fewer than 8 characters', () => {
-        component.form.controls.newPassword.setValue('fails345');
-        component.form.controls.confirmNewPassword.setValue('fails345');
-      })
-    })
   });
 });

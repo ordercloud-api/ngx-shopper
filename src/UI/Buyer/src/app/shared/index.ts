@@ -32,6 +32,7 @@ export * from '@app-buyer/shared/services/reorder/reorder.service';
 // validators
 export * from '@app-buyer/shared/validators/match-fields/match-fields.validator';
 export * from '@app-buyer/shared/validators/product-quantity/product.quantity.validator';
+export * from '@app-buyer/shared/validators/strong-password/strong-password.validator';
 
 // modules
 export * from '@app-buyer/shared/shared-routing.module';

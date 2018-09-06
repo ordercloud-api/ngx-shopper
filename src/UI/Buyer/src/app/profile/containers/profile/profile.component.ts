@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileTab } from '@app-buyer/profile/models/profile-tabs.enum';
-
+import { BaseResolveService, AppStateService } from '@app-buyer/shared';
+import { OcTokenService } from '@ordercloud/angular-sdk';
+import { Router } from '@angular/router';
 @Component({
   selector: 'profile-profile',
   templateUrl: './profile.component.html',
@@ -10,7 +12,12 @@ export class ProfileComponent implements OnInit {
   selectedTab: string;
   tabs: ProfileTab[];
 
-  constructor() {
+  constructor(
+    private appStateService: AppStateService,
+    private ocTokenService: OcTokenService,
+    private baseResolveService: BaseResolveService,
+    private router: Router,
+  ) {
     this.tabs = [
       { display: 'Details', route: ['/profile', 'details'] },
       { display: 'Addresses', route: ['/profile', 'addresses'] },
@@ -29,5 +36,14 @@ export class ProfileComponent implements OnInit {
 
   selectTab(tab: ProfileTab): void {
     this.selectedTab = tab.display;
+  }
+
+  logout() {
+    this.ocTokenService.RemoveAccess();
+    if (this.appStateService.isAnonSubject.value) {
+      this.baseResolveService.resetUser();
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

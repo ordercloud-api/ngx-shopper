@@ -42,7 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
       })
       .subscribe(
         () => {
-          this.toasterService.success('Password Reset Email Sent!');
+          this.toasterService.success('Password Reset Email Sent!', 'Success');
           this.router.navigateByUrl('/login');
         },
         (error) => {

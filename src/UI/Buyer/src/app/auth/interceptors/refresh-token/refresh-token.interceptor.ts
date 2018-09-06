@@ -29,7 +29,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
         } else {
           // if a refresh attempt failed recently then ignore (3 seconds)`
           if (this.appAuthService.failedRefreshAttempt) {
-            return;
+            return throwError(error);
           }
 
           // ensure there is no outstanding request already fetching token

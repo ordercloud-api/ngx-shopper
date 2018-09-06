@@ -1,3 +1,4 @@
+
 // angular
 import { NgModule, ErrorHandler, ModuleWithProviders } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -18,6 +19,8 @@ import {
   NgbAccordionModule,
   NgbModalModule,
   NgbCarouselModule,
+  NgbDropdownModule,
+
 } from '@ng-bootstrap/ng-bootstrap';
 
 // app services
@@ -103,6 +106,7 @@ import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change
     NgbPopoverModule.forRoot(),
     NgbAccordionModule.forRoot(),
     NgbCarouselModule.forRoot(),
+    NgbDropdownModule.forRoot()
   ],
   exports: [
     // angular
@@ -122,6 +126,7 @@ import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change
     NgbPopoverModule,
     NgbAccordionModule,
     NgbCarouselModule,
+    NgbDropdownModule,
 
     SearchComponent,
     RegisterComponent,

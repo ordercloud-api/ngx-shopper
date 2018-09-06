@@ -1,6 +1,6 @@
 // angular
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 // angular libs
@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 // ordercloud
 import {
   AppMatchFieldsValidator,
+  ValidateStrongPassword,
   AppFormErrorService,
 } from '@app-buyer/shared';
 import {
@@ -23,7 +24,7 @@ import { OcPasswordResetService, PasswordReset } from '@ordercloud/angular-sdk';
   styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent implements OnInit {
-  resetPasswordForm: FormGroup;
+  form: FormGroup;
   username: string;
   resetCode: string;
 
@@ -42,40 +43,45 @@ export class ResetPasswordComponent implements OnInit {
     this.username = urlParams['user'];
     this.resetCode = urlParams['code'];
 
-    this.resetPasswordForm = this.formBuilder.group(
+    this.form = this.formBuilder.group(
       {
-        password: '',
-        passwordConfirm: '',
+        password: [
+          '',
+          [
+            Validators.required,
+            ValidateStrongPassword, // password must include one number, one letter and have min length of 8
+          ],
+        ],
+        passwordConfirm: ['', Validators.required],
       },
       { validator: AppMatchFieldsValidator('password', 'passwordConfirm') }
     );
   }
 
   onSubmit() {
-    if (this.resetPasswordForm.status === 'INVALID') {
+    if (this.form.status === 'INVALID') {
       return;
     }
 
     const config: PasswordReset = {
       ClientID: this.appConfig.clientID,
-      Password: this.resetPasswordForm.get('password').value,
+      Password: this.form.get('password').value,
       Username: this.username,
     };
 
     this.ocPasswordResetService
       .ResetPasswordByVerificationCode(this.resetCode, config)
-      .subscribe(
-        () => {
-          this.toasterService.success('Password Reset Successfully');
-          this.router.navigateByUrl('/login');
-        },
-        (error) => {
-          throw error;
-        }
-      );
+      .subscribe(() => {
+        this.toasterService.success('Password Reset', 'Success');
+        this.router.navigateByUrl('/login');
+      });
   }
 
-  // control visibility of password mismatch error
-  protected passwordMismatchError = (): boolean =>
-    this.formErrorService.hasPasswordMismatchError(this.resetPasswordForm);
+  // control display of error messages
+  protected hasRequiredError = (controlName: string): boolean =>
+    this.formErrorService.hasRequiredError(controlName, this.form);
+  protected hasPasswordMismatchError = (): boolean =>
+    this.formErrorService.hasPasswordMismatchError(this.form);
+  protected hasStrongPasswordError = (controlName: string): boolean =>
+    this.formErrorService.hasStrongPasswordError(controlName, this.form);
 }

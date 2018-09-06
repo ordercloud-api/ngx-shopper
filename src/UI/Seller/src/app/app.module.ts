@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app-seller/shared';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
+import { CacheInterceptor } from '@app-seller/auth/interceptors/cache/cache-interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -51,6 +52,11 @@ import { NgProgressHttpModule } from '@ngx-progressbar/http';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
       multi: true,
     },
   ],

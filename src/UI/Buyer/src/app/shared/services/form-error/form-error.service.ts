@@ -31,6 +31,10 @@ export class AppFormErrorService {
     );
   }
 
+  hasStrongPasswordError(controlName: string, form: FormGroup) {
+    return form.get(controlName).hasError('strongPassword');
+  }
+
   hasMinLengthError(controlName: string, form: FormGroup) {
     return (
       form.get(controlName).hasError('minlength') && form.get(controlName).dirty
