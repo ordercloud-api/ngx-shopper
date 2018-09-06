@@ -147,6 +147,7 @@ export class AppLineItemService {
     const queue = [];
     if (existingLI) {
       newLI.Quantity = newLI.Quantity + existingLI.Quantity;
+      delete newLI.UnitPrice; // can't patch unit price without elevated roles (OverrideUnitPrice)
       queue.push(
         this.ocLineItemService.Patch('outgoing', order.ID, existingLI.ID, newLI)
       );
