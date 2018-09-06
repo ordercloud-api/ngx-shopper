@@ -85,6 +85,22 @@ describe('SearchComponent', () => {
     });
   });
 
+  describe('onQueryParamChanges', () => {
+    beforeEach(() => {
+      component.form.controls.search.setValue('balloons');
+    });
+    it('should clear value if search is no longer a query param', () => {
+      activatedRoute.queryParams.next({ anotherParamThatIsNotSearch: 'blah' });
+      component['onQueryParamChanges']();
+      expect(component.form.controls.search.value).toBe('');
+    });
+    it('should clear value if search is no longer a query param', () => {
+      activatedRoute.queryParams.next({ search: 'blah' });
+      component['onQueryParamChanges']();
+      expect(component.form.controls.search.value).toBe('balloons');
+    });
+  });
+
   describe('ngOnDestroy', () => {
     it('should set alive to false', () => {
       expect(component.alive).toBe(true);
