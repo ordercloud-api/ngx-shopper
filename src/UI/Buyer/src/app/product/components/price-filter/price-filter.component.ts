@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'products-price-filter',
+  selector: 'product-price-filter',
   templateUrl: './price-filter.component.html',
   styleUrls: ['./price-filter.component.scss'],
 })

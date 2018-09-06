@@ -4,7 +4,7 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { fromEvent } from 'rxjs';
 
 @Component({
-  selector: 'products-additional-image-gallery',
+  selector: 'product-additional-image-gallery',
   templateUrl: './additional-image-gallery.component.html',
   styleUrls: ['./additional-image-gallery.component.scss'],
 })

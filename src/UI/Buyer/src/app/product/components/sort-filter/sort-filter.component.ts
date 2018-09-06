@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ProductSortStrategy } from '@app-buyer/products/models/product-sort-strategy.enum';
+import { ProductSortStrategy } from '@app-buyer/product/models/product-sort-strategy.enum';
 import { each as _each } from 'lodash';
 
 @Component({
-  selector: 'products-sort-filter',
+  selector: 'product-sort-filter',
   templateUrl: './sort-filter.component.html',
   styleUrls: ['./sort-filter.component.scss'],
 })

@@ -10,7 +10,7 @@ import {
   AppLineItemService,
   AppStateService,
 } from '@app-buyer/shared';
-import { ProductDetailsComponent } from '@app-buyer/products/containers/product-details/product-details.component';
+import { ProductDetailsComponent } from '@app-buyer/product/containers/product-details/product-details.component';
 
 import { CookieService, CookieModule } from 'ngx-cookie';
 import {

@@ -58,19 +58,31 @@ describe('SearchComponent', () => {
 
   describe('onFormChanges', () => {
     beforeEach(() => {
-      spyOn(component as any, 'search');
+      spyOn(component.searched, 'emit');
     });
     it(
-      'should call search after 500ms of form change',
+      'should emit search after 500ms of form change',
       fakeAsync(() => {
         component['onFormChanges']();
         component.form.controls['search'].setValue('mockSearchTerm');
         tick(499);
-        expect(component['search']).not.toHaveBeenCalled();
+        expect(component.searched.emit).not.toHaveBeenCalled();
         tick(1);
-        expect(component['search']).toHaveBeenCalled();
+        expect(component.searched.emit).toHaveBeenCalledWith('mockSearchTerm');
       })
     );
+    it('should not emit value if previous search term is the same', () => {
+      component.previousSearchTerm = 'mockSearchTerm';
+      component['onFormChanges']();
+      component.form.controls.search.setValue('mockSearchTerm');
+      expect(component.searched.emit).not.toHaveBeenCalled();
+    });
+    it('should emit undefined if value is an empty string', () => {
+      component.previousSearchTerm = 'mockSearchTerm';
+      component['onFormChanges']();
+      component.form.controls.search.setValue('');
+      expect(component.searched.emit).not.toHaveBeenCalledWith(undefined);
+    });
   });
 
   describe('onQueryParamChanges', () => {
@@ -86,27 +98,6 @@ describe('SearchComponent', () => {
       activatedRoute.queryParams.next({ search: 'blah' });
       component['onQueryParamChanges']();
       expect(component.form.controls.search.value).toBe('balloons');
-    });
-  });
-
-  describe('search', () => {
-    beforeEach(() => {
-      spyOn(component.searched, 'emit');
-    });
-    it('should emit search term from form', () => {
-      component.form.controls['search'].setValue('mockSearchTerm');
-      component['search']();
-      expect(component.searched.emit).toHaveBeenCalledWith('mockSearchTerm');
-    });
-    it('empty string form value should emit as undefined', () => {
-      component.form.controls['search'].setValue('');
-      component['search']();
-      expect(component.searched.emit).toHaveBeenCalledWith(undefined);
-    });
-    it('null form value should emit as undefined', () => {
-      component.form.controls['search'].setValue(null);
-      component['search']();
-      expect(component.searched.emit).toHaveBeenCalledWith(undefined);
     });
   });
 
