@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ListCategory, Category } from '@ordercloud/angular-sdk';
 import { ITreeOptions } from 'angular-tree-component';
-import { CategoryTreeNode } from '@app-buyer/products/models/category-tree-node.class';
+import { CategoryTreeNode } from '@app-buyer/product/models/category-tree-node.class';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'products-category-nav',
+  selector: 'product-category-nav',
   templateUrl: './category-nav.component.html',
   styleUrls: ['./category-nav.component.scss'],
 })
@@ -16,7 +16,7 @@ export class CategoryNavComponent implements OnInit {
   private activeCategoryID: string;
   options: ITreeOptions = {
     nodeClass: (node: CategoryTreeNode) => {
-      return this.activeCategoryID == node.id ? 'font-weight-bold' : null;
+      return this.activeCategoryID === node.id ? 'font-weight-bold' : null;
     },
     actionMapping: {
       mouse: {
@@ -28,15 +28,13 @@ export class CategoryNavComponent implements OnInit {
     animateExpand: true,
   };
 
-  constructor(
-    private activatedRoute: ActivatedRoute
-  ) { }
+  constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.categoryTree = this.buildCategoryTree(this.categories.Items);
     this.activatedRoute.queryParams.subscribe((queryParams) => {
       this.activeCategoryID = queryParams.category;
-    })
+    });
   }
 
   buildCategoryTree(ocCategories: Category[]): CategoryTreeNode[] {

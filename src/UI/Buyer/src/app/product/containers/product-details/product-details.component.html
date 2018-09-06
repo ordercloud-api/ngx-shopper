@@ -3,7 +3,7 @@
   <div class="row mb-5">
     <div class="col-md-6">
       <div class="position-relative d-block">
-        <products-additional-image-gallery [imgUrls]="product?.xp?.imageURLs"></products-additional-image-gallery>
+        <product-additional-image-gallery [imgUrls]="product?.xp?.imageURLs"></product-additional-image-gallery>
       </div>
     </div>
     <div class="col-md-6 bg-light">
@@ -70,9 +70,9 @@
     </div>
   </div>
   <div *ngIf="relatedProducts$ | async; let relatedProducts">
-    <products-carousel *ngIf="relatedProducts.length > 0"
+    <product-carousel *ngIf="relatedProducts.length > 0"
                        displayTitle="Related Products"
                        [products]="relatedProducts">
-    </products-carousel>
+    </product-carousel>
   </div>
 </div>

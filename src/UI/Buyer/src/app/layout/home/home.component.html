@@ -22,8 +22,8 @@
 
   <!-- Featured products can be managed in the seller application -->
   <div *ngIf="featuredProducts$ | async; let products">
-    <products-carousel *ngIf="products.Items.length"
+    <product-carousel *ngIf="products.Items.length"
                        displayTitle="Featured Products"
-                       [products]="products.Items"></products-carousel>
+                       [products]="products.Items"></product-carousel>
   </div>
 </div>
