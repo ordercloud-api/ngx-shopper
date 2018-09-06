@@ -11,6 +11,6 @@ export class CategoryTreeNode {
 }
 
 export interface AssignedCategory extends Category {
-  Assigned: boolean;
-  AssignedByParent: boolean;
+  Assigned?: boolean;
+  AssignedByParent?: boolean;
 }

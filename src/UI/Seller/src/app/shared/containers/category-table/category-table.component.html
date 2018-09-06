@@ -52,7 +52,7 @@
                      style="right: 85px;"
                      [icon]="faCircle"
                      class="pull-right"></fa-icon>
-            <button (click)="deleteCategory(node.data.category.ID, $event); $event.stopPropagation()"
+            <button (click)="deleteCategory(node.data.category.ID); $event.stopPropagation()"
                     class="btn btn-danger btn-xs pull-right"
                     style="right: 10px;">
               <fa-icon [icon]="faTrash"></fa-icon>

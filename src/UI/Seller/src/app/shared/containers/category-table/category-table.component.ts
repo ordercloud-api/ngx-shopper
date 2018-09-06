@@ -68,7 +68,7 @@ export class CategoryTableComponent implements OnInit {
     });
   }
 
-  deleteCategory(categoryID: string, $event): void {
+  deleteCategory(categoryID: string): void {
     this.ocCategoryService.Delete(this.catalogID, categoryID).subscribe(() => {
       this.loadCategories();
     });
@@ -109,7 +109,7 @@ export class CategoryTableComponent implements OnInit {
     this.categoryTree.forEach((topLevelCat) => checkNode(topLevelCat));
   }
 
-  getAssignment(category: Category) {
+  getAssignment(category: Category): Observable<ListCategoryAssignment> {
     return this.ocCategoryService.ListAssignments(this.catalogID, {
       buyerID: this.appConfig.buyerID,
       categoryID: category.ID,
