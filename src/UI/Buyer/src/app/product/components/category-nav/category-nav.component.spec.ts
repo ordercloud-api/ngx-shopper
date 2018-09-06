@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategoryNavComponent } from '@app-buyer/products/components/category-nav/category-nav.component';
+import { CategoryNavComponent } from '@app-buyer/product/components/category-nav/category-nav.component';
 import { TreeModule } from 'angular-tree-component';
-import { CategoryTreeNode } from '@app-buyer/products/models/category-tree-node.class';
+import { CategoryTreeNode } from '@app-buyer/product/models/category-tree-node.class';
 import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 describe('CategoryNavComponent', () => {
   let component: CategoryNavComponent;
   let fixture: ComponentFixture<CategoryNavComponent>;
-  let mockCategoryID = '12345';
+  const mockCategoryID = '12345';
   const TreeNode = (fields) => {
     const node = new CategoryTreeNode();
     if (fields.id) {
