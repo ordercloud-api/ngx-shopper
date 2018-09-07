@@ -18,6 +18,7 @@ import {
   uniq as _uniq,
   findIndex as _findIndex,
   find as _find,
+  flatMap as _flatMap,
 } from 'lodash';
 
 @Injectable()
@@ -42,33 +43,19 @@ export class AppLineItemService {
     };
     return this.ocLineItemService.List('outgoing', orderID, options).pipe(
       flatMap((list) => {
-        const queue = [];
-        if (list.Meta.TotalPages > list.Meta.Page) {
-          let page = list.Meta.Page;
-          while (page < list.Meta.TotalPages) {
-            page++;
-            options.page = page;
-            queue.push(
-              this.ocLineItemService.List('outgoing', orderID, options)
-            );
-          }
-          return forkJoin(queue).pipe(
-            map((results: ListLineItem[]) => {
-              let allLineItems = [];
-              allLineItems = [...allLineItems, ...list.Items];
-              results.forEach((result) => {
-                allLineItems = [...allLineItems, ...result.Items];
-              });
-              const allLineItemList = {
-                Items: allLineItems,
-                Meta: results[0].Meta,
-              };
-              return allLineItemList;
-            })
-          );
-        } else {
+        if (list.Meta.TotalPages <= 1) {
           return of(list);
         }
+        const requests = new Array(list.Meta.TotalPages - 1).map(() => {
+          options.page++;
+          return this.ocLineItemService.List('outgoing', orderID, options);
+        });
+        return forkJoin(requests).pipe(
+          map((res: ListLineItem[]) => {
+            const rest = _flatMap(res, (x) => x.Items);
+            return { Items: list.Items.concat(rest), Meta: list.Meta };
+          })
+        );
       })
     );
   }
