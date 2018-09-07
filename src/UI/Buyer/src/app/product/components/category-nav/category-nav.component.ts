@@ -38,31 +38,32 @@ export class CategoryNavComponent implements OnInit {
   }
 
   buildCategoryTree(ocCategories: Category[]): CategoryTreeNode[] {
-    const table = ocCategories.reduce((acc, x) => {
+    const orderedIDs = ocCategories.map((x) => x.ID);
+    // key is ID, value is Node
+    const nodeDict = ocCategories.reduce((acc, x) => {
       const node = new CategoryTreeNode();
       node.id = x.ID;
       node.name = x.Name;
-      node.data = x;
+      node.category = x;
       node.children = [];
       acc[x.ID] = node;
       return acc;
     }, {});
 
-    for (const key in table) {
-      if (!table.hasOwnProperty(key)) {
-        continue;
+    orderedIDs.forEach((id) => {
+      if (
+        !nodeDict[id].category.ParentID ||
+        !nodeDict[nodeDict[id].category.ParentID]
+      ) {
+        // category is not a child node
+        return;
       }
 
-      if (!table[key].data.ParentID || !table[table[key].data.ParentID]) {
-        continue;
-      }
+      nodeDict[nodeDict[id].category.ParentID].children.push(nodeDict[id]);
+      nodeDict[id].parent = nodeDict[nodeDict[id].category.ParentID];
+    });
 
-      table[table[key].data.ParentID].children.push(table[key]);
-      table[key].parent = table[table[key].data.ParentID];
-    }
-
-    return Object.keys(table)
-      .map((x) => table[x])
-      .filter((x) => !x.data.ParentID);
+    // Return all top-level nodes in order
+    return orderedIDs.map((x) => nodeDict[x]).filter((x) => !x.parent);
   }
 }

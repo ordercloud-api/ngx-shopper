@@ -1,33 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductFormComponent } from '@app-seller/product-management/components/products-form/product-form.component';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { AppFormErrorService } from '@app-seller/shared';
-import { RouterTestingModule } from '@angular/router/testing';
-import { BrowserModule } from '@angular/platform-browser';
+import { CategoryFormComponent } from './category-form.component';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
 
-describe('ProductsFormComponent', () => {
-  let component: ProductFormComponent;
-  let fixture: ComponentFixture<ProductFormComponent>;
-
-  const mockProduct = {
-    ID: '1',
-    Name: 'Products',
-    Description: 'Description',
-    Active: true,
-    xp: { Featured: false },
-  };
-
+describe('CategoryFormComponent', () => {
+  let component: CategoryFormComponent;
+  let fixture: ComponentFixture<CategoryFormComponent>;
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
+    hasInvalidIdError: jasmine.createSpy('hasInValidIdError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
-    hasInvalidIdError: jasmine.createSpy('hasInvalidIdError'),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductFormComponent],
-      imports: [ReactiveFormsModule, RouterTestingModule, BrowserModule],
+      declarations: [CategoryFormComponent],
+      imports: [ReactiveFormsModule],
       providers: [
         FormBuilder,
         { provide: AppFormErrorService, useValue: formErrorService },
@@ -36,9 +25,14 @@ describe('ProductsFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductFormComponent);
+    fixture = TestBed.createComponent(CategoryFormComponent);
     component = fixture.componentInstance;
-    component.existingProduct = mockProduct;
+    component.existingCategory = {
+      ID: '1',
+      Name: 'Category',
+      Description: 'Description',
+      Active: true,
+    };
     fixture.detectChanges();
   });
 
@@ -52,12 +46,11 @@ describe('ProductsFormComponent', () => {
     });
 
     it('should initialize form correctly', () => {
-      expect(component.productForm.value).toEqual({
+      expect(component.categoryForm.value).toEqual({
         ID: '1',
-        Name: 'Products',
+        Name: 'Category',
         Description: 'Description',
         Active: true,
-        Featured: false,
       });
     });
   });
@@ -67,15 +60,17 @@ describe('ProductsFormComponent', () => {
       spyOn(component.formSubmitted, 'emit');
     });
     it('should call displayFormErrors if form is invalid', () => {
-      component.productForm.setErrors({ test: true });
+      component.categoryForm.setErrors({ test: true });
       component['onSubmit']();
       expect(formErrorService.displayFormErrors).toHaveBeenCalled();
     });
     it('should emit formSubmitted event', () => {
       component['onSubmit']();
       expect(component.formSubmitted.emit).toHaveBeenCalledWith({
-        ...mockProduct,
-        Featured: false,
+        ID: '1',
+        Name: 'Category',
+        Description: 'Description',
+        Active: true,
       });
     });
   });
@@ -87,7 +82,7 @@ describe('ProductsFormComponent', () => {
     it('should call formErrorService.hasRequiredError', () => {
       expect(formErrorService.hasRequiredError).toHaveBeenCalledWith(
         'FirstName',
-        component.productForm
+        component.categoryForm
       );
     });
   });

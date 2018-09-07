@@ -83,7 +83,16 @@
     "component-selector": [
       true,
       "element",
-      ["auth", "config", "layout", "shared", "product", "address", "user"],
+      [
+        "auth",
+        "config",
+        "layout",
+        "shared",
+        "product",
+        "address",
+        "user",
+        "category"
+      ],
       "kebab-case"
     ],
     "no-output-on-prefix": true,
