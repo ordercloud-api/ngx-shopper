@@ -32,8 +32,7 @@
       </div>
       <ul>
         <li *ngFor="let approval of (approvals$ | async)">
-          <div>{{ approval.Approver.FirstName }} {{ approval.Approver.LastName }} {{ approval.Status }} on {{ approval.DateCreated | date: 'short' }}
-          </div>
+          {{ approval.Approver.FirstName }} {{ approval.Approver.LastName }} {{ approval.Status }} on {{ approval.DateCreated | date: 'short' }}
           <div><small *ngIf="approval.Comments">"{{ approval.Comments }}"</small></div>
         </li>
       </ul>
