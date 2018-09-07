@@ -76,21 +76,21 @@ describe('AddressTableComponent', () => {
       expect(ocAddressService.List).toHaveBeenCalled();
       expect(ocAddressService.ListAssignments).toHaveBeenCalled();
     });
-    it('should call getGroupAssignment() if groupID', () => {
-      spyOn(component, 'getGroupAssignment');
-      spyOn(component, 'getBuyerAssignment');
+    it('should call findGroupAssignment() if groupID', () => {
+      spyOn(component, 'findGroupAssignment');
+      spyOn(component, 'findBuyerAssignment');
       component.userGroupID = 'groupID';
       component.loadData();
-      expect(component.getGroupAssignment).toHaveBeenCalled();
-      expect(component.getBuyerAssignment).not.toHaveBeenCalled();
+      expect(component.findGroupAssignment).toHaveBeenCalled();
+      expect(component.findBuyerAssignment).not.toHaveBeenCalled();
     });
     it('should call getBuyerAssignment if not groupID', () => {
-      spyOn(component, 'getGroupAssignment');
-      spyOn(component, 'getBuyerAssignment');
+      spyOn(component, 'findGroupAssignment');
+      spyOn(component, 'findBuyerAssignment');
       component.userGroupID = undefined;
       component.loadData();
-      expect(component.getGroupAssignment).not.toHaveBeenCalled();
-      expect(component.getBuyerAssignment).toHaveBeenCalled();
+      expect(component.findGroupAssignment).not.toHaveBeenCalled();
+      expect(component.findBuyerAssignment).toHaveBeenCalled();
     });
     it('should group assignments if group id matches', () => {
       component.addresses = undefined;

@@ -1,0 +1,70 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-8">
+      <h1>Categories</h1>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary float-right mt-3"
+              (click)="openModal()">
+        <fa-icon [icon]="faPlusCircle"></fa-icon> New Category
+      </button>
+      <shared-modal id="{{ modalID }}"
+                    modalTitle="Create A New Category">
+        <category-form btnText="Create"
+                       (formSubmitted)="addCategory($event)">
+        </category-form>
+      </shared-modal>
+    </div>
+  </div>
+  <div class="alert alert-info mt-2"
+       role="alert">
+    Checking a category will make it and its sub-categories available to<strong> {{ getAlertText() }}</strong>
+  </div>
+  <hr>
+  <div class="oc-category-tree"
+       *ngIf="categoryTree">
+    <!-- For more info about tree component see https://angular2-tree.readme.io/docs/getting-started -->
+    <tree-root [nodes]="categoryTree"
+               [options]="treeOptions"
+               class="list-group p-3"
+               (moveNode)="onMoveNode($event)">
+      <ng-template #treeNodeWrapperTemplate
+                   let-node
+                   let-index="index">
+        <div class="node-wrapper"
+             [style.padding-left]="node.getNodePadding()">
+          <tree-node-expander [node]="node"></tree-node-expander>
+          <div class="node-content-wrapper p-2"
+               [class.node-content-wrapper-active]="node.isActive"
+               [class.node-content-wrapper-focused]="node.isFocused"
+               (treeDrop)="node.onDrop($event)"
+               [treeAllowDrop]="node.allowDrop"
+               [treeDrag]="node"
+               [treeDragEnabled]="node.allowDrag()">
+            <form class="text-center mr-2">
+              <input type="checkbox"
+                     (change)="assignCategory(node.data.category.ID, $event.target.checked)"
+                     [checked]="node.data.category.Assigned || node.data.category.AssignedByParent"
+                     [disabled]="node.data.category.AssignedByParent">
+            </form>
+            <a [routerLink]="['/categories', node.data.category.ID]">{{ node.data.category.Name }}</a>
+            <fa-icon [ngClass]="{'text-success': node.data.category.Active}"
+                     style="right: 85px;"
+                     [icon]="faCircle"
+                     class="pull-right"></fa-icon>
+            <button (click)="deleteCategory(node.data.category.ID); $event.stopPropagation()"
+                    class="btn btn-danger btn-xs pull-right"
+                    style="right: 10px;">
+              <fa-icon [icon]="faTrash"></fa-icon>
+              <span class="hidden-xs"> Delete</span>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </tree-root>
+  </div>
+  <div class="card bg-light p-3 mt-3 w-100 text-center"
+       *ngIf="categories?.length === 0">
+    <p class="mb-0">No categories found</p>
+  </div>
+</div>
