@@ -13,11 +13,6 @@ describe('OrderDetailComponent', () => {
   let fixture: ComponentFixture<OrderDetailComponent>;
 
   const mockOrderID = 'MockGetOrder123';
-  const appLineItemService = {
-    getSupplierAddresses: jasmine
-      .createSpy('getSupplierAddresses')
-      .and.returnValue(of(null)),
-  };
   const orderService = {
     Get: jasmine.createSpy('Get').and.returnValue(of(null)),
     ListPromotions: jasmine
@@ -46,7 +41,6 @@ describe('OrderDetailComponent', () => {
     TestBed.configureTestingModule({
       declarations: [OrderDetailComponent],
       providers: [
-        { provide: AppLineItemService, useValue: appLineItemService },
         { provide: OcOrderService, useValue: orderService },
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: AppPaymentService, useValue: appPaymentService },
@@ -68,14 +62,10 @@ describe('OrderDetailComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       spyOn(component as any, 'getPromotions');
-      spyOn(component as any, 'getSupplierAddresses');
       component.ngOnInit();
     });
     it('should call getPromotions', () => {
       expect(component['getPromotions']).toHaveBeenCalled();
-    });
-    it('should call getSupplierAddresses', () => {
-      expect(component['getSupplierAddresses']).toHaveBeenCalled();
     });
   });
 
@@ -90,17 +80,9 @@ describe('OrderDetailComponent', () => {
     });
   });
 
-  describe('getSupplierAddresses', () => {
-    it('should call OcLineItemService.getSupplierAddresses', () => {
-      component['getSupplierAddresses']().subscribe(() => {
-        expect(appLineItemService.getSupplierAddresses).toHaveBeenCalled();
-      });
-    });
-  });
-
   describe('getPayments', () => {
     it('should call AppPaymentService', () => {
-      component['getSupplierAddresses']().subscribe(() => {
+      component['getPayments']().subscribe(() => {
         expect(appPaymentService.getPayments).toHaveBeenCalled();
       });
     });

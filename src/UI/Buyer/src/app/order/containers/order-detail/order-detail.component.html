@@ -28,9 +28,12 @@
                           [payments]="payments"></order-payment-list>
       <hr>
       <div><strong>Status: </strong>
-        <order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}</div>
+        <order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}
+      </div>
       <ul>
-        <li *ngFor="let approval of (approvals$ | async)">{{ approval.Approver.FirstName }} {{ approval.Approver.LastName }} {{ approval.Status }} on {{ approval.DateCreated | date: 'short' }}
+        <li *ngFor="let approval of (approvals$ | async)">
+          <div>{{ approval.Approver.FirstName }} {{ approval.Approver.LastName }} {{ approval.Status }} on {{ approval.DateCreated | date: 'short' }}
+          </div>
           <div><small *ngIf="approval.Comments">"{{ approval.Comments }}"</small></div>
         </li>
       </ul>
