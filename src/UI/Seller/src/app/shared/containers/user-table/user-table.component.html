@@ -6,19 +6,22 @@
     <div class="col-4">
       <button class="btn btn-primary float-right mt-3"
               (click)="openCreateModal()">
-        <fa-icon [icon]="faPlusCircle"></fa-icon> New User</button>
+        <fa-icon [icon]="faPlusCircle"></fa-icon> New User
+      </button>
       <shared-modal id="{{ createModalID }}"
                     modalTitle="Create A New User">
         <user-form btnText="Create"
-                   (formSubmitted)="addUser($event)"></user-form>
+                   (formSubmitted)="addUser($event.user)"></user-form>
       </shared-modal>
       <shared-modal id="{{ editModalID }}"
                     modalTitle="Update User">
         <button class="btn btn-primary mb-3"
-                (click)="getImpersonationToken(selectedUser.ID)"><fa-icon [icon]="faUser"></fa-icon> Impersonate User</button>
+                (click)="getImpersonationToken(selectedUser.ID)">
+          <fa-icon [icon]="faUser"></fa-icon> Impersonate User
+        </button>
         <user-form btnText="Save"
                    [existingUser]="selectedUser"
-                   (formSubmitted)="editUser($event)"></user-form>
+                   (formSubmitted)="editUser($event.user, $event.prevID)"></user-form>
       </shared-modal>
     </div>
   </div>

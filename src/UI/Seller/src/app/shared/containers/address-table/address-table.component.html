@@ -6,18 +6,19 @@
     <div class="col-4">
       <button class="btn btn-primary float-right mt-3"
               (click)="openCreateModal()">
-        <fa-icon [icon]="faPlusCircle"></fa-icon> New Address</button>
+        <fa-icon [icon]="faPlusCircle"></fa-icon> New Address
+      </button>
       <shared-modal id="{{ createModalID }}"
                     modalTitle="Create A New Address">
         <shared-address-form btnText="Create"
-                             (formSubmitted)="addAddress($event)">
+                             (formSubmitted)="addAddress($event.address)">
         </shared-address-form>
       </shared-modal>
       <shared-modal id="{{ editModalID }}"
                     modalTitle="Update Address">
         <shared-address-form btnText="Save"
                              [existingAddress]="selectedAddress"
-                             (formSubmitted)="editAddress($event)">
+                             (formSubmitted)="editAddress($event.address, $event.prevID)">
         </shared-address-form>
       </shared-modal>
     </div>
