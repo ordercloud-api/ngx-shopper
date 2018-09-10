@@ -51,7 +51,7 @@ export class UserFormComponent implements OnInit {
       Password: [this._existingUser.Password || '', Validators.required],
       FirstName: [this._existingUser.FirstName || '', Validators.required],
       LastName: [this._existingUser.LastName || '', Validators.required],
-      Phone: [this._existingUser.Phone || ''],
+      Phone: [this._existingUser.Phone || '', Validators.required],
       Email: [this._existingUser.Email || '', Validators.required],
       Active: [!!this._existingUser.Active],
     });
