@@ -56,16 +56,15 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   getRelatedProducts(product: BuyerProduct): Observable<BuyerProduct[]> {
-    const queue = [];
     if (!product.xp || !product.xp.RelatedProducts) {
-      return of(queue);
+      return of([]);
     }
 
-    product.xp.RelatedProducts.forEach((prodID) => {
-      queue.push(this.ocMeService.GetProduct(prodID));
-    });
+    const requests = product.xp.RelatedProducts.map((prodID) =>
+      this.ocMeService.GetProduct(prodID)
+    );
 
-    return forkJoin(queue);
+    return forkJoin(requests);
   }
 
   addToCart(event: AddToCartEvent): void {

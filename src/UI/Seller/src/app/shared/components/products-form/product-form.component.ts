@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from '@ordercloud/angular-sdk';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AppFormErrorService, AppIdValidator } from '@app-seller/shared';
+import { AppIdValidator } from '@app-seller/shared/validators/id-field/id-field.validator';
+import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
 
 @Component({
   selector: 'product-form',
@@ -10,8 +11,10 @@ import { AppFormErrorService, AppIdValidator } from '@app-seller/shared';
 })
 export class ProductFormComponent implements OnInit {
   private _existingProduct: Product = {};
-  @Input() btnText: string;
-  @Output() formSubmitted = new EventEmitter();
+  @Input()
+  btnText: string;
+  @Output()
+  formSubmitted = new EventEmitter();
   productForm: FormGroup;
 
   constructor(

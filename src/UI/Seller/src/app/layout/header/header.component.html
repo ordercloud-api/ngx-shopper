@@ -25,22 +25,32 @@
         <li class="nav-item">
           <a class="nav-link"
              routerLink="/products">
-            <fa-icon [icon]="faBoxOpen"></fa-icon> Products</a>
+            <fa-icon [icon]="faBoxOpen"></fa-icon> Products
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/categories">
+            <fa-icon [icon]="faSitemap"></fa-icon> Categories
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link"
              routerLink="/addresses">
-            <fa-icon [icon]="faMapMarker"></fa-icon> Addresses</a>
+            <fa-icon [icon]="faMapMarker"></fa-icon> Addresses
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link"
              routerLink="/users">
-            <fa-icon [icon]="faUser"></fa-icon> Users</a>
+            <fa-icon [icon]="faUser"></fa-icon> Users
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link"
              routerLink="/usergroups">
-            <fa-icon [icon]="faUsers"></fa-icon> User Groups</a>
+            <fa-icon [icon]="faUsers"></fa-icon> User Groups
+          </a>
         </li>
       </ul>
       <ul class="navbar-nav float-right">
@@ -48,7 +58,8 @@
           <a class="nav-link"
              routerLink="/home"
              (click)="logout()">
-            <fa-icon [icon]="faSignOutAlt"></fa-icon> Logout</a>
+            <fa-icon [icon]="faSignOutAlt"></fa-icon> Logout
+          </a>
         </li>
       </ul>
     </div>

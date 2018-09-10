@@ -9,6 +9,7 @@ import {
   faUser,
   faUsers,
   faMapMarkerAlt,
+  faSitemap,
 } from '@fortawesome/free-solid-svg-icons';
 import { OcTokenService } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit {
   faSignOutAlt = faSignOutAlt;
   faUsers = faUsers;
   faMapMarker = faMapMarkerAlt;
+  faSitemap = faSitemap;
 
   constructor(
     private ocTokenService: OcTokenService,
