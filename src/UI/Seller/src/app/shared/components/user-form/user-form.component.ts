@@ -11,8 +11,10 @@ import { AppIdValidator } from '@app-seller/shared/validators/id-field/id-field.
 })
 export class UserFormComponent implements OnInit {
   protected _existingUser: User = {};
-  @Input() btnText: string;
-  @Output() formSubmitted = new EventEmitter();
+  @Input()
+  btnText: string;
+  @Output()
+  formSubmitted = new EventEmitter<{ user: User; prevID: string }>();
   userForm: FormGroup;
 
   constructor(
@@ -31,7 +33,6 @@ export class UserFormComponent implements OnInit {
       this.setForm();
       return;
     }
-    this.userForm.removeControl('Password');
 
     this.userForm.setValue({
       ID: this._existingUser.ID || '',
@@ -47,7 +48,6 @@ export class UserFormComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       ID: [this._existingUser.ID || '', AppIdValidator()],
       Username: [this._existingUser.Username || '', Validators.required],
-      Password: [this._existingUser.Password || '', Validators.required],
       FirstName: [this._existingUser.FirstName || '', Validators.required],
       LastName: [this._existingUser.LastName || '', Validators.required],
       Email: [this._existingUser.Email || '', Validators.required],
@@ -60,7 +60,10 @@ export class UserFormComponent implements OnInit {
       return this.formErrorService.displayFormErrors(this.userForm);
     }
 
-    this.formSubmitted.emit(this.userForm.value);
+    this.formSubmitted.emit({
+      user: this.userForm.value,
+      prevID: this._existingUser.ID,
+    });
   }
 
   // control display of error messages

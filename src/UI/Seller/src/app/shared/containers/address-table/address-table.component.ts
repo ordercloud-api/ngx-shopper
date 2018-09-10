@@ -141,19 +141,19 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
       });
   }
 
-  addAddress(address: Address): void {
+  addAddress(event: { address: Address; prevID: string }): void {
     this.modalService.close(this.createModalID);
     this.ocAddressService
-      .Create(this.appConfig.buyerID, address)
+      .Create(this.appConfig.buyerID, event.address)
       .subscribe(() => {
         this.loadData();
       });
   }
 
-  editAddress(address: Address): void {
+  editAddress(event: { address: Address; prevID: string }): void {
     this.modalService.close(this.editModalID);
     this.ocAddressService
-      .Patch(this.appConfig.buyerID, address.ID, address)
+      .Patch(this.appConfig.buyerID, event.prevID, event.address)
       .subscribe(() => {
         this.loadData();
       });
