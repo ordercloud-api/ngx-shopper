@@ -57,21 +57,18 @@ export class AppLineItemService {
   }
 
   delete(lineItemID: string) {
-    // TODO: use oc endpoints for mocking checkout only - replace with integration when ready
     return this.ocLineItemService
       .Delete('outgoing', this.currentOrder.ID, lineItemID)
       .pipe(tap(() => this.updateAppState()));
   }
 
   patch(lineItemID: string, partialLineItem: LineItem): Observable<LineItem> {
-    // TODO: use oc endpoints for mocking checkout only - replace with integration when ready
     return this.ocLineItemService
       .Patch('outgoing', this.currentOrder.ID, lineItemID, partialLineItem)
       .pipe(tap(() => this.updateAppState()));
   }
 
   create(product: BuyerProduct, quantity: number): Observable<LineItem> {
-    // TODO: use oc endpoints for mocking checkout only - replace with integration when ready
     const newLineItem = {
       ProductID: product.ID,
       Quantity: quantity,

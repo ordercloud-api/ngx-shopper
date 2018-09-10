@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrderDetailComponent } from '@app-buyer/order/containers/order-detail/order-detail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { AppLineItemService } from '@app-buyer/shared';
 import { of, BehaviorSubject } from 'rxjs';
 import { OcOrderService } from '@ordercloud/angular-sdk';
 import { ParamMap, ActivatedRoute, convertToParamMap } from '@angular/router';
@@ -20,7 +19,7 @@ describe('OrderDetailComponent', () => {
       .and.returnValue(of(null)),
     ListApprovals: jasmine
       .createSpy('ListApprovals')
-      .and.returnValue(of({ Items: { Comments: [] } })),
+      .and.returnValue(of({ Items: [{ Comments: [] }] })),
   };
   const appPaymentService = {
     getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)),
