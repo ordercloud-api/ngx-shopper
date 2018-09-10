@@ -14,8 +14,10 @@
       </nav>
     </div>
   </div>
+  <!-- Mobile section for selecting a category and filtering on favorites -->
   <div class="d-md-none mb-2">
     <button class="btn btn-block btn-default btn-outline-dark mb-2"
+            *ngIf="categories?.Items?.length"
             (click)="openCategoryModal()">Select Category</button>
     <div class="col-xs-6">
       <div (click)="refineByFavorites()">
@@ -37,6 +39,14 @@
           </h5>
         </div>
         <div class="p-3">
+          <button *ngIf="hasQueryParams"
+                  class="btn btn-block btn-default mb-4"
+                  type="button"
+                  (click)="clearAllFilters()">Clear All Filters</button>
+          <product-price-filter (priceFilterChange)="changePrice($event)"></product-price-filter>
+          <product-facet-filter *ngIf="productList.Meta?.Facets?.length"
+                                [facetList]="productList.Meta.Facets"
+                                (facetListSelected)="changeFacets($event)"></product-facet-filter>
           <div (click)="refineByFavorites()">
             <shared-toggle-favorite id="favorite"
                                     [favorite]="hasFavoriteProductsFilter"></shared-toggle-favorite>
@@ -46,8 +56,8 @@
         </div>
       </div>
       <product-category-nav *ngIf="categories?.Items?.length"
-                             [categories]="categories"
-                             (selection)="changeCategory($event)"></product-category-nav>
+                            [categories]="categories"
+                            (selection)="changeCategory($event)"></product-category-nav>
     </div>
     <div class="col-lg-9 col-md-8 ">
       <div class="row flex-wrap-reverse">
@@ -68,7 +78,7 @@
         </div>
         <div class="col-12 col-md-auto ">
           <product-sort-filter [sortStrategy]="activatedRoute.queryParams.sortBy"
-                                (sortStrategyChange)="changeSortStrategy($event)"></product-sort-filter>
+                               (sortStrategyChange)="changeSortStrategy($event)"></product-sort-filter>
         </div>
       </div>
       <div class="card"
@@ -78,11 +88,11 @@
       <div *ngIf="productList.Items.length > 0">
         <div class="product-list-grid row align-items-stretch">
           <product-product-card *ngFor="let product of productList.Items"
-                                 [product]="product"
-                                 [favorite]="favoriteProductsService.isFavorite(product)"
-                                 (setFavorite)="favoriteProductsService.setFavoriteValue($event, product)"
-                                 class="col-sm-6 col-md-4 col-xl-3 d-flex"
-                                 (addedToCart)="addToCart($event)">
+                                [product]="product"
+                                [favorite]="favoriteProductsService.isFavorite(product)"
+                                (setFavorite)="favoriteProductsService.setFavoriteValue($event, product)"
+                                class="col-sm-6 col-md-4 col-xl-3 d-flex"
+                                (addedToCart)="addToCart($event)">
           </product-product-card>
         </div>
         <ngb-pagination *ngIf="productList.Meta.TotalPages > 1"
@@ -98,7 +108,7 @@
   <shared-modal id="{{ createModalID }}"
                 modalTitle="Select Category">
     <product-category-nav *ngIf="categories?.Items?.length"
-                           [categories]="categories"
-                           (selection)="changeCategory($event)"></product-category-nav>
+                          [categories]="categories"
+                          (selection)="changeCategory($event)"></product-category-nav>
   </shared-modal>
 </section>
