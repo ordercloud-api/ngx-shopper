@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { OcMeService } from '@ordercloud/angular-sdk';
 import { AppFormErrorService } from '@app-buyer/shared';
 
-describe('AddressFormComponent', () => {
+fdescribe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
   const meService = {
@@ -88,16 +88,19 @@ describe('AddressFormComponent', () => {
     it('should emit formSubmitted event', () => {
       component['onSubmit']();
       expect(component.formSubmitted.emit).toHaveBeenCalledWith({
-        ID: '',
-        FirstName: 'Crhistian',
-        LastName: 'Ramirez',
-        Street1: '404 5th st sw',
-        Street2: '',
-        City: 'Minneapolis',
-        State: 'MN',
-        Zip: '56001',
-        Phone: '555-555-5555',
-        Country: 'US',
+        address: {
+          ID: '',
+          FirstName: 'Crhistian',
+          LastName: 'Ramirez',
+          Street1: '404 5th st sw',
+          Street2: '',
+          City: 'Minneapolis',
+          State: 'MN',
+          Zip: '56001',
+          Phone: '555-555-5555',
+          Country: 'US',
+        },
+        formDirty: component.addressForm.dirty,
       });
     });
   });
