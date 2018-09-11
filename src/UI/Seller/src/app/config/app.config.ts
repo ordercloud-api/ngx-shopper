@@ -31,6 +31,7 @@ export const ocAppConfig: AppConfig = {
     'OverrideShipping',
     'BuyerImpersonation',
     'AddressAdmin',
+    'CategoryAdmin',
   ],
 };
 

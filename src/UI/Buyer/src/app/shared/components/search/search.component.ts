@@ -9,7 +9,7 @@ import {
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { debounceTime, takeWhile, filter } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'shared-search',
@@ -23,10 +23,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   faSearch = faSearch;
   faTimes = faTimes;
   form: FormGroup;
+  previousSearchTerm = '';
 
   constructor(
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -38,30 +40,36 @@ export class SearchComponent implements OnInit, OnDestroy {
   private onFormChanges() {
     this.form.controls['search'].valueChanges
       .pipe(
+        filter((searchTerm) => {
+          const searchTermChanged = searchTerm !== this.previousSearchTerm;
+          const onProductListPage = this.router.url === '/products';
+          return searchTermChanged && onProductListPage;
+        }),
         debounceTime(500),
         takeWhile(() => this.alive)
       )
-      .subscribe(() => {
+      .subscribe((searchTerm) => {
+        this.previousSearchTerm = searchTerm;
         this.search();
       });
+  }
+
+  private search() {
+    const searchTerm = this.form.controls.search.value;
+    // emit as undefined if empty string so sdk ignores parameter completely
+    this.searched.emit(searchTerm || undefined);
   }
 
   private onQueryParamChanges() {
     // clear search bar if products are no longer filtered by search term
     this.activatedRoute.queryParams
-      .pipe(filter((queryParams) => typeof queryParams.search === 'undefined'))
+      .pipe(
+        filter((queryParams) => typeof queryParams.search === 'undefined'),
+        takeWhile(() => this.alive)
+      )
       .subscribe(() => {
         this.form.controls['search'].setValue('');
       });
-  }
-
-  private search() {
-    let searchTerm = this.form.get('search').value;
-    if (!searchTerm) {
-      // emit as undefined so sdk ignores parameter completely
-      searchTerm = undefined;
-    }
-    this.searched.emit(searchTerm);
   }
 
   showClear(): boolean {

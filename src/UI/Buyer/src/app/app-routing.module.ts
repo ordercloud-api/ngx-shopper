@@ -29,19 +29,19 @@ const routes: Routes = [
       },
       {
         path: 'support',
-        component: SupportComponent
+        component: SupportComponent,
       },
       {
         path: 'faq',
-        component: FaqComponent
+        component: FaqComponent,
       },
       {
         path: 'terms-and-conditions',
-        component: TermsAndConditionsComponent
+        component: TermsAndConditionsComponent,
       },
       {
         path: 'products',
-        loadChildren: './products/products.module#ProductsModule',
+        loadChildren: './product/product.module#ProductsModule',
       },
       { path: '', loadChildren: './checkout/checkout.module#CheckoutModule' },
       { path: 'impersonation', redirectTo: '/home' },
@@ -53,4 +53,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

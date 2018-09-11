@@ -106,13 +106,11 @@ export class BaseResolveService {
   }
 
   transferAnonymousCart(anonLineItems: ListLineItem): Observable<LineItem[]> {
-    const q = [];
+    const requests = anonLineItems.Items.map((li) =>
+      this.appLineItemService.create(li.xp.product, li.Quantity)
+    );
 
-    anonLineItems.Items.forEach((li) => {
-      q.push(this.appLineItemService.create(li.xp.product, li.Quantity));
-    });
-
-    return forkJoin(q);
+    return forkJoin(requests);
   }
 
   resetUser() {

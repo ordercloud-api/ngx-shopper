@@ -10,7 +10,7 @@ import { SearchComponent } from '@app-buyer/shared/components/search/search.comp
 import { ReactiveFormsModule } from '@angular/forms';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Subject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -18,13 +18,20 @@ describe('SearchComponent', () => {
   const activatedRoute = {
     queryParams: new Subject(),
   };
+  let router = {
+    url: '/products',
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SearchComponent, FaIconComponent],
-      providers: [{ provide: ActivatedRoute, useValue: activatedRoute }],
+      providers: [
+        { provide: ActivatedRoute, useValue: activatedRoute },
+        { provide: Router, useValue: router },
+      ],
       imports: [ReactiveFormsModule],
     }).compileComponents();
+    router = TestBed.get(Router);
   }));
 
   beforeEach(() => {
@@ -60,9 +67,24 @@ describe('SearchComponent', () => {
     beforeEach(() => {
       spyOn(component as any, 'search');
     });
+
+    it('should not call search if previous search term is the same', () => {
+      component.previousSearchTerm = 'mockSearchTerm';
+      component['onFormChanges']();
+      component.form.controls.search.setValue('mockSearchTerm');
+      expect(component['search']).not.toHaveBeenCalled();
+    });
+    it('should not call search if not on product list page', () => {
+      router.url = '/products/volleyball';
+      component.previousSearchTerm = 'blah';
+      component['onFormChanges']();
+      component.form.controls.search.setValue('');
+      expect(component['search']).not.toHaveBeenCalled();
+    });
     it(
-      'should call search after 500ms of form change',
+      'should emit search after 500ms of form change',
       fakeAsync(() => {
+        router.url = '/products';
         component['onFormChanges']();
         component.form.controls['search'].setValue('mockSearchTerm');
         tick(499);
@@ -71,6 +93,22 @@ describe('SearchComponent', () => {
         expect(component['search']).toHaveBeenCalled();
       })
     );
+  });
+
+  describe('search', () => {
+    beforeEach(() => {
+      spyOn(component.searched, 'emit');
+    });
+    it('should emit value from form', () => {
+      component.form.controls.search.setValue('some value');
+      component['search']();
+      expect(component.searched.emit).toHaveBeenCalledWith('some value');
+    });
+    it('should emit undefined for empty strings', () => {
+      component.form.controls.search.setValue('');
+      component['search']();
+      expect(component.searched.emit).toHaveBeenCalledWith(undefined);
+    });
   });
 
   describe('onQueryParamChanges', () => {
@@ -86,27 +124,6 @@ describe('SearchComponent', () => {
       activatedRoute.queryParams.next({ search: 'blah' });
       component['onQueryParamChanges']();
       expect(component.form.controls.search.value).toBe('balloons');
-    });
-  });
-
-  describe('search', () => {
-    beforeEach(() => {
-      spyOn(component.searched, 'emit');
-    });
-    it('should emit search term from form', () => {
-      component.form.controls['search'].setValue('mockSearchTerm');
-      component['search']();
-      expect(component.searched.emit).toHaveBeenCalledWith('mockSearchTerm');
-    });
-    it('empty string form value should emit as undefined', () => {
-      component.form.controls['search'].setValue('');
-      component['search']();
-      expect(component.searched.emit).toHaveBeenCalledWith(undefined);
-    });
-    it('null form value should emit as undefined', () => {
-      component.form.controls['search'].setValue(null);
-      component['search']();
-      expect(component.searched.emit).toHaveBeenCalledWith(undefined);
     });
   });
 

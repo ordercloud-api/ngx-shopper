@@ -106,16 +106,14 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent
   private deleteExistingPayments(): Observable<any[]> {
     return this.ocPaymentService.List('outgoing', this.order.ID).pipe(
       flatMap((paymentList) => {
-        const queue = [];
-        paymentList.Items.forEach((payment) => {
-          queue.push(
-            this.ocPaymentService.Delete('outgoing', this.order.ID, payment.ID)
-          );
-        });
-        if (!queue.length) {
+        if (!paymentList.Items.length) {
           return of([]);
         }
-        return forkJoin(queue);
+        const requests = paymentList.Items.map((payment) =>
+          this.ocPaymentService.Delete('outgoing', this.order.ID, payment.ID)
+        );
+
+        return forkJoin(requests);
       })
     );
   }
