@@ -7,11 +7,9 @@ import {
   ListPromotion,
   OcOrderService,
   ListPayment,
-  Address,
   OrderApproval,
 } from '@ordercloud/angular-sdk';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { AppLineItemService } from '@app-buyer/shared';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 import { uniqBy as _uniqBy } from 'lodash';
 
@@ -24,7 +22,6 @@ export class OrderDetailComponent implements OnInit {
   order$: Observable<Order>;
   lineItems$: Observable<ListLineItem>;
   promotions$: Observable<ListPromotion>;
-  supplierAddresses$: Observable<Address[]>;
   lineItems: ListLineItem;
   payments$: Observable<ListPayment>;
   approvals$: Observable<OrderApproval[]>;
@@ -32,7 +29,6 @@ export class OrderDetailComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private ocOrderService: OcOrderService,
-    private appLineItemService: AppLineItemService,
     private appPaymentService: AppPaymentService
   ) {}
 
@@ -44,7 +40,6 @@ export class OrderDetailComponent implements OnInit {
       map(({ orderResolve }) => orderResolve.lineItems)
     );
     this.promotions$ = this.getPromotions();
-    this.supplierAddresses$ = this.getSupplierAddresses();
     this.payments$ = this.getPayments();
     this.approvals$ = this.getApprovals();
   }
@@ -53,14 +48,6 @@ export class OrderDetailComponent implements OnInit {
     return this.activatedRoute.paramMap.pipe(
       flatMap((params: ParamMap) =>
         this.ocOrderService.ListPromotions('outgoing', params.get('orderID'))
-      )
-    );
-  }
-
-  private getSupplierAddresses(): Observable<Address[]> {
-    return this.lineItems$.pipe(
-      flatMap((lineItems) =>
-        this.appLineItemService.getSupplierAddresses(lineItems)
       )
     );
   }
@@ -78,7 +65,10 @@ export class OrderDetailComponent implements OnInit {
       flatMap((params: ParamMap) =>
         this.ocOrderService.ListApprovals('outgoing', params.get('orderID'))
       ),
-      map((list) => _uniqBy(list.Items, (x) => x.Comments))
+      map((list) => {
+        list.Items = list.Items.filter((x) => x.Approver);
+        return _uniqBy(list.Items, (x) => x.Comments);
+      })
     );
   }
 }
