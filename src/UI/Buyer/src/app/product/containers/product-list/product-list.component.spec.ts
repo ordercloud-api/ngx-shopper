@@ -28,7 +28,11 @@ import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-t
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 import { SortFilterComponent } from '@app-buyer/product/components/sort-filter/sort-filter.component';
 import { ProductSortStrategy } from '@app-buyer/product/models/product-sort-strategy.enum';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, InjectionToken } from '@angular/core';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
@@ -91,6 +95,10 @@ describe('ProductListComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: { queryParams, snapshot: { queryParams: mockQueryParams } },
+        },
+        {
+          provide: applicationConfiguration,
+          useValue: new InjectionToken<AppConfig>('app.config'),
         },
         { provide: OcMeService, useValue: ocMeService },
         { provide: FavoriteProductsService, useValue: favoriteProductsService },

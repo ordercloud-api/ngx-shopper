@@ -18,6 +18,14 @@ import { tap, takeWhile } from 'rxjs/operators';
   templateUrl: './price-filter.component.html',
   styleUrls: ['./price-filter.component.scss'],
 })
+/**
+ * true filtering-by-price is not yet possible (coming soon) but we can
+ * mock this in simple scenarios by setting price on xp
+ * and then filtering on xp
+ *
+ * note: this will not work for complex pricing scenarios
+ * where there are multiple prices for a single product
+ */
 export class PriceFilterComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,

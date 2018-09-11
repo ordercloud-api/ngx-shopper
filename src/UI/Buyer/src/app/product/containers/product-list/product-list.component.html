@@ -43,7 +43,8 @@
                   class="btn btn-block btn-default mb-4"
                   type="button"
                   (click)="clearAllFilters()">Clear All Filters</button>
-          <product-price-filter (priceFilterChange)="changePrice($event)"></product-price-filter>
+          <!-- enable price filtering by uncommenting this line, see PriceFilterComponent for more details -->
+          <!-- <product-price-filter (priceFilterChange)="changePrice($event)"></product-price-filter> -->
           <product-facet-filter *ngIf="productList.Meta?.Facets?.length"
                                 [facetList]="productList.Meta.Facets"
                                 (facetListSelected)="changeFacets($event)"></product-facet-filter>
