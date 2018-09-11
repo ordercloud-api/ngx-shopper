@@ -12,6 +12,7 @@ import {
 } from '@ordercloud/angular-sdk';
 import { AppStateService, ModalService } from '@app-buyer/shared';
 import { filter } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'checkout-address',
@@ -37,7 +38,8 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     private ocMeService: OcMeService,
     private ocOrderService: OcOrderService,
     private appStateService: AppStateService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private toastrService: ToastrService
   ) {
     super();
   }
@@ -97,15 +99,24 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     if (this.isAnon || formDirty) {
       request = this.setOneTimeAddress(address);
     }
-    request.subscribe((order) => {
-      if (this.addressType === 'Shipping') {
-        this.lineItems.Items[0].ShippingAddress = address;
-        this.appStateService.lineItemSubject.next(this.lineItems);
+    request.subscribe(
+      (order) => {
+        if (this.addressType === 'Shipping') {
+          this.lineItems.Items[0].ShippingAddress = address;
+          this.appStateService.lineItemSubject.next(this.lineItems);
+        }
+        this.order = order;
+        this.appStateService.orderSubject.next(this.order);
+        this.continue.emit();
+      },
+      (ex) => {
+        if (ex.error.Errors[0].ErrorCode === 'NotFound') {
+          this.toastrService.error(
+            'You no longer have access to this saved address. Please enter or select a different one.'
+          );
+        }
       }
-      this.order = order;
-      this.appStateService.orderSubject.next(this.order);
-      this.continue.emit();
-    });
+    );
   }
 
   private setOneTimeAddress(address: BuyerAddress): Observable<Order> {
