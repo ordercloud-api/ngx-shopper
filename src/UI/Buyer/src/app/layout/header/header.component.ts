@@ -15,15 +15,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { BaseResolveService, AppStateService } from '@app-buyer/shared';
-import {
-  OcTokenService,
-  Order,
-  MeUser,
-  ListCategory,
-} from '@ordercloud/angular-sdk';
+import { AppStateService } from '@app-buyer/shared';
+import { Order, MeUser, ListCategory } from '@ordercloud/angular-sdk';
 import { takeWhile, tap, debounceTime, delay } from 'rxjs/operators';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
+import { AppAuthService } from '@app-buyer/auth';
 
 @Component({
   selector: 'layout-header',
@@ -51,8 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private appStateService: AppStateService,
-    private ocTokenService: OcTokenService,
-    private baseResolveService: BaseResolveService,
+    private appAuthService: AppAuthService,
     private router: Router,
     @Inject(applicationConfiguration) protected appConfig: AppConfig
   ) {}
@@ -89,12 +84,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.ocTokenService.RemoveAccess();
-    if (this.appStateService.isAnonSubject.value) {
-      this.baseResolveService.resetUser();
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.appAuthService.logout();
   }
 
   // TODO: we should move responsibility for 'showing' up to the parent component instead of hard-coding route-names.

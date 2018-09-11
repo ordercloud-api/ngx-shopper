@@ -1,4 +1,3 @@
-
 // angular
 import { NgModule, ErrorHandler, ModuleWithProviders } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -20,7 +19,6 @@ import {
   NgbModalModule,
   NgbCarouselModule,
   NgbDropdownModule,
-
 } from '@ng-bootstrap/ng-bootstrap';
 
 // app services
@@ -50,7 +48,6 @@ import { FallbackImageDirective } from './directives/fallback-image/fallback-ima
 
 // guards
 import { HasTokenGuard } from '@app-buyer/shared/guards/has-token/has-token.guard';
-import { IsLoggedInGuard } from '@app-buyer/shared/guards/is-logged-in/is-logged-in.guard';
 
 import { NgbDateCustomParserFormatter } from '@app-buyer/config/date-picker.config';
 
@@ -80,6 +77,7 @@ import { GenericBrowseComponent } from '@app-buyer/shared/components/generic-bro
 import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
+import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/is-profiled-user.guard';
 
 @NgModule({
   imports: [
@@ -209,7 +207,7 @@ export class SharedModule {
         MapToIterablePipe,
         AppErrorHandler,
         HasTokenGuard,
-        IsLoggedInGuard,
+        IsProfiledUserGuard,
         DatePipe,
         NgbDateCustomParserFormatter,
         AppReorderService,

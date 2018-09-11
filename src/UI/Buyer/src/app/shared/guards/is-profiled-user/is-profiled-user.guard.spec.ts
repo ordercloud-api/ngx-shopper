@@ -1,12 +1,10 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { IsLoggedInGuard } from '@app-buyer/shared/guards/is-logged-in/is-logged-in.guard';
-import { AppAuthService } from '@app-buyer/auth';
+import { TestBed } from '@angular/core/testing';
+import { IsProfiledUserGuard } from './is-profiled-user.guard';
 
 describe('IsLoggedInGuard', () => {
   const firstIsAnonUserVal = true;
   const secondIsAnonUserVal = false;
-  let service: IsLoggedInGuard;
+  let service: IsProfiledUserGuard;
   const appAuthService = {
     isUserAnon: jasmine
       .createSpy('isUserAnon')
@@ -16,11 +14,11 @@ describe('IsLoggedInGuard', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        IsLoggedInGuard,
-        { provide: AppAuthService, useValue: appAuthService },
+        IsProfiledUserGuard,
+        { provide: appAuthService, useValue: appAuthService },
       ],
     });
-    service = TestBed.get(IsLoggedInGuard);
+    service = TestBed.get(IsProfiledUserGuard);
   });
 
   it('should be created', () => {
