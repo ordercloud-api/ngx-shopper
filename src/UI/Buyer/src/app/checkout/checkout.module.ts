@@ -8,6 +8,7 @@ import { CheckoutAddressComponent } from '@app-buyer/checkout/containers/checkou
 import { CheckoutComponent } from '@app-buyer/checkout/containers/checkout/checkout.component';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
 import { OrderSummaryComponent } from '@app-buyer/checkout/components/order-summary/order-summary.component';
+import { PromotionAddToOrderComponent } from '@app-buyer/checkout/components/promotion-add-to-order/promotion-add-to-order.component';
 
 // shared module
 import { SharedModule } from '@app-buyer/shared';
@@ -33,6 +34,7 @@ import { CheckoutConfirmComponent } from '@app-buyer/checkout/components/checkou
     PaymentSpendingAccountComponent,
     OrderConfirmationComponent,
     CheckoutConfirmComponent,
+    PromotionAddToOrderComponent,
   ],
 })
 export class CheckoutModule {}
