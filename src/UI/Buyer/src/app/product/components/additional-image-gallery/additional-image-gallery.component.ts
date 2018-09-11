@@ -13,7 +13,7 @@ export class AdditionalImageGalleryComponent implements OnInit, OnDestroy {
   private readonly gallerySize = 5;
   private alive = true;
 
-  @Input() imgUrls: string[] = [];
+  @Input() imgUrls: string[];
   selectedIndex = 0;
   startIndex = 0;
   endIndex = this.gallerySize - 1;
@@ -25,6 +25,7 @@ export class AdditionalImageGalleryComponent implements OnInit, OnDestroy {
     this.isResponsiveView = window.innerWidth > 900;
   }
   ngOnInit() {
+    this.imgUrls = this.imgUrls || [];
     fromEvent(window, 'resize')
       .pipe(
         // only subscribe to event while directive
