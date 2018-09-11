@@ -1,0 +1,32 @@
+<div *ngIf="facet.Name !== 'Price'">
+
+  <!-- Facet Name -->
+  <h6 class="text-muted"
+      (click)="toggleFacets()">
+    <fa-icon class="text-muted"
+             [icon]="isCollapsed ?  faPlusSquare : faMinusSquare"
+             pull="right"></fa-icon>
+    {{ facet.Name }}
+  </h6>
+
+  <!-- Facet Values -->
+  <form [formGroup]="form"
+        id="facetValues"
+        [ngbCollapse]="isCollapsed">
+    <div formArrayName="facetValues"
+         class="custom-control custom-checkbox"
+         *ngFor="let value of facet.Values | slice: 0: visibleFacetLength; let i = index">
+      <input (click)="selectFacet(facet.Name, value.Value, i)"
+             type="checkbox"
+             class="custom-control-input"
+             formControlName="{{i}}"
+             id="{{facet.Name}}facetCheckbox{{i}}">
+      <label for="{{facet.Name}}facetCheckbox{{i}}"
+             class="custom-control-label">{{value.Value}}<small class="text-secondary font-weight-bold badge badge-pill badge-light">({{value.Count}})</small></label>
+    </div>
+    <a *ngIf="visibleFacetLength < facet.Values.length"
+       (click)="showMore()"
+       class="pl-4 text-primary"><small>Show More</small> </a>
+    <hr>
+  </form>
+</div>

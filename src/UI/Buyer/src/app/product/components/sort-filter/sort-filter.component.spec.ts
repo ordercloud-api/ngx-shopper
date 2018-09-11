@@ -3,6 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SortFilterComponent } from './sort-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-to-iterable.pipe';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
+import { InjectionToken } from '@angular/core';
 
 describe('SortFilterComponent', () => {
   let component: SortFilterComponent;
@@ -12,6 +17,12 @@ describe('SortFilterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SortFilterComponent, MapToIterablePipe],
       imports: [ReactiveFormsModule],
+      providers: [
+        {
+          provide: applicationConfiguration,
+          useValue: new InjectionToken<AppConfig>('app.config'),
+        },
+      ],
     }).compileComponents();
   }));
 
