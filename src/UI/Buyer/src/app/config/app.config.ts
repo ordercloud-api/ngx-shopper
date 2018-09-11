@@ -10,6 +10,7 @@ export const ocAppConfig: AppConfig = {
   appname: 'OrderCloud Shopper',
   clientID: environment.clientID,
   anonymousShoppingEnabled: false,
+  premiumSearchEnabled: false,
   middlewareUrl: environment.middlewareUrl,
   scope: [
     'MeAddressAdmin',
@@ -65,4 +66,15 @@ export interface AppConfig {
    * from to complete payment on an order
    */
   availablePaymentMethods: PaymentMethod[];
+
+  /**
+   * API feature (in beta - coming soon). If set to true, takes advantage of the API's premium search which is a
+   * more powerful natural language search that also supports faceted navigation
+   * and is powered by Elastisearch. This feature will be available to for the public
+   * sometime in the fall as an additional-charge feature. Please contact one of our
+   * representatives if you are interested
+   * more info here: https://ordercloud-api.github.io/release-notes/ordercloud-api-v1.0.81.html
+   *
+   */
+  premiumSearchEnabled: boolean;
 }

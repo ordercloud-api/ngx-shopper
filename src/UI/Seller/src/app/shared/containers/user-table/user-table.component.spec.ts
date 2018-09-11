@@ -145,13 +145,13 @@ describe('UserTableComponent', () => {
   describe('editUser', () => {
     beforeEach(() => {
       spyOn(component, 'loadData');
-      component.editUser(component.users.Items[0]);
+      component.editUser(component.users.Items[0], 'oldID');
     });
     it('should edit a users using OCUsersService', () => {
       expect(modalService.close).toHaveBeenCalled();
       expect(ocUserService.Patch).toHaveBeenCalledWith(
         'buyerID',
-        component.users.Items[0].ID,
+        'oldID',
         component.users.Items[0]
       );
       expect(component.loadData).toHaveBeenCalled();

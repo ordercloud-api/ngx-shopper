@@ -11,7 +11,6 @@ describe('UserFormComponent', () => {
   const mockUser = {
     ID: '1',
     Username: 'Products',
-    Password: 'test',
     FirstName: 'First',
     LastName: 'Second',
     Email: 'test@email.com',
@@ -55,7 +54,6 @@ describe('UserFormComponent', () => {
       expect(component.userForm.value).toEqual({
         ID: '1',
         Username: 'Products',
-        Password: 'test',
         FirstName: 'First',
         LastName: 'Second',
         Email: 'test@email.com',
@@ -75,8 +73,19 @@ describe('UserFormComponent', () => {
     });
     it('should emit formSubmitted event', () => {
       component.userForm.setErrors(null);
+      component.userForm.get('ID').setValue('newID');
       component['onSubmit']();
-      expect(component.formSubmitted.emit).toHaveBeenCalledWith(mockUser);
+      expect(component.formSubmitted.emit).toHaveBeenCalledWith({
+        user: {
+          ID: 'newID',
+          Username: 'Products',
+          FirstName: 'First',
+          LastName: 'Second',
+          Email: 'test@email.com',
+          Active: true,
+        },
+        prevID: '1',
+      });
     });
   });
 

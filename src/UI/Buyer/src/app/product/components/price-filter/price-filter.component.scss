@@ -1,17 +1,23 @@
-.price-filter-go-btn {
-    margin-top: 10px;
-}
-
 .currency-input {
+  input::-webkit-inner-spin-button,
+  input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input::placeholder {
+    font-size: 15px;
+  }
+
+  input {
+    padding-left: 22px;
+  }
+  .currency-symbol {
     position: relative;
-}
-.currency-input input {
-    padding-left: 14px;
-    max-width: 60px;
-}
-.currency-input:before {
+  }
+  .currency-symbol:before {
     position: absolute;
-    top: 0;
-    content:"$";
-    left: 5px;
+    content: '$';
+    top: 6px;
+    left: 10px;
+  }
 }
