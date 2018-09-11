@@ -5,10 +5,10 @@
 
 An open-source B2B ecommerce solution built on top of the [OrderCloud.io](https://developer.ordercloud.io/documentation) platform and maintained by the OrderCloud team.
 
-This solution is composed of three applications which are all a part of **this** repo:
+This solution is composed of three applications which are all a part of this repo:
 
-1.  Buyer - the entire shopping experience from the perspective of a buyer-user
-2.  Seller - product management, order management and user management for your buyer app **(not yet built: see roadmap)**
+1.  [Buyer](./src/UI/Buyer/README.md) - the entire shopping experience from the perspective of a buyer-user
+2.  [Seller](./src/UI/Seller/README.md) - product management, order management and user management for your buyer app **(partially built: see roadmap)**
 3.  Middleware - a backend project that extends functionality not part of the core ordercloud api **(not yet built: see roadmap)**
 
 The front end apps (Buyer and Seller) are written in Angular and the backend app (Middleware) is built with C#(.Net Core)
@@ -17,17 +17,11 @@ The front end apps (Buyer and Seller) are written in Angular and the backend app
 
 The solution is currently very much under construction. Our primary focus will be getting to MVP. The following are an estimate of when the three main parts of the app will be complete:
 
-- Buyer MVP: 08/06/2018
+- Buyer MVP: COMPLETE
 - Seller MVP: 10/01/2018
-- Middleware: MVP 10/15/2018
+- Middleware: MVP 11/15/2018
 
 Want to check on our progress? Search for issues with label 'buyer', 'seller', or 'middleware'
-
-### App Specific Documentation:
-
-- [Buyer App](./src/UI/Buyer/README.md)
-- [Seller App](./src/UI/Seller/README.md)
-- Middleware App (coming soon)
 
 ### Contributing
 
