@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   OcMeService,
   ListBuyerAddress,
@@ -8,9 +8,11 @@ import {
   Order,
   BuyerAddress,
   ListLineItem,
+  Address,
 } from '@ordercloud/angular-sdk';
 import { AppStateService, ModalService } from '@app-buyer/shared';
 import { filter } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'checkout-address',
@@ -36,7 +38,8 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     private ocMeService: OcMeService,
     private ocOrderService: OcOrderService,
     private appStateService: AppStateService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private toastrService: ToastrService
   ) {
     super();
   }
@@ -91,22 +94,29 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     this.modalService.close(this.modalID);
   }
 
-  saveAddress(address) {
-    const queue = [];
-    if (this.isAnon || !address.ID) {
-      queue.push(this.setOneTimeAddress(address));
-    } else {
-      queue.push(this.setSavedAddress(address));
+  saveAddress(address: Address, formDirty: boolean) {
+    let request = this.setSavedAddress(address);
+    if (this.isAnon || formDirty) {
+      request = this.setOneTimeAddress(address);
     }
-    return forkJoin(queue).subscribe(([order]) => {
-      if (this.addressType === 'Shipping') {
-        this.lineItems.Items[0].ShippingAddress = address;
-        this.appStateService.lineItemSubject.next(this.lineItems);
+    request.subscribe(
+      (order) => {
+        if (this.addressType === 'Shipping') {
+          this.lineItems.Items[0].ShippingAddress = address;
+          this.appStateService.lineItemSubject.next(this.lineItems);
+        }
+        this.order = order;
+        this.appStateService.orderSubject.next(this.order);
+        this.continue.emit();
+      },
+      (ex) => {
+        if (ex.error.Errors[0].ErrorCode === 'NotFound') {
+          this.toastrService.error(
+            'You no longer have access to this saved address. Please enter or select a different one.'
+          );
+        }
       }
-      this.order = order;
-      this.appStateService.orderSubject.next(this.order);
-      this.continue.emit();
-    });
+    );
   }
 
   private setOneTimeAddress(address: BuyerAddress): Observable<Order> {
