@@ -34,6 +34,13 @@ import { CategoryDetailsComponent } from './containers/category-details/category
 import { ProductTableComponent } from '@app-seller/shared/containers/product-table/product-table.component';
 import { ProductFormComponent } from '@app-seller/shared/components/products-form/product-form.component';
 
+// pipes
+import { PhoneFormatPipe } from '@app-seller/shared/pipes/phone-format/phone-format.pipe';
+
+// directives
+import { PhoneInputDirective } from '@app-seller/shared/directives/phone-input/phone-input.directive';
+
+
 @NgModule({
   imports: [
     SharedRoutingModule,
@@ -60,6 +67,12 @@ import { ProductFormComponent } from '@app-seller/shared/components/products-for
     FontAwesomeModule,
     NgbPaginationModule,
     NgbTabsetModule,
+
+    // pipes
+    PhoneFormatPipe,
+    
+    // directives
+    PhoneInputDirective,
 
     // app components
     SearchComponent,
@@ -92,6 +105,8 @@ import { ProductFormComponent } from '@app-seller/shared/components/products-for
     CategoryDetailsComponent,
     ProductTableComponent,
     ProductFormComponent,
+    PhoneFormatPipe,
+    PhoneInputDirective,
   ],
 
   /**
@@ -113,6 +128,8 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
+        PhoneFormatPipe,
+
         AppErrorHandler,
         { provide: ErrorHandler, useClass: AppErrorHandler },
       ],

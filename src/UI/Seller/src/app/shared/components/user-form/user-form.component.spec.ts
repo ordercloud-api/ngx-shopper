@@ -14,6 +14,7 @@ describe('UserFormComponent', () => {
     FirstName: 'First',
     LastName: 'Second',
     Email: 'test@email.com',
+    Phone: '(123)456-7890',
     Active: true,
   };
 
@@ -57,6 +58,7 @@ describe('UserFormComponent', () => {
         FirstName: 'First',
         LastName: 'Second',
         Email: 'test@email.com',
+        Phone: '(123)456-7890',
         Active: true,
       });
     });
@@ -82,6 +84,7 @@ describe('UserFormComponent', () => {
           FirstName: 'First',
           LastName: 'Second',
           Email: 'test@email.com',
+          Phone: '(123)456-7890',
           Active: true,
         },
         prevID: '1',
