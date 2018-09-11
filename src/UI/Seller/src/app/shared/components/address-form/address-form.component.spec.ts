@@ -37,7 +37,7 @@ describe('AddressFormComponent', () => {
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
     component.existingAddress = {
-      ID: '',
+      ID: 'ID',
       AddressName: 'My Address',
       FirstName: 'Crhistian',
       LastName: 'Ramirez',
@@ -63,7 +63,7 @@ describe('AddressFormComponent', () => {
 
     it('should initialize form correctly', () => {
       expect(component.addressForm.value).toEqual({
-        ID: '',
+        ID: 'ID',
         AddressName: 'My Address',
         FirstName: 'Crhistian',
         LastName: 'Ramirez',
@@ -88,19 +88,23 @@ describe('AddressFormComponent', () => {
       expect(formErrorService.displayFormErrors).toHaveBeenCalled();
     });
     it('should emit formSubmitted event', () => {
+      component.addressForm.get('ID').setValue('newID');
       component['onSubmit']();
       expect(component.formSubmitted.emit).toHaveBeenCalledWith({
-        ID: '',
-        AddressName: 'My Address',
-        FirstName: 'Crhistian',
-        LastName: 'Ramirez',
-        Street1: '404 5th st sw',
-        Street2: '',
-        City: 'Minneapolis',
-        State: 'MN',
-        Zip: '56001',
-        Phone: '555-555-5555',
-        Country: 'US',
+        address: {
+          ID: 'newID',
+          AddressName: 'My Address',
+          FirstName: 'Crhistian',
+          LastName: 'Ramirez',
+          Street1: '404 5th st sw',
+          Street2: '',
+          City: 'Minneapolis',
+          State: 'MN',
+          Zip: '56001',
+          Phone: '555-555-5555',
+          Country: 'US',
+        },
+        prevID: 'ID',
       });
     });
   });

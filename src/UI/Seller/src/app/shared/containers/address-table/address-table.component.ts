@@ -150,10 +150,10 @@ export class AddressTableComponent extends BaseBrowse implements OnInit {
       });
   }
 
-  editAddress(address: Address): void {
+  editAddress(address: Address, prevID: string): void {
     this.modalService.close(this.editModalID);
     this.ocAddressService
-      .Patch(this.appConfig.buyerID, address.ID, address)
+      .Patch(this.appConfig.buyerID, prevID, address)
       .subscribe(() => {
         this.loadData();
       });
