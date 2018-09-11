@@ -27,20 +27,6 @@
             class="error-message">Username is Required</span>
     </div>
   </div>
-  <div *ngIf="!_existingUser.ID">
-    <div class="form-group row">
-      <label for="password"
-             class="col-sm-3 control-label font-weight-bold mt-1">Password</label>
-      <div class="col-sm-9">
-        <input type="text"
-               formControlName="Password"
-               class="form-control"
-               id="password" />
-        <span *ngIf="hasRequiredError('Password')"
-              class="error-message">Password is Required</span>
-      </div>
-    </div>
-  </div>
   <div class="form-group row">
     <label for="firstname"
            class="col-sm-3 control-label font-weight-bold mt-1">First Name</label>

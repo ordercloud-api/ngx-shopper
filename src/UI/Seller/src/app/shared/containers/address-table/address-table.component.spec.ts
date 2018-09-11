@@ -192,13 +192,13 @@ describe('AddressTableComponent', () => {
   describe('editUser', () => {
     beforeEach(() => {
       spyOn(component, 'loadData');
-      component.editAddress(mockAddresses.Items[0]);
+      component.editAddress(mockAddresses.Items[0], 'oldID');
     });
     it('should edit a users using OCUsersService', () => {
       expect(modalService.close).toHaveBeenCalled();
       expect(ocAddressService.Patch).toHaveBeenCalledWith(
         'buyerID',
-        mockAddresses.Items[0].ID,
+        'oldID',
         mockAddresses.Items[0]
       );
       expect(component.loadData).toHaveBeenCalled();

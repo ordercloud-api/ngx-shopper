@@ -6,7 +6,7 @@ import {
   PageTitleComponent,
   AppLineItemService,
   AppStateService,
-  ModalService
+  ModalService,
 } from '@app-buyer/shared';
 import {
   NgbPaginationModule,
@@ -28,9 +28,11 @@ import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-t
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 import { SortFilterComponent } from '@app-buyer/product/components/sort-filter/sort-filter.component';
 import { ProductSortStrategy } from '@app-buyer/product/models/product-sort-strategy.enum';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-
-
+import { NO_ERRORS_SCHEMA, InjectionToken } from '@angular/core';
+import {
+  applicationConfiguration,
+  AppConfig,
+} from '@app-buyer/config/app.config';
 
 describe('ProductListComponent', () => {
   const mockProductData = of({ Items: [], Meta: {} });
@@ -76,7 +78,7 @@ describe('ProductListComponent', () => {
         CategoryNavComponent,
         ToggleFavoriteComponent,
         MapToIterablePipe,
-        SortFilterComponent
+        SortFilterComponent,
       ],
       imports: [
         NgbPaginationModule,
@@ -93,6 +95,10 @@ describe('ProductListComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: { queryParams, snapshot: { queryParams: mockQueryParams } },
+        },
+        {
+          provide: applicationConfiguration,
+          useValue: new InjectionToken<AppConfig>('app.config'),
         },
         { provide: OcMeService, useValue: ocMeService },
         { provide: FavoriteProductsService, useValue: favoriteProductsService },
@@ -172,6 +178,27 @@ describe('ProductListComponent', () => {
       queryParams.next({ category: 'CategoryID' });
       expect(component.buildBreadCrumbs).toHaveBeenCalledWith('CategoryID');
     });
+    it('should call buildFacets', () => {
+      spyOn(component as any, 'buildFacetFilters');
+      queryParams.next({ mockParams: 'test' });
+      expect(component['buildFacetFilters']).toHaveBeenCalledWith({
+        mockParams: 'test',
+      });
+    });
+    it('should call buildFavoritesFilter', () => {
+      spyOn(component as any, 'buildFavoritesFilter');
+      queryParams.next({ mockParams: 'test' });
+      expect(component['buildFavoritesFilter']).toHaveBeenCalledWith({
+        mockParams: 'test',
+      });
+    });
+    it('should call buildPriceFilter', () => {
+      spyOn(component as any, 'buildPriceFilter');
+      queryParams.next({ mockParams: 'test' });
+      expect(component['buildPriceFilter']).toHaveBeenCalledWith({
+        mockParams: 'test',
+      });
+    });
     describe('favorite products filter query', () => {
       const blankFilters = {
         categoryID: undefined,
@@ -216,6 +243,78 @@ describe('ProductListComponent', () => {
           ID: undefined,
         },
       });
+    });
+  });
+
+  describe('buildFacetFilters', () => {
+    const colorRedFacet = [
+      {
+        Name: 'Color',
+        XpPath: 'Color',
+        xp: null,
+        Values: [
+          {
+            Value: 'Red',
+            Count: 3,
+          },
+        ],
+      },
+    ];
+    it('should return an empty object if there are no facets', () => {
+      component.facets = null;
+      expect(component['buildFacetFilters']({ mockParams: 'test' })).toEqual(
+        {}
+      );
+    });
+    it('should return an empty object if none of the query parameters are facets', () => {
+      component.facets = colorRedFacet;
+      expect(component['buildFacetFilters']({ mockParams: 'test' })).toEqual(
+        {}
+      );
+    });
+    it('should return filter for query params that are facets only and ignore the rest', () => {
+      component.facets = colorRedFacet;
+      expect(
+        component['buildFacetFilters']({ Color: 'Red', ShouldIgnore: 'yep' })
+      ).toEqual({
+        'xp.Color': 'Red',
+      });
+    });
+  });
+
+  describe('buildFavoritesFilter', () => {
+    it('should not filter on ID if queryParams.favoriteProducts is not "true"', () => {
+      const favProdVals = [null, undefined, 'false', 'blah'];
+      favProdVals.forEach((favProd) => {
+        const result = component['buildFavoritesFilter']({
+          favoriteProducts: favProd,
+        });
+        expect(result).toEqual({ ID: undefined });
+      });
+    });
+    it('should filter on ID if queryParams.favoriteProduct is set to "true"', () => {
+      const result = component['buildFavoritesFilter']({
+        favoriteProducts: 'true',
+      });
+      expect(result).toEqual({ ID: 'Id1|Id2' });
+    });
+  });
+
+  describe('buildPriceFilter', () => {
+    it('should handle minPrice with no maxPrice', () => {
+      const result = component['buildPriceFilter']({ minPrice: 3 });
+      expect(result).toEqual({ 'xp.Price': '>=3' });
+    });
+    it('should handle maxPrice with no minPrice', () => {
+      const result = component['buildPriceFilter']({ maxPrice: 20 });
+      expect(result).toEqual({ 'xp.Price': '<=20' });
+    });
+    it('should handle minPrice and maxPrice', () => {
+      const result = component['buildPriceFilter']({
+        minPrice: 3,
+        maxPrice: 20,
+      });
+      expect(result).toEqual({ 'xp.Price': ['>=3', '<=20'] });
     });
   });
 
@@ -268,6 +367,28 @@ describe('ProductListComponent', () => {
 
       expect(navigateSpy).toHaveBeenCalledWith([], {
         queryParams: newQueryParams,
+      });
+    });
+  });
+
+  describe('changeFacets', () => {
+    beforeEach(() => {
+      spyOn(component as any, 'addQueryParam');
+      component.changeFacets({ Color: 'Red' });
+    });
+    it('should call addQueryParam', () => {
+      expect(component['addQueryParam']).toHaveBeenCalledWith({ Color: 'Red' });
+    });
+  });
+
+  describe('changePrice', () => {
+    beforeEach(() => {
+      spyOn(component as any, 'addQueryParam');
+      component.changePrice({ minPrice: '12.30' });
+    });
+    it('should call addQueryParam', () => {
+      expect(component['addQueryParam']).toHaveBeenCalledWith({
+        minPrice: '12.30',
       });
     });
   });

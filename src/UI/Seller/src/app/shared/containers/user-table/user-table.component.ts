@@ -128,10 +128,10 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
     });
   }
 
-  editUser(user: User) {
+  editUser(user: User, prevID: string) {
     this.modalService.close(this.editModalID);
     this.ocUserService
-      .Patch(this.appConfig.buyerID, user.ID, user)
+      .Patch(this.appConfig.buyerID, prevID, user)
       .subscribe(() => {
         this.loadData();
       });

@@ -2,17 +2,53 @@
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-### Demo
+## Overview
 
-Check out our buyer app which auto-deploys any time the master branch is updated:
+The buyer app is the entire shopping experience from the perspective of a buyer user. This front end ecommerce application is built with Angular(6+) and is currently MVP complete meaning its ready to start taking orders!
+
+## Features
+
+- Open Source (free and always will be)
+- Up to three different payment methods: PurchaseOrder, CreditCard, SpendingAccount (configurable in [app config](./src/app/config/app.config.ts))
+- Authentication - Login/Registration
+- Product search
+- Category navigation
+- Faceted navigation (API feature currently in beta)
+- Favorite Products
+- Favorite Orders
+- Personal addresses
+- Personal credit cards
+- Filterable Order History (status, search, date range)
+- Order Approvals
+- Order Comments
+- Homepage image slider
+- Featured Products (on homepage)
+- Related Products (on product detail page)
+- Product Image zoom
+- Profiled and Anonymous Shopping (toggleable in [app config](./src/app/config/app.config.ts))
+
+## Developer Features
+
+- Highly tested (500+ unit tests to date and ~85% code coverage)
+- Powered by OrderCloud's strongly typed [Typescript SDK](https://www.npmjs.com/package/@ordercloud/angular-sdk)
+- Modules split for organization and lazy loaded for efficiency
+
+## Roadmap
+
+- Multilanguage Support i18n
+- Preloading modules for greater speed
+- [Angular Universal](https://angular.io/guide/universal) for better SEO, quicker first page load and much much more
+
+## Demo
+
+Check out our [buyer app](https://ngx-shopper.ordercloud.io) which auto-deploys any time the master branch is updated.
 
 ```
-URL: https://ngx-shopper.ordercloud.io
 Username: testbuyer
 Password: fails345
 ```
 
-### Building the Buyer App Locally
+## Building the Buyer App Locally
 
 1.  If you have not before, install the [Angular CLI](https://github.com/angular/angular-cli/wiki) globally on your machine with `npm install -g @angular/cli`
 
@@ -34,7 +70,7 @@ Password: fails345
 
 Be sure to check out the [Angular CLI docs](https://github.com/angular/angular-cli) for a full list of commands
 
-### Auto-formatter
+## Auto-formatter
 
 We use a tool to auto-format code before each commit, which lets us enforce consistency in formatting. Check out the [configuration file](./../lint-staged.config.js) for more info on which files are formatted and formatting options.
 
@@ -42,7 +78,11 @@ If you use vscode we recommend installing the vscode extensions for [prettier](h
 
 If you want to turn this feature off completely please refer to [this commit](https://github.com/ordercloud-api/ngx-shopper/commit/af05cccbddb34e9457c04ba225cf68c074b9c5d3) (which introduces auto-formatting) for insight on what to undo.
 
-### Contributing
+## Theming
+
+This app strives to make use of bootstrap variables wherever possible to make theming very easy. Want to add a new theme? Check out the [README in styles/theme](./src/styles/themes/README.md)
+
+## Contributing
 
 We welcomes all contributions from anyone willing to work in good faith with other contributors and the community. No contribution is too small and all contributions are valued.
 
@@ -65,6 +105,6 @@ After you've opened an issue, received the green light to start coding, and have
 
 Happy contributing!
 
-### Getting Help
+## Getting Help
 
 If you need any assistance getting set up please create a detailed github issue of what you are having trouble with and what you've tried to fix it.
