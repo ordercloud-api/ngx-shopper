@@ -4,7 +4,11 @@ import { CheckoutAddressComponent } from '@app-buyer/checkout/containers/checkou
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
 import { of, BehaviorSubject, Subject } from 'rxjs';
-import { OcMeService, OcOrderService } from '@ordercloud/angular-sdk';
+import {
+  OcMeService,
+  OcOrderService,
+  BuyerAddress,
+} from '@ordercloud/angular-sdk';
 import {
   AppStateService,
   AppFormErrorService,

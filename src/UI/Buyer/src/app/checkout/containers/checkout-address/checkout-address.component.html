@@ -4,7 +4,7 @@
             (click)="modalService.open(modalID)"
             *ngIf="!isAnon && existingAddresses && existingAddresses.Items.length > 0">Select a saved address</button>
     <shared-address-form [existingAddress]="selectedAddress"
-                         (formSubmitted)="saveAddress($event)"
+                         (formSubmitted)="saveAddress($event.address, $event.formDirty)"
                          btnText="Save and Continue"></shared-address-form>
   </div>
 </div>
