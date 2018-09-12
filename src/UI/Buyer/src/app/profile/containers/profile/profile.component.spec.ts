@@ -22,29 +22,20 @@ import {
 } from '@app-buyer/config/app.config';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { AppAuthService } from '@app-buyer/auth';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
-  let appStateService: AppStateService;
-  const toastrService = { Success: jasmine.createSpy('Success') };
-  const ocTokenService = { RemoveAccess: jasmine.createSpy('RemoveAccess') };
-  const baseResolveService = { resetUser: jasmine.createSpy('resetUser') };
-  const router = { navigate: jasmine.createSpy('navigate'), url: '' };
+  const appAuthService = { logout: jasmine.createSpy('logout') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileComponent],
       imports: [CookieModule.forRoot(), SharedModule],
       providers: [
-        AppStateService,
-        OcMeService,
-        AddressListComponent,
         PhoneFormatPipe,
-        { provide: ToastrService, useValue: toastrService },
-        { provide: OcTokenService, useValue: ocTokenService },
-        { provide: BaseResolveService, useValue: baseResolveService },
-        { provide: Router, useValue: router },
+        { provide: AppAuthService, useValue: appAuthService },
         {
           provide: applicationConfiguration,
           useValue: new InjectionToken<AppConfig>('app.config'),
@@ -52,7 +43,6 @@ describe('ProfileComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();
-    appStateService = TestBed.get(AppStateService);
   }));
 
   beforeEach(() => {
@@ -99,22 +89,9 @@ describe('ProfileComponent', () => {
   });
 
   describe('logout', () => {
-    beforeEach(() => {
-      router.navigate.calls.reset();
-    });
-    it('should remove token', () => {
+    it('should call appAuthService.logout', () => {
       component.logout();
-      expect(ocTokenService.RemoveAccess).toHaveBeenCalled();
-    });
-    it('should refresh current user if user is anonymous', () => {
-      appStateService.isAnonSubject.next(true);
-      component.logout();
-      expect(baseResolveService.resetUser).toHaveBeenCalled();
-    });
-    it('should route to login if user is profiled', () => {
-      appStateService.isAnonSubject.next(false);
-      component.logout();
-      expect(router.navigate).toHaveBeenCalledWith(['/login']);
+      expect(appAuthService.logout).toHaveBeenCalled();
     });
   });
 });

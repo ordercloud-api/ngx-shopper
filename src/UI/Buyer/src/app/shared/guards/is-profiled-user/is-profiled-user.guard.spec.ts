@@ -1,21 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { IsProfiledUserGuard } from './is-profiled-user.guard';
+import { BehaviorSubject } from 'rxjs';
+import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 
-describe('IsLoggedInGuard', () => {
-  const firstIsAnonUserVal = true;
-  const secondIsAnonUserVal = false;
+describe('IsProfiledUserGuard', () => {
   let service: IsProfiledUserGuard;
-  const appAuthService = {
-    isUserAnon: jasmine
-      .createSpy('isUserAnon')
-      .and.returnValues(firstIsAnonUserVal, secondIsAnonUserVal),
+  const appStateService = {
+    isAnonSubject: new BehaviorSubject(true),
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
         IsProfiledUserGuard,
-        { provide: appAuthService, useValue: appAuthService },
+        { provide: AppStateService, useValue: appStateService },
       ],
     });
     service = TestBed.get(IsProfiledUserGuard);
@@ -25,8 +23,12 @@ describe('IsLoggedInGuard', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return true if user is anonymous', () => {
-    expect(service.canActivate()).toBe(!firstIsAnonUserVal);
-    expect(service.canActivate()).toBe(!secondIsAnonUserVal);
+  it('should return false if user is not profiled', () => {
+    appStateService.isAnonSubject.next(true);
+    expect(service.canActivate()).toBe(false);
+  });
+  it('should return true if user is profiled', () => {
+    appStateService.isAnonSubject.next(false);
+    expect(service.canActivate()).toBe(true);
   });
 });

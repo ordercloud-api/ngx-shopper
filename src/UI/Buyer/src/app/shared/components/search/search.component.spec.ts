@@ -47,7 +47,6 @@ describe('SearchComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       spyOn(component as any, 'onFormChanges');
-      spyOn(component as any, 'onQueryParamChanges');
       component.ngOnInit();
     });
     it('should initialize search to empty string', () => {
@@ -57,9 +56,6 @@ describe('SearchComponent', () => {
     });
     it('should call onFormChanges', () => {
       expect(component['onFormChanges']).toHaveBeenCalled();
-    });
-    it('should call onFormChanges', () => {
-      expect(component['onQueryParamChanges']).toHaveBeenCalled();
     });
   });
 
@@ -84,8 +80,8 @@ describe('SearchComponent', () => {
     it(
       'should emit search after 500ms of form change',
       fakeAsync(() => {
-        router.url = '/products';
         component['onFormChanges']();
+        component.form.markAsDirty();
         component.form.controls['search'].setValue('mockSearchTerm');
         tick(499);
         expect(component['search']).not.toHaveBeenCalled();
@@ -108,22 +104,6 @@ describe('SearchComponent', () => {
       component.form.controls.search.setValue('');
       component['search']();
       expect(component.searched.emit).toHaveBeenCalledWith(undefined);
-    });
-  });
-
-  describe('onQueryParamChanges', () => {
-    beforeEach(() => {
-      component.form.controls.search.setValue('balloons');
-    });
-    it('should clear value if search is no longer a query param', () => {
-      activatedRoute.queryParams.next({ anotherParamThatIsNotSearch: 'blah' });
-      component['onQueryParamChanges']();
-      expect(component.form.controls.search.value).toBe('');
-    });
-    it('should clear value if search is no longer a query param', () => {
-      activatedRoute.queryParams.next({ search: 'blah' });
-      component['onQueryParamChanges']();
-      expect(component.form.controls.search.value).toBe('balloons');
     });
   });
 
