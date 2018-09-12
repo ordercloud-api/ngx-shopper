@@ -10,21 +10,37 @@
         id="facetValues"
         [ngbCollapse]="isCollapsed"
         (ngSubmit)="setPriceFilter()">
-    <span class="currency-input"><input placeholder="Min"
-           formControlName="min"
-           id="min"></span>
-    <label for="min"
-           class="sr-only">Min</label>
-    <span class="currency-input"><input placeholder="Max"
-           formControlName="max"
-           id="max"></span>
-    <label for="max"
-           class="sr-only">Max</label>
-    <button class="btn price-filter-go-btn"
-            type="button"
-            (click)="clear()">Clear</button>
-    <button class="btn btn-primary price-filter-go-btn"
-            type="submit">Go</button>
-    <hr>
+    <div class="row px-3">
+      <div class="col px-1">
+        <div class="form-group currency-input">
+          <label for="minPriceInput"
+                 class="sr-only">Min</label>
+          <span class="currency-symbol"></span>
+          <input type="number"
+                 aria-describedby="minPriceInput"
+                 class="form-control"
+                 id="minPriceInput"
+                 placeholder="Min"
+                 formControlName="min">
+        </div>
+      </div>
+      <div class="col px-1">
+        <div class="form-group currency-input">
+          <label for="maxPriceInput"
+                 class="sr-only">Min</label>
+          <span class="currency-symbol"></span>
+          <input type="number"
+                 aria-describedby="maxPriceInput"
+                 class="form-control"
+                 id="maxPriceInput"
+                 placeholder="Max"
+                 formControlName="max">
+        </div>
+      </div>
+      <div class="col px-1">
+        <button class="btn btn-outline btn-block"
+                type="submit">Go</button>
+      </div>
+    </div>
   </form>
 </div>

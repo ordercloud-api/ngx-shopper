@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { flatMap, tap } from 'rxjs/operators';
 import {
@@ -7,6 +7,7 @@ import {
   OcMeService,
   Category,
   ListCategory,
+  ListFacet,
 } from '@ordercloud/angular-sdk';
 import {
   AppLineItemService,
@@ -17,7 +18,7 @@ import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.inter
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 import { ProductSortStrategy } from '@app-buyer/product/models/product-sort-strategy.enum';
-import { isEmpty as _isEmpty } from 'lodash';
+import { isEmpty as _isEmpty, each as _each } from 'lodash';
 
 @Component({
   selector: 'product-list',
@@ -34,6 +35,7 @@ export class ProductListComponent implements OnInit {
   closeIcon = faTimes;
   isModalOpen = false;
   createModalID = 'selectCategory';
+  facets: ListFacet[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,31 +56,73 @@ export class ProductListComponent implements OnInit {
   getProductData(): Observable<ListBuyerProduct> {
     return this.activatedRoute.queryParams.pipe(
       tap((queryParams) => {
+        this.hasQueryParams = !_isEmpty(queryParams);
         this.hasFavoriteProductsFilter =
           queryParams.favoriteProducts === 'true';
-        this.hasQueryParams = !_isEmpty(queryParams);
         this.categoryCrumbs = this.buildBreadCrumbs(queryParams.category);
+        this.searchTerm = queryParams.search || null;
       }),
       flatMap((queryParams) => {
-        this.searchTerm = queryParams.search || null;
-        const filter = {};
-
-        // add filter for favorite products if it exists
-        const favorites = this.favoriteProductsService.getFavorites();
-        filter['ID'] =
-          queryParams.favoriteProducts === 'true' && favorites
-            ? favorites.join('|')
-            : undefined;
-
-        return this.ocMeService.ListProducts({
-          categoryID: queryParams.category,
-          page: queryParams.page,
-          search: queryParams.search,
-          sortBy: queryParams.sortBy,
-          filters: <any>filter,
-        });
+        return this.ocMeService
+          .ListProducts({
+            categoryID: queryParams.category,
+            page: queryParams.page,
+            search: queryParams.search,
+            sortBy: queryParams.sortBy,
+            filters: {
+              ...this.buildFacetFilters(queryParams),
+              ...this.buildFavoritesFilter(queryParams),
+              ...this.buildPriceFilter(queryParams),
+            },
+          })
+          .pipe(tap((productList) => (this.facets = productList.Meta.Facets)));
       })
     );
+  }
+
+  private buildFacetFilters(queryParams: Params): Params {
+    if (!this.facets) {
+      // either premium search is not enabled for this client
+      // or ProductFacets have not been defined
+      return {};
+    }
+    const result = {};
+    _each(queryParams, (queryParamVal, queryParamName) => {
+      const facetDefinition = this.facets.find(
+        (facet) => facet.Name === queryParamName
+      );
+      if (facetDefinition) {
+        result[`xp.${facetDefinition.XpPath}`] = queryParamVal;
+      }
+    });
+    return result;
+  }
+
+  private buildFavoritesFilter(queryParams: Params): Params {
+    const filter = {};
+    const favorites = this.favoriteProductsService.getFavorites();
+    filter['ID'] =
+      queryParams.favoriteProducts === 'true' && favorites
+        ? favorites.join('|')
+        : undefined;
+    return filter;
+  }
+
+  private buildPriceFilter(queryParams: Params): Params {
+    const filter = {};
+    if (queryParams.minPrice && !queryParams.maxPrice) {
+      filter['xp.Price'] = `>=${queryParams.minPrice}`;
+    }
+    if (queryParams.maxPrice && !queryParams.minPrice) {
+      filter['xp.Price'] = `<=${queryParams.maxPrice}`;
+    }
+    if (queryParams.minPrice && queryParams.maxPrice) {
+      filter['xp.Price'] = [
+        `>=${queryParams.minPrice}`,
+        `<=${queryParams.maxPrice}`,
+      ];
+    }
+    return filter;
   }
 
   getCategories(): void {
@@ -104,6 +148,14 @@ export class ProductListComponent implements OnInit {
     if (this.isModalOpen) {
       this.closeCategoryModal();
     }
+  }
+
+  changeFacets(facetQueryParams: Params): void {
+    this.addQueryParam(facetQueryParams);
+  }
+
+  changePrice(priceQueryParams: Params): void {
+    this.addQueryParam(priceQueryParams);
   }
 
   changeSortStrategy(sortBy: ProductSortStrategy): void {
@@ -138,6 +190,9 @@ export class ProductListComponent implements OnInit {
 
     const recursiveBuild = (id) => {
       const cat = this.categories.Items.find((c) => c.ID === id);
+      if (!cat) {
+        return crumbs;
+      }
       crumbs.unshift(cat);
       if (!cat.ParentID) {
         return crumbs;
