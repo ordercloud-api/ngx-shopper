@@ -190,6 +190,9 @@ export class ProductListComponent implements OnInit {
 
     const recursiveBuild = (id) => {
       const cat = this.categories.Items.find((c) => c.ID === id);
+      if (!cat) {
+        return crumbs;
+      }
       crumbs.unshift(cat);
       if (!cat.ParentID) {
         return crumbs;
