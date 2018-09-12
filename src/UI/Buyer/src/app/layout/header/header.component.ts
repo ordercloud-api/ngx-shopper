@@ -3,7 +3,7 @@ import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   faSearch,
   faShoppingCart,
@@ -17,9 +17,10 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { AppStateService } from '@app-buyer/shared';
 import { Order, MeUser, ListCategory } from '@ordercloud/angular-sdk';
-import { takeWhile, tap, debounceTime, delay } from 'rxjs/operators';
+import { takeWhile, tap, debounceTime, delay, filter } from 'rxjs/operators';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { AppAuthService } from '@app-buyer/auth';
+import { SearchComponent } from '@app-buyer/shared/components/search/search.component';
 
 @Component({
   selector: 'layout-header',
@@ -36,6 +37,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   addToCartQuantity: number;
   @ViewChild('mobilePopover') public mobilePopover: NgbPopover;
   @ViewChild('desktopPopover') public desktopPopover: NgbPopover;
+  @ViewChild('desktopSearch') public desktopSearch: SearchComponent;
+  @ViewChild('mobileSearch') public mobileSearch: SearchComponent;
 
   faSearch = faSearch;
   faShoppingCart = faShoppingCart;
@@ -48,6 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private appStateService: AppStateService,
     private appAuthService: AppAuthService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     @Inject(applicationConfiguration) protected appConfig: AppConfig
   ) {}
@@ -57,16 +61,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.alive))
       .subscribe((order) => (this.currentOrder = order));
 
-    this.buildAddToCartNotification();
+    this.buildAddToCartListener();
+    this.clearSearchOnNavigate();
   }
 
-  buildAddToCartNotification() {
+  isMobile(): boolean {
+    return window.innerWidth < 768; // max width for bootstrap's sm breakpoint
+  }
+
+  buildAddToCartListener() {
     let popover;
     this.appStateService.addToCartSubject
       .pipe(
         tap((event: AddToCartEvent) => {
-          const isMobile = window.innerWidth < 768; // max width for bootstrap's sm breakpoint
-          popover = isMobile ? this.mobilePopover : this.desktopPopover;
+          popover = this.isMobile() ? this.mobilePopover : this.desktopPopover;
           popover.close();
           popover.ngbPopover = `${event.quantity} Item(s) Added to Cart`;
         }),
@@ -85,6 +93,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.appAuthService.logout();
+  }
+
+  clearSearchOnNavigate() {
+    this.activatedRoute.queryParams
+      .pipe(
+        filter((queryParams) => {
+          return typeof queryParams.search === 'undefined';
+        }),
+        takeWhile(() => this.alive)
+      )
+      .subscribe(() => {
+        const search = this.isMobile() ? this.mobileSearch : this.desktopSearch;
+        if (search) search.clearWithoutEmit();
+      });
   }
 
   // TODO: we should move responsibility for 'showing' up to the parent component instead of hard-coding route-names.

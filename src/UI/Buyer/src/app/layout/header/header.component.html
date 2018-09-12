@@ -84,19 +84,15 @@
     </div>
   </div>
 </nav>
-
-
 <div class="d-md-none">
-  <shared-search class="mt-1 "
+  <shared-search #mobileSearch
+                 class="mt-1 "
                  placeholderText="Search Products..."
                  (searched)="searchProducts($event)"></shared-search>
 </div>
-
-
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom d-none d-md-block"
      *ngIf="showHeader()">
   <div class="container px-3">
-
     <!-- Mobile Menu Toggle -->
     <button class="navbar-toggler"
             type="button"
@@ -108,7 +104,6 @@
             (click)="isCollapsed = !isCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <!-- Collapsible Navbar Menu -->
     <div class="collapse navbar-collapse "
          id="navbarSupportedContent"
@@ -124,13 +119,11 @@
         </li>
       </ul>
     </div>
-
-
     <!-- Product Search -->
-    <shared-search class="mt-1"
+    <shared-search #desktopSearch
+                   class="mt-1"
                    placeholderText="Search Products..."
                    (searched)="searchProducts($event)"></shared-search>
-
     <!-- Shopping Cart -->
     <ul class="navbar-nav">
       <li class="nav-item">
