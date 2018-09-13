@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 // 3rd party
-import { BuyerAddress } from '@ordercloud/angular-sdk';
+import { BuyerAddress, Address } from '@ordercloud/angular-sdk';
 import { AppGeographyService } from '@app-buyer/shared/services/geography/geography.service';
 import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 
@@ -14,7 +14,8 @@ import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-
 export class AddressFormComponent implements OnInit {
   private _existingAddress: BuyerAddress;
   @Input() btnText: string;
-  @Output() formSubmitted = new EventEmitter();
+  @Output()
+  formSubmitted = new EventEmitter<{ address: Address; formDirty: boolean }>();
   stateOptions: string[];
   countryOptions: { label: string; abbreviation: string }[];
   addressForm: FormGroup;
@@ -36,6 +37,7 @@ export class AddressFormComponent implements OnInit {
   set existingAddress(address: BuyerAddress) {
     this._existingAddress = address || {};
     this.setForm();
+    this.addressForm.markAsPristine();
   }
 
   setForm() {
@@ -57,7 +59,10 @@ export class AddressFormComponent implements OnInit {
     if (this.addressForm.status === 'INVALID') {
       return this.formErrorService.displayFormErrors(this.addressForm);
     }
-    this.formSubmitted.emit(this.addressForm.value);
+    this.formSubmitted.emit({
+      address: this.addressForm.value,
+      formDirty: this.addressForm.dirty,
+    });
   }
 
   // control display of error messages
