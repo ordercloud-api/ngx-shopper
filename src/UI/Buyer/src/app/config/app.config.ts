@@ -9,7 +9,7 @@ export const applicationConfiguration = new InjectionToken<AppConfig>(
 export const ocAppConfig: AppConfig = {
   appname: 'OrderCloud',
   clientID: environment.clientID,
-  anonymousShoppingEnabled: true,
+  anonymousShoppingEnabled: false,
   premiumSearchEnabled: false,
   middlewareUrl: environment.middlewareUrl,
   scope: [
