@@ -1,18 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
 import { OcMeService, BuyerProduct, Order } from '@ordercloud/angular-sdk';
 import { AppStateService } from '@app-buyer/shared';
-import { ToastrService } from 'ngx-toastr';
 
 abstract class FavoritesService<T extends { ID?: string }> {
-  protected abstract readonly XpFieldName: string;
-  protected abstract readonly TypeDisplayName: string;
-  // All OrderCloud xp objects are limited 8000 chars. With guid's of length ~24, 40 favorites is ~1000 chars.
-  private readonly MaxFavorites: number = 40;
+  protected readonly XpFieldName: string;
 
   constructor(
     private appStateService: AppStateService,
-    private ocMeService: OcMeService,
-    private toastrService: ToastrService
+    private ocMeService: OcMeService
   ) {}
 
   isFavorite(object: T): boolean {
@@ -23,14 +18,6 @@ abstract class FavoritesService<T extends { ID?: string }> {
   setFavoriteValue(isFav: boolean, object: T): void {
     const favorites = this.getFavorites();
     let updatedFavorites: string[];
-    if (isFav && favorites.length > this.MaxFavorites) {
-      this.toastrService.info(
-        `You are limited to ${this.MaxFavorites} favorite ${
-          this.TypeDisplayName
-        }`
-      );
-      return;
-    }
     if (isFav) {
       updatedFavorites = [...favorites, object.ID];
     } else {
@@ -56,14 +43,12 @@ abstract class FavoritesService<T extends { ID?: string }> {
 })
 export class FavoriteProductsService extends FavoritesService<BuyerProduct> {
   protected readonly XpFieldName = 'FavoriteProducts';
-  protected readonly TypeDisplayName = 'products';
 
   constructor(
     @Inject(AppStateService) appStateService: AppStateService,
-    @Inject(OcMeService) ocMeService: OcMeService,
-    @Inject(ToastrService) toastrService: ToastrService
+    @Inject(OcMeService) ocMeService: OcMeService
   ) {
-    super(appStateService, ocMeService, toastrService);
+    super(appStateService, ocMeService);
   }
 }
 
@@ -72,13 +57,11 @@ export class FavoriteProductsService extends FavoritesService<BuyerProduct> {
 })
 export class FavoriteOrdersService extends FavoritesService<Order> {
   protected readonly XpFieldName = 'FavoriteOrders';
-  protected readonly TypeDisplayName = 'orders';
 
   constructor(
     @Inject(AppStateService) appStateService: AppStateService,
-    @Inject(OcMeService) ocMeService: OcMeService,
-    @Inject(ToastrService) toastrService: ToastrService
+    @Inject(OcMeService) ocMeService: OcMeService
   ) {
-    super(appStateService, ocMeService, toastrService);
+    super(appStateService, ocMeService);
   }
 }
