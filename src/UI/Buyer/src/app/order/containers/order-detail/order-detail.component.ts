@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, flatMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
   Order,
   ListLineItem,
@@ -12,59 +12,60 @@ import {
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 import { uniqBy as _uniqBy } from 'lodash';
+import { AppLineItemService } from '@app-buyer/shared';
 
 @Component({
-  selector: 'order-order-detail',
+  selector: 'order-details',
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.scss'],
 })
-export class OrderDetailComponent implements OnInit {
+export class OrderDetailsComponent implements OnInit {
+  orderID: string;
   order$: Observable<Order>;
   lineItems$: Observable<ListLineItem>;
   promotions$: Observable<ListPromotion>;
-  lineItems: ListLineItem;
   payments$: Observable<ListPayment>;
   approvals$: Observable<OrderApproval[]>;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private ocOrderService: OcOrderService,
-    private appPaymentService: AppPaymentService
+    protected activatedRoute: ActivatedRoute,
+    protected ocOrderService: OcOrderService,
+    protected appPaymentService: AppPaymentService,
+    protected appLineItemService: AppLineItemService
   ) {}
 
   ngOnInit() {
-    this.order$ = this.activatedRoute.parent.data.pipe(
-      map(({ orderResolve }) => orderResolve.order)
-    );
-    this.lineItems$ = this.activatedRoute.parent.data.pipe(
-      map(({ orderResolve }) => orderResolve.lineItems)
-    );
-    this.promotions$ = this.getPromotions();
-    this.payments$ = this.getPayments();
-    this.approvals$ = this.getApprovals();
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      this.orderID = params.get('orderID');
+      this.order$ = this.getOrder();
+      this.lineItems$ = this.getLineItems();
+      this.promotions$ = this.getPromotions();
+      this.payments$ = this.getPayments();
+      this.approvals$ = this.getApprovals();
+    });
   }
 
-  private getPromotions() {
-    return this.activatedRoute.paramMap.pipe(
-      flatMap((params: ParamMap) =>
-        this.ocOrderService.ListPromotions('outgoing', params.get('orderID'))
-      )
-    );
+  protected getOrder(): Observable<Order> {
+    return this.ocOrderService.Get('outgoing', this.orderID);
   }
 
-  getPayments(): Observable<ListPayment> {
-    return this.activatedRoute.paramMap.pipe(
-      flatMap((params: ParamMap) =>
-        this.appPaymentService.getPayments('outgoing', params.get('orderID'))
-      )
-    );
+  protected getLineItems(): Observable<ListLineItem> {
+    return this.appLineItemService.listAll(this.orderID);
   }
 
-  getApprovals(): Observable<OrderApproval[]> {
-    return this.activatedRoute.paramMap.pipe(
-      flatMap((params: ParamMap) =>
-        this.ocOrderService.ListApprovals('outgoing', params.get('orderID'))
-      ),
+  protected getPromotions(): Observable<ListPromotion> {
+    return (this.promotions$ = this.ocOrderService.ListPromotions(
+      'outgoing',
+      this.orderID
+    ));
+  }
+
+  protected getPayments(): Observable<ListPayment> {
+    return this.appPaymentService.getPayments('outgoing', this.orderID);
+  }
+
+  protected getApprovals(): Observable<OrderApproval[]> {
+    return this.ocOrderService.ListApprovals('outgoing', this.orderID).pipe(
       map((list) => {
         list.Items = list.Items.filter((x) => x.Approver);
         return _uniqBy(list.Items, (x) => x.Comments);
