@@ -87,11 +87,11 @@
         "auth",
         "config",
         "layout",
-        "profile",
         "shared",
-        "products",
-        "order",
-        "user"
+        "product",
+        "address",
+        "user",
+        "category"
       ],
       "kebab-case"
     ],

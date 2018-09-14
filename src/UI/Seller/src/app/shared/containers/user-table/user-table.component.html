@@ -1,0 +1,103 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-8">
+      <h1>Users</h1>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary float-right mt-3"
+              (click)="openCreateModal()">
+        <fa-icon [icon]="faPlusCircle"></fa-icon> New User
+      </button>
+      <shared-modal id="{{ createModalID }}"
+                    modalTitle="Create A New User">
+        <user-form btnText="Create"
+                   (formSubmitted)="addUser($event.user)"></user-form>
+      </shared-modal>
+      <shared-modal id="{{ editModalID }}"
+                    modalTitle="Update User">
+        <button class="btn btn-primary mb-3"
+                (click)="getImpersonationToken(selectedUser.ID)">
+          <fa-icon [icon]="faUser"></fa-icon> Impersonate User
+        </button>
+        <user-form btnText="Save"
+                   [existingUser]="selectedUser"
+                   (formSubmitted)="editUser($event.user, $event.prevID)"></user-form>
+      </shared-modal>
+    </div>
+  </div>
+  <div class="mt-4"
+       *ngIf="users">
+    <shared-generic-browse [meta]="users?.Meta"
+                           searchPlaceholder="users"
+                           (search)="searchChanged($event)"
+                           (page)="pageChanged($event)">
+      <table *ngIf="users.Items.length"
+             class="table table-striped table-bordered mt-3">
+        <thead>
+          <tr>
+            <th *ngIf="columns.indexOf('Assign') > -1">Assigned</th>
+            <th *ngIf="columns.indexOf('ID') > -1">
+              <shared-sort-column fieldName="ID"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">ID</shared-sort-column>
+            </th>
+            <th *ngIf="columns.indexOf('Username') > -1">
+              <shared-sort-column fieldName="Username"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">Username</shared-sort-column>
+            </th>
+            <th *ngIf="columns.indexOf('FirstName') > -1">
+              <shared-sort-column fieldName="FirstName"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">First Name</shared-sort-column>
+            </th>
+            <th *ngIf="columns.indexOf('LastName') > -1">
+              <shared-sort-column fieldName="LastName"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">Last Name</shared-sort-column>
+            </th>
+            <th *ngIf="columns.indexOf('Email') > -1">
+              <shared-sort-column fieldName="Email"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">Email</shared-sort-column>
+            </th>
+            <th *ngIf="columns.indexOf('Active') > -1">Active</th>
+            <th *ngIf="columns.indexOf('Delete') > -1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users.Items">
+            <th *ngIf="columns.indexOf('Assign') > -1">
+              <form class="text-center">
+                <input type="checkbox"
+                       (change)="assignUser(user.ID, $event.target.checked)"
+                       [checked]="user.Assigned">
+              </form>
+            </th>
+            <td *ngIf="columns.indexOf('ID') > -1">{{ user.ID }}</td>
+            <td *ngIf="columns.indexOf('Username') > -1">
+              <a [routerLink]=""
+                 (click)="openEditModal(user)">{{ user.Username }}</a>
+            </td>
+            <td *ngIf="columns.indexOf('FirstName') > -1">{{ user.FirstName }}</td>
+            <td *ngIf="columns.indexOf('LastName') > -1">{{ user.LastName }}</td>
+            <td *ngIf="columns.indexOf('Email') > -1">{{ user.Email }}</td>
+            <td *ngIf="columns.indexOf('Active') > -1"
+                class="text-center">
+              <fa-icon aria-hidden="true"
+                       [ngClass]="{'text-success': user.Active}"
+                       [icon]="faCircle"></fa-icon>
+            </td>
+            <td *ngIf="columns.indexOf('Delete') > -1">
+              <button (click)="deleteUser(user.ID)"
+                      class="btn btn-danger btn-xs">
+                <fa-icon [icon]="faTrash"></fa-icon>
+                <span class="hidden-xs"> Delete</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </shared-generic-browse>
+  </div>
+</div>

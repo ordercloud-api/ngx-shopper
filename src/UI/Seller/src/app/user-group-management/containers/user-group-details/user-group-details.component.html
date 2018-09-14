@@ -1,0 +1,58 @@
+<div class="container mt-4"
+     *ngIf="usergroup">
+  <div class="row">
+    <div class="col-12">
+      <nav class="breadcrumb"
+           aria-label="breadcrumb">
+        <a class="breadcrumb-item link-text"
+           [routerLink]="['/usergroups']">All User Groups</a>
+        <a class="breadcrumb-item link-text">{{ usergroup.Name }}</a>
+      </nav>
+    </div>
+  </div>
+  <h4>
+    <small class="text-muted">User Group</small> <br> {{ usergroup.Name}}
+  </h4>
+  <div class="mt-3">
+    <ngb-tabset>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon [icon]="faUsers"></fa-icon> User Group
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div class="m-3"
+               style="max-width: 800px">
+            <user-group-form btnText="Update User Group"
+                             [existingUserGroup]="usergroup"
+                             (formSubmitted)="updateUserGroup($event)"></user-group-form>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon [icon]="faUser"></fa-icon> User Assignments
+        </ng-template>
+        <ng-template ngbTabContent>
+          <user-table [columns]="['Assign', 'Username', 'Email']"
+                      [userGroupID]="usergroup.ID"></user-table>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon [icon]="faMapMarker"></fa-icon> Address Assignments
+        </ng-template>
+        <ng-template ngbTabContent>
+          <address-table [userGroupID]="usergroup.ID"></address-table>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <fa-icon [icon]="faSitemap"></fa-icon> Category Assignments
+        </ng-template>
+        <ng-template ngbTabContent>
+          <category-table [userGroupID]="usergroup.ID"></category-table>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

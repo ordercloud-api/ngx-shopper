@@ -23,18 +23,30 @@ import { AuthModule } from '@app-buyer/auth/auth.module';
 // app components
 import { AppComponent } from '@app-buyer/app.component';
 import { AppRoutingModule } from '@app-buyer/app-routing.module';
+
+// static pages
+import { SupportComponent } from './static-pages/support/support.component';
+import { FaqComponent } from './static-pages/faq/faq.component';
+
 // interceptors
 import {
   AutoAppendTokenInterceptor,
   RefreshTokenInterceptor,
+  CacheInterceptor,
 } from '@app-buyer/auth';
 
 // date picker config
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateNativeAdapter } from '@app-buyer/config/date-picker.config';
+import { TermsAndConditionsComponent } from './static-pages/terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    SupportComponent,
+    FaqComponent,
+    TermsAndConditionsComponent,
+  ],
   imports: [
     /**
      * app modules
@@ -67,6 +79,11 @@ import { NgbDateNativeAdapter } from '@app-buyer/config/date-picker.config';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
       multi: true,
     },
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },

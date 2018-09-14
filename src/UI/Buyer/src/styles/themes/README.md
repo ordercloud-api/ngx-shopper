@@ -1,7 +1,17 @@
 # Theme
 
-On large sites and applications, it is not unusual to have different themes. There are certainly different ways of dealing with themes but I personally like having them all in a `themes/` folder.
+Want to add a new theme?
 
-*Note — This is very project-specific and is likely to be non-existent on many projects.*
+1.  copy `my-first-theme` folder and rename it to your desire
+2.  Update names in [main.scss](../main.scss)
 
-Reference: [Sass Guidelines](http://sass-guidelin.es/) > [Architecture](http://sass-guidelin.es/#architecture) > [Themes folder](http://sass-guidelin.es/#themes-folder)
+## Theming strategy:
+
+Override, Override, Override.
+
+You should only be doing one of two things when theming:
+
+- Overriding existing variables
+- Overriding existing styles
+
+The base app strives to utilize bootstrap variables when possible.

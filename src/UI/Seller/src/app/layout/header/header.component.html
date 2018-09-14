@@ -2,28 +2,64 @@
   <div class="container px-3">
 
     <!-- Mobile Menu Toggle -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-      aria-label="Toggle navigation" [attr.aria-expanded]="!isCollapsed" (click)="isCollapsed = !isCollapsed">
+    <button class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-label="Toggle navigation"
+            [attr.aria-expanded]="!isCollapsed"
+            (click)="isCollapsed = !isCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Collapsible Navbar Menu -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngClass]="{'show': !isCollapsed}">
+    <div class="collapse navbar-collapse"
+         id="navbarSupportedContent"
+         [ngClass]="{'show': !isCollapsed}">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link navbar-brand" routerLink="/home">{{ appConfig.appname }}</a>
+          <a class="nav-link navbar-brand"
+             routerLink="/home">{{ appConfig.appname }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/products">
-            <fa-icon [icon]="faBoxOpen"></fa-icon> Products</a>
+          <a class="nav-link"
+             routerLink="/products">
+            <fa-icon [icon]="faBoxOpen"></fa-icon> Products
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/users">
-            <fa-icon [icon]="faUser"></fa-icon> Users</a>
+          <a class="nav-link"
+             routerLink="/categories">
+            <fa-icon [icon]="faSitemap"></fa-icon> Categories
+          </a>
         </li>
-        <li class="nav-item float-right">
-          <a class="nav-link" routerLink="/home" (click)="logout()">
-            <fa-icon [icon]="faSignOutAlt"></fa-icon> Logout</a>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/addresses">
+            <fa-icon [icon]="faMapMarker"></fa-icon> Addresses
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/users">
+            <fa-icon [icon]="faUser"></fa-icon> Users
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             routerLink="/usergroups">
+            <fa-icon [icon]="faUsers"></fa-icon> User Groups
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav float-right">
+        <li class="nav-item pull-right">
+          <a class="nav-link"
+             routerLink="/home"
+             (click)="logout()">
+            <fa-icon [icon]="faSignOutAlt"></fa-icon> Logout
+          </a>
         </li>
       </ul>
     </div>

@@ -23,6 +23,7 @@
   </div>
 </div>
 <ngb-pagination *ngIf="meta?.TotalPages > 1"
+                maxSize="10"
                 class="d-flex justify-content-center"
                 [collectionSize]="meta.TotalCount"
                 [pageSize]="meta.PageSize"

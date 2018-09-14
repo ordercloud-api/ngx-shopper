@@ -9,7 +9,9 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 // 3rd party UI
+import { TreeModule } from 'angular-tree-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { SharedRoutingModule } from '@app-seller/shared/shared-routing.module';
 import { HasTokenGuard } from '@app-seller/shared/guards/has-token/has-token.guard';
 import { AppErrorHandler } from '@app-seller/config/error-handling.config';
@@ -20,6 +22,24 @@ import { ModalService } from '@app-seller/shared/services/modal/modal.service';
 import { ModalComponent } from '@app-seller/shared/components/modal/modal.component';
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
 import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/carousel-slide-display/carousel-slide-display.component';
+import { GenericBrowseComponent } from '@app-seller/shared/components/generic-browse/generic-browse.component';
+import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
+import { UserFormComponent } from '@app-seller/shared/components/user-form/user-form.component';
+import { AddressTableComponent } from './containers/address-table/address-table.component';
+import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
+import { AddressFormComponent } from '@app-seller/shared/components/address-form/address-form.component';
+import { CategoryTableComponent } from './containers/category-table/category-table.component';
+import { CategoryFormComponent } from './components/category-form/category-form.component';
+import { CategoryDetailsComponent } from './containers/category-details/category-details.component';
+import { ProductTableComponent } from '@app-seller/shared/containers/product-table/product-table.component';
+import { ProductFormComponent } from '@app-seller/shared/components/products-form/product-form.component';
+
+// pipes
+import { PhoneFormatPipe } from '@app-seller/shared/pipes/phone-format/phone-format.pipe';
+
+// directives
+import { PhoneInputDirective } from '@app-seller/shared/directives/phone-input/phone-input.directive';
+
 
 @NgModule({
   imports: [
@@ -30,6 +50,7 @@ import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/car
     ReactiveFormsModule,
 
     // 3rd party UI
+    TreeModule,
     FontAwesomeModule,
     FormsModule,
     NgbPaginationModule.forRoot(),
@@ -42,21 +63,50 @@ import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/car
     ReactiveFormsModule,
 
     // 3rd party UI
+    TreeModule,
     FontAwesomeModule,
     NgbPaginationModule,
     NgbTabsetModule,
+
+    // pipes
+    PhoneFormatPipe,
+    
+    // directives
+    PhoneInputDirective,
 
     // app components
     SearchComponent,
     SortColumnComponent,
     ModalComponent,
     CarouselSlideDisplayComponent,
+    GenericBrowseComponent,
+    UserTableComponent,
+    UserFormComponent,
+    AddressTableComponent,
+    AddressFormComponent,
+    CategoryTableComponent,
+    CategoryFormComponent,
+    CategoryDetailsComponent,
+    ProductTableComponent,
+    ProductFormComponent,
   ],
   declarations: [
     SearchComponent,
     SortColumnComponent,
     ModalComponent,
     CarouselSlideDisplayComponent,
+    GenericBrowseComponent,
+    UserTableComponent,
+    UserFormComponent,
+    AddressTableComponent,
+    AddressFormComponent,
+    CategoryTableComponent,
+    CategoryFormComponent,
+    CategoryDetailsComponent,
+    ProductTableComponent,
+    ProductFormComponent,
+    PhoneFormatPipe,
+    PhoneInputDirective,
   ],
 
   /**
@@ -70,6 +120,7 @@ import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/car
     AppStateService,
     ModalService,
     AppFormErrorService,
+    AppGeographyService,
   ],
 })
 export class SharedModule {
@@ -77,6 +128,8 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
+        PhoneFormatPipe,
+
         AppErrorHandler,
         { provide: ErrorHandler, useClass: AppErrorHandler },
       ],

@@ -1,0 +1,46 @@
+<div>
+  <h6 class="text-muted"
+      (click)="isCollapsed = !isCollapsed;">
+    <fa-icon class="text-muted"
+             [icon]="isCollapsed ?  faPlusSquare : faMinusSquare"
+             pull="right"></fa-icon>Price
+  </h6>
+
+  <form [formGroup]="form"
+        id="facetValues"
+        [ngbCollapse]="isCollapsed"
+        (ngSubmit)="setPriceFilter()">
+    <div class="row px-3">
+      <div class="col px-1">
+        <div class="form-group currency-input">
+          <label for="minPriceInput"
+                 class="sr-only">Min</label>
+          <span class="currency-symbol"></span>
+          <input type="number"
+                 aria-describedby="minPriceInput"
+                 class="form-control"
+                 id="minPriceInput"
+                 placeholder="Min"
+                 formControlName="min">
+        </div>
+      </div>
+      <div class="col px-1">
+        <div class="form-group currency-input">
+          <label for="maxPriceInput"
+                 class="sr-only">Min</label>
+          <span class="currency-symbol"></span>
+          <input type="number"
+                 aria-describedby="maxPriceInput"
+                 class="form-control"
+                 id="maxPriceInput"
+                 placeholder="Max"
+                 formControlName="max">
+        </div>
+      </div>
+      <div class="col px-1">
+        <button class="btn btn-outline btn-block"
+                type="submit">Go</button>
+      </div>
+    </div>
+  </form>
+</div>

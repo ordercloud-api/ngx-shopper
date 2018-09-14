@@ -8,7 +8,7 @@ import { OcBuyerService } from '@ordercloud/angular-sdk';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { applicationConfiguration } from '@app-seller/config/app.config';
-import { CarouselSlideUpdate, CarouselSlide } from '@app-seller/shared';
+import { CarouselSlide } from '@app-seller/shared';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

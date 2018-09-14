@@ -4,7 +4,7 @@
       <div class="col-3 p-0">
         <img class="img-thumbnail"
              appFallbackImage
-             [src]="lineitem.Product.xp?.primaryImageURL || 'http://placehold.it/300x300'">
+             [src]="lineitem.Product?.xp?.imageURLs[0] || 'http://placehold.it/300x300'">
       </div>
       <div class="col-9">
         <h6>
@@ -26,7 +26,7 @@
         <span class="text-nowrap">{{lineitem.UnitPrice | currency}}</span>
       </div>
       <div class="col-4 text-center">
-        <span class="d-block d-sm-none">Quantity</span>
+        <span class="d-block d-sm-none">Qty</span>
         <shared-quantity-input *ngIf="!readOnly"
                                [product]="productDetails"
                                [existingQty]="lineitem.Quantity"
@@ -41,3 +41,6 @@
     </div>
   </div>
 </div>
+
+<!-- hr only visible on mobile to more clearly distinguish between line items -->
+<hr class="pb-4 d-block d-sm-none">

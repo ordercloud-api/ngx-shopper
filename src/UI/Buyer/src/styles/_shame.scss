@@ -1,5 +1,10 @@
+html {
+  height: 100vh;
+}
+
 body {
   padding-top: 120px;
+  min-height: 100vh;
 }
 
 .flex-1 {
@@ -24,6 +29,7 @@ body {
 
 .border-hover {
   transition: border-color 0.25s ease;
+
   &:hover {
     border: 1px solid $secondary;
   }
@@ -46,7 +52,12 @@ body {
 shared-address-display {
   display: flex;
   flex: 1 1 auto;
+
   .card {
     @extend shared-address-display;
   }
+}
+
+.flex-none {
+  flex: none;
 }

@@ -1,0 +1,7 @@
+<div class="component-background p-3">
+  <!-- <products-price-filter (selectedFacet)="selectFacetList($event)"></products-price-filter> -->
+  <div *ngFor="let facet of facetList">
+    <product-facet-list [facet]="facet"
+                        (selectedFacet)="facetListSelected.emit($event)"></product-facet-list>
+  </div>
+</div>

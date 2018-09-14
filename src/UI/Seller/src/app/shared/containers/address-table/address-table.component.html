@@ -1,0 +1,93 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-8">
+      <h1>Addresses</h1>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary float-right mt-3"
+              (click)="openCreateModal()">
+        <fa-icon [icon]="faPlusCircle"></fa-icon> New Address
+      </button>
+      <shared-modal id="{{ createModalID }}"
+                    modalTitle="Create A New Address">
+        <shared-address-form btnText="Create"
+                             (formSubmitted)="addAddress($event.address)">
+        </shared-address-form>
+      </shared-modal>
+      <shared-modal id="{{ editModalID }}"
+                    modalTitle="Update Address">
+        <shared-address-form btnText="Save"
+                             [existingAddress]="selectedAddress"
+                             (formSubmitted)="editAddress($event.address, $event.prevID)">
+        </shared-address-form>
+      </shared-modal>
+    </div>
+  </div>
+  <div class="alert alert-info mt-2"
+       role="alert">
+    Checking "Billing" or "Shipping" will make this address available to<strong> {{ getAlertText() }}</strong>
+  </div>
+  <div class="mt-4"
+       *ngIf="addresses">
+    <shared-generic-browse [meta]="addresses?.Meta"
+                           searchPlaceholder="addresses"
+                           (search)="searchChanged($event)"
+                           (page)="pageChanged($event)">
+      <table *ngIf="addresses.Items.length"
+             class="table table-striped table-bordered mt-3">
+        <thead>
+          <tr>
+            <th>Shipping</th>
+            <th>Billing</th>
+            <th>
+              <shared-sort-column fieldName="ID"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">ID</shared-sort-column>
+            </th>
+            <th>
+              <shared-sort-column fieldName="AddressName"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">Name</shared-sort-column>
+            </th>
+            <th>
+              <shared-sort-column fieldName="Street1"
+                                  [currentSort]="requestOptions.sortBy"
+                                  (sort)="sortChanged($event)">Address</shared-sort-column>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let address of addresses.Items">
+            <th>
+              <form class="text-center">
+                <input type="checkbox"
+                       (change)="assignShipping(address.ID, $event.target.checked)"
+                       [checked]="address.IsShipping">
+              </form>
+            </th>
+            <th>
+              <form class="text-center">
+                <input type="checkbox"
+                       (change)="assignBilling(address.ID, $event.target.checked)"
+                       [checked]="address.IsBilling">
+              </form>
+            </th>
+            <td> <a [routerLink]=""
+                 (click)="openEditModal(address)">{{ address.ID }}</a>
+            </td>
+            <td>{{ address.AddressName }}</td>
+            <td>{{ address.Street1 }} {{ address.City }}, {{ address.State }} {{ address.Zip }}</td>
+            <td>
+              <button (click)="deleteAddress(address.ID)"
+                      class="btn btn-danger btn-xs">
+                <fa-icon [icon]="faTrash"></fa-icon>
+                <span class="hidden-xs"> Delete</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </shared-generic-browse>
+  </div>
+</div>

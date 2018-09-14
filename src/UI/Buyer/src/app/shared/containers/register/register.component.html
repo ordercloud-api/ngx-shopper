@@ -20,13 +20,25 @@
           name="RegisterForm">
       <div class="form-group">
         <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+               for="Username">Username</label>
+        <input type="text"
+               formControlName="Username"
+               class="form-control"
+               id="Username"
+               placeholder="Username"
+               autofocus="true"
+               autocomplete="off" />
+        <span *ngIf="hasRequiredError('Username')"
+              class="error-message">Username is required</span>
+      </div>
+      <div class="form-group">
+        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
                for="FirstName">First Name</label>
         <input type="text"
                formControlName="FirstName"
                class="form-control"
                id="FirstName"
                placeholder="First Name"
-               autofocus="true"
                autocomplete="off" />
         <span *ngIf="hasRequiredError('FirstName')"
               class="error-message">First Name is required</span>
@@ -94,12 +106,28 @@
         <span *ngIf="passwordMismatchError()"
               class="error-message">Passwords must match</span>
       </div>
+      <button type="button"
+              *ngIf="shouldAllowUpdate"
+              class="btn btn-outline-primary btn-block"
+              (click)="openChangePasswordModal()">Change
+        Password
+      </button>
       <button type="submit"
-              class="btn btn-primary btn-lg btn-block mt-4">{{ shouldAllowUpdate ? 'Save Changes' : 'Register' }}</button>
+              class="btn btn-primary btn-lg btn-block mt-4">{{ shouldAllowUpdate ? 'Save Changes' : 'Register'
+        }}
+      </button>
     </form>
     <button *ngIf="!shouldAllowUpdate"
             type="button"
             class="btn btn-link btn-block"
-            routerLink="/forgot-password">Forgot Password</button>
+            routerLink="/forgot-password">Forgot
+      Password
+    </button>
   </div>
 </div>
+
+<!--  Change Password Modal Content -->
+<shared-modal [id]="changePasswordModalId"
+              modalTitle="Change Password">
+  <shared-change-password-form (changePassword)="onChangePassword($event)"></shared-change-password-form>
+</shared-modal>

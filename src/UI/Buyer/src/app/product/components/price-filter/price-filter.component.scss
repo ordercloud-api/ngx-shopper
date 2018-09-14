@@ -1,0 +1,23 @@
+.currency-input {
+  input::-webkit-inner-spin-button,
+  input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input::placeholder {
+    font-size: 15px;
+  }
+
+  input {
+    padding-left: 22px;
+  }
+  .currency-symbol {
+    position: relative;
+  }
+  .currency-symbol:before {
+    position: absolute;
+    content: '$';
+    top: 6px;
+    left: 10px;
+  }
+}

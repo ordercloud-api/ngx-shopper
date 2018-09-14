@@ -33,6 +33,7 @@ import 'core-js/es6/regexp';
 import 'core-js/es6/map';
 import 'core-js/es6/weak-map';
 import 'core-js/es6/set';
+import 'core-js/es7/array';
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 // import 'classlist.js';  // Run `npm install --save classlist.js`.
@@ -58,13 +59,6 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-
-/**
- * The following is required by algoliasearch-client-javascript,
- * which was broken by angular v6:
- * https://github.com/algolia/algoliasearch-client-javascript/issues/691
- */
-(window as any).process = { env: {} };
 
 /**
  * this polyfill is to allow us to use avatax clientside

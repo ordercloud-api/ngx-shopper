@@ -1,7 +1,12 @@
 <div class="container"
      *ngIf="buyerOrg$ | async; let buyer">
-  <div class="alert alert-info my-3"><b><fa-icon class="pr-3" [icon]="faBullhorn"></fa-icon></b>{{ buyer.xp.Announcement }}</div>
-  <ngb-carousel>
+
+  <!-- Announcements can be managed in the seller application  -->
+  <div *ngIf="buyer?.xp?.Announcement"
+       class="alert alert-info my-3"><b><fa-icon class="pr-3" [icon]="faBullhorn"></fa-icon></b>{{ buyer.xp.Announcement }}</div>
+
+  <!-- Carousel slides can be managed in the seller application -->
+  <ngb-carousel *ngIf="buyer?.xp?.carouselSlides">
     <ng-template ngbSlide
                  *ngFor="let slide of buyer.xp.carouselSlides">
       <img class="img-fluid"
@@ -14,8 +19,11 @@
       </div>
     </ng-template>
   </ngb-carousel>
+
+  <!-- Featured products can be managed in the seller application -->
   <div *ngIf="featuredProducts$ | async; let products">
-    <products-carousel displayTitle="Featured Products"
-                       [products]="products.Items"></products-carousel>
+    <product-carousel *ngIf="products.Items.length"
+                       displayTitle="Featured Products"
+                       [products]="products.Items"></product-carousel>
   </div>
 </div>

@@ -2,7 +2,9 @@
 
 // Third party libraries
 @import 'vendor/_bootstrap.scss';
-@import 'vendor/ngx-toastr.scss';
+@import '~angular-tree-component/dist/angular-tree-component.css';
+// bs4 alert styled design (uses bs4 variables)
+@import '~ngx-toastr/toastr-bs4-alert';
 
 // Components in this app
 @import 'components/_modal.scss';

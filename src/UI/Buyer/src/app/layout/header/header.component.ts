@@ -11,6 +11,7 @@ import {
   faQuestionCircle,
   faUserCircle,
   faSignOutAlt,
+  faHome,
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -37,7 +38,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentOrder: Order;
   alive = true;
   addToCartQuantity: number;
-  @ViewChild('p') public popover: NgbPopover;
+  @ViewChild('mobilePopover') public mobilePopover: NgbPopover;
+  @ViewChild('desktopPopover') public desktopPopover: NgbPopover;
 
   faSearch = faSearch;
   faShoppingCart = faShoppingCart;
@@ -45,6 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   faQuestionCircle = faQuestionCircle;
   faSignOutAlt = faSignOutAlt;
   faUserCircle = faUserCircle;
+  faHome = faHome;
 
   constructor(
     private appStateService: AppStateService,
@@ -63,18 +66,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   buildAddToCartNotification() {
+    let popover;
     this.appStateService.addToCartSubject
       .pipe(
         tap((event: AddToCartEvent) => {
-          this.popover.close();
-          this.popover.ngbPopover = `${event.quantity} Item(s) Added to Cart`;
+          const isMobile = window.innerWidth < 768; // max width for bootstrap's sm breakpoint
+          popover = isMobile ? this.mobilePopover : this.desktopPopover;
+          popover.close();
+          popover.ngbPopover = `${event.quantity} Item(s) Added to Cart`;
         }),
         delay(300),
-        tap(() => this.popover.open()),
+        tap(() => popover.open()),
         debounceTime(3000)
       )
       .subscribe(() => {
-        this.popover.close();
+        popover.close();
       });
   }
 

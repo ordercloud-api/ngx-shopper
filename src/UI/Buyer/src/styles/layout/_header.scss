@@ -2,15 +2,6 @@
 // This file contains all styles related to the header of the site/application.
 // -----------------------------------------------------------------------------
 
-.bg-rainbow {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7e05d+0,2981ce+65,6145c6+100 */
-    background: rgba(247,224,93,0.5); /* Old browsers */
-    background: -moz-linear-gradient(45deg, rgba(247,224,93,0.5) 0%, rgba(41,129,206,0.5) 65%, rgba(97,69,198,0.5) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(45deg, rgba(247,224,93,0.5) 0%,rgba(41,129,206,0.5) 65%,rgba(97,69,198,0.5) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(45deg, rgba(247,224,93,0.5) 0%,rgba(41,129,206,0.5) 65%,rgba(97,69,198,0.5) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7e05d', endColorstr='#6145c6',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-}
-
 @include media-breakpoint-up(lg) {
   .c-category-navbar {
     display: flex;
