@@ -30,8 +30,7 @@ export class OrderDetailsComponent implements OnInit {
   constructor(
     protected activatedRoute: ActivatedRoute,
     protected ocOrderService: OcOrderService,
-    protected appPaymentService: AppPaymentService,
-    protected appLineItemService: AppLineItemService
+    protected appPaymentService: AppPaymentService
   ) {}
 
   ngOnInit() {

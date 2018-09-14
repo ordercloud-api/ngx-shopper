@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { OcMeService } from '@ordercloud/angular-sdk';
 import { AppFormErrorService } from '@app-buyer/shared';
 
-fdescribe('AddressFormComponent', () => {
+describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
   const meService = {

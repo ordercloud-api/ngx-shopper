@@ -22,7 +22,7 @@ export class OrderComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private favoriteOrdersService: FavoriteOrdersService // used in template
+    protected favoriteOrdersService: FavoriteOrdersService // used in template
   ) {}
 
   ngOnInit() {
