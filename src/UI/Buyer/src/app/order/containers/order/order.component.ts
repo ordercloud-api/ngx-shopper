@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { faCube, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { Order } from '@ordercloud/angular-sdk';
 import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
-import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
 
 @Component({
   selector: 'order-order',
@@ -16,7 +15,6 @@ export class OrderComponent implements OnInit {
   faCube = faCube;
   faTruck = faTruck;
   order$: Observable<Order>;
-  @ViewChild(ToggleFavoriteComponent) toggleFavorite: ToggleFavoriteComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,10 +25,5 @@ export class OrderComponent implements OnInit {
     this.order$ = this.activatedRoute.data.pipe(
       map(({ orderResolve }) => orderResolve.order)
     );
-  }
-
-  favorite() {
-    this.toggleFavorite.favorite = !this.toggleFavorite.favorite;
-    this.toggleFavorite.favoriteChanged.emit(this.toggleFavorite.favorite);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { OcMeService, ListOrder } from '@ordercloud/angular-sdk';
 import { MeOrderListOptions } from '@app-buyer/order/models/me-order-list-options';
@@ -8,19 +8,15 @@ import { flatMap } from 'rxjs/operators';
 import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 @Component({
-  selector: 'order-history',
+  selector: 'order-order-history',
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.scss'],
 })
 export class OrderHistoryComponent implements AfterViewInit {
   alive = true;
-  columns: string[];
   orders$: Observable<ListOrder>;
   hasFavoriteOrdersFilter = false;
   sortBy: string;
-  @Input() title: string;
-  @Input() includeFavorites: boolean;
-  @Input() includeStatusFilter: boolean;
 
   constructor(
     private ocMeService: OcMeService,
@@ -30,10 +26,6 @@ export class OrderHistoryComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.columns = ['ID', 'Status', 'DateSubmitted', 'Total'];
-    if (this.includeFavorites) {
-      this.columns.push('Favorite');
-    }
     this.orders$ = this.listOrders();
   }
 

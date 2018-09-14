@@ -7,43 +7,34 @@
     <a class="breadcrumb-item link-text"
        aria-current="page">{{order.ID}}</a>
   </nav>
+  <order-reorder class="float-right pb-2 mt-2 mb-2"
+                 [orderID]='order.ID'></order-reorder>
   <div class="pb-2 mt-4 mb-2">
     <h2> <span class="text-muted">Order #:</span> {{order.ID}}</h2>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div>Status:
-        <order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}
-      </div>
-      <small class="float-left">Submitted on {{order.DateSubmitted | date: 'short'}}</small>
-    </div>
-    <div class="col-md-6">
-      <button class="btn btn-outline-secondary float-right"
-              (click)="favorite()">Favorite
-        <shared-toggle-favorite title="Favorite"
-                                (click)="$event.stopPropagation()"
-                                [favorite]="favoriteOrdersService.isFavorite(order)"
-                                (favoriteChanged)="favoriteOrdersService.setFavoriteValue($event, order)">
-        </shared-toggle-favorite>
-      </button>
-      <order-reorder class="float-right pb-2 mr-2 mb-2"
-                     [orderID]='order.ID'></order-reorder>
-    </div>
+    <small>Submitted on {{order.DateSubmitted | date: 'short'}}</small>
+    <span class="ml-3">
+      <shared-toggle-favorite 
+        title="Favorite"
+        (click)="$event.stopPropagation()"
+        [favorite]="favoriteOrdersService.isFavorite(order)"
+        (favoriteChanged)="favoriteOrdersService.setFavoriteValue($event, order)">
+      </shared-toggle-favorite>
+    </span>
   </div>
   <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
       <button class="btn btn-link nav-link"
               [routerLink]="['/profile', 'orders', order.ID]">
-        <fa-icon [icon]="faCube"></fa-icon>
-        Details
-      </button>
+            <fa-icon [icon]="faCube"></fa-icon>
+            Details
+        </button>
     </li>
     <li class="nav-item">
       <button class="btn btn-link nav-link"
               [routerLink]="['/profile', 'orders', order.ID, 'shipments']">
-        <fa-icon [icon]="faTruck"></fa-icon>
-        Shipments
-      </button>
+                <fa-icon [icon]="faTruck"></fa-icon>
+                Shipments
+            </button>
     </li>
   </ul>
 </div>

@@ -1,47 +1,47 @@
 <div *ngIf="order$ | async; let order">
-  <div *ngIf="lineItems$ | async; let lineItems">
-    <div class="row mb-5">
-      <div class="col-6">
-        <shared-address-display *ngIf="lineItems.Items[0].ShippingAddress"
-                                [address]="lineItems.Items[0].ShippingAddress"
-                                addressTitle="Shipping Address">
-        </shared-address-display>
-
-        <shared-address-display [address]="order.BillingAddress"
-                                addressTitle="Billing Address"
-                                *ngIf="order?.BillingAddress">
-        </shared-address-display>
-      </div>
-      <div class="col-6">
-        <div *ngIf="order.Comments"
-             class="alert alert-secondary small">
-          <strong>Comments: </strong> {{order.Comments}}
-        </div>
-        <strong>Subtotal</strong> <span class="float-right">{{order.Subtotal | currency}}</span><br>
-        <strong>Shipping</strong> <span class="float-right">{{order.ShippingCost | currency}}</span><br>
-        <strong>Tax</strong> <span class="float-right">{{order.TaxCost | currency}}</span><br>
-        <div *ngIf="order.PromotionDiscount">
-          <strong class="text-danger">Promo Discount</strong> <span class="float-right text-danger">-{{order.PromotionDiscount | currency}}</span>
-        </div>
-        <hr>
-        <div class="text-right lead"><b class="float-left">Total:</b><span class="order-total">{{order.Total | currency}}</span></div>
-        <hr>
-        <order-payment-list *ngIf="payments$ | async; let payments"
-                            [payments]="payments"></order-payment-list>
-        <hr>
-        <ul>
-          <li *ngFor="let approval of (approvals$ | async)">
-            {{ approval.Approver.FirstName }} {{ approval.Approver.LastName }} {{ approval.Status }} on {{ approval.DateCreated | date: 'short' }}
-            <div><small *ngIf="approval.Comments">"{{ approval.Comments }}"</small></div>
-          </li>
-        </ul>
-      </div>
+  <div class="row mb-5">
+    <div class="col-6">
+      <shared-address-display *ngIf="(lineItems$ | async)?.Items[0].ShippingAddress"
+                              [address]="(lineItems$ | async)?.Items[0].ShippingAddress"
+                              addressTitle="Shipping Address">
+      </shared-address-display>
+      <shared-address-display [address]="order.BillingAddress"
+                              addressTitle="Billing Address"
+                              *ngIf="order?.BillingAddress">
+      </shared-address-display>
     </div>
-    <shared-lineitem-list-wrapper>
-      <shared-line-item-card *ngFor="let li of lineItems?.Items"
-                             [lineitem]="li"
-                             [productDetails]="li.Product"
-                             readOnly="true"></shared-line-item-card>
-    </shared-lineitem-list-wrapper>
+    <div class="col-6">
+      <div *ngIf="order.Comments"
+           class="alert alert-secondary small">
+        <strong>Comments: </strong> {{order.Comments}}
+      </div>
+      <strong>Subtotal</strong> <span class="float-right">{{order.Subtotal | currency}}</span><br>
+      <strong>Shipping</strong> <span class="float-right">{{order.ShippingCost | currency}}</span><br>
+      <strong>Tax</strong> <span class="float-right">{{order.TaxCost | currency}}</span><br>
+      <div *ngIf="order.PromotionDiscount">
+        <strong class="text-danger">Promo Discount</strong> <span class="float-right text-danger">-{{order.PromotionDiscount | currency}}</span>
+      </div>
+      <hr>
+      <div class="text-right lead"><b class="float-left">Total:</b><span class="order-total">{{order.Total | currency}}</span></div>
+      <hr>
+      <order-payment-list *ngIf="payments$ | async; let payments"
+                          [payments]="payments"></order-payment-list>
+      <hr>
+      <div><strong>Status: </strong>
+        <order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}
+      </div>
+      <ul>
+        <li *ngFor="let approval of (approvals$ | async)">
+          {{ approval.Approver.FirstName }} {{ approval.Approver.LastName }} {{ approval.Status }} on {{ approval.DateCreated | date: 'short' }}
+          <div><small *ngIf="approval.Comments">"{{ approval.Comments }}"</small></div>
+        </li>
+      </ul>
+    </div>
   </div>
+  <shared-lineitem-list-wrapper>
+    <shared-line-item-card *ngFor="let li of (lineItems$ | async)?.Items"
+                           [lineitem]="li"
+                           [productDetails]="li.Product"
+                           readOnly="true"></shared-line-item-card>
+  </shared-lineitem-list-wrapper>
 </div>

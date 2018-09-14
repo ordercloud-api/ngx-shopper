@@ -105,9 +105,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         const search = this.isMobile() ? this.mobileSearch : this.desktopSearch;
-        if (search) {
-          search.clearWithoutEmit();
-        }
+        if (search) search.clearWithoutEmit();
       });
   }
 
