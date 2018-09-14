@@ -1,9 +1,9 @@
-<h1 class="page-heading border-bottom pb-3">{{ title }}</h1>
+<h1 class="page-heading border-bottom pb-3">{{ approvalVersion ? 'Orders To Appprove' : 'My Orders' }}</h1>
 <shared-search placeholderText="Search Orders"
                (searched)="filterBySearch($event)"></shared-search>
 <div class="row mt-3">
   <div class="col-2"
-       *ngIf="includeFavorites">
+       *ngIf="!approvalVersion">
     <div>Favorites</div>
     <div class="mt-3 ml-3">
       <shared-toggle-favorite [favorite]="hasFavoriteOrdersFilter"
@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="col-2"
-       *ngIf="includeStatusFilter">
+       *ngIf="!approvalVersion">
     <order-status-filter (selectedStatus)="filterByStatus($event)"></order-status-filter>
   </div>
   <div class="col-8">

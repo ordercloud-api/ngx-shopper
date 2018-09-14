@@ -14,13 +14,11 @@ import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favo
 })
 export class OrderHistoryComponent implements AfterViewInit {
   alive = true;
-  columns: string[];
+  columns: string[] = ['ID', 'Status', 'DateSubmitted', 'Total'];
   orders$: Observable<ListOrder>;
   hasFavoriteOrdersFilter = false;
   sortBy: string;
-  @Input() title: string;
-  @Input() includeFavorites: boolean;
-  @Input() includeStatusFilter: boolean;
+  @Input() approvalVersion: boolean;
 
   constructor(
     private ocMeService: OcMeService,
@@ -30,8 +28,7 @@ export class OrderHistoryComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.columns = ['ID', 'Status', 'DateSubmitted', 'Total'];
-    if (this.includeFavorites) {
+    if (!this.approvalVersion) {
       this.columns.push('Favorite');
     }
     this.orders$ = this.listOrders();
@@ -90,7 +87,9 @@ export class OrderHistoryComponent implements AfterViewInit {
             datesubmitted: queryParamMap.getAll('datesubmitted') || undefined,
           },
         };
-        return this.ocMeService.ListOrders(listOptions);
+        return this.approvalVersion
+          ? this.ocMeService.ListApprovableOrders(listOptions)
+          : this.ocMeService.ListOrders(listOptions);
       })
     );
   }

@@ -18,7 +18,8 @@
       <small class="float-left">Submitted on {{order.DateSubmitted | date: 'short'}}</small>
     </div>
     <div class="col-md-6">
-      <button class="btn btn-outline-secondary float-right"
+      <button *ngIf="!approvalVersion"
+              class="btn btn-outline-secondary float-right"
               (click)="favorite()">Favorite
         <shared-toggle-favorite title="Favorite"
                                 (click)="$event.stopPropagation()"
@@ -26,8 +27,13 @@
                                 (favoriteChanged)="favoriteOrdersService.setFavoriteValue($event, order)">
         </shared-toggle-favorite>
       </button>
-      <order-reorder class="float-right pb-2 mr-2 mb-2"
+      <order-reorder *ngIf="!approvalVersion"
+                     class="float-right pb-2 mr-2 mb-2"
                      [orderID]='order.ID'></order-reorder>
+      <order-approval *ngIf="approvalVersion"
+                      class="float-right"
+                      [orderID]='order.ID'></order-approval>
+
     </div>
   </div>
   <ul class="nav nav-tabs mb-3">

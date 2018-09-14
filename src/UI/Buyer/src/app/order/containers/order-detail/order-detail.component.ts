@@ -35,22 +35,18 @@ export class OrderDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.order$ = this.activatedRoute.data.pipe(
+      map(({ orderResolve }) => orderResolve.order)
+    );
+    this.lineItems$ = this.activatedRoute.data.pipe(
+      map(({ orderResolve }) => orderResolve.lineItems)
+    );
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       this.orderID = params.get('orderID');
-      this.order$ = this.getOrder();
-      this.lineItems$ = this.getLineItems();
       this.promotions$ = this.getPromotions();
       this.payments$ = this.getPayments();
       this.approvals$ = this.getApprovals();
     });
-  }
-
-  protected getOrder(): Observable<Order> {
-    return this.ocOrderService.Get('outgoing', this.orderID);
-  }
-
-  protected getLineItems(): Observable<ListLineItem> {
-    return this.appLineItemService.listAll(this.orderID);
   }
 
   protected getPromotions(): Observable<ListPromotion> {
