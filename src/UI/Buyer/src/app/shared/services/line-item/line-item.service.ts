@@ -78,7 +78,7 @@ export class AppLineItemService {
       return this.addLineItem(newLineItem);
     }
     // this is the first line item call - initialize order first
-    if (this.initializingOrder) {
+    if (!this.initializingOrder) {
       this.initializingOrder = true;
       return this.ocOrderService.Create('outgoing', {}).pipe(
         flatMap((newOrder) => {
