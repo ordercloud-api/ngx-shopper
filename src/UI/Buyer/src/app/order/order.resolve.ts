@@ -14,7 +14,6 @@ export class OrderResolve implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot) {
     const orderID = route.paramMap.get('orderID');
-    this.ocOrderService.Get('outgoing', orderID);
     return forkJoin([
       this.ocOrderService.Get('outgoing', orderID),
       this.appLineItemService.listAll(orderID),
