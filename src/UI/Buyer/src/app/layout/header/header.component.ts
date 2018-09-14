@@ -37,8 +37,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   addToCartQuantity: number;
   @ViewChild('mobilePopover') public mobilePopover: NgbPopover;
   @ViewChild('desktopPopover') public desktopPopover: NgbPopover;
-  @ViewChild('desktopSearch') public desktopSearch: SearchComponent;
-  @ViewChild('mobileSearch') public mobileSearch: SearchComponent;
+  @ViewChild(SearchComponent) public search: SearchComponent;
+  //@ViewChild('mobileSearch') public mobileSearch: SearchComponent;
 
   faSearch = faSearch;
   faShoppingCart = faShoppingCart;
@@ -104,9 +104,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeWhile(() => this.alive)
       )
       .subscribe(() => {
-        const search = this.isMobile() ? this.mobileSearch : this.desktopSearch;
-        if (search) {
-          search.clearWithoutEmit();
+        if (this.search) {
+          this.search.clearWithoutEmit();
         }
       });
   }
