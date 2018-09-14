@@ -12,7 +12,6 @@ import {
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 import { uniqBy as _uniqBy } from 'lodash';
-import { AppLineItemService } from '@app-buyer/shared';
 
 @Component({
   selector: 'order-details',
