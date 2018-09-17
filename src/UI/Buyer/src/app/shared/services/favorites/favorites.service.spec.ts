@@ -4,6 +4,7 @@ import { OcMeService, MeUser } from '@ordercloud/angular-sdk';
 import { of, BehaviorSubject } from 'rxjs';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('FavoriteProductsService', () => {
   let service;
@@ -19,12 +20,15 @@ describe('FavoriteProductsService', () => {
     }),
   };
 
+  const toastrService = { info: jasmine.createSpy('info') };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
         FavoriteProductsService,
         { provide: AppStateService, useValue: appStateService },
         { provide: OcMeService, useValue: meService },
+        { provide: ToastrService, useValue: toastrService },
       ],
     });
     service = TestBed.get(FavoriteProductsService);
@@ -61,6 +65,14 @@ describe('FavoriteProductsService', () => {
       expect(meService.Patch).toHaveBeenCalledWith({
         xp: { FavoriteProducts: ['a', 'b', 'c'] },
       });
+    });
+    it('should send toastr if limit is reached', () => {
+      meService.Patch.calls.reset();
+      spyOn(service, 'getFavorites').and.returnValue(['a', 'b', 'c']);
+      service['MaxFavorites'] = 2;
+      service.setFavoriteValue(true, { ID: 'c' });
+      expect(toastrService.info).toHaveBeenCalled();
+      expect(meService.Patch).not.toHaveBeenCalled();
     });
   });
 
