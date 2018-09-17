@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategoryTableComponent } from './category-table.component';
-import { OcCategoryService } from '@ordercloud/angular-sdk';
+import { OcCategoryService, OcCatalogService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration } from '@app-seller/config/app.config';
 import { ModalService } from '@app-seller/shared/services/modal/modal.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -22,6 +22,9 @@ describe('CategoryTableComponent', () => {
   };
   const mocKAssignmentList = {
     Items: [],
+  };
+  const ocCatalogService = {
+    SaveAssignment: jasmine.createSpy('SaveAssignment').and.returnValue(of({})),
   };
   const ocCategoryService = {
     ListAssignments: jasmine
@@ -101,6 +104,7 @@ describe('CategoryTableComponent', () => {
       providers: [
         { provide: ModalService, useValue: modalService },
         { provide: OcCategoryService, useValue: ocCategoryService },
+        { provide: OcCatalogService, useValue: ocCatalogService },
         { provide: applicationConfiguration, useValue: { buyerID: 'buyerID' } },
       ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -146,11 +150,23 @@ describe('CategoryTableComponent', () => {
     it('should set the assigned property on component.category if assignment exists', () => {
       ocCategoryService.ListAssignments.and.returnValue(
         of({
-          Items: [{ Visible: true, ViewAllProducts: true }],
+          Items: [{ UserGroupID: null, Visible: true, ViewAllProducts: true }],
         })
       );
       component.loadCategories();
       expect(component.categories[0].Assigned).toEqual(true);
+    });
+  });
+
+  describe('reset cache', () => {
+    it('should set catalog.ViewAllCategories true and then false', () => {
+      component.resetCache().subscribe();
+      expect(ocCatalogService.SaveAssignment.calls.count()).toBe(2);
+      expect(ocCatalogService.SaveAssignment).toHaveBeenCalledWith({
+        CatalogID: 'buyerID',
+        BuyerID: 'buyerID',
+        ViewAllCategories: false,
+      });
     });
   });
 
