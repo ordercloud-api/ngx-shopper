@@ -32,6 +32,7 @@ export const ocAppConfig: AppConfig = {
     'BuyerImpersonation',
     'AddressAdmin',
     'CategoryAdmin',
+    'CatalogAdmin',
   ],
 };
 
