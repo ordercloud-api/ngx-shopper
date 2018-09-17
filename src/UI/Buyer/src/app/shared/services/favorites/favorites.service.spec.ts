@@ -6,7 +6,7 @@ import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/fa
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { ToastrService } from 'ngx-toastr';
 
-fdescribe('FavoriteProductsService', () => {
+describe('FavoriteProductsService', () => {
   let service;
   const meService = {
     Get: jasmine.createSpy('Get').and.returnValue(of({})),
