@@ -9,7 +9,7 @@
          [maxZoomLevel]=".6">
   </div>
   <div>
-    <div class="gallery-container row">
+    <div class="gallery-container row" *ngIf="imgUrls.length > 1">
       <div class="col carousel-arrow"
            (click)="backward(imageWrapper)">
         <fa-icon [icon]="faAngleLeft"></fa-icon>
