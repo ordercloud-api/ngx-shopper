@@ -24,8 +24,7 @@
         <label>Refine By</label>
         <button class="btn btn-block btn-default btn-outline-dark mb-2"
                 for="favorite">
-          <shared-toggle-favorite id="favorite"
-                                  [favorite]="hasFavoriteProductsFilter"></shared-toggle-favorite> My Favorites
+          <shared-toggle-favorite [favorite]="hasFavoriteProductsFilter"></shared-toggle-favorite> My Favorites
         </button>
       </div>
     </div>
@@ -49,8 +48,7 @@
                                 [facetList]="productList.Meta.Facets"
                                 (facetListSelected)="changeFacets($event)"></product-facet-filter>
           <div (click)="refineByFavorites()">
-            <shared-toggle-favorite id="favorite"
-                                    [favorite]="hasFavoriteProductsFilter"></shared-toggle-favorite>
+            <shared-toggle-favorite [favorite]="hasFavoriteProductsFilter"></shared-toggle-favorite>
             <label class="ml-2"
                    for="favorite"> My Favorites</label>
           </div>
@@ -62,7 +60,6 @@
     </div>
     <div class="col-lg-9 col-md-8 ">
       <div class="row flex-wrap-reverse">
-
         <div class="col-12 col-md-auto mr-auto ">
           <div class="m-0 mt-1 text-center">
             <span *ngIf="productList.Meta.TotalPages > 1">
