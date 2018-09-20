@@ -12,7 +12,7 @@
                            searchPlaceholder="accounts"
                            (requestOptionsUpdated)="updateRequestOptions($event)">
       <ng-template let-account="item">
-        <div class="border p-2 m-2 row">
+        <div class="border p-2 m-2 w-100 row">
           <div class="col-8">
             <div><strong>{{ account.Name }}</strong></div>
             <div>Balance: <strong class="text-success">{{ account.Balance | currency }}</strong></div>
