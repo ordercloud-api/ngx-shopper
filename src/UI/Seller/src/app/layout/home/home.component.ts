@@ -5,9 +5,10 @@ import {
   applicationConfiguration,
   AppConfig,
 } from '@app-seller/config/app.config';
-import { faPlus, faSave, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { CarouselSlide, CarouselSlideUpdate } from '@app-seller/shared';
 import { ToastrService } from 'ngx-toastr';
+import { get as _get, set as _set, has as _has } from 'lodash';
 
 @Component({
   selector: 'layout-home',
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
     this.ocBuyerService.Get(this.appConfig.buyerID).subscribe((x) => {
       this.buyer = x;
       this.announcementForm = this.formBuilder.group({
-        announcement: this.buyer.xp.Announcement || '',
+        announcement: _get(this.buyer, 'xp.Announcement', ''),
       });
     });
   }
@@ -71,14 +72,19 @@ export class HomeComponent implements OnInit {
   }
 
   addSlide(slide: CarouselSlide) {
-    this.buyer.xp.carouselSlides.push(slide);
+    if (_has(this.buyer, 'xp.carouselSlides')) {
+      this.buyer.xp.carouselSlides.push(slide);
+    } else {
+      _set(this.buyer, 'xp.carouselSlides', [slide]);
+    }
     this.saveCarousel();
   }
 
   announcementUnchanged(): boolean {
     return (
       this.announcementForm &&
-      this.announcementForm.value.announcement === this.buyer.xp.Announcement
+      this.announcementForm.value.announcement ===
+        _get(this.buyer, 'xp.Announcement', '')
     );
   }
 

@@ -11,7 +11,8 @@
       <button (click)="saveAnnouncement()"
               [disabled]="announcementUnchanged()"
               class="btn btn-primary float-right">
-        <fa-icon [icon]="faSave"></fa-icon> Save Changes</button>
+        <fa-icon [icon]="faSave"></fa-icon> Save Changes
+      </button>
     </div>
   </div>
   <form *ngIf="announcementForm"
@@ -43,11 +44,12 @@
                placeholder="Upload file">
         <label for="carsousel-image"
                class="btn btn-primary float-right">
-          <fa-icon [icon]="faUpload"></fa-icon> New Slide</label>
+          <fa-icon [icon]="faUpload"></fa-icon> New Slide
+        </label>
       </form>
     </div>
   </div>
-  <div *ngIf="buyer">
+  <div *ngIf="buyer?.xp?.carouselSlides">
     <shared-carousel-slide-display *ngFor="let slide of buyer.xp.carouselSlides"
                                    [slide]="slide"
                                    (delete)="deleteSlide($event)"
