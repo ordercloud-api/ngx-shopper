@@ -8,6 +8,7 @@ import {
   Category,
   OcCategoryService,
   ListCategoryAssignment,
+  OcCatalogService,
 } from '@ordercloud/angular-sdk';
 import {
   AppConfig,
@@ -20,6 +21,8 @@ import {
 } from '@app-seller/shared/models/category-tree-node.class';
 import { ITreeOptions } from 'angular-tree-component';
 import { forkJoin, Observable } from 'rxjs';
+import { flatMap, map } from 'rxjs/operators';
+import { remove as _remove } from 'lodash';
 
 @Component({
   selector: 'category-table',
@@ -48,6 +51,7 @@ export class CategoryTableComponent implements OnInit {
   constructor(
     private ocCategoryService: OcCategoryService,
     private modalService: ModalService,
+    private ocCatalogService: OcCatalogService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {}
 
@@ -110,11 +114,37 @@ export class CategoryTableComponent implements OnInit {
   }
 
   getAssignment(category: Category): Observable<ListCategoryAssignment> {
-    return this.ocCategoryService.ListAssignments(this.catalogID, {
-      buyerID: this.appConfig.buyerID,
-      categoryID: category.ID,
-      userGroupID: this.userGroupID || undefined,
-    });
+    return this.ocCategoryService
+      .ListAssignments(this.catalogID, {
+        buyerID: this.appConfig.buyerID,
+        categoryID: category.ID,
+        userGroupID: this.userGroupID || undefined,
+      })
+      .pipe(
+        map((assignments) => {
+          _remove(
+            assignments.Items,
+            (assignment) =>
+              assignment.UserGroupID !== (this.userGroupID || null) // for buyer-level assignments, userGroupID should be null
+          );
+          return assignments;
+        })
+      );
+  }
+
+  // Once API bug https://four51.atlassian.net/browse/EX-1366 is resolved this function won't be necessary
+  resetCache(): Observable<any> {
+    const assignment = {
+      CatalogID: this.catalogID,
+      BuyerID: this.appConfig.buyerID,
+      ViewAllCategories: true,
+    };
+    return this.ocCatalogService.SaveAssignment(assignment).pipe(
+      flatMap(() => {
+        assignment.ViewAllCategories = false;
+        return this.ocCatalogService.SaveAssignment(assignment);
+      })
+    );
   }
 
   // For now, all assignments default to visible: true, ViewAllProducts: true.
@@ -135,7 +165,10 @@ export class CategoryTableComponent implements OnInit {
             userGroupID: this.userGroupID || undefined,
           }
         );
-    request.subscribe(() => this.loadCategories());
+    request.subscribe(() => {
+      this.resetCache().subscribe();
+      this.loadCategories();
+    });
   }
 
   // uses OC property category.ListOrder to save the display order of categories
