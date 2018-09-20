@@ -3,7 +3,7 @@
     <h1 class="display-4">OrderCloud Seller</h1>
     <p class="lead">Welcome to the home page. Manange Products. Manage Users and Permissions.</p>
   </div>
-  <div class="row mb-2">
+  <div class="row">
     <div class="col-8">
       <h2>Announcement</h2>
     </div>
@@ -15,10 +15,12 @@
       </button>
     </div>
   </div>
+  <hr>
   <form *ngIf="announcementForm"
         novalidate
         [formGroup]="announcementForm"
-        name="AnnouncementForm">
+        name="AnnouncementForm"
+        class="mx-3">
     <div class="form-group">
       <label for="annouce"
              class="col-sm-3 control-label font-weight-bold mt-1 sr-only">ID</label>
@@ -31,7 +33,7 @@
       </div>
     </div>
   </form>
-  <div class="row mt-5 mb-2">
+  <div class="row mt-5">
     <div class="col-8">
       <h2>Carousel Slides</h2>
     </div>
@@ -49,6 +51,7 @@
       </form>
     </div>
   </div>
+  <hr>
   <div *ngIf="buyer?.xp?.carouselSlides">
     <shared-carousel-slide-display *ngFor="let slide of buyer.xp.carouselSlides"
                                    [slide]="slide"

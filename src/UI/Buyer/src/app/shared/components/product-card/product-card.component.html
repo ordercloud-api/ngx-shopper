@@ -17,7 +17,7 @@
         title="{{product.Name}}">{{ product.Name }}</h5>
     <p class="card-text text-muted"
        [innerHtml]="product.ID">{{product.ID}}</p>
-    <div class="d-sm-flex justify-content-between align-items-center">
+    <div class="d-flex flex-wrap justify-content-between align-items-center">
       <p class="card-text mb-0">
         {{ product?.PriceSchedule?.PriceBreaks[0]?.Price || 0 | currency }}
       </p>
