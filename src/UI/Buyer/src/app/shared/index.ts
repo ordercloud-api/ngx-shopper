@@ -17,7 +17,7 @@ export * from '@app-buyer/shared/resolves/base.resolve';
 
 // guards
 export * from '@app-buyer/shared/guards/has-token/has-token.guard';
-export * from '@app-buyer/shared/guards/is-logged-in/is-logged-in.guard';
+export * from '@app-buyer/shared/guards/is-profiled-user/is-profiled-user.guard';
 
 // services
 export * from '@app-buyer/shared/services/app-state/app-state.service';

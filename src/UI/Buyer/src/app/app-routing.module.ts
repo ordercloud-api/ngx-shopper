@@ -6,7 +6,7 @@ import { SupportComponent } from './static-pages/support/support.component';
 
 import {
   BaseResolve,
-  IsLoggedInGuard as isLoggedIn,
+  IsProfiledUserGuard as isProfiledUser,
   HasTokenGuard as HasToken,
 } from '@app-buyer/shared';
 import { HomeComponent } from '@app-buyer/layout/home/home.component';
@@ -25,7 +25,7 @@ const routes: Routes = [
       {
         path: 'profile',
         loadChildren: './profile/profile.module#ProfileModule',
-        canActivate: [isLoggedIn],
+        canActivate: [isProfiledUser],
       },
       {
         path: 'support',
