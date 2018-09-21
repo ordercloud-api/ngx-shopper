@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
 import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { OcMeService, ListOrder } from '@ordercloud/angular-sdk';
 import { MeOrderListOptions } from '@app-buyer/order/models/me-order-list-options';
@@ -8,15 +8,17 @@ import { flatMap } from 'rxjs/operators';
 import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
 
 @Component({
-  selector: 'order-order-history',
+  selector: 'order-history',
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.scss'],
 })
 export class OrderHistoryComponent implements AfterViewInit {
   alive = true;
+  columns: string[] = ['ID', 'Status', 'DateSubmitted', 'Total'];
   orders$: Observable<ListOrder>;
   hasFavoriteOrdersFilter = false;
   sortBy: string;
+  @Input() approvalVersion: boolean;
 
   constructor(
     private ocMeService: OcMeService,
@@ -26,6 +28,9 @@ export class OrderHistoryComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
+    if (!this.approvalVersion) {
+      this.columns.push('Favorite');
+    }
     this.orders$ = this.listOrders();
   }
 
@@ -82,7 +87,9 @@ export class OrderHistoryComponent implements AfterViewInit {
             datesubmitted: queryParamMap.getAll('datesubmitted') || undefined,
           },
         };
-        return this.ocMeService.ListOrders(listOptions);
+        return this.approvalVersion
+          ? this.ocMeService.ListApprovableOrders(listOptions)
+          : this.ocMeService.ListOrders(listOptions);
       })
     );
   }

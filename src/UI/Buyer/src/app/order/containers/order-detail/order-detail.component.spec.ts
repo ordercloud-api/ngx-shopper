@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderDetailComponent } from '@app-buyer/order/containers/order-detail/order-detail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of, BehaviorSubject } from 'rxjs';
 import { OcOrderService } from '@ordercloud/angular-sdk';
 import { ParamMap, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
+import { OrderDetailsComponent } from '@app-buyer/order/containers/order-detail/order-detail.component';
 
-describe('OrderDetailComponent', () => {
-  let component: OrderDetailComponent;
-  let fixture: ComponentFixture<OrderDetailComponent>;
+describe('OrderDetailsComponent', () => {
+  let component: OrderDetailsComponent;
+  let fixture: ComponentFixture<OrderDetailsComponent>;
 
   const mockOrderID = 'MockGetOrder123';
   const orderService = {
@@ -30,15 +30,13 @@ describe('OrderDetailComponent', () => {
   );
 
   const activatedRoute = {
-    parent: {
-      data: of({ orderResolve: { order: { ID: 'mockOrder' } } }),
-    },
+    data: of({ orderResolve: { order: { ID: 'mockOrder' } } }),
     paramMap,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [OrderDetailComponent],
+      declarations: [OrderDetailsComponent],
       providers: [
         { provide: OcOrderService, useValue: orderService },
         { provide: ActivatedRoute, useValue: activatedRoute },
@@ -49,7 +47,7 @@ describe('OrderDetailComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderDetailComponent);
+    fixture = TestBed.createComponent(OrderDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

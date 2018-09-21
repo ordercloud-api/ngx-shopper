@@ -19,6 +19,7 @@ import { PaymentPurchaseOrderComponent } from '@app-buyer/checkout/components/pa
 import { PaymentSpendingAccountComponent } from '@app-buyer/checkout/components/payment-spending-account/payment-spending-account.component';
 import { OrderConfirmationComponent } from '@app-buyer/checkout/containers/order-confirmation/order-confirmation.component';
 import { CheckoutConfirmComponent } from '@app-buyer/checkout/components/checkout-confirm/checkout-confirm.component';
+import { OrderResolve } from '@app-buyer/order/order.resolve';
 
 @NgModule({
   imports: [SharedModule, CheckoutRoutingModule, FormsModule],
@@ -34,5 +35,6 @@ import { CheckoutConfirmComponent } from '@app-buyer/checkout/components/checkou
     OrderConfirmationComponent,
     CheckoutConfirmComponent,
   ],
+  providers: [OrderResolve],
 })
 export class CheckoutModule {}
