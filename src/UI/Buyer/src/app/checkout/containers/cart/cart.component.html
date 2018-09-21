@@ -3,7 +3,7 @@
   <div *ngIf="(currentOrder$ | async) as order">
     <div class="my-3 d-flex justify-content-between">
       <button class="btn btn-outline-dark"
-              [routerLink]="['/home']">Continue Shopping</button>
+              [routerLink]="['/products']">Continue Shopping</button>
       <button class="btn btn-outline-danger"
               *ngIf="order.LineItemCount"
               (click)="cancelOrder()">Cancel Order</button>

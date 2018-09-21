@@ -61,3 +61,8 @@ shared-address-display {
 .flex-none {
   flex: none;
 }
+
+// Bootstrap IE issue with the last panel of ng-accordian
+.card-body#confirm {
+  flex:none;
+}

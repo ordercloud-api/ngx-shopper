@@ -1,24 +1,26 @@
-<h1 class="page-heading border-bottom pb-3">My Orders</h1>
+<h1 class="page-heading border-bottom pb-3">{{ approvalVersion ? 'Orders To Appprove' : 'My Orders' }}</h1>
 <shared-search placeholderText="Search Orders"
                (searched)="filterBySearch($event)"></shared-search>
 <div class="row mt-3">
-  <div class="col-2">
+  <div class="col-md-2 col-sm-6"
+       *ngIf="!approvalVersion">
     <div>Favorites</div>
     <div class="mt-3 ml-3">
       <shared-toggle-favorite [favorite]="hasFavoriteOrdersFilter"
                               (favoriteChanged)="filterByFavorite($event)"></shared-toggle-favorite>
     </div>
   </div>
-  <div class="col-2">
+  <div class="col-md-2 col-sm-6"
+       *ngIf="!approvalVersion">
     <order-status-filter (selectedStatus)="filterByStatus($event)"></order-status-filter>
   </div>
-  <div class="col-8">
+  <div class="col">
     <order-date-filter (selectedDate)="filterByDate($event)"></order-date-filter>
   </div>
 </div>
 <order-list *ngIf="orders$ | async; let orders"
             [orders]="orders"
-            [columns]="['Favorite', 'ID', 'Status', 'DateSubmitted', 'Total']"
+            [columns]="columns"
             [sortBy]="sortBy"
             (updatedSort)="sortOrders($event)"
             (changedPage)="changePage($event)">

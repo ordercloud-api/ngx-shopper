@@ -45,7 +45,7 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent
 
   listSpendingAccounts(): Observable<ListSpendingAccount> {
     const now = moment().format('YYYY-MM-DD');
-    const filters = { StartDate: `>${now}|!*`, EndDate: `<${now}|!*` };
+    const filters = { StartDate: `<${now}|!*`, EndDate: `>${now}|!*` };
     return this.ocMeService.ListSpendingAccounts({
       filters,
       ...this.requestOptions,

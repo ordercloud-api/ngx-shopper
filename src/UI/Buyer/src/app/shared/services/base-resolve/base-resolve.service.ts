@@ -16,19 +16,18 @@ import {
 import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import * as jwtDecode from 'jwt-decode';
+import { isUndefined as _isUndefined } from 'lodash';
 
 // app
 import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
-import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 
 @Injectable()
 export class BaseResolveService {
   constructor(
     private appStateService: AppStateService,
-    private appAuthService: AppAuthService,
     private ocMeService: OcMeService,
     private appLineItemService: AppLineItemService,
     private ocOrderService: OcOrderService,
@@ -54,7 +53,7 @@ export class BaseResolveService {
           }
           if (this.appConfig.anonymousShoppingEnabled) {
             // only create anon order when line item is added
-            const orderID = jwtDecode(this.ocTokenService.GetAccess()).orderid;
+            const orderID = this.getOrderIDFromToken();
             const anonOrder = <Order>{ ID: orderID };
             return of(anonOrder);
           }
@@ -78,13 +77,13 @@ export class BaseResolveService {
   // Used by BaseResolve when app first loads, at login and at logout
   // auth guards have confirmed at this point a token exists
   setUser(): Observable<any> {
-    const isAnon = this.appAuthService.isUserAnon();
+    const isAnon = !_isUndefined(this.getOrderIDFromToken());
+    this.appStateService.isAnonSubject.next(isAnon);
     const prevLineItems = this.appStateService.lineItemSubject.value;
     const transferCart =
       !isAnon && // user is now logged in
       this.appStateService.isAnonSubject.value && // previously, user was anonymous
       prevLineItems.Items.length > 0; // previously, user added to cart
-    this.appStateService.isAnonSubject.next(isAnon);
     return forkJoin([this.setCurrentUser(), this.setCurrentOrder()]).pipe(
       tap((res) => {
         // Pushes data to subscribers
@@ -105,6 +104,10 @@ export class BaseResolveService {
     );
   }
 
+  getOrderIDFromToken(): string | void {
+    return jwtDecode(this.ocTokenService.GetAccess()).orderid;
+  }
+
   transferAnonymousCart(anonLineItems: ListLineItem): Observable<LineItem[]> {
     const requests = anonLineItems.Items.map((li) =>
       this.appLineItemService.create(li.xp.product, li.Quantity)
@@ -113,7 +116,7 @@ export class BaseResolveService {
     return forkJoin(requests);
   }
 
-  resetUser() {
+  resetUser(): void {
     this.setUser().subscribe();
   }
 }

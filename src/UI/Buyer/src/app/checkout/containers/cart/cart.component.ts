@@ -12,7 +12,6 @@ import {
   OcMeService,
   BuyerProduct,
 } from '@ordercloud/angular-sdk';
-import { Router } from '@angular/router';
 import { Observable, forkJoin } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
@@ -33,7 +32,6 @@ export class CartComponent implements OnInit, OnDestroy {
     private baseResolveService: BaseResolveService,
     private appLineItemService: AppLineItemService,
     private ocOrderService: OcOrderService,
-    private router: Router,
     private ocMeService: OcMeService
   ) {}
 
@@ -65,7 +63,6 @@ export class CartComponent implements OnInit, OnDestroy {
       .Delete('outgoing', this.appStateService.orderSubject.value.ID)
       .subscribe(() => {
         this.baseResolveService.resetUser();
-        this.router.navigate(['/home']);
       });
   }
 

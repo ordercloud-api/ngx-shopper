@@ -8,30 +8,33 @@
            formControlName="quantity"
            class="form-control text-center"
            placeholder="0"
+           style="min-width:65px"
            aria-label="Quantity Input Selector"
            aria-describedby="quantity">
     <select *ngIf="isQuantityRestricted()"
             class="form-control text-center"
+            style="min-width:65px"
             formControlName="quantity"
             id="quantity">
-            <option *ngFor="let priceBreak of product.PriceSchedule.PriceBreaks" [value]="priceBreak.Quantity">
-              {{priceBreak.Quantity}}
-            </option>
+      <option *ngFor="let priceBreak of product.PriceSchedule.PriceBreaks"
+              [value]="priceBreak.Quantity">
+        {{priceBreak.Quantity}}
+      </option>
     </select>
   </div>
 </form>
 <small *ngIf="form.controls['quantity'].getError('required')"
        class="alert alert-danger error-message c-error-message text-center">
-    Please enter a quantity
-    <br>
-  </small>
+  Please enter a quantity
+  <br>
+</small>
 <small *ngIf="form.controls['quantity'].getError('OcMaxProductQty') as error"
        class="alert alert-danger error-message c-error-message text-center">
-        The maximum order quantity is {{error.max}}
-    <br>
-  </small>
+  The maximum order quantity is {{error.max}}
+  <br>
+</small>
 <small *ngIf="form.controls['quantity'].getError('OcMinProductQty') as error"
        class="alert alert-danger error-message c-error-message text-center">
-    The minimum order quantity is {{error.min}}
-<br>
+  The minimum order quantity is {{error.min}}
+  <br>
 </small>
