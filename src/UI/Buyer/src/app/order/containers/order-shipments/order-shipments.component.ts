@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 import { find as _find } from 'lodash';
 
 @Component({
-  selector: 'order-order-shipments',
+  selector: 'order-shipments',
   templateUrl: './order-shipments.component.html',
   styleUrls: ['./order-shipments.component.scss'],
 })
