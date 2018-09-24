@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { OcMeService } from '@ordercloud/angular-sdk';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-fdescribe('AddressListComponent', () => {
+describe('AddressListComponent', () => {
   let component: AddressListComponent;
   let fixture: ComponentFixture<AddressListComponent>;
   const toastrService = { success: jasmine.createSpy('success') };
