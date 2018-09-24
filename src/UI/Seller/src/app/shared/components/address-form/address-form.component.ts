@@ -5,6 +5,7 @@ import { BuyerAddress, Address } from '@ordercloud/angular-sdk';
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
 import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
 import { AppIdValidator } from '@app-seller/shared/validators/id-field/id-field.validator';
+import { ValidateZip } from '@app-seller/shared/validators/zip-code/zip-code.validator';
 
 @Component({
   selector: 'shared-address-form',
@@ -69,7 +70,10 @@ export class AddressFormComponent implements OnInit {
       Street2: [this._existingAddress.Street2 || ''],
       City: [this._existingAddress.City || '', Validators.required],
       State: [this._existingAddress.State || null, Validators.required],
-      Zip: [this._existingAddress.Zip || '', Validators.required],
+      Zip: [
+        this._existingAddress.Zip || '',
+        [Validators.required, ValidateZip],
+      ],
       Country: [this._existingAddress.Country || null, Validators.required],
       Phone: [this._existingAddress.Phone || ''],
     });
@@ -90,4 +94,6 @@ export class AddressFormComponent implements OnInit {
     this.formErrorService.hasRequiredError(controlName, this.addressForm);
   protected hasInvalidIdError = () =>
     this.formErrorService.hasInvalidIdError(this.addressForm.get('ID'));
+  protected hasZipError = (controlName: string) =>
+    this.formErrorService.hasInvalidZipError(controlName, this.addressForm);
 }

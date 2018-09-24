@@ -9,7 +9,7 @@ export class AppFormErrorService {
     });
   }
 
-  hasValidEmailError(input: FormControl | AbstractControl): boolean {
+  hasInvalidEmailError(input: FormControl | AbstractControl): boolean {
     return (
       (input.hasError('required') || input.hasError('email')) && input.dirty
     );
@@ -38,6 +38,13 @@ export class AppFormErrorService {
   hasMinLengthError(controlName: string, form: FormGroup) {
     return (
       form.get(controlName).hasError('minlength') && form.get(controlName).dirty
+    );
+  }
+
+  hasInvalidZipError(controlName: string, form: FormGroup) {
+    return (
+      form.get(controlName).hasError('zipInvalid') &&
+      form.get(controlName).dirty
     );
   }
 }
