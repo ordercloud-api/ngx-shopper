@@ -6,7 +6,7 @@ import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/fa
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { ToastrService } from 'ngx-toastr';
 
-describe('FavoriteProductsService', () => {
+fdescribe('FavoriteProductsService', () => {
   let service;
   const meService = {
     Get: jasmine.createSpy('Get').and.returnValue(of({})),
@@ -68,7 +68,7 @@ describe('FavoriteProductsService', () => {
     });
     it('should send toastr if limit is reached', () => {
       meService.Patch.calls.reset();
-      spyOn(service, 'getFavorites').and.returnValue(['a', 'b', 'c']);
+      spyOn(service, 'getFavorites').and.returnValue(['a', 'b']);
       service['MaxFavorites'] = 2;
       service.setFavoriteValue(true, { ID: 'c' });
       expect(toastrService.info).toHaveBeenCalled();
