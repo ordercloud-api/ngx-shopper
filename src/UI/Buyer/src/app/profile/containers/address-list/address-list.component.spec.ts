@@ -2,16 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddressListComponent } from '@app-buyer/profile/containers/address-list/address-list.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { AddressDisplayComponent } from '@app-buyer/shared/components/address-display/address-display.component';
 import { PhoneFormatPipe, ModalService } from '@app-buyer/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
 import { OcMeService } from '@ordercloud/angular-sdk';
-import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-describe('AddressListComponent', () => {
+fdescribe('AddressListComponent', () => {
   let component: AddressListComponent;
   let fixture: ComponentFixture<AddressListComponent>;
   const toastrService = { success: jasmine.createSpy('success') };
@@ -64,7 +62,9 @@ describe('AddressListComponent', () => {
       component['showAddAddress']();
     });
     it('should display modal', () => {
-      expect(modalService.open).toHaveBeenCalledWith(component.modalID);
+      expect(modalService.open).toHaveBeenCalledWith(
+        component.addAddressModalID
+      );
     });
     it('should clear out current address', () => {
       expect(component.currentAddress).toBe(null);
@@ -78,7 +78,9 @@ describe('AddressListComponent', () => {
       component['showEditAddress'](mockEditAddress);
     });
     it('should display modal', () => {
-      expect(modalService.open).toHaveBeenCalledWith(component.modalID);
+      expect(modalService.open).toHaveBeenCalledWith(
+        component.addAddressModalID
+      );
     });
     it('should show edit address', () => {
       expect(component.currentAddress).toBe(mockEditAddress);
@@ -102,12 +104,14 @@ describe('AddressListComponent', () => {
   describe('deleteAddress', () => {
     beforeEach(() => {
       spyOn(component as any, 'reloadAddresses');
+      spyOn(component as any, 'closeAreYouSure');
       component['deleteAddress']({ ID: 'mockAddress' });
     });
     it('should call meService.DeleteAddress', () => {
       expect(meService.DeleteAddress).toHaveBeenCalledWith('mockAddress');
     });
     it('should reload addresses', () => {
+      expect(component['closeAreYouSure']).toHaveBeenCalled();
       expect(component['reloadAddresses']).toHaveBeenCalled();
     });
   });
