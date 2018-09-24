@@ -21,10 +21,8 @@ function selectRules(): RegExp {
   return USZipRules;
 }
 
-// Add Configs for new rules types as needed.
+// Add regular expressions for new rules types as needed. Exported for testing purposes only. Do not import.
 
-const USZipRules = /^[0-9]{5}$/; // five numbers
+export const USZipRules = /^[0-9]{5}$/; // five numbers
 
-/**
- * const CAZipRules = /^[A-Z0-9]{3}\s[A-Z0-9]{3}$/; // Two groups of three alphanumerics, i.e. "A1A 5TT"
- */
+export const CAZipRules = /^[A-Z0-9]{3}\s[A-Z0-9]{3}$/; // Two groups of three alphanumerics, i.e. "A1A 5TT"

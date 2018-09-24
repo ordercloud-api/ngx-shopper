@@ -2,7 +2,7 @@ import {
   ValidateZip,
   USZipRules,
   CAZipRules,
-} from '@app-buyer/shared/validators/zip-code/zip-code.validator';
+} from '@app-seller/shared/validators/zip-code/zip-code.validator';
 import { FormControl } from '@angular/forms';
 
 describe('ValidateZip Validator', () => {
