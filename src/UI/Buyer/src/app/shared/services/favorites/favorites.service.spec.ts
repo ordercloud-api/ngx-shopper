@@ -1,4 +1,4 @@
-import { TestBed, inject, async } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 
 import { OcMeService, MeUser } from '@ordercloud/angular-sdk';
 import { of, BehaviorSubject } from 'rxjs';
@@ -6,7 +6,7 @@ import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/fa
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { ToastrService } from 'ngx-toastr';
 
-fdescribe('FavoriteProductsService', () => {
+describe('FavoriteProductsService', () => {
   let service;
   const meService = {
     Get: jasmine.createSpy('Get').and.returnValue(of({})),
