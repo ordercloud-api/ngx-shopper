@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 abstract class FavoritesService<T extends { ID?: string }> {
   protected abstract readonly XpFieldName: string;
   protected abstract readonly TypeDisplayName: string;
-  // All OrderCloud xp objects are limited 8000 chars. With guid's of length ~24, 40 favorites is ~1000 chars.
+  // All OrderCloud xp objects are limited to 8000 chars. With guid's of length ~24, 40 favorites is ~1000 chars.
   private readonly MaxFavorites: number = 40;
 
   constructor(
@@ -23,11 +23,9 @@ abstract class FavoritesService<T extends { ID?: string }> {
   setFavoriteValue(isFav: boolean, object: T): void {
     const favorites = this.getFavorites();
     let updatedFavorites: string[];
-    if (isFav && favorites.length > this.MaxFavorites) {
+    if (isFav && favorites.length >= this.MaxFavorites) {
       this.toastrService.info(
-        `You are limited to ${this.MaxFavorites} favorite ${
-          this.TypeDisplayName
-        }`
+        `You have reached your limit of favorite ${this.TypeDisplayName}`
       );
       return;
     }

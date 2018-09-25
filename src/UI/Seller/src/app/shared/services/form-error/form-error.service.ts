@@ -28,4 +28,11 @@ export class AppFormErrorService {
     const control = form.get(controlName);
     return control && control.hasError('required') && control.dirty;
   }
+
+  hasInvalidZipError(controlName: string, form: FormGroup) {
+    return (
+      form.get(controlName).hasError('zipInvalid') &&
+      form.get(controlName).dirty
+    );
+  }
 }

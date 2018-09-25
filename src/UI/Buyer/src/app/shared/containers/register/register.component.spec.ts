@@ -67,7 +67,7 @@ describe('RegisterComponent', () => {
   const router = { navigate: jasmine.createSpy('navigate') };
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
-    hasValidEmailError: jasmine.createSpy('hasValidEmailError'),
+    hasInvalidEmailError: jasmine.createSpy('hasInvalidEmailError'),
     hasPasswordMismatchError: jasmine.createSpy('hasPasswordMismatchError'),
     hasStrongPasswordError: jasmine.createSpy('hasStrongPasswordError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
@@ -312,7 +312,7 @@ describe('RegisterComponent', () => {
       component['hasValidEmailError']();
     });
     it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasValidEmailError).toHaveBeenCalledWith(
+      expect(formErrorService.hasInvalidEmailError).toHaveBeenCalledWith(
         component.form.get('Email')
       );
     });

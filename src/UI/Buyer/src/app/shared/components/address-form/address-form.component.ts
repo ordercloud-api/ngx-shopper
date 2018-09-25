@@ -3,8 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 // 3rd party
 import { BuyerAddress, Address } from '@ordercloud/angular-sdk';
+
 import { AppGeographyService } from '@app-buyer/shared/services/geography/geography.service';
 import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
+import { ValidateZip } from '@app-buyer/shared/validators/zip-code/zip-code.validator';
 
 @Component({
   selector: 'shared-address-form',
@@ -48,7 +50,10 @@ export class AddressFormComponent implements OnInit {
       Street2: [this._existingAddress.Street2 || ''],
       City: [this._existingAddress.City || '', Validators.required],
       State: [this._existingAddress.State || null, Validators.required],
-      Zip: [this._existingAddress.Zip || '', Validators.required],
+      Zip: [
+        this._existingAddress.Zip || '',
+        [Validators.required, ValidateZip],
+      ],
       Phone: [this._existingAddress.Phone || ''],
       Country: [this._existingAddress.Country || null, Validators.required],
       ID: this._existingAddress.ID || '',
@@ -68,6 +73,8 @@ export class AddressFormComponent implements OnInit {
   // control display of error messages
   protected hasRequiredError = (controlName: string) =>
     this.formErrorService.hasRequiredError(controlName, this.addressForm);
+  protected hasZipError = (controlName: string) =>
+    this.formErrorService.hasInvalidZipError(controlName, this.addressForm);
   protected hasValidEmailError = () =>
-    this.formErrorService.hasValidEmailError(this.addressForm.get('Email'));
+    this.formErrorService.hasInvalidEmailError(this.addressForm.get('Email'));
 }
