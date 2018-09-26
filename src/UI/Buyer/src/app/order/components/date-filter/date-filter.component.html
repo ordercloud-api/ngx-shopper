@@ -7,12 +7,17 @@
         <label for="dFrom">From Date</label>
         <div class="input-group">
           <input formControlName="fromDate"
-                 class="form-control"
+                 class="form-control border-right-0"
                  placeholder="mm-dd-yyyy"
                  ngbDatepicker
                  #dFrom="ngbDatepicker"
                  id="dFrom">
           <div class="input-group-append">
+            <span *ngIf="form.value.fromDate"
+                  (click)="clearFromDate()"
+                  class="input-group-text bg-white icon-button--hover-reactive">
+              <fa-icon [icon]="faTimes"></fa-icon>
+            </span>
             <button class="btn btn-outline-secondary"
                     (click)="dFrom.toggle()"
                     type="button">
@@ -28,13 +33,18 @@
         <label for="dTo">To Date</label>
         <div class="input-group">
           <input formControlName="toDate"
-                 class="form-control"
+                 class="form-control border-right-0"
                  placeholder="mm-dd-yyyy"
                  ngbDatepicker
                  minDate="today"
                  #dTo="ngbDatepicker"
                  id="dTo">
           <div class="input-group-append">
+            <span *ngIf="form.value.toDate"
+                  (click)="clearToDate()"
+                  class="input-group-text bg-white icon-button--hover-reactive">
+              <fa-icon [icon]="faTimes"></fa-icon>
+            </span>
             <button class="btn btn-outline-secondary"
                     (click)="dTo.toggle()"
                     type="button">
