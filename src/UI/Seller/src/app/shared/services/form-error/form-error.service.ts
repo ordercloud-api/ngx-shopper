@@ -29,10 +29,9 @@ export class AppFormErrorService {
     return control && control.hasError('required') && control.dirty;
   }
 
-  hasInvalidZipError(controlName: string, form: FormGroup) {
+  hasPatternError(controlName: string, form: FormGroup) {
     return (
-      form.get(controlName).hasError('zipInvalid') &&
-      form.get(controlName).dirty
+      form.get(controlName).hasError('pattern') && form.get(controlName).dirty
     );
   }
 }

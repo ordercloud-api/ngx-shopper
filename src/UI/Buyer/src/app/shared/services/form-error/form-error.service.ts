@@ -40,11 +40,4 @@ export class AppFormErrorService {
       form.get(controlName).hasError('minlength') && form.get(controlName).dirty
     );
   }
-
-  hasInvalidZipError(controlName: string, form: FormGroup) {
-    return (
-      form.get(controlName).hasError('zipInvalid') &&
-      form.get(controlName).dirty
-    );
-  }
 }

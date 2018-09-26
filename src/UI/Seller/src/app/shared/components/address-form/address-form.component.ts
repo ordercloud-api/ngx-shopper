@@ -5,7 +5,6 @@ import { BuyerAddress, Address } from '@ordercloud/angular-sdk';
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
 import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
 import { AppIdValidator } from '@app-seller/shared/validators/id-field/id-field.validator';
-import { ValidateZip } from '@app-seller/shared/validators/zip-code/zip-code.validator';
 
 @Component({
   selector: 'shared-address-form',
@@ -72,11 +71,16 @@ export class AddressFormComponent implements OnInit {
       State: [this._existingAddress.State || null, Validators.required],
       Zip: [
         this._existingAddress.Zip || '',
-        [Validators.required, ValidateZip],
+        [Validators.required, Validators.pattern(this.getZipRules())],
       ],
       Country: [this._existingAddress.Country || null, Validators.required],
       Phone: [this._existingAddress.Phone || ''],
     });
+  }
+
+  // returns a regex string
+  getZipRules(): string {
+    return '^[0-9]{5}$'; // US zip - five numbers
   }
 
   protected onSubmit() {
@@ -94,6 +98,6 @@ export class AddressFormComponent implements OnInit {
     this.formErrorService.hasRequiredError(controlName, this.addressForm);
   protected hasInvalidIdError = () =>
     this.formErrorService.hasInvalidIdError(this.addressForm.get('ID'));
-  protected hasZipError = (controlName: string) =>
-    this.formErrorService.hasInvalidZipError(controlName, this.addressForm);
+  protected hasPatternError = (controlName: string) =>
+    this.formErrorService.hasPatternError(controlName, this.addressForm);
 }
