@@ -1,59 +1,72 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
 
-/**
- * validate against the min quantity defined by an
- * ordercloud product's price schedule
- */
-export function AppMinProductQty(product: BuyerProduct): ValidatorFn {
+export function ProductQtyValidator(product: BuyerProduct): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const minQty = getMinQty(product);
+    if (control.value == null || control.value === '') {
+      return null;
+    }
+    const error = { ProductQuantityError: { message: '', outOfStock: false } };
+    const min = minQty(product);
+    const max = maxQty(product);
+    const inventory = getInventory(product);
 
-    if (!control.value) {
-      return null;
+    if (inventory < min) {
+      error.ProductQuantityError.message = `Out of stock.`;
+      error.ProductQuantityError.outOfStock = true;
+      return error;
     }
-    if (control.value >= minQty) {
-      return null;
+    if (control.value < min) {
+      error.ProductQuantityError.message = `At least ${min} must be ordered.`;
+      return error;
     }
-    return { OcMinProductQty: { min: minQty, actual: control.value } };
+    if (control.value > inventory) {
+      error.ProductQuantityError.message = `Only ${inventory} available in inventory.`;
+      return error;
+    }
+    if (control.value > max) {
+      error.ProductQuantityError.message = `At most ${max} allowed per order.`;
+      return error;
+    }
+
+    return null;
   };
 }
 
-function getMinQty(product: BuyerProduct): number {
-  let minQuantity = 1;
+/**
+ * validate against the min quantity per order defined by an
+ * ordercloud product's price schedule
+ */
+function minQty(product: BuyerProduct): number {
   if (product.PriceSchedule && product.PriceSchedule.MinQuantity) {
-    minQuantity = product.PriceSchedule.MinQuantity;
+    return product.PriceSchedule.MinQuantity;
   }
-  return minQuantity;
+  return 1;
 }
 
 /**
- * validate against the max quantity defined by an
+ * validate against the max quantity per order defined by an
  * ordercloud product's price schedule
  */
-export function AppMaxProductQty(product: BuyerProduct): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const maxQty = getMaxQty(product);
-
-    if (!control.value) {
-      return null;
-    }
-    if (control.value <= maxQty) {
-      return null;
-    }
-    return { OcMaxProductQty: { max: maxQty, actual: control.value } };
-  };
+function maxQty(product: BuyerProduct): number {
+  if (product.PriceSchedule && product.PriceSchedule.MaxQuantity != null) {
+    return product.PriceSchedule.MaxQuantity;
+  }
+  return Infinity;
 }
 
-function getMaxQty(product: BuyerProduct): number {
-  let quantityAvailable = Infinity;
-  let permissionLimit = Infinity;
-
-  if (product.Inventory && product.Inventory.QuantityAvailable != null) {
-    quantityAvailable = product.Inventory.QuantityAvailable;
+/**
+ * validate against the inventory limit defined by an
+ * ordercloud product's inventory object
+ */
+function getInventory(product: BuyerProduct): number {
+  if (
+    product.Inventory &&
+    product.Inventory.Enabled &&
+    !product.Inventory.OrderCanExceed &&
+    product.Inventory.QuantityAvailable != null
+  ) {
+    return product.Inventory.QuantityAvailable;
   }
-  if (product.PriceSchedule && product.PriceSchedule.MaxQuantity != null) {
-    permissionLimit = product.PriceSchedule.MaxQuantity;
-  }
-  return Math.min(quantityAvailable, permissionLimit);
+  return Infinity;
 }

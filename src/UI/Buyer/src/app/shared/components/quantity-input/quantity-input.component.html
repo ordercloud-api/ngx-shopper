@@ -28,13 +28,8 @@
   Please enter a quantity
   <br>
 </small>
-<small *ngIf="form.controls['quantity'].getError('OcMaxProductQty') as error"
+<small *ngIf="getQuantityError() as error"
        class="alert alert-danger error-message c-error-message text-center">
-  The maximum order quantity is {{error.max}}
-  <br>
-</small>
-<small *ngIf="form.controls['quantity'].getError('OcMinProductQty') as error"
-       class="alert alert-danger error-message c-error-message text-center">
-  The minimum order quantity is {{error.min}}
+  {{ error.message }}
   <br>
 </small>
