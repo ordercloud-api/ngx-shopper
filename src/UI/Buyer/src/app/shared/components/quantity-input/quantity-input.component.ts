@@ -12,6 +12,7 @@ import { ProductQtyValidator } from '@app-buyer/shared/validators/product-quanti
 import { ToastrService } from 'ngx-toastr';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { debounceTime, takeWhile } from 'rxjs/operators';
+import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 
 @Component({
   selector: 'shared-quantity-input',
@@ -28,7 +29,8 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private formErrorService: AppFormErrorService
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +80,7 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     if (!this.form.valid || isNaN(this.form.value.quantity)) {
       return this.toastrService.error(
-        this.getQuantityError().message || 'Please enter a quantity',
+        this.getQuantityError() || 'Please enter a quantity',
         'Error'
       );
     }
@@ -90,8 +92,12 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
     this.form.setValue({ quantity: this.getDefaultQty() });
   }
 
-  getQuantityError() {
-    return this.form.controls['quantity'].getError('ProductQuantityError');
+  getQuantityError(): string | void {
+    const error = this.formErrorService.getProductQuantityError(
+      'quantity',
+      this.form
+    );
+    return error ? null : error.message;
   }
 
   ngOnDestroy() {
