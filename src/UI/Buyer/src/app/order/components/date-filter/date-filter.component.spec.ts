@@ -118,6 +118,30 @@ describe('DateFilterComponent', () => {
     });
   });
 
+  describe('clearToDate', () => {
+    beforeEach(() => {
+      spyOn(component.selectedDate, 'emit');
+    });
+    it('should clear to to Date and emit', () => {
+      component.form.controls['fromDate'].setValue(new Date(2018, 4, 20));
+      component.form.controls['toDate'].setValue(new Date(2018, 4, 31));
+      component['clearToDate']();
+      expect(component.selectedDate.emit).toHaveBeenCalledWith(['>5-20-18']);
+    });
+  });
+
+  describe('clearFromDate', () => {
+    beforeEach(() => {
+      spyOn(component.selectedDate, 'emit');
+    });
+    it('should clear to to Date and emit', () => {
+      component.form.controls['fromDate'].setValue(new Date(2018, 4, 20));
+      component.form.controls['toDate'].setValue(new Date(2018, 4, 31));
+      component['clearFromDate']();
+      expect(component.selectedDate.emit).toHaveBeenCalledWith(['<6-1-18']);
+    });
+  });
+
   describe('ngOnDestroy', () => {
     it('should set alive to false', () => {
       expect(component['alive']).toBe(true);

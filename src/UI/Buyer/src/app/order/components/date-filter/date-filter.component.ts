@@ -5,7 +5,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { debounceTime, takeWhile } from 'rxjs/operators';
@@ -18,6 +18,7 @@ import { debounceTime, takeWhile } from 'rxjs/operators';
 export class DateFilterComponent implements OnInit, OnDestroy {
   private alive = true;
   faCalendar = faCalendar;
+  faTimes = faTimes;
   form: FormGroup;
   @Output() selectedDate = new EventEmitter<string[]>();
 
@@ -62,6 +63,16 @@ export class DateFilterComponent implements OnInit, OnDestroy {
     }
 
     this.selectedDate.emit(dateSubmitted);
+  }
+
+  clearToDate() {
+    this.form.patchValue({ toDate: null });
+    this.emitDate();
+  }
+
+  clearFromDate() {
+    this.form.patchValue({ fromDate: null });
+    this.emitDate();
   }
 
   ngOnDestroy() {

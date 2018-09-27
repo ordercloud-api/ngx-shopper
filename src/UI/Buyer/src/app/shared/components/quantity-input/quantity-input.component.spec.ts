@@ -9,6 +9,7 @@ import {
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 
 describe('QuantityInputComponent', () => {
   let component: QuantityInputComponent;
@@ -16,12 +17,20 @@ describe('QuantityInputComponent', () => {
   const toastrService = {
     error: jasmine.createSpy('error').and.returnValue(null),
   };
+  const appFormErrorService = {
+    getProductQuantityError: jasmine
+      .createSpy('getProductQuantityError')
+      .and.returnValue({ message: 'error' }),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [QuantityInputComponent],
       imports: [ReactiveFormsModule],
-      providers: [{ provide: ToastrService, useValue: toastrService }],
+      providers: [
+        { provide: ToastrService, useValue: toastrService },
+        { provide: AppFormErrorService, useValue: appFormErrorService },
+      ],
     }).compileComponents();
   }));
 

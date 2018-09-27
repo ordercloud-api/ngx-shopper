@@ -31,6 +31,11 @@ export class AppFormErrorService {
     );
   }
 
+  getProductQuantityError(controlName: string, form: FormGroup) : { message: string, outOfStock: boolean } {
+    // don't check if dirty because outOfStock error message should show right away.
+    return form.get(controlName).getError('ProductQuantityError');
+  }
+
   hasStrongPasswordError(controlName: string, form: FormGroup) {
     return form.get(controlName).hasError('strongPassword');
   }
@@ -38,13 +43,6 @@ export class AppFormErrorService {
   hasMinLengthError(controlName: string, form: FormGroup) {
     return (
       form.get(controlName).hasError('minlength') && form.get(controlName).dirty
-    );
-  }
-
-  hasInvalidZipError(controlName: string, form: FormGroup) {
-    return (
-      form.get(controlName).hasError('zipInvalid') &&
-      form.get(controlName).dirty
     );
   }
 }
