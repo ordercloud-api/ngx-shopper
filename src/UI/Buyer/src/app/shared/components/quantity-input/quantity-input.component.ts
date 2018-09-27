@@ -97,7 +97,7 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
       'quantity',
       this.form
     );
-    return error ? null : error.message;
+    return error ? error.message: null;
   }
 
   ngOnDestroy() {
