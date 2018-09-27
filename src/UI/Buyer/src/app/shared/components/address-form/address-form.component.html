@@ -99,6 +99,8 @@
              autocomplete="off" />
       <span *ngIf="hasRequiredError('Zip')"
             class="error-message">Zip Code is required</span>
+      <span *ngIf="hasPatternError('Zip')"
+            class="error-message">Zip Code is invalid</span>
     </div>
   </div>
   <div class="row">

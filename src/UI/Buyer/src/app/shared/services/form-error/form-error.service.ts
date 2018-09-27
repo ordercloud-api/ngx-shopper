@@ -9,7 +9,7 @@ export class AppFormErrorService {
     });
   }
 
-  hasValidEmailError(input: FormControl | AbstractControl): boolean {
+  hasInvalidEmailError(input: FormControl | AbstractControl): boolean {
     return (
       (input.hasError('required') || input.hasError('email')) && input.dirty
     );
@@ -29,6 +29,11 @@ export class AppFormErrorService {
     return (
       form.get(controlName).hasError('pattern') && form.get(controlName).dirty
     );
+  }
+
+  getProductQuantityError(controlName: string, form: FormGroup) : { message: string, outOfStock: boolean } {
+    // don't check if dirty because outOfStock error message should show right away.
+    return form.get(controlName).getError('ProductQuantityError');
   }
 
   hasStrongPasswordError(controlName: string, form: FormGroup) {

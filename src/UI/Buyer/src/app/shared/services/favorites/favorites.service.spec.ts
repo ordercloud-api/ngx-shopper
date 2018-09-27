@@ -1,4 +1,4 @@
-import { TestBed, inject, async } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 
 import { OcMeService, MeUser } from '@ordercloud/angular-sdk';
 import { of, BehaviorSubject } from 'rxjs';
@@ -68,7 +68,7 @@ describe('FavoriteProductsService', () => {
     });
     it('should send toastr if limit is reached', () => {
       meService.Patch.calls.reset();
-      spyOn(service, 'getFavorites').and.returnValue(['a', 'b', 'c']);
+      spyOn(service, 'getFavorites').and.returnValue(['a', 'b']);
       service['MaxFavorites'] = 2;
       service.setFavoriteValue(true, { ID: 'c' });
       expect(toastrService.info).toHaveBeenCalled();

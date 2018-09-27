@@ -169,7 +169,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   protected hasRequiredError = (controlName: string): boolean =>
     this.formErrorService.hasRequiredError(controlName, this.form);
   protected hasValidEmailError = (): boolean =>
-    this.formErrorService.hasValidEmailError(this.form.get('Email'));
+    this.formErrorService.hasInvalidEmailError(this.form.get('Email'));
   protected passwordMismatchError = (): boolean =>
     this.formErrorService.hasPasswordMismatchError(this.form);
 }

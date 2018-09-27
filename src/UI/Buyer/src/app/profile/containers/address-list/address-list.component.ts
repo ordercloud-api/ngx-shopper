@@ -27,7 +27,8 @@ export class AddressListComponent implements OnInit {
     search: undefined,
   };
   resultsPerPage = 8;
-  modalID = 'add-profile-address';
+  addAddressModalID = 'add-profile-address';
+  areYouSureModalID = 'are-you-sure-address';
 
   constructor(
     private ocMeService: OcMeService,
@@ -40,12 +41,22 @@ export class AddressListComponent implements OnInit {
 
   protected showAddAddress() {
     this.currentAddress = null;
-    this.modalService.open(this.modalID);
+    this.modalService.open(this.addAddressModalID);
   }
 
   protected showEditAddress(address: BuyerAddress) {
     this.currentAddress = address;
-    this.modalService.open(this.modalID);
+    this.modalService.open(this.addAddressModalID);
+  }
+
+  protected showAreYouSure(address: BuyerAddress) {
+    this.currentAddress = address;
+    this.modalService.open(this.areYouSureModalID);
+  }
+
+  protected closeAreYouSure() {
+    this.currentAddress = null;
+    this.modalService.close(this.areYouSureModalID);
   }
 
   protected refresh() {
@@ -54,7 +65,7 @@ export class AddressListComponent implements OnInit {
   }
 
   protected addressFormSubmitted(address: BuyerAddress) {
-    this.modalService.close(this.modalID);
+    this.modalService.close(this.addAddressModalID);
     if (this.currentAddress) {
       this.updateAddress(address);
     } else {
@@ -90,6 +101,7 @@ export class AddressListComponent implements OnInit {
   protected deleteAddress(address: BuyerAddress) {
     this.ocMeService.DeleteAddress(address.ID).subscribe(
       () => {
+        this.closeAreYouSure();
         this.reloadAddresses();
       },
       (error) => {

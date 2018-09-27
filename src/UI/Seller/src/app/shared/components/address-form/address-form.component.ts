@@ -69,10 +69,18 @@ export class AddressFormComponent implements OnInit {
       Street2: [this._existingAddress.Street2 || ''],
       City: [this._existingAddress.City || '', Validators.required],
       State: [this._existingAddress.State || null, Validators.required],
-      Zip: [this._existingAddress.Zip || '', Validators.required],
+      Zip: [
+        this._existingAddress.Zip || '',
+        [Validators.required, Validators.pattern(this.getZipRules())],
+      ],
       Country: [this._existingAddress.Country || null, Validators.required],
       Phone: [this._existingAddress.Phone || ''],
     });
+  }
+
+  // returns a regex string
+  getZipRules(): string {
+    return '^[0-9]{5}$'; // US zip - five numbers
   }
 
   protected onSubmit() {
@@ -90,4 +98,6 @@ export class AddressFormComponent implements OnInit {
     this.formErrorService.hasRequiredError(controlName, this.addressForm);
   protected hasInvalidIdError = () =>
     this.formErrorService.hasInvalidIdError(this.addressForm.get('ID'));
+  protected hasPatternError = (controlName: string) =>
+    this.formErrorService.hasPatternError(controlName, this.addressForm);
 }
