@@ -3,13 +3,15 @@ import {
   CarouselSlide,
   CarouselSlideUpdate,
 } from '@app-seller/shared/components/carousel-slide-display/carousel-slide.interface';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   faSave,
   faTrashAlt,
   faUpload,
 } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
+import { RegexService } from '@app-seller/shared/services/regex/regex.service';
+import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
 
 @Component({
   selector: 'shared-carousel-slide-display',
@@ -17,9 +19,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./carousel-slide-display.component.scss'],
 })
 export class CarouselSlideDisplayComponent implements OnInit {
-  @Input() slide: CarouselSlide;
-  @Output() save = new EventEmitter<CarouselSlideUpdate>();
-  @Output() delete = new EventEmitter<CarouselSlideUpdate>();
+  @Input()
+  slide: CarouselSlide;
+  @Output()
+  save = new EventEmitter<CarouselSlideUpdate>();
+  @Output()
+  delete = new EventEmitter<CarouselSlideUpdate>();
   carouselForm: FormGroup;
   faSave = faSave;
   faTrash = faTrashAlt;
@@ -27,14 +32,22 @@ export class CarouselSlideDisplayComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private formErrorService: AppFormErrorService,
+    private regexService: RegexService
   ) {}
 
   ngOnInit() {
     this.carouselForm = this.formBuilder.group({
       URL: this.slide.URL || '',
-      headerText: this.slide.headerText || '',
-      bodyText: this.slide.bodyText || '',
+      headerText: [
+        this.slide.headerText || '',
+        Validators.pattern(this.regexService.HundredChar),
+      ],
+      bodyText: [
+        this.slide.bodyText || '',
+        Validators.pattern(this.regexService.HundredChar),
+      ],
     });
   }
 
@@ -60,7 +73,7 @@ export class CarouselSlideDisplayComponent implements OnInit {
   }
 
   textChanges(): void {
-    if (this.formUnchanged()) return;
+    if (this.saveDisabled()) return;
     this.save.emit({ prev: this.slide, new: this.carouselForm.value });
   }
 
@@ -68,10 +81,14 @@ export class CarouselSlideDisplayComponent implements OnInit {
     this.delete.emit({ prev: this.slide });
   }
 
-  formUnchanged(): boolean {
+  saveDisabled(): boolean {
     return (
-      this.slide.headerText === this.carouselForm.value.headerText &&
-      this.slide.bodyText === this.carouselForm.value.bodyText
+      (this.slide.headerText === this.carouselForm.value.headerText &&
+        this.slide.bodyText === this.carouselForm.value.bodyText) ||
+      !this.carouselForm.valid
     );
   }
+
+  protected hasPatternError = (controlName: string) =>
+    this.formErrorService.hasPatternError(controlName, this.carouselForm);
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '@ordercloud/angular-sdk';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
-import { AppIdValidator } from '@app-seller/shared/validators/id-field/id-field.validator';
+import { RegexService } from '@app-seller/shared/services/regex/regex.service';
 
 @Component({
   selector: 'user-form',
@@ -19,7 +19,8 @@ export class UserFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private formErrorService: AppFormErrorService
+    private formErrorService: AppFormErrorService,
+    private regexService: RegexService
   ) {}
 
   ngOnInit() {
@@ -47,12 +48,27 @@ export class UserFormComponent implements OnInit {
 
   setForm() {
     this.userForm = this.formBuilder.group({
-      ID: [this._existingUser.ID || '', AppIdValidator()],
+      ID: [
+        this._existingUser.ID || '',
+        Validators.pattern(this.regexService.ID),
+      ],
       Username: [this._existingUser.Username || '', Validators.required],
-      FirstName: [this._existingUser.FirstName || '', Validators.required],
-      LastName: [this._existingUser.LastName || '', Validators.required],
-      Phone: [this._existingUser.Phone || ''],
-      Email: [this._existingUser.Email || '', Validators.required],
+      FirstName: [
+        this._existingUser.FirstName || '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
+      LastName: [
+        this._existingUser.LastName || '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
+      Phone: [
+        this._existingUser.Phone || '',
+        Validators.pattern(this.regexService.Phone),
+      ],
+      Email: [
+        this._existingUser.Email || '',
+        [Validators.required, Validators.pattern(this.regexService.Email)],
+      ],
       Active: [!!this._existingUser.Active],
     });
   }
@@ -69,9 +85,8 @@ export class UserFormComponent implements OnInit {
   }
 
   // control display of error messages
-  protected hasRequiredError = (controlName: string) => {
+  protected hasRequiredError = (controlName: string) =>
     this.formErrorService.hasRequiredError(controlName, this.userForm);
-  };
-  protected hasInvalidIdError = () =>
-    this.formErrorService.hasInvalidIdError(this.userForm.get('ID'));
+  protected hasPatternError = (controlName: string) =>
+    this.formErrorService.hasPatternError(controlName, this.userForm);
 }
