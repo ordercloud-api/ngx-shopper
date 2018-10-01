@@ -7,16 +7,6 @@ import { Injectable } from '@angular/core';
 export class RegexService {
   constructor() {}
 
-  // used for all Ordercloud IDs
-  get ID() {
-    return '^[a-zA-Z0-9_-]*$'; // only alphanumeric and _ -
-  }
-
-  // used for ProductName, CategoryName
-  get ObjectName() {
-    return '^[a-zA-Z0-9-(),:;&*\\s]{0,60}$'; // max 60 chars, alphanumeric, space and - ( ) , : ; & *
-  }
-
   // used for FirstName, LastName, City
   get HumanName() {
     return "^[a-zA-Z0-9-.'\\s]*$"; // only alphanumic and space . '
@@ -30,9 +20,8 @@ export class RegexService {
     return '^[0-9-]{0,20}$'; // max 20 chars, numbers and -
   }
 
-  // used for Carousel text
-  get HundredChar() {
-    return '.{0,100}'; // max 100 chars
+  get Date() {
+    return '\\d\\d-\\d\\d-\\d\\d\\d\\d'; // mm-dd-yyyy, all numbers
   }
 
   get Zip() {

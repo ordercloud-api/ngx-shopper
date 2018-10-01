@@ -25,6 +25,8 @@
              autocomplete="off" />
       <span *ngIf="hasRequiredError('FirstName')"
             class="error-message">First Name is required</span>
+      <span *ngIf="hasPatternError('FirstName')"
+            class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
     </div>
     <div class="col-md-6 form-group">
       <label class="sr-only"
@@ -37,6 +39,8 @@
              autocomplete="off" />
       <span *ngIf="hasRequiredError('LastName')"
             class="error-message">Last Name is required</span>
+      <span *ngIf="hasPatternError('LastName')"
+            class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
     </div>
   </div>
   <div class="form-group">
@@ -73,6 +77,8 @@
              autocomplete="off" />
       <span *ngIf="hasRequiredError('City')"
             class="error-message">City is required</span>
+      <span *ngIf="hasPatternError('City')"
+            class="error-message">City can only contain characters Aa-Zz 0-9 - ' . </span>
     </div>
     <div class="col-md-3 form-group">
       <label class="sr-only"
@@ -125,9 +131,10 @@
              formControlName="Phone"
              class="form-control"
              id="Phone"
-             appPhoneInput
              placeholder="Phone Number"
              autocomplete="off" />
+      <span *ngIf="hasPatternError('Phone')"
+            class="error-message">Phone can only contain 20 numbers or "-" chars (no spaces)</span>
     </div>
   </div>
   <button type="submit"

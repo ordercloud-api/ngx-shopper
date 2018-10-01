@@ -6,6 +6,7 @@ import { BuyerAddress, Address } from '@ordercloud/angular-sdk';
 
 import { AppGeographyService } from '@app-buyer/shared/services/geography/geography.service';
 import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
+import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
 
 @Component({
   selector: 'shared-address-form',
@@ -24,7 +25,8 @@ export class AddressFormComponent implements OnInit {
   constructor(
     private ocGeography: AppGeographyService,
     private formBuilder: FormBuilder,
-    private formErrorService: AppFormErrorService
+    private formErrorService: AppFormErrorService,
+    private regexService: RegexService
   ) {
     this.stateOptions = this.ocGeography.getStates().map((s) => s.abbreviation);
     this.countryOptions = this.ocGeography.getCountries();
@@ -43,25 +45,32 @@ export class AddressFormComponent implements OnInit {
 
   setForm() {
     this.addressForm = this.formBuilder.group({
-      FirstName: [this._existingAddress.FirstName || '', Validators.required],
-      LastName: [this._existingAddress.LastName || '', Validators.required],
+      FirstName: [
+        this._existingAddress.FirstName || '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
+      LastName: [
+        this._existingAddress.LastName || '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
       Street1: [this._existingAddress.Street1 || '', Validators.required],
       Street2: [this._existingAddress.Street2 || ''],
-      City: [this._existingAddress.City || '', Validators.required],
+      City: [
+        this._existingAddress.City || '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
       State: [this._existingAddress.State || null, Validators.required],
       Zip: [
         this._existingAddress.Zip || '',
-        [Validators.required, Validators.pattern(this.getZipRules())],
+        [Validators.required, Validators.pattern(this.regexService.Zip)],
       ],
-      Phone: [this._existingAddress.Phone || ''],
+      Phone: [
+        this._existingAddress.Phone || '',
+        Validators.pattern(this.regexService.Phone),
+      ],
       Country: [this._existingAddress.Country || null, Validators.required],
       ID: this._existingAddress.ID || '',
     });
-  }
-
-  // returns a regex string
-  getZipRules(): string {
-    return '^[0-9]{5}$'; // US zip - five numbers
   }
 
   protected onSubmit() {

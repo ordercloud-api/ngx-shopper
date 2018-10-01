@@ -42,6 +42,8 @@
                autocomplete="off" />
         <span *ngIf="hasRequiredError('FirstName')"
               class="error-message">First Name is required</span>
+        <span *ngIf="hasPatternError('FirstName')"
+              class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
       </div>
       <div class="form-group">
         <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
@@ -54,6 +56,8 @@
                autocomplete="off" />
         <span *ngIf="hasRequiredError('LastName')"
               class="error-message">Last Name is required</span>
+        <span *ngIf="hasPatternError('LastName')"
+              class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
       </div>
       <div class="form-group">
         <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
@@ -64,8 +68,8 @@
                id="Email"
                placeholder="Email"
                autocomplete="off" />
-        <span *ngIf="hasValidEmailError()"
-              class="error-message">Please enter valid Email</span>
+        <span *ngIf="hasPatternError('Email')"
+              class="error-message">Please enter a valid email</span>
       </div>
       <div class="form-group">
         <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
@@ -73,10 +77,11 @@
         <input type="text"
                formControlName="Phone"
                class="form-control"
-               appPhoneInput
                id="Phone"
                placeholder="Phone Number"
                autocomplete="off" />
+        <span *ngIf="hasPatternError('Phone')"
+              class="error-message">Phone can only contain 20 numbers or "-" chars (no spaces)</span>
       </div>
       <div *ngIf="!shouldAllowUpdate"
            class="form-group">

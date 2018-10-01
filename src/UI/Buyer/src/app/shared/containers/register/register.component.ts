@@ -17,6 +17,7 @@ import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.
 import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 import { AppMatchFieldsValidator } from '@app-buyer/shared/validators/match-fields/match-fields.validator';
 import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
+import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
 
 @Component({
   selector: 'shared-register',
@@ -42,6 +43,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private ocTokenService: OcTokenService,
     private router: Router,
     private toastrService: ToastrService,
+    private regexService: RegexService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
     this.appName = this.appConfig.appname;
@@ -78,10 +80,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private setForm() {
     const formObj = {
       Username: ['', Validators.required],
-      FirstName: ['', Validators.required],
-      LastName: ['', Validators.required],
-      Email: ['', [Validators.required, Validators.email]],
-      Phone: [''],
+      FirstName: [
+        '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
+      LastName: [
+        '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
+      Email: [
+        '',
+        [Validators.required, Validators.pattern(this.regexService.Email)],
+      ],
+      Phone: ['', Validators.pattern(this.regexService.Phone)],
     };
 
     const validatorObj = this.shouldAllowUpdate
@@ -168,8 +179,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   // control display of error messages
   protected hasRequiredError = (controlName: string): boolean =>
     this.formErrorService.hasRequiredError(controlName, this.form);
-  protected hasValidEmailError = (): boolean =>
-    this.formErrorService.hasInvalidEmailError(this.form.get('Email'));
+  protected hasPatternError = (controlName: string) =>
+    this.formErrorService.hasPatternError(controlName, this.form);
   protected passwordMismatchError = (): boolean =>
     this.formErrorService.hasPasswordMismatchError(this.form);
 }
