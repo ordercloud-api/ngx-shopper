@@ -3,7 +3,7 @@
            class="float-right icon-button--hover-reactive text-danger mb-2 pl-3"
            [icon]="faTrash"></fa-icon>
   <fa-icon (click)="textChanges()"
-           [ngClass]="{'disabled': formUnchanged() }"
+           [ngClass]="{'disabled': saveDisabled() }"
            class="float-right icon-button--hover-reactive mb-2 text-primary"
            [icon]="faSave"></fa-icon>
   <div class="row">
@@ -29,12 +29,16 @@
                  formControlName="headerText"
                  class="form-control"
                  placeholder="Title... (optional)" />
+          <span *ngIf="hasPatternError('headerText')"
+                class="error-message">Max 100 characters</span>
         </div>
         <div class="form-group">
           <input type="text"
                  formControlName="bodyText"
                  class="form-control"
                  placeholder="Body... (optional)" />
+          <span *ngIf="hasPatternError('bodyText')"
+                class="error-message">Max 100 characters</span>
         </div>
       </form>
       <form>

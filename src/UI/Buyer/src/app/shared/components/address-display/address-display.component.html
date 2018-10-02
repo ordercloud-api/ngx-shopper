@@ -8,13 +8,13 @@
       <div>{{address.Street1}}</div>
       <div *ngIf="address.Street2">{{address.Street2}}</div>
       <div>{{address.City}}, {{address.State}} {{address.Zip}}</div>
-      <div *ngIf="address.Phone">{{address.Phone | tel}}</div>
+      <div *ngIf="address.Phone">{{address.Phone}}</div>
     </div>
     <div class="col-md-4">
       <div class="float-right">
         <!-- When creating an instance of this component, you may use transclusion to add action-buttons here -->
         <ng-content select=[actions]></ng-content>
-      </div> 
+      </div>
     </div>
   </address>
 </div>

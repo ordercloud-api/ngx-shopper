@@ -22,6 +22,7 @@ describe('ProductsFormComponent', () => {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
     hasInvalidIdError: jasmine.createSpy('hasInvalidIdError'),
+    hasPatternError: jasmine.createSpy('hasPatternError'),
   };
 
   beforeEach(async(() => {

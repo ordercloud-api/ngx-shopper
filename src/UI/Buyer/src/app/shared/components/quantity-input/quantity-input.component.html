@@ -4,6 +4,7 @@
            class="sr-only">Product Quantity</label>
     <input *ngIf="!isQuantityRestricted()"
            id="quantity"
+           title="Please enter a quantity greater than 0"
            type="number"
            formControlName="quantity"
            class="form-control text-center"
@@ -13,6 +14,7 @@
            aria-describedby="quantity">
     <select *ngIf="isQuantityRestricted()"
             class="form-control text-center"
+            title="Please enter a quantity greater than 0"
             style="min-width:65px"
             formControlName="quantity"
             id="quantity">

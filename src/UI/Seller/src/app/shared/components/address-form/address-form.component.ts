@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BuyerAddress, Address } from '@ordercloud/angular-sdk';
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
 import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
-import { AppIdValidator } from '@app-seller/shared/validators/id-field/id-field.validator';
+import { RegexService } from '@app-seller/shared/services/regex/regex.service';
 
 @Component({
   selector: 'shared-address-form',
@@ -24,7 +24,8 @@ export class AddressFormComponent implements OnInit {
   constructor(
     private geographyService: AppGeographyService,
     private formBuilder: FormBuilder,
-    private formErrorService: AppFormErrorService
+    private formErrorService: AppFormErrorService,
+    private regexService: RegexService
   ) {
     this.stateOptions = this.geographyService
       .getStates()
@@ -61,26 +62,36 @@ export class AddressFormComponent implements OnInit {
 
   setForm() {
     this.addressForm = this.formBuilder.group({
-      ID: [this._existingAddress.ID || '', AppIdValidator()],
+      ID: [
+        this._existingAddress.ID || '',
+        Validators.pattern(this.regexService.ID),
+      ],
       AddressName: this._existingAddress.AddressName || '',
-      FirstName: [this._existingAddress.FirstName || '', Validators.required],
-      LastName: [this._existingAddress.LastName || '', Validators.required],
+      FirstName: [
+        this._existingAddress.FirstName || '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
+      LastName: [
+        this._existingAddress.LastName || '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
       Street1: [this._existingAddress.Street1 || '', Validators.required],
       Street2: [this._existingAddress.Street2 || ''],
-      City: [this._existingAddress.City || '', Validators.required],
+      City: [
+        this._existingAddress.City || '',
+        [Validators.required, Validators.pattern(this.regexService.HumanName)],
+      ],
       State: [this._existingAddress.State || null, Validators.required],
       Zip: [
         this._existingAddress.Zip || '',
-        [Validators.required, Validators.pattern(this.getZipRules())],
+        [Validators.required, Validators.pattern(this.regexService.Zip)],
       ],
       Country: [this._existingAddress.Country || null, Validators.required],
-      Phone: [this._existingAddress.Phone || ''],
+      Phone: [
+        this._existingAddress.Phone || '',
+        Validators.pattern(this.regexService.Phone),
+      ],
     });
-  }
-
-  // returns a regex string
-  getZipRules(): string {
-    return '^[0-9]{5}$'; // US zip - five numbers
   }
 
   protected onSubmit() {
@@ -96,8 +107,6 @@ export class AddressFormComponent implements OnInit {
   // control display of error messages
   protected hasRequiredError = (controlName: string) =>
     this.formErrorService.hasRequiredError(controlName, this.addressForm);
-  protected hasInvalidIdError = () =>
-    this.formErrorService.hasInvalidIdError(this.addressForm.get('ID'));
   protected hasPatternError = (controlName: string) =>
     this.formErrorService.hasPatternError(controlName, this.addressForm);
 }

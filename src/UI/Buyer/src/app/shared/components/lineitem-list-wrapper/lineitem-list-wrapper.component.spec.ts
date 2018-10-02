@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
@@ -11,17 +11,10 @@ import {
   OcSupplierService,
   OcLineItemService,
   OcTokenService,
-  Configuration,
   OcOrderService,
-  Supplier,
 } from '@ordercloud/angular-sdk';
 
-import { LineItemCardComponent } from '@app-buyer/shared/components/line-item-card/line-item-card.component';
-import {
-  AppLineItemService,
-  AppStateService,
-  PhoneFormatPipe,
-} from '@app-buyer/shared';
+import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import {
   applicationConfiguration,
   AppConfig,
@@ -34,11 +27,7 @@ describe('LineItemSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        LineItemListWrapperComponent,
-        LineItemCardComponent,
-        PhoneFormatPipe,
-      ],
+      declarations: [LineItemListWrapperComponent],
       imports: [
         RouterTestingModule,
         FontAwesomeModule,
@@ -59,6 +48,7 @@ describe('LineItemSummaryComponent', () => {
           useValue: new InjectionToken<AppConfig>('app.config'),
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from '@ordercloud/angular-sdk';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AppIdValidator } from '@app-seller/shared/validators/id-field/id-field.validator';
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
+import { RegexService } from '@app-seller/shared/services/regex/regex.service';
 
 @Component({
   selector: 'product-form',
@@ -19,7 +19,8 @@ export class ProductFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private formErrorService: AppFormErrorService
+    private formErrorService: AppFormErrorService,
+    private regexService: RegexService
   ) {}
 
   ngOnInit() {
@@ -44,8 +45,14 @@ export class ProductFormComponent implements OnInit {
 
   setForm() {
     this.productForm = this.formBuilder.group({
-      ID: [this._existingProduct.ID || '', AppIdValidator()],
-      Name: [this._existingProduct.Name || '', Validators.required],
+      ID: [
+        this._existingProduct.ID || '',
+        Validators.pattern(this.regexService.ID),
+      ],
+      Name: [
+        this._existingProduct.Name || '',
+        [Validators.required, Validators.pattern(this.regexService.ID)],
+      ],
       Description: [this._existingProduct.Description || ''],
       Active: [!!this._existingProduct.Active],
       Featured: [this._existingProduct.xp && this._existingProduct.xp.Featured],
@@ -68,6 +75,6 @@ export class ProductFormComponent implements OnInit {
   // control display of error messages
   protected hasRequiredError = (controlName: string) =>
     this.formErrorService.hasRequiredError(controlName, this.productForm);
-  protected hasInvalidIdError = () =>
-    this.formErrorService.hasInvalidIdError(this.productForm.get('ID'));
+  protected hasPatternError = (controlName: string) =>
+    this.formErrorService.hasPatternError(controlName, this.productForm);
 }

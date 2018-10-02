@@ -24,6 +24,7 @@ import { AppFormErrorService } from '@app-seller/shared/services/form-error/form
 import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/carousel-slide-display/carousel-slide-display.component';
 import { GenericBrowseComponent } from '@app-seller/shared/components/generic-browse/generic-browse.component';
 import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
+import { RegexService } from '@app-seller/shared/services/regex/regex.service';
 import { UserFormComponent } from '@app-seller/shared/components/user-form/user-form.component';
 import { AddressTableComponent } from './containers/address-table/address-table.component';
 import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
@@ -33,13 +34,6 @@ import { CategoryFormComponent } from './components/category-form/category-form.
 import { CategoryDetailsComponent } from './containers/category-details/category-details.component';
 import { ProductTableComponent } from '@app-seller/shared/containers/product-table/product-table.component';
 import { ProductFormComponent } from '@app-seller/shared/components/products-form/product-form.component';
-
-// pipes
-import { PhoneFormatPipe } from '@app-seller/shared/pipes/phone-format/phone-format.pipe';
-
-// directives
-import { PhoneInputDirective } from '@app-seller/shared/directives/phone-input/phone-input.directive';
-
 
 @NgModule({
   imports: [
@@ -67,12 +61,6 @@ import { PhoneInputDirective } from '@app-seller/shared/directives/phone-input/p
     FontAwesomeModule,
     NgbPaginationModule,
     NgbTabsetModule,
-
-    // pipes
-    PhoneFormatPipe,
-    
-    // directives
-    PhoneInputDirective,
 
     // app components
     SearchComponent,
@@ -105,8 +93,6 @@ import { PhoneInputDirective } from '@app-seller/shared/directives/phone-input/p
     CategoryDetailsComponent,
     ProductTableComponent,
     ProductFormComponent,
-    PhoneFormatPipe,
-    PhoneInputDirective,
   ],
 
   /**
@@ -121,6 +107,7 @@ import { PhoneInputDirective } from '@app-seller/shared/directives/phone-input/p
     ModalService,
     AppFormErrorService,
     AppGeographyService,
+    RegexService,
   ],
 })
 export class SharedModule {
@@ -128,8 +115,6 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        PhoneFormatPipe,
-
         AppErrorHandler,
         { provide: ErrorHandler, useClass: AppErrorHandler },
       ],

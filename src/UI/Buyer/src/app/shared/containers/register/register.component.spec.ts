@@ -11,18 +11,11 @@ import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import {
-  PhoneFormatPipe,
-  AppStateService,
-  AppFormErrorService,
-} from '@app-buyer/shared';
+import { AppStateService, AppFormErrorService } from '@app-buyer/shared';
 import { of, Subject, BehaviorSubject } from 'rxjs';
-import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
-import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
 
 describe('RegisterComponent', () => {
@@ -35,7 +28,7 @@ describe('RegisterComponent', () => {
     FirstName: 'Crhistian',
     LastName: 'Ramirez',
     Email: 'crhistian@gmail.com',
-    Phone: '(555) 555-5555',
+    Phone: '555-555-5555',
     xp: {
       age: '27',
       zip: '55418',
@@ -71,6 +64,7 @@ describe('RegisterComponent', () => {
     hasPasswordMismatchError: jasmine.createSpy('hasPasswordMismatchError'),
     hasStrongPasswordError: jasmine.createSpy('hasStrongPasswordError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
+    hasPatternError: jasmine.createSpy('hasPatternError'),
   };
   const modalService = {
     open: jasmine.createSpy('open'),
@@ -85,13 +79,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PhoneFormatPipe,
-        RegisterComponent,
-        ChangePasswordFormComponent,
-        ModalComponent,
-        FaIconComponent,
-      ],
+      declarations: [RegisterComponent],
       imports: [ReactiveFormsModule, CookieModule.forRoot()],
       providers: [
         { provide: AppFormErrorService, useValue: formErrorService },
@@ -108,6 +96,7 @@ describe('RegisterComponent', () => {
           useValue: new InjectionToken<AppConfig>('app.config'),
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
     ocAuthService = TestBed.get(OcAuthService);
   }));
@@ -303,17 +292,6 @@ describe('RegisterComponent', () => {
       expect(formErrorService.hasRequiredError).toHaveBeenCalledWith(
         'firstName',
         component.form
-      );
-    });
-  });
-
-  describe('hasValidEmailError', () => {
-    beforeEach(() => {
-      component['hasValidEmailError']();
-    });
-    it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasInvalidEmailError).toHaveBeenCalledWith(
-        component.form.get('Email')
       );
     });
   });

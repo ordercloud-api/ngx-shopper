@@ -14,14 +14,15 @@ describe('UserFormComponent', () => {
     FirstName: 'First',
     LastName: 'Second',
     Email: 'test@email.com',
-    Phone: '(123)456-7890',
+    Phone: '123-456-7890',
     Active: true,
   };
 
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
-    hasInvalidIdError: jasmine.createSpy('hasInvalidIdError'),
+    hasValidEmailError: jasmine.createSpy('hasValidEmailError'),
+    hasPatternError: jasmine.createSpy('hasPatternError'),
   };
 
   beforeEach(async(() => {
@@ -58,7 +59,7 @@ describe('UserFormComponent', () => {
         FirstName: 'First',
         LastName: 'Second',
         Email: 'test@email.com',
-        Phone: '(123)456-7890',
+        Phone: '123-456-7890',
         Active: true,
       });
     });
@@ -84,7 +85,7 @@ describe('UserFormComponent', () => {
           FirstName: 'First',
           LastName: 'Second',
           Email: 'test@email.com',
-          Phone: '(123)456-7890',
+          Phone: '123-456-7890',
           Active: true,
         },
         prevID: '1',
