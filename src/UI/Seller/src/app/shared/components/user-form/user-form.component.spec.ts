@@ -21,7 +21,7 @@ describe('UserFormComponent', () => {
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
-    hasInvalidIdError: jasmine.createSpy('hasInvalidIdError'),
+    hasValidEmailError: jasmine.createSpy('hasValidEmailError'),
     hasPatternError: jasmine.createSpy('hasPatternError'),
   };
 

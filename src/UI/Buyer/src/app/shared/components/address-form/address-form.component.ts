@@ -88,6 +88,4 @@ export class AddressFormComponent implements OnInit {
     this.formErrorService.hasRequiredError(controlName, this.addressForm);
   protected hasPatternError = (controlName: string) =>
     this.formErrorService.hasPatternError(controlName, this.addressForm);
-  protected hasValidEmailError = () =>
-    this.formErrorService.hasInvalidEmailError(this.addressForm.get('Email'));
 }

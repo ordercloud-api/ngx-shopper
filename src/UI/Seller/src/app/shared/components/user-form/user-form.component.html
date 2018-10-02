@@ -63,9 +63,7 @@
              formControlName="Email"
              class="form-control"
              id="email" />
-      <span *ngIf="hasRequiredError('Email')"
-            class="error-message">Email is Required</span>
-      <span *ngIf="hasPatternError('Email')"
+      <span *ngIf="hasEmailError()"
             class="error-message">Please enter a valid email</span>
     </div>
   </div>

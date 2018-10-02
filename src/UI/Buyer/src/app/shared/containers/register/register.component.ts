@@ -88,10 +88,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         '',
         [Validators.required, Validators.pattern(this.regexService.HumanName)],
       ],
-      Email: [
-        '',
-        [Validators.required, Validators.pattern(this.regexService.Email)],
-      ],
+      Email: ['', [Validators.required, Validators.email]],
       Phone: ['', Validators.pattern(this.regexService.Phone)],
     };
 
@@ -179,6 +176,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   // control display of error messages
   protected hasRequiredError = (controlName: string): boolean =>
     this.formErrorService.hasRequiredError(controlName, this.form);
+  protected hasEmailError = (): boolean =>
+    this.formErrorService.hasInvalidEmailError(this.form.get('Email'));
   protected hasPatternError = (controlName: string) =>
     this.formErrorService.hasPatternError(controlName, this.form);
   protected passwordMismatchError = (): boolean =>

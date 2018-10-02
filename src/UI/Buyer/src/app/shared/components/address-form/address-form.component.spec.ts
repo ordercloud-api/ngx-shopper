@@ -15,7 +15,6 @@ describe('AddressFormComponent', () => {
   };
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
-    hasInvalidEmailError: jasmine.createSpy('hasInvalidEmailError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
     hasPatternError: jasmine.createSpy('hasPatternError'),
   };
@@ -113,17 +112,6 @@ describe('AddressFormComponent', () => {
       expect(formErrorService.hasRequiredError).toHaveBeenCalledWith(
         'FirstName',
         component.addressForm
-      );
-    });
-  });
-
-  describe('hasValidEmailError', () => {
-    beforeEach(() => {
-      component['hasValidEmailError']();
-    });
-    it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasInvalidEmailError).toHaveBeenCalledWith(
-        component.addressForm.get('Email')
       );
     });
   });

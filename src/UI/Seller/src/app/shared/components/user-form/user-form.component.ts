@@ -67,7 +67,7 @@ export class UserFormComponent implements OnInit {
       ],
       Email: [
         this._existingUser.Email || '',
-        [Validators.required, Validators.pattern(this.regexService.Email)],
+        [Validators.required, Validators.email],
       ],
       Active: [!!this._existingUser.Active],
     });
@@ -89,4 +89,6 @@ export class UserFormComponent implements OnInit {
     this.formErrorService.hasRequiredError(controlName, this.userForm);
   protected hasPatternError = (controlName: string) =>
     this.formErrorService.hasPatternError(controlName, this.userForm);
+  protected hasEmailError = () =>
+    this.formErrorService.hasValidEmailError(this.userForm.get('Email'));
 }
