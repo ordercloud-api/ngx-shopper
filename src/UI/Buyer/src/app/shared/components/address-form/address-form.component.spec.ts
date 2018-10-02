@@ -127,28 +127,4 @@ describe('AddressFormComponent', () => {
       );
     });
   });
-
-  describe('Validate Zip', () => {
-    it('should fail if there are any characters not 0-9', () => {
-      const regex = new RegExp(component.getZipRules());
-      expect(regex.test('a1111')).toEqual(false);
-      expect(regex.test('!1111')).toEqual(false);
-      expect(regex.test('#1111')).toEqual(false);
-      expect(regex.test('_1111')).toEqual(false);
-      expect(regex.test('*1111')).toEqual(false);
-      expect(regex.test('A1111')).toEqual(false);
-      expect(regex.test(',1111')).toEqual(false);
-    });
-    it('should fail if the length is not 5', () => {
-      const regex = new RegExp(component.getZipRules());
-      expect(regex.test('111111')).toEqual(false);
-      expect(regex.test('1')).toEqual(false);
-      expect(regex.test('1111')).toEqual(false);
-    });
-    it('should pass if a valid US zip code', () => {
-      const regex = new RegExp(component.getZipRules());
-      expect(regex.test('11111')).toEqual(true);
-      expect(regex.test('55409')).toEqual(true);
-    });
-  });
 });

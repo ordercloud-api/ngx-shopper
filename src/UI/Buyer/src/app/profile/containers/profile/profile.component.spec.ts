@@ -1,14 +1,7 @@
-import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileComponent } from '@app-buyer/profile/containers/profile/profile.component';
-import {
-  SharedModule,
-  PhoneFormatPipe,
-  AppStateService,
-} from '@app-buyer/shared';
-import { AddressListComponent } from '@app-buyer/profile/containers/address-list/address-list.component';
-import { ProfileModule } from '@app-buyer/profile/profile.module';
+import { SharedModule } from '@app-buyer/shared';
 import { NO_ERRORS_SCHEMA, InjectionToken } from '@angular/core';
 import {
   OcMeService,
@@ -20,8 +13,6 @@ import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 import { AppAuthService } from '@app-buyer/auth';
 
 describe('ProfileComponent', () => {
@@ -34,7 +25,6 @@ describe('ProfileComponent', () => {
       declarations: [ProfileComponent],
       imports: [CookieModule.forRoot(), SharedModule],
       providers: [
-        PhoneFormatPipe,
         { provide: AppAuthService, useValue: appAuthService },
         {
           provide: applicationConfiguration,
