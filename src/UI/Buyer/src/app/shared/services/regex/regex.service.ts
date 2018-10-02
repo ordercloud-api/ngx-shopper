@@ -21,7 +21,7 @@ export class RegexService {
   }
 
   get Date() {
-    return '\\d\\d-\\d\\d-\\d\\d\\d\\d'; // mm-dd-yyyy, all numbers
+    return '^[0-9]{2}-[0-9]{2}-[0-9]{4}$'; // mm-dd-yyyy, all numbers
   }
 
   get Zip() {
