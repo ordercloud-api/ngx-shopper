@@ -20,10 +20,13 @@ import {
   NgbDateNativeAdapter,
   NgbDateCustomParserFormatter,
 } from '@app-buyer/config/date-picker.config';
+import { AppFormErrorService } from '@app-buyer/shared';
 
 describe('DateFilterComponent', () => {
   let component: DateFilterComponent;
   let fixture: ComponentFixture<DateFilterComponent>;
+
+  const formErrorService = { hasDateError: jasmine.createSpy('hasDateError') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,6 +39,7 @@ describe('DateFilterComponent', () => {
           provide: NgbDateParserFormatter,
           useClass: NgbDateCustomParserFormatter,
         },
+        { provide: AppFormErrorService, useValue: formErrorService },
       ],
     }).compileComponents();
   }));
