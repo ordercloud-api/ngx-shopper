@@ -2,8 +2,7 @@ import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
 /**
  * Our date inputs use ngbDatepicker but also allow freeform entry.
- * We need to validate the free form entry strings without producing
- * errors with ngbDatepicker, which returns a date object
+ * We need to validate the free form entry strings which are converted to date objects
  */
 
 export function DateValidator(): ValidatorFn {
