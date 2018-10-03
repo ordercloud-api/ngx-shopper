@@ -18,7 +18,7 @@ export class AddressFormComponent implements OnInit {
   @Input() btnText: string;
   @Output()
   formSubmitted = new EventEmitter<{ address: Address; formDirty: boolean }>();
-  stateOptions: string[];
+  stateOptions: string[] = [];
   countryOptions: { label: string; abbreviation: string }[];
   addressForm: FormGroup;
 
@@ -28,7 +28,6 @@ export class AddressFormComponent implements OnInit {
     private formErrorService: AppFormErrorService,
     private regexService: RegexService
   ) {
-    this.stateOptions = this.ocGeography.getStates().map((s) => s.abbreviation);
     this.countryOptions = this.ocGeography.getCountries();
   }
 
@@ -68,9 +67,16 @@ export class AddressFormComponent implements OnInit {
         this._existingAddress.Phone || '',
         Validators.pattern(this.regexService.Phone),
       ],
-      Country: [this._existingAddress.Country || null, Validators.required],
+      Country: [this._existingAddress.Country || 'US', Validators.required],
       ID: this._existingAddress.ID || '',
     });
+    this.onCountryChange();
+  }
+
+  onCountryChange() {
+    this.stateOptions = this.ocGeography
+      .getStates(this.addressForm.value.Country)
+      .map((s) => s.abbreviation);
   }
 
   protected onSubmit() {
