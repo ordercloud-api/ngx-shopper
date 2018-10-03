@@ -23,12 +23,12 @@ export class AddressFormComponent implements OnInit {
   addressForm: FormGroup;
 
   constructor(
-    private ocGeography: AppGeographyService,
+    private geographyService: AppGeographyService,
     private formBuilder: FormBuilder,
     private formErrorService: AppFormErrorService,
     private regexService: RegexService
   ) {
-    this.countryOptions = this.ocGeography.getCountries();
+    this.countryOptions = this.geographyService.getCountries();
   }
 
   ngOnInit() {
@@ -61,7 +61,12 @@ export class AddressFormComponent implements OnInit {
       State: [this._existingAddress.State || null, Validators.required],
       Zip: [
         this._existingAddress.Zip || '',
-        [Validators.required, Validators.pattern(this.regexService.Zip)],
+        [
+          Validators.required,
+          Validators.pattern(
+            this.regexService.getZip(this._existingAddress.Country)
+          ),
+        ],
       ],
       Phone: [
         this._existingAddress.Phone || '',
@@ -73,10 +78,20 @@ export class AddressFormComponent implements OnInit {
     this.onCountryChange();
   }
 
-  onCountryChange() {
-    this.stateOptions = this.ocGeography
-      .getStates(this.addressForm.value.Country)
+  onCountryChange(event?) {
+    const country = this.addressForm.value.Country;
+    this.stateOptions = this.geographyService
+      .getStates(country)
       .map((s) => s.abbreviation);
+    this.addressForm
+      .get('Zip')
+      .setValidators([
+        Validators.required,
+        Validators.pattern(this.regexService.getZip(country)),
+      ]);
+    if (event) {
+      this.addressForm.patchValue({ State: null, Zip: '' });
+    }
   }
 
   protected onSubmit() {

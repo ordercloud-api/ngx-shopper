@@ -8,7 +8,7 @@
     <select formControlName="Country"
             class="form-control"
             id="Country"
-            (change)="onCountryChange()">
+            (change)="onCountryChange($event)">
       <option [ngValue]="null"
               disabled>Country</option>
       <option *ngFor="let country of countryOptions"
@@ -112,7 +112,6 @@
              formControlName="State"
              class="form-control"
              id="State"
-             placeholder="State"
              autocomplete="off" />
       <span *ngIf="hasRequiredError('State')"
             class="error-message">State is required</span>

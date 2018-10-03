@@ -35,7 +35,12 @@ export class RegexService {
     return '.{0,100}'; // max 100 chars
   }
 
-  get Zip() {
-    return '^[0-9]{5}$'; // US zip - five numbers
+  getZip(countryCode = 'US') {
+    switch (countryCode) {
+      case 'CA':
+        return '^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$'; // CA zip
+      case 'US':
+        return '^[0-9]{5}$'; // US zip - five numbers
+    }
   }
 }

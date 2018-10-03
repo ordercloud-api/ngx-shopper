@@ -24,7 +24,12 @@ export class RegexService {
     return '^[0-9]{2}-[0-9]{2}-[0-9]{4}$'; // mm-dd-yyyy, all numbers
   }
 
-  get Zip() {
-    return '^[0-9]{5}$'; // US zip - five numbers
+  getZip(countryCode = 'US') {
+    switch (countryCode) {
+      case 'CA':
+        return '^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$';
+      case 'US':
+        return '^[0-9]{5}$'; // US zip - five numbers
+    }
   }
 }
