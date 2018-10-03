@@ -18,18 +18,17 @@ export class AddressFormComponent implements OnInit {
   @Input() btnText: string;
   @Output()
   formSubmitted = new EventEmitter<{ address: Address; formDirty: boolean }>();
-  stateOptions: string[];
+  stateOptions: string[] = [];
   countryOptions: { label: string; abbreviation: string }[];
   addressForm: FormGroup;
 
   constructor(
-    private ocGeography: AppGeographyService,
+    private geographyService: AppGeographyService,
     private formBuilder: FormBuilder,
     private formErrorService: AppFormErrorService,
     private regexService: RegexService
   ) {
-    this.stateOptions = this.ocGeography.getStates().map((s) => s.abbreviation);
-    this.countryOptions = this.ocGeography.getCountries();
+    this.countryOptions = this.geographyService.getCountries();
   }
 
   ngOnInit() {
@@ -62,15 +61,37 @@ export class AddressFormComponent implements OnInit {
       State: [this._existingAddress.State || null, Validators.required],
       Zip: [
         this._existingAddress.Zip || '',
-        [Validators.required, Validators.pattern(this.regexService.Zip)],
+        [
+          Validators.required,
+          Validators.pattern(
+            this.regexService.getZip(this._existingAddress.Country)
+          ),
+        ],
       ],
       Phone: [
         this._existingAddress.Phone || '',
         Validators.pattern(this.regexService.Phone),
       ],
-      Country: [this._existingAddress.Country || null, Validators.required],
+      Country: [this._existingAddress.Country || 'US', Validators.required],
       ID: this._existingAddress.ID || '',
     });
+    this.onCountryChange();
+  }
+
+  onCountryChange(event?) {
+    const country = this.addressForm.value.Country;
+    this.stateOptions = this.geographyService
+      .getStates(country)
+      .map((s) => s.abbreviation);
+    this.addressForm
+      .get('Zip')
+      .setValidators([
+        Validators.required,
+        Validators.pattern(this.regexService.getZip(country)),
+      ]);
+    if (event) {
+      this.addressForm.patchValue({ State: null, Zip: '' });
+    }
   }
 
   protected onSubmit() {

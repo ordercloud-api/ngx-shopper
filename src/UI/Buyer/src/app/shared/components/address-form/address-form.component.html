@@ -2,6 +2,21 @@
       novalidate
       [formGroup]="addressForm"
       name="RegisterForm">
+  <div class="form-group">
+    <label class="sr-only"
+           for="country">Country</label>
+    <select formControlName="Country"
+            class="form-control"
+            id="Country"
+            (change)="onCountryChange($event)">
+      <option [ngValue]="null"
+              disabled>Country</option>
+      <option *ngFor="let country of countryOptions"
+              [value]="country.abbreviation">{{ country.label }}</option>
+    </select>
+    <span *ngIf="hasRequiredError('Country')"
+          class="error-message">Country is required</span>
+  </div>
   <div class="row">
     <div [hidden]="true"
          class="col-md-6 form-group">
@@ -66,7 +81,7 @@
            autocomplete="off" />
   </div>
   <div class="row">
-    <div class="col-md-6 form-group">
+    <div class="col-md-4 form-group">
       <label class="sr-only"
              for="City">City</label>
       <input type="text"
@@ -80,10 +95,11 @@
       <span *ngIf="hasPatternError('City')"
             class="error-message">City can only contain characters Aa-Zz 0-9 - ' . </span>
     </div>
-    <div class="col-md-3 form-group">
+    <div class="col-md-2 form-group">
       <label class="sr-only"
              for="State">State</label>
-      <select formControlName="State"
+      <select *ngIf="stateOptions.length !== 0"
+              formControlName="State"
               class="form-control"
               id="State">
         <option [ngValue]="null"
@@ -91,6 +107,12 @@
         <option *ngFor="let State of stateOptions"
                 [value]="State">{{ State }}</option>
       </select>
+      <input *ngIf="stateOptions.length === 0"
+             type="text"
+             formControlName="State"
+             class="form-control"
+             id="State"
+             autocomplete="off" />
       <span *ngIf="hasRequiredError('State')"
             class="error-message">State is required</span>
     </div>
@@ -108,23 +130,7 @@
       <span *ngIf="hasPatternError('Zip')"
             class="error-message">Zip Code is invalid</span>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 form-group">
-      <label class="sr-only"
-             for="country">Country</label>
-      <select formControlName="Country"
-              class="form-control"
-              id="Country">
-        <option [ngValue]="null"
-                disabled>Country</option>
-        <option *ngFor="let country of countryOptions"
-                [value]="country.abbreviation">{{ country.label }}</option>
-      </select>
-      <span *ngIf="hasRequiredError('Country')"
-            class="error-message">Country is required</span>
-    </div>
-    <div class="col-md-6 form-group">
+    <div class="col-md-3 form-group">
       <label class="sr-only"
              for="Phone">Phone Number</label>
       <input type="text"

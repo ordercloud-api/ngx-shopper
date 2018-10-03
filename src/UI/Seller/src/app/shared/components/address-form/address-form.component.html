@@ -17,6 +17,23 @@
   </div>
   <div class="row form-group">
     <label class="col-sm-3 control-label font-weight-bold mt-1"
+           for="country">Country</label>
+    <div class="col-sm-9">
+      <select (change)="onCountryChange($event)"
+              formControlName="Country"
+              class="form-control"
+              id="Country">
+        <option [ngValue]="null"
+                disabled>Country</option>
+        <option *ngFor="let country of countryOptions"
+                [value]="country.abbreviation">{{ country.label }}</option>
+      </select>
+      <span *ngIf="hasRequiredError('Country')"
+            class="error-message">Country is required</span>
+    </div>
+  </div>
+  <div class="row form-group">
+    <label class="col-sm-3 control-label font-weight-bold mt-1"
            for="AddressName">Address Name</label>
     <div class="col-sm-9">
       <input type="text"
@@ -103,7 +120,8 @@
     <label class="col-sm-3 control-label font-weight-bold mt-1"
            for="State">State</label>
     <div class="col-sm-9">
-      <select formControlName="State"
+      <select *ngIf="stateOptions.length !== 0"
+              formControlName="State"
               class="form-control"
               id="State">
         <option [ngValue]="null"
@@ -111,6 +129,12 @@
         <option *ngFor="let State of stateOptions"
                 [value]="State">{{ State }}</option>
       </select>
+      <input *ngIf="stateOptions.length === 0"
+             type="text"
+             formControlName="State"
+             class="form-control"
+             id="State"
+             autocomplete="off" />
       <span *ngIf="hasRequiredError('State')"
             class="error-message">State is required</span>
     </div>
@@ -128,22 +152,6 @@
             class="error-message">Zip Code is required</span>
       <span *ngIf="hasPatternError('Zip')"
             class="error-message">Zip Code is invalid</span>
-    </div>
-  </div>
-  <div class="row form-group">
-    <label class="col-sm-3 control-label font-weight-bold mt-1"
-           for="country">Country</label>
-    <div class="col-sm-9">
-      <select formControlName="Country"
-              class="form-control"
-              id="Country">
-        <option [ngValue]="null"
-                disabled>Country</option>
-        <option *ngFor="let country of countryOptions"
-                [value]="country.abbreviation">{{ country.label }}</option>
-      </select>
-      <span *ngIf="hasRequiredError('Country')"
-            class="error-message">Country is required</span>
     </div>
   </div>
   <div class="row form-group">
