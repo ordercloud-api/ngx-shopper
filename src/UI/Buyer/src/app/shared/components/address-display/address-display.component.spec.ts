@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddressDisplayComponent } from '@app-buyer/shared/components/address-display/address-display.component';
-import { PhoneFormatPipe } from '@app-buyer/shared';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AddressDisplayComponent', () => {
   let component: AddressDisplayComponent;
@@ -9,7 +9,8 @@ describe('AddressDisplayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PhoneFormatPipe, AddressDisplayComponent],
+      declarations: [AddressDisplayComponent],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

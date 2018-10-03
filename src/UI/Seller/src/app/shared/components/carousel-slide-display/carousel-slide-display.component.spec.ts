@@ -4,6 +4,8 @@ import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/car
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule, FormsModule, FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
+import { RegexService } from '@app-seller/shared/services/regex/regex.service';
 
 describe('CarouselSlideDisplayComponent', () => {
   let component: CarouselSlideDisplayComponent;
@@ -14,6 +16,9 @@ describe('CarouselSlideDisplayComponent', () => {
     headerText: 'text',
     bodyText: 'body',
   };
+  const formErrorService = {
+    hasPatternError: jasmine.createSpy('hasPatternError'),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,6 +26,8 @@ describe('CarouselSlideDisplayComponent', () => {
       providers: [
         FormBuilder,
         { provide: ToastrService, useValue: toastrService },
+        { provide: AppFormErrorService, useValue: formErrorService },
+        RegexService,
       ],
       declarations: [CarouselSlideDisplayComponent],
     }).compileComponents();
@@ -46,7 +53,7 @@ describe('CarouselSlideDisplayComponent', () => {
   describe('formUnchanged', () => {
     it('should be true before form changes', () => {
       component.slide = mockSlide;
-      expect(component.formUnchanged()).toEqual(true);
+      expect(component.saveDisabled()).toEqual(true);
     });
     it('should be false after form changes', () => {
       component.slide = {
@@ -55,7 +62,7 @@ describe('CarouselSlideDisplayComponent', () => {
         bodyText: 'body',
       };
       fixture.detectChanges();
-      expect(component.formUnchanged()).toEqual(false);
+      expect(component.saveDisabled()).toEqual(false);
     });
   });
 

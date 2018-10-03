@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
 import {
-  PhoneFormatPipe,
   AppLineItemService,
   AppStateService,
 } from '@app-buyer/shared';
@@ -57,7 +56,7 @@ describe('ProductDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PhoneFormatPipe, ProductDetailsComponent],
+      declarations: [ProductDetailsComponent],
       imports: [CookieModule.forRoot(), HttpClientModule],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRoute },

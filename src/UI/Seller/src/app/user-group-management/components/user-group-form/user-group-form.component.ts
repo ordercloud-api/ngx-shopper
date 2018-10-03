@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserGroup } from '@ordercloud/angular-sdk';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AppFormErrorService, AppIdValidator } from '@app-seller/shared';
+import { AppFormErrorService, RegexService } from '@app-seller/shared';
 
 @Component({
   selector: 'user-group-form',
@@ -10,13 +10,16 @@ import { AppFormErrorService, AppIdValidator } from '@app-seller/shared';
 })
 export class UserGroupFormComponent implements OnInit {
   private _existingUserGroup: UserGroup = {};
-  @Input() btnText: string;
-  @Output() formSubmitted = new EventEmitter();
+  @Input()
+  btnText: string;
+  @Output()
+  formSubmitted = new EventEmitter();
   userGroupForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
-    private formErrorService: AppFormErrorService
+    private formErrorService: AppFormErrorService,
+    private regexService: RegexService
   ) {}
 
   ngOnInit() {
@@ -39,7 +42,10 @@ export class UserGroupFormComponent implements OnInit {
 
   setForm() {
     this.userGroupForm = this.formBuilder.group({
-      ID: [this._existingUserGroup.ID || '', AppIdValidator()],
+      ID: [
+        this._existingUserGroup.ID || '',
+        Validators.pattern(this.regexService.ID),
+      ],
       Name: [this._existingUserGroup.Name || '', Validators.required],
       Description: [this._existingUserGroup.Description || ''],
     });
@@ -56,6 +62,6 @@ export class UserGroupFormComponent implements OnInit {
   // control display of error messages
   protected hasRequiredError = (controlName: string) =>
     this.formErrorService.hasRequiredError(controlName, this.userGroupForm);
-  protected hasInvalidIdError = () =>
-    this.formErrorService.hasInvalidIdError(this.userGroupForm.get('ID'));
+  protected hasPatternError = (controlName: string) =>
+    this.formErrorService.hasPatternError(controlName, this.userGroupForm);
 }

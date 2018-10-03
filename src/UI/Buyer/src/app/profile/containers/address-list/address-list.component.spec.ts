@@ -1,8 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddressListComponent } from '@app-buyer/profile/containers/address-list/address-list.component';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { PhoneFormatPipe, ModalService } from '@app-buyer/shared';
+import {
+  FaIconComponent,
+  FontAwesomeModule,
+} from '@fortawesome/angular-fontawesome';
+import { ModalService } from '@app-buyer/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
@@ -25,8 +28,8 @@ describe('AddressListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PhoneFormatPipe, FaIconComponent, AddressListComponent],
-      imports: [ReactiveFormsModule],
+      declarations: [AddressListComponent],
+      imports: [ReactiveFormsModule, FontAwesomeModule],
       providers: [
         { provide: ModalService, useValue: modalService },
         { provide: OcMeService, useValue: meService },

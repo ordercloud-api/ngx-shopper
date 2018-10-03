@@ -38,12 +38,10 @@ import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
 import { AppReorderService } from '@app-buyer/shared/services/reorder/reorder.service';
 
 // pipes
-import { PhoneFormatPipe } from '@app-buyer/shared/pipes/phone-format/phone-format.pipe';
 import { OrderStatusDisplayPipe } from '@app-buyer/shared/pipes/order-status-display/order-status-display.pipe';
 import { PaymentMethodDisplayPipe } from '@app-buyer/shared/pipes/payment-method-display/payment-method-display.pipe';
 
 // directives
-import { PhoneInputDirective } from '@app-buyer/shared/directives/phone-input/phone-input.directive';
 import { FallbackImageDirective } from './directives/fallback-image/fallback-image.directive';
 
 // guards
@@ -78,6 +76,7 @@ import { ModalComponent } from '@app-buyer/shared/components/modal/modal.compone
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
 import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/is-profiled-user.guard';
+import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
 
 @NgModule({
   imports: [
@@ -104,7 +103,7 @@ import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/i
     NgbPopoverModule.forRoot(),
     NgbAccordionModule.forRoot(),
     NgbCarouselModule.forRoot(),
-    NgbDropdownModule.forRoot()
+    NgbDropdownModule.forRoot(),
   ],
   exports: [
     // angular
@@ -129,7 +128,6 @@ import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/i
     SearchComponent,
     RegisterComponent,
     PageTitleComponent,
-    PhoneFormatPipe,
     OrderStatusDisplayPipe,
     PaymentMethodDisplayPipe,
     MapToIterablePipe,
@@ -138,7 +136,6 @@ import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/i
     CreditCardDisplayComponent,
     CreditCardFormComponent,
     LineItemListWrapperComponent,
-    PhoneInputDirective,
     FallbackImageDirective,
     LineItemCardComponent,
     ShipperTrackingPipe,
@@ -155,7 +152,6 @@ import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/i
   declarations: [
     ChangePasswordFormComponent,
     RegisterComponent,
-    PhoneFormatPipe,
     OrderStatusDisplayPipe,
     PaymentMethodDisplayPipe,
     MapToIterablePipe,
@@ -163,7 +159,6 @@ import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/i
     AddressDisplayComponent,
     CreditCardDisplayComponent,
     CreditCardFormComponent,
-    PhoneInputDirective,
     FallbackImageDirective,
     SearchComponent,
     CreditCardIconComponent,
@@ -200,8 +195,8 @@ export class SharedModule {
         BaseResolveService,
         AppFormErrorService,
         AppLineItemService,
+        RegexService,
         ModalService,
-        PhoneFormatPipe,
         OrderStatusDisplayPipe,
         PaymentMethodDisplayPipe,
         MapToIterablePipe,

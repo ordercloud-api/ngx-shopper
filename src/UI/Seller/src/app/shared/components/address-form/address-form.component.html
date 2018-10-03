@@ -11,8 +11,25 @@
              class="form-control"
              placeholder="(optional)"
              id="ID" />
-      <span *ngIf="hasInvalidIdError()"
-            class="error-message">ID can only contain characters Aa-Zz 0-9 - _</span>
+      <span *ngIf="hasPatternError('ID')"
+            class="error-message">ID can only contain characters Aa-Zz 0-9 - _ (no spaces)</span>
+    </div>
+  </div>
+  <div class="row form-group">
+    <label class="col-sm-3 control-label font-weight-bold mt-1"
+           for="country">Country</label>
+    <div class="col-sm-9">
+      <select (change)="onCountryChange($event)"
+              formControlName="Country"
+              class="form-control"
+              id="Country">
+        <option [ngValue]="null"
+                disabled>Country</option>
+        <option *ngFor="let country of countryOptions"
+                [value]="country.abbreviation">{{ country.label }}</option>
+      </select>
+      <span *ngIf="hasRequiredError('Country')"
+            class="error-message">Country is required</span>
     </div>
   </div>
   <div class="row form-group">
@@ -40,6 +57,8 @@
              autocomplete="off" />
       <span *ngIf="hasRequiredError('FirstName')"
             class="error-message">First Name is required</span>
+      <span *ngIf="hasPatternError('FirstName')"
+            class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
     </div>
   </div>
   <div class="row form-group">
@@ -53,6 +72,8 @@
              autocomplete="off" />
       <span *ngIf="hasRequiredError('LastName')"
             class="error-message">Last Name is required</span>
+      <span *ngIf="hasPatternError('LastName')"
+            class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
     </div>
   </div>
   <div class=" row form-group">
@@ -91,13 +112,16 @@
              autocomplete="off" />
       <span *ngIf="hasRequiredError('City')"
             class="error-message">City is required</span>
+      <span *ngIf="hasPatternError('City')"
+            class="error-message">City can only contain characters Aa-Zz 0-9 - ' . </span>
     </div>
   </div>
   <div class="row form-group">
     <label class="col-sm-3 control-label font-weight-bold mt-1"
            for="State">State</label>
     <div class="col-sm-9">
-      <select formControlName="State"
+      <select *ngIf="stateOptions.length !== 0"
+              formControlName="State"
               class="form-control"
               id="State">
         <option [ngValue]="null"
@@ -105,6 +129,12 @@
         <option *ngFor="let State of stateOptions"
                 [value]="State">{{ State }}</option>
       </select>
+      <input *ngIf="stateOptions.length === 0"
+             type="text"
+             formControlName="State"
+             class="form-control"
+             id="State"
+             autocomplete="off" />
       <span *ngIf="hasRequiredError('State')"
             class="error-message">State is required</span>
     </div>
@@ -126,31 +156,16 @@
   </div>
   <div class="row form-group">
     <label class="col-sm-3 control-label font-weight-bold mt-1"
-           for="country">Country</label>
-    <div class="col-sm-9">
-      <select formControlName="Country"
-              class="form-control"
-              id="Country">
-        <option [ngValue]="null"
-                disabled>Country</option>
-        <option *ngFor="let country of countryOptions"
-                [value]="country.abbreviation">{{ country.label }}</option>
-      </select>
-      <span *ngIf="hasRequiredError('Country')"
-            class="error-message">Country is required</span>
-    </div>
-  </div>
-  <div class="row form-group">
-    <label class="col-sm-3 control-label font-weight-bold mt-1"
            for="Phone">Phone Number</label>
     <div class="col-sm-9">
       <input type="text"
              formControlName="Phone"
              class="form-control"
              id="Phone"
-             appPhoneInput
              placeholder="(optional)"
              autocomplete="off" />
+      <span *ngIf="hasPatternError('Phone')"
+            class="error-message">Phone can only contain 20 numbers or "-" chars (no spaces)</span>
     </div>
   </div>
   <button type="submit"

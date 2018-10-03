@@ -1,11 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
-import {
-  Order,
-  OcOrderService,
-  OcPaymentService,
-} from '@ordercloud/angular-sdk';
+import { Order, OcOrderService } from '@ordercloud/angular-sdk';
 import { AppStateService, BaseResolveService } from '@app-buyer/shared';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
@@ -49,7 +44,6 @@ export class CheckoutComponent implements OnInit {
     private appStateService: AppStateService,
     private ocOrderService: OcOrderService,
     private router: Router,
-    private ocPaymentService: OcPaymentService,
     private baseResolveService: BaseResolveService
   ) {}
 
@@ -79,19 +73,10 @@ export class CheckoutComponent implements OnInit {
 
   confirmOrder() {
     const orderID = this.appStateService.orderSubject.value.ID;
-    // TODO - this could be refactored to avoid calling the api to get paymentID.
-    this.ocPaymentService
-      .List('outgoing', orderID)
-      .pipe(flatMap(() => this.ocOrderService.Submit('outgoing', orderID)))
-      .subscribe(
-        () => {
-          this.router.navigateByUrl(`order-confirmation/${orderID}`);
-          this.baseResolveService.resetUser();
-        },
-        (error) => {
-          throw Error(error);
-        }
-      );
+    this.ocOrderService.Submit('outgoing', orderID).subscribe(() => {
+      this.router.navigateByUrl(`order-confirmation/${orderID}`);
+      this.baseResolveService.resetUser();
+    });
   }
 
   beforeChange($event) {

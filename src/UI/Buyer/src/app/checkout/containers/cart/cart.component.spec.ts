@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CookieModule } from 'ngx-cookie';
@@ -15,7 +15,6 @@ import {
 import { CartComponent } from '@app-buyer/checkout/containers/cart/cart.component';
 import {
   PageTitleComponent,
-  PhoneFormatPipe,
   AppStateService,
   BaseResolveService,
   AppLineItemService,
@@ -53,15 +52,7 @@ describe('CartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CartComponent,
-        PageTitleComponent,
-        OrderSummaryComponent,
-        LineItemCardComponent,
-        PhoneFormatPipe,
-        LineItemListWrapperComponent,
-        QuantityInputComponent,
-      ],
+      declarations: [CartComponent],
       imports: [
         RouterTestingModule,
         ReactiveFormsModule,
@@ -79,6 +70,7 @@ describe('CartComponent', () => {
           useValue: new InjectionToken<AppConfig>('app.config'),
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

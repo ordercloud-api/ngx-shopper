@@ -11,8 +11,8 @@
              class="form-control"
              id="ID"
              placeholder="(Optional)" />
-      <span *ngIf="hasInvalidIdError()"
-            class="error-message">ID can only contain characters Aa-Zz 0-9 - _</span>
+      <span *ngIf="hasPatternError('ID')"
+            class="error-message">ID can only contain characters Aa-Zz 0-9 - _ (no spaces)</span>
     </div>
   </div>
   <div class="form-group row">
@@ -37,6 +37,8 @@
              id="firstName" />
       <span *ngIf="hasRequiredError('FirstName')"
             class="error-message">FirstName is Required</span>
+      <span *ngIf="hasPatternError('FirstName')"
+            class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
     </div>
   </div>
   <div class="form-group row">
@@ -49,6 +51,8 @@
              id="lastName" />
       <span *ngIf="hasRequiredError('LastName')"
             class="error-message">LastName is Required</span>
+      <span *ngIf="hasPatternError('LastName')"
+            class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
     </div>
   </div>
   <div class="form-group row">
@@ -59,8 +63,8 @@
              formControlName="Email"
              class="form-control"
              id="email" />
-      <span *ngIf="hasRequiredError('Email')"
-            class="error-message">Email is Required</span>
+      <span *ngIf="hasEmailError()"
+            class="error-message">Please enter a valid email</span>
     </div>
   </div>
   <div class="form-group row">
@@ -70,10 +74,11 @@
       <input type="text"
              formControlName="Phone"
              class="form-control"
-             appPhoneInput
              placeholder="(Optional)"
              id="phonenumber"
              autocomplete="off" />
+      <span *ngIf="hasPatternError('Phone')"
+            class="error-message">Phone can only contain 20 numbers or "-" chars (no spaces)</span>
     </div>
   </div>
   <div class="form-group">
