@@ -3,19 +3,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { OrderHistoryComponent } from '@app-buyer/order/containers/order-history/order-history.component';
-import { SearchComponent } from '@app-buyer/shared/components/search/search.component';
-import { StatusFilterComponent } from '@app-buyer/order/components/status-filter/status-filter.component';
-import { DateFilterComponent } from '@app-buyer/order/components/date-filter/date-filter.component';
-import { OrderListComponent } from '@app-buyer/order/components/order-list/order-list.component';
-
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgbPaginationModule, NgbRootModule } from '@ng-bootstrap/ng-bootstrap';
 import { OcMeService } from '@ordercloud/angular-sdk';
 import { DatePipe } from '@angular/common';
 import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { OrderStatusDisplayPipe } from '@app-buyer/shared/pipes/order-status-display/order-status-display.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppStateService } from '@app-buyer/shared';
 import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
@@ -52,15 +45,7 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OrderListComponent,
-        DateFilterComponent,
-        StatusFilterComponent,
-        FaIconComponent,
-        SearchComponent,
-        OrderHistoryComponent,
-        OrderStatusDisplayPipe,
-      ],
+      declarations: [OrderHistoryComponent],
       imports: [ReactiveFormsModule, NgbPaginationModule, NgbRootModule],
       providers: [
         DatePipe,

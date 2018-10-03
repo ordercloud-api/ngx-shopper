@@ -25,7 +25,7 @@
                        id="calendar-addon-from"></fa-icon>
             </button>
           </div>
-          <span *ngIf="hasPatternError('fromDate')"
+          <span *ngIf="hasDateError('fromDate')"
                 class="error-message">Enter date of the form mm-dd-yyyy</span>
         </div>
       </div>
@@ -54,7 +54,7 @@
                        id="calendar-addon-to"></fa-icon>
             </button>
           </div>
-          <span *ngIf="hasPatternError('toDate')"
+          <span *ngIf="hasDateError('toDate')"
                 class="error-message">Enter date of the form mm-dd-yyyy</span>
         </div>
       </div>

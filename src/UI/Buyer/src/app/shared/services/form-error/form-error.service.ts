@@ -25,13 +25,22 @@ export class AppFormErrorService {
     );
   }
 
+  hasDateError(controlName: string, form: FormGroup) {
+    return (
+      form.get(controlName).hasError('DateError') && form.get(controlName).dirty
+    );
+  }
+
   hasPatternError(controlName: string, form: FormGroup) {
     return (
       form.get(controlName).hasError('pattern') && form.get(controlName).dirty
     );
   }
 
-  getProductQuantityError(controlName: string, form: FormGroup) : { message: string, outOfStock: boolean } {
+  getProductQuantityError(
+    controlName: string,
+    form: FormGroup
+  ): { message: string; outOfStock: boolean } {
     // don't check if dirty because outOfStock error message should show right away.
     return form.get(controlName).getError('ProductQuantityError');
   }
