@@ -13,7 +13,9 @@ export function DateValidator(): ValidatorFn {
     }
 
     if (
+      // the user's text input is converted to Date() if days and months check out
       control.value instanceof Date &&
+      // validate that the year is also within reasonable range
       control.value.getFullYear().toString().length === 4
     ) {
       return null;
