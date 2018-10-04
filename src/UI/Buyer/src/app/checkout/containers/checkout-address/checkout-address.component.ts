@@ -108,7 +108,6 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
 
   saveAddress(address: Address, formDirty: boolean) {
     let request = this.setSavedAddress(address);
-    debugger;
     if (
       this.isAnon ||
       formDirty ||

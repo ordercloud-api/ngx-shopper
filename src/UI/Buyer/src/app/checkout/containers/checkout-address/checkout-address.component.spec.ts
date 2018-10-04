@@ -224,7 +224,7 @@ describe('CheckoutAddressComponent', () => {
       expect(orderService.SetBillingAddress).toHaveBeenCalledWith(
         'outgoing',
         component.order.ID,
-        { ID: 'MockOneTimeAddress' }
+        { ID: null }
       );
     });
     it('should call orderService.SetShippingAddress if addressType is Shipping', () => {
@@ -233,7 +233,7 @@ describe('CheckoutAddressComponent', () => {
       expect(orderService.SetShippingAddress).toHaveBeenCalledWith(
         'outgoing',
         component.order.ID,
-        { ID: 'MockOneTimeAddress' }
+        { ID: null }
       );
     });
   });
@@ -272,6 +272,26 @@ describe('CheckoutAddressComponent', () => {
     it('should do nothing when the wrong modal id is emitted', () => {
       onCloseSubject.next('wrong ID');
       expect(component.updateRequestOptions).not.toHaveBeenCalled();
+    });
+  });
+  describe('useShippingAsBilling', () => {
+    beforeEach(() => {
+      component.usingShippingAsBilling = false;
+      component.selectedAddress = null;
+    });
+    it('should do nothing when address type is Shipping', () => {
+      component.addressType = 'Shipping';
+      component.useShippingAsBilling();
+      expect(component.usingShippingAsBilling).toEqual(false);
+      expect(component.selectedAddress).toEqual(null);
+    });
+    it('should set selected Address', () => {
+      component.addressType = 'Billing';
+      component.useShippingAsBilling();
+      expect(component.usingShippingAsBilling).toEqual(true);
+      expect(component.selectedAddress).toEqual(
+        component.lineItems.Items[0].ShippingAddress
+      );
     });
   });
 });
