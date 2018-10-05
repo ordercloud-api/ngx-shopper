@@ -4,17 +4,15 @@
         (click)="openModal(false)">Decline</button>
 <shared-modal [id]="modalID"
               modalTitle="{{ approved ? 'Approve' : 'Decline' }} Order">
-  <ng-template>
-    <form novalidate
-          [formGroup]="form">
-      <textarea type="text"
-                placeholder="Comments (optional)"
-                formControlName="comments"
-                class="form-control">
+  <form novalidate
+        [formGroup]="form">
+    <textarea type="text"
+              placeholder="Comments (optional)"
+              formControlName="comments"
+              class="form-control">
           </textarea>
-    </form>
-    <button class="mt-3 w-100 btn"
-            (click)="submitReview()"
-            [ngClass]="{ 'btn-success': approved, 'btn-danger': !approved }">{{ approved ? 'Approve' : 'Decline' }}</button>
-  </ng-template>
+  </form>
+  <button class="mt-3 w-100 btn"
+          (click)="submitReview()"
+          [ngClass]="{ 'btn-success': approved, 'btn-danger': !approved }">{{ approved ? 'Approve' : 'Decline' }}</button>
 </shared-modal>

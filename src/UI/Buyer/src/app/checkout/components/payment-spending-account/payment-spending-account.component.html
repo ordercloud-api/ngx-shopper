@@ -6,28 +6,25 @@
   </div>
   <shared-modal id="{{ modalID }}"
                 modalTitle="Select Spending Account">
-
-    <ng-template>
-      <shared-generic-browse [items]="spendingAccounts.Items"
-                             [meta]="spendingAccounts.Meta"
-                             [numColumns]="1"
-                             searchPlaceholder="accounts"
-                             (requestOptionsUpdated)="updateRequestOptions($event)">
-        <ng-template let-account="item">
-          <div class="border p-2 m-2 w-100 row">
-            <div class="col-8">
-              <div><strong>{{ account.Name }}</strong></div>
-              <div>Balance: <strong class="text-success">{{ account.Balance | currency }}</strong></div>
-            </div>
-            <div class="col-4">
-              <a href="javascript:void(0)"
-                 class="float-right"
-                 (click)="accountSelected(account)">Select</a>
-            </div>
+    <shared-generic-browse [items]="spendingAccounts.Items"
+                           [meta]="spendingAccounts.Meta"
+                           [numColumns]="1"
+                           searchPlaceholder="accounts"
+                           (requestOptionsUpdated)="updateRequestOptions($event)">
+      <ng-template let-account="item">
+        <div class="border p-2 m-2 w-100 row">
+          <div class="col-8">
+            <div><strong>{{ account.Name }}</strong></div>
+            <div>Balance: <strong class="text-success">{{ account.Balance | currency }}</strong></div>
           </div>
-        </ng-template>
-      </shared-generic-browse>
-    </ng-template>
+          <div class="col-4">
+            <a href="javascript:void(0)"
+               class="float-right"
+               (click)="accountSelected(account)">Select</a>
+          </div>
+        </div>
+      </ng-template>
+    </shared-generic-browse>
   </shared-modal>
   <button class="btn btn-primary mt-3"
           (click)="validateAndContinue()">Save and Continue</button>

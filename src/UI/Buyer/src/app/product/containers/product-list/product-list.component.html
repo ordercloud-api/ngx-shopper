@@ -105,10 +105,8 @@
   </div>
   <shared-modal id="{{ createModalID }}"
                 modalTitle="Select Category">
-    <ng-template>
-      <product-category-nav *ngIf="categories?.Items?.length"
-                            [categories]="categories"
-                            (selection)="changeCategory($event)"></product-category-nav>
-    </ng-template>
+    <product-category-nav *ngIf="categories?.Items?.length"
+                          [categories]="categories"
+                          (selection)="changeCategory($event)"></product-category-nav>
   </shared-modal>
 </section>

@@ -130,10 +130,9 @@
     </button>
   </div>
 </div>
+
 <!--  Change Password Modal Content -->
 <shared-modal [id]="changePasswordModalId"
               modalTitle="Change Password">
-  <ng-template>
-    <shared-change-password-form (changePassword)="onChangePassword($event)"></shared-change-password-form>
-  </ng-template>
+  <shared-change-password-form (changePassword)="onChangePassword($event)"></shared-change-password-form>
 </shared-modal>

@@ -1,12 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  OnDestroy,
-  ContentChild,
-  TemplateRef,
-} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
 import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -30,7 +22,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 export class ModalComponent implements OnInit, OnDestroy {
   @Input() id: string;
   @Input() modalTitle: string;
-  @ContentChild(TemplateRef) modalContent;
   public isOpen = false;
 
   faTimes = faTimes;
