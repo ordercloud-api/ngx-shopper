@@ -1,6 +1,9 @@
 <button class="btn btn-secondary mb-3"
         (click)="modalService.open(modalID)"
         *ngIf="!isAnon && existingAddresses && existingAddresses.Items.length > 0">Select a saved address</button>
+<button *ngIf="addressType === 'Billing'"
+        class="btn btn-secondary mb-3 ml-2"
+        (click)="useShippingAsBilling()">Use Shipping Address</button>
 <shared-address-form [existingAddress]="selectedAddress"
                      (formSubmitted)="saveAddress($event.address, $event.formDirty)"
                      btnText="Save and Continue"></shared-address-form>
