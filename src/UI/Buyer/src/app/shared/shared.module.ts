@@ -72,7 +72,10 @@ import { ProductCardComponent } from '@app-buyer/shared/components/product-card/
 import { ProductCarouselComponent } from '@app-buyer/shared/components/product-carousel/product-carousel.component';
 import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-to-iterable.pipe';
 import { GenericBrowseComponent } from '@app-buyer/shared/components/generic-browse/generic-browse.component';
-import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
+import {
+  ModalComponent,
+  ResetDirective,
+} from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
 import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/is-profiled-user.guard';
@@ -137,6 +140,7 @@ import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
     CreditCardFormComponent,
     LineItemListWrapperComponent,
     FallbackImageDirective,
+    ResetDirective,
     LineItemCardComponent,
     ShipperTrackingPipe,
     ShipperTrackingSupportedPipe,
@@ -160,6 +164,7 @@ import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
     CreditCardDisplayComponent,
     CreditCardFormComponent,
     FallbackImageDirective,
+    ResetDirective,
     SearchComponent,
     CreditCardIconComponent,
     LineItemCardComponent,
