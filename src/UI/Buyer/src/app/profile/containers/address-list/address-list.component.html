@@ -25,16 +25,20 @@
 </shared-generic-browse>
 <shared-modal id="{{ addAddressModalID }}"
               modalTitle="{{ currentAddress ? 'Edit' : 'Add'}} Address">
-  <shared-address-form (formSubmitted)="addressFormSubmitted($event.address)"
-                       [existingAddress]="currentAddress"
-                       [btnText]="currentAddress ? 'Save Changes' : 'Create Address'"></shared-address-form>
+  <ng-template>
+    <shared-address-form (formSubmitted)="addressFormSubmitted($event.address)"
+                         [existingAddress]="currentAddress"
+                         [btnText]="currentAddress ? 'Save Changes' : 'Create Address'"></shared-address-form>
+  </ng-template>
 </shared-modal>
 <shared-modal id="{{ areYouSureModalID }}"
               modalTitle="Delete this Address?">
-  <shared-address-display *ngIf="currentAddress"
-                          [address]="currentAddress"></shared-address-display>
-  <button class="btn btn-primary"
-          (click)="deleteAddress(currentAddress)">Delete</button>
-  <button class="btn float-right"
-          (click)="closeAreYouSure()">Cancel</button>
+  <ng-template>
+    <shared-address-display *ngIf="currentAddress"
+                            [address]="currentAddress"></shared-address-display>
+    <button class="btn btn-primary"
+            (click)="deleteAddress(currentAddress)">Delete</button>
+    <button class="btn float-right"
+            (click)="closeAreYouSure()">Cancel</button>
+  </ng-template>
 </shared-modal>

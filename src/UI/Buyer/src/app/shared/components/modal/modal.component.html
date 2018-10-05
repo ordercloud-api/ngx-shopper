@@ -9,7 +9,10 @@
       </div>
     </div>
     <hr>
-    <ng-content></ng-content>
+    <!-- This destroys and rebuilds components in the modal content on close/open -->
+    <div *ngIf="isOpen">
+      <ng-content *ngTemplateOutlet="modalContent"></ng-content>
+    </div>
   </div>
 </div>
 <div class="shared-modal__background"></div>
