@@ -7,6 +7,6 @@ export const environment = {
   clientID: 'D89E2196-CC75-4312-A4A9-67E4CC4BEDFB',
   buyerID: 'A',
   buyerClientID: '97BBF2CC-59D1-449A-B67C-AE9262ADD284',
-  buyerUrl: 'localhost:1000',
+  buyerUrl: 'http://localhost:1000',
   middlewareUrl: 'my-middleware-url.com/api',
 };
