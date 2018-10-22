@@ -3,11 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 // checkout components
-import { CartComponent } from '@app-buyer/checkout/containers/cart/cart.component';
 import { CheckoutAddressComponent } from '@app-buyer/checkout/containers/checkout-address/checkout-address.component';
 import { CheckoutComponent } from '@app-buyer/checkout/containers/checkout/checkout.component';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
-import { OrderSummaryComponent } from '@app-buyer/checkout/components/order-summary/order-summary.component';
 
 // shared module
 import { SharedModule } from '@app-buyer/shared';
@@ -24,11 +22,9 @@ import { OrderResolve } from '@app-buyer/order/order.resolve';
 @NgModule({
   imports: [SharedModule, CheckoutRoutingModule, FormsModule],
   declarations: [
-    CartComponent,
     CheckoutAddressComponent,
     CheckoutComponent,
     CheckoutSectionBaseComponent,
-    OrderSummaryComponent,
     CheckoutPaymentComponent,
     PaymentPurchaseOrderComponent,
     PaymentSpendingAccountComponent,

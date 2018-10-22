@@ -4,7 +4,7 @@
     <div class="row flex-lg-row-reverse"
          *ngIf="order.LineItemCount">
       <div class="col-lg-3">
-        <checkout-order-summary [order]="order"></checkout-order-summary>
+        <shared-order-summary [order]="order"></shared-order-summary>
       </div>
       <div class="col-lg-9">
         <ngb-accordion [closeOthers]="true"

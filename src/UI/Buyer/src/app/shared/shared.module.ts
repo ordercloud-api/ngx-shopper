@@ -80,6 +80,11 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
 import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/is-profiled-user.guard';
 import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
+import {
+  CartComponent,
+  MiniCartComponent,
+} from './containers/cart/cart.component';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 
 @NgModule({
   imports: [
@@ -152,6 +157,9 @@ import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
     GenericBrowseComponent,
     ModalComponent,
     OrderPaymentListComponent,
+    CartComponent,
+    MiniCartComponent,
+    OrderSummaryComponent,
   ],
   declarations: [
     ChangePasswordFormComponent,
@@ -179,6 +187,9 @@ import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
     GenericBrowseComponent,
     ModalComponent,
     OrderPaymentListComponent,
+    CartComponent,
+    MiniCartComponent,
+    OrderSummaryComponent,
   ],
 
   /**

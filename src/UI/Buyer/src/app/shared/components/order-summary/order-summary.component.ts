@@ -3,7 +3,7 @@ import { Order } from '@ordercloud/angular-sdk';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'checkout-order-summary',
+  selector: 'shared-order-summary',
   templateUrl: './order-summary.component.html',
   styleUrls: ['./order-summary.component.scss'],
 })

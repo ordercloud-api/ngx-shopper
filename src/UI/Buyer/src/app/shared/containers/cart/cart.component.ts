@@ -1,9 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-  AppLineItemService,
-  BaseResolveService,
-  AppStateService,
-} from '@app-buyer/shared';
+import { Component, OnInit, OnDestroy, Input, ElementRef } from '@angular/core';
 import {
   Order,
   LineItem,
@@ -14,6 +9,9 @@ import {
 } from '@ordercloud/angular-sdk';
 import { Observable, forkJoin } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
+import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
+import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
+import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 
 @Component({
   selector: 'checkout-cart',
@@ -77,4 +75,15 @@ export class CartComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.alive = false;
   }
+}
+
+@Component({
+  selector: 'checkout-mini-cart',
+  templateUrl: './mini-cart.component.html',
+  styleUrls: ['./cart.component.scss'],
+})
+export class MiniCartComponent extends CartComponent implements OnInit {
+  @Input() anchor: ElementRef;
+
+  ngOnInit() {}
 }

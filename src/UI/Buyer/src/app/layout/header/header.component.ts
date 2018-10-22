@@ -1,4 +1,11 @@
-import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ViewChild,
+  OnDestroy,
+  ElementRef,
+} from '@angular/core';
 import {
   applicationConfiguration,
   AppConfig,
@@ -38,6 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('mobilePopover') public mobilePopover: NgbPopover;
   @ViewChild('desktopPopover') public desktopPopover: NgbPopover;
   @ViewChild(SearchComponent) public search: SearchComponent;
+  @ViewChild('miniCartAnchor') mini: ElementRef;
   //@ViewChild('mobileSearch') public mobileSearch: SearchComponent;
 
   faSearch = faSearch;

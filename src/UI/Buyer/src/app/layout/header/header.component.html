@@ -82,7 +82,12 @@
                    placeholderText="Search Products..."
                    (searched)="searchProducts($event)"></shared-search>
     <ul class="navbar-nav">
-      <li class="nav-item">
+      <li class="nav-item"
+          [ngbPopover]="CartHoverContent"
+          triggers="mouseenter"
+          placement="bottom"
+          popoverClass="mini-cart-popover"
+          #miniCartAnchor>
         <a class="nav-link text-nowrap"
            routerLink="/cart"
            routerLinkActive="active"
@@ -102,3 +107,6 @@
     </ul>
   </div>
 </nav>
+<ng-template #CartHoverContent>
+  <checkout-mini-cart [anchor]="mini"></checkout-mini-cart>
+</ng-template>
