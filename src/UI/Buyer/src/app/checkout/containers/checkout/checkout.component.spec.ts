@@ -13,6 +13,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, BehaviorSubject } from 'rxjs';
 import { OcOrderService, OcPaymentService } from '@ordercloud/angular-sdk';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
 
 describe('CheckoutComponent', () => {
   let component: CheckoutComponent;
@@ -33,12 +34,17 @@ describe('CheckoutComponent', () => {
     resetUser: jasmine.createSpy('restUser').and.returnValue(null),
   };
 
+  const appErrorHandler = {
+    displayError: jasmine.createSpy('displayError'),
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CheckoutComponent, NgbAccordion, NgbPanel],
       imports: [FontAwesomeModule, ReactiveFormsModule, RouterTestingModule],
       providers: [
         NgbAccordionConfig,
+        { provide: AppErrorHandler, usevalue: appErrorHandler },
         { provide: AppStateService, useValue: appStateService },
         { provide: OcOrderService, useValue: orderService },
         { provide: OcPaymentService, useValue: paymentService },
@@ -147,9 +153,9 @@ describe('CheckoutComponent', () => {
     });
   });
 
-  describe('confirmOrder()', () => {
+  describe('submitOrder()', () => {
     it('should call necessary services', () => {
-      component.confirmOrder();
+      component.submitOrder();
       expect(orderService.Submit).toHaveBeenCalled();
       expect(baseResolveService.resetUser).toHaveBeenCalled();
     });

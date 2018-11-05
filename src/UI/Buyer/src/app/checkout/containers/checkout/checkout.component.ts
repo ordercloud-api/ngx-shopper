@@ -5,6 +5,7 @@ import { AppStateService, BaseResolveService } from '@app-buyer/shared';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
 
 @Component({
   selector: 'checkout-checkout',
@@ -15,6 +16,7 @@ export class CheckoutComponent implements OnInit {
   @ViewChild('acc') public accordian: NgbAccordion;
   currentOrder$: Observable<Order> = this.appStateService.orderSubject;
   isAnon: boolean;
+  isSubmittingOrder = false;
   currentPanel: string;
   faCheck = faCheck;
   sections: any = [
@@ -44,7 +46,8 @@ export class CheckoutComponent implements OnInit {
     private appStateService: AppStateService,
     private ocOrderService: OcOrderService,
     private router: Router,
-    private baseResolveService: BaseResolveService
+    private baseResolveService: BaseResolveService,
+    private appErrorHandler: AppErrorHandler
   ) {}
 
   ngOnInit() {
@@ -71,12 +74,20 @@ export class CheckoutComponent implements OnInit {
     this.accordian.toggle(id);
   }
 
-  confirmOrder() {
+  submitOrder() {
+    this.isSubmittingOrder = true;
     const orderID = this.appStateService.orderSubject.value.ID;
-    this.ocOrderService.Submit('outgoing', orderID).subscribe(() => {
-      this.router.navigateByUrl(`order-confirmation/${orderID}`);
-      this.baseResolveService.resetUser();
-    });
+    this.ocOrderService.Submit('outgoing', orderID).subscribe(
+      () => {
+        this.router.navigateByUrl(`order-confirmation/${orderID}`);
+        this.baseResolveService.resetUser();
+      },
+      (ex) => {
+        // order submit error occurred
+        this.isSubmittingOrder = false;
+        this.appErrorHandler.displayError(ex);
+      }
+    );
   }
 
   beforeChange($event) {
