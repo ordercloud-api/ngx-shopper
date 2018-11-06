@@ -46,13 +46,7 @@ export class AppAuthService {
         this.ocTokenService.SetAccess(token);
         this.refreshToken.next(token);
       }),
-      catchError((error) => {
-        if (
-          this.ocTokenService.GetAccess() &&
-          error === TokenRefreshAttemptNotPossible
-        ) {
-          this.appErrorHandler.displayError({ message: error });
-        }
+      catchError(() => {
         // ignore new refresh attempts if a refresh
         // attempt failed within the last 3 seconds
         this.failedRefreshAttempt = true;

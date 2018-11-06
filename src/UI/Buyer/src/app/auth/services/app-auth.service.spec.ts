@@ -100,18 +100,14 @@ describe('AppAuthService', () => {
         spyOn(appAuthService, 'fetchRefreshToken').and.returnValue(
           throwError('Token refresh attempt not possible')
         );
+        spyOn(appAuthService, 'logout');
         appAuthService.refresh().subscribe();
-      });
-      it('should check if the user had a token before failing call', () => {
-        expect(tokenService.GetAccess).toHaveBeenCalled();
-      });
-      it('should display error message if token existed before failing call', () => {
-        expect(appErrorHandler.displayError).toHaveBeenCalledWith({
-          message: 'Token refresh attempt not possible',
-        });
       });
       it('should set failedRefreshAttempt to true', () => {
         expect(appAuthService.failedRefreshAttempt).toBe(true);
+      });
+      it('should log user out', () => {
+        expect(appAuthService.logout).toHaveBeenCalled();
       });
     });
   });
