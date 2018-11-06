@@ -100,21 +100,17 @@ describe('AppAuthService', () => {
     describe('on error', () => {
       beforeEach(() => {
         spyOn(tokenService, 'GetAccess').and.returnValue(mockToken);
+        spyOn(appAuthService, 'logout');
         spyOn(appAuthService, 'fetchRefreshToken').and.returnValue(
           throwError('Token refresh attempt not possible')
         );
         appAuthService.refresh().subscribe();
       });
-      it('should check if the user had a token before failing call', () => {
-        expect(tokenService.GetAccess).toHaveBeenCalled();
-      });
-      it('should display error message if token existed before failing call', () => {
-        expect(appErrorHandler.displayError).toHaveBeenCalledWith({
-          message: 'Token refresh attempt not possible',
-        });
-      });
       it('should set failedRefreshAttempt to true', () => {
         expect(appAuthService.failedRefreshAttempt).toBe(true);
+      });
+      it('should log user out', () => {
+        expect(appAuthService.logout).toHaveBeenCalled();
       });
     });
   });
@@ -169,7 +165,7 @@ describe('AppAuthService', () => {
         expect(appStateService.isLoggedIn.next).toHaveBeenCalledWith(false);
       });
     });
-    
+
     describe('setRememberStatus', () => {
       const statusTrue = true;
       beforeEach(() => {
