@@ -1,4 +1,4 @@
-import { ErrorHandler, Inject, Injector } from '@angular/core';
+import { ErrorHandler, Inject, Injector, Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 /**
@@ -6,6 +6,9 @@ import { ToastrService } from 'ngx-toastr';
  * in order to automatically format ordercloud error messages
  * and display them in toastr
  */
+@Injectable({
+  providedIn: 'root',
+})
 export class AppErrorHandler extends ErrorHandler {
   constructor(@Inject(Injector) private readonly injector: Injector) {
     super();
