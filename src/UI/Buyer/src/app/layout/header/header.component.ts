@@ -35,10 +35,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentOrder: Order;
   alive = true;
   addToCartQuantity: number;
-  @ViewChild('mobilePopover') public mobilePopover: NgbPopover;
-  @ViewChild('desktopPopover') public desktopPopover: NgbPopover;
+  @ViewChild('addtocartPopover') public popover: NgbPopover;
   @ViewChild(SearchComponent) public search: SearchComponent;
-  //@ViewChild('mobileSearch') public mobileSearch: SearchComponent;
 
   faSearch = faSearch;
   faShoppingCart = faShoppingCart;
@@ -70,20 +68,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   buildAddToCartListener() {
-    let popover;
     this.appStateService.addToCartSubject
       .pipe(
         tap((event: AddToCartEvent) => {
-          popover = this.isMobile() ? this.mobilePopover : this.desktopPopover;
-          popover.close();
-          popover.ngbPopover = `${event.quantity} Item(s) Added to Cart`;
+          this.popover.close();
+          this.popover.ngbPopover = `${event.quantity} Item(s) Added to Cart`;
         }),
         delay(300),
-        tap(() => popover.open()),
+        tap(() => {
+          this.popover.open();
+        }),
         debounceTime(3000)
       )
       .subscribe(() => {
-        popover.close();
+        this.popover.close();
       });
   }
 
