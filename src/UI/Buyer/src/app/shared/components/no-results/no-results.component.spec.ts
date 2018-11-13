@@ -8,9 +8,8 @@ describe('NoResultsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NoResultsComponent ]
-    })
-    .compileComponents();
+      declarations: [NoResultsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +20,15 @@ describe('NoResultsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('clear', () => {
+    beforeEach(() => {
+      spyOn(component.action, 'emit');
+      component['clear']();
+    });
+    it('should emit to the parent component', () => {
+      expect(component.action.emit).toHaveBeenCalled();
+    });
   });
 });
