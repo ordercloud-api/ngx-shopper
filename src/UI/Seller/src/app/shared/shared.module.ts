@@ -24,6 +24,7 @@ import { AppFormErrorService } from '@app-seller/shared/services/form-error/form
 import { CarouselSlideDisplayComponent } from '@app-seller/shared/components/carousel-slide-display/carousel-slide-display.component';
 import { GenericBrowseComponent } from '@app-seller/shared/components/generic-browse/generic-browse.component';
 import { UserTableComponent } from '@app-seller/shared/containers/user-table/user-table.component';
+import { RegexService } from '@app-seller/shared/services/regex/regex.service';
 import { UserFormComponent } from '@app-seller/shared/components/user-form/user-form.component';
 import { AddressTableComponent } from './containers/address-table/address-table.component';
 import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
@@ -106,6 +107,7 @@ import { ProductFormComponent } from '@app-seller/shared/components/products-for
     ModalService,
     AppFormErrorService,
     AppGeographyService,
+    RegexService,
   ],
 })
 export class SharedModule {

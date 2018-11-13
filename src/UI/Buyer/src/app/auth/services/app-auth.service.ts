@@ -10,11 +10,9 @@ import {
   AppConfig,
 } from '@app-buyer/config/app.config';
 import { CookieService } from 'ngx-cookie';
-import { keys as _keys } from 'lodash';
 import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
-import * as jwtDecode from 'jwt-decode';
-import { isUndefined as _isUndefined } from 'lodash';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
+import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
 
 export const TokenRefreshAttemptNotPossible =
   'Token refresh attempt not possible';
@@ -34,6 +32,7 @@ export class AppAuthService {
     private router: Router,
     private appErrorHandler: AppErrorHandler,
     private appStateService: AppStateService,
+    private baseResolveService: BaseResolveService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
     this.refreshToken = new BehaviorSubject<string>('');
@@ -47,20 +46,15 @@ export class AppAuthService {
         this.ocTokenService.SetAccess(token);
         this.refreshToken.next(token);
       }),
-      catchError((error) => {
-        if (
-          this.ocTokenService.GetAccess() &&
-          error === TokenRefreshAttemptNotPossible
-        ) {
-          this.appErrorHandler.displayError({ message: error });
-        }
+      catchError(() => {
         // ignore new refresh attempts if a refresh
         // attempt failed within the last 3 seconds
         this.failedRefreshAttempt = true;
         setTimeout(() => {
           this.failedRefreshAttempt = false;
         }, 3000);
-        return this.logout();
+        this.logout();
+        return of(null);
       }),
       finalize(() => {
         this.fetchingRefreshToken = false;
@@ -101,18 +95,15 @@ export class AppAuthService {
     return throwError(TokenRefreshAttemptNotPossible);
   }
 
-  logout(): Observable<any> {
-    const cookiePrefix = this.appConfig.appname
-      .replace(/ /g, '_')
-      .toLowerCase();
-    const appCookieNames = _keys(this.cookieService.getAll());
-    appCookieNames.forEach((cookieName) => {
-      if (cookieName.indexOf(cookiePrefix) > -1) {
-        this.cookieService.remove(cookieName);
-      }
-    });
+  logout(): void {
+    this.ocTokenService.RemoveAccess();
     this.appStateService.isLoggedIn.next(false);
-    return of(this.router.navigate(['/login']));
+    if (this.appConfig.anonymousShoppingEnabled) {
+      this.router.navigate(['/home']);
+      this.baseResolveService.resetUser();
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   authAnonymous(): Observable<string> {
@@ -123,14 +114,10 @@ export class AppAuthService {
         tap((token) => this.ocTokenService.SetAccess(token)),
         catchError((ex) => {
           this.appErrorHandler.displayError(ex);
-          return this.logout();
+          this.logout();
+          return of(null);
         })
       );
-  }
-
-  isUserAnon(): boolean {
-    const anonOrderID = jwtDecode(this.ocTokenService.GetAccess()).orderid;
-    return !_isUndefined(anonOrderID);
   }
 
   setRememberStatus(status: boolean): void {

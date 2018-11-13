@@ -1,57 +1,49 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrderAprovalComponent } from '@app-buyer/order/containers/order-approval/order-approval.component';
-import { Subject, of } from 'rxjs';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgbPaginationModule, NgbRootModule } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
-import { OcMeService } from '@ordercloud/angular-sdk';
-import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { take } from 'rxjs/operators';
 
-describe('OrderAprovalComponent', () => {
-  let component: OrderAprovalComponent;
-  let fixture: ComponentFixture<OrderAprovalComponent>;
-  const mockMe = { xp: { FavoriteOrders: ['a', 'b', 'c'] } };
-  const meService = {
-    ListApprovableOrders: jasmine
-      .createSpy('ListApprovableOrders')
-      .and.returnValue(of(null)),
-    Get: jasmine.createSpy('Get').and.returnValue(of(mockMe)),
-    Patch: jasmine.createSpy('Patch').and.returnValue(of(mockMe)),
+import { OrderApprovalComponent } from './order-approval.component';
+import { of } from 'rxjs';
+import { Router } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { ModalService } from '@app-buyer/shared';
+import { OcOrderService } from '@ordercloud/angular-sdk';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+describe('OrderApprovalComponent', () => {
+  let component: OrderApprovalComponent;
+  let fixture: ComponentFixture<OrderApprovalComponent>;
+  const mockOrderID = 'orderID';
+  const orderService = {
+    Approve: jasmine.createSpy('Approve').and.returnValue(of(null)),
+    Decline: jasmine.createSpy('Decline').and.returnValue(of(null)),
   };
-  const router = { navigate: jasmine.createSpy('navigate') };
-  const queryParamMap = new Subject<any>();
-  const activatedRoute = {
-    snapshot: {
-      queryParams: {
-        sortBy: '!ID',
-        search: 'OrderID123',
-        page: 1,
-        status: 'Open',
-        datesubmitted: ['5-30-18'],
-      },
-    },
-    queryParamMap,
+  const modalService = {
+    open: jasmine.createSpy('open').and.returnValue(null),
+    close: jasmine.createSpy('close').and.returnValue(null),
   };
+  const toasterService = {
+    success: jasmine.createSpy('success').and.returnValue(null),
+  };
+  const router = { navigateByUrl: jasmine.createSpy('navigateByUrl') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [OrderAprovalComponent],
-      imports: [ReactiveFormsModule, NgbPaginationModule, NgbRootModule],
+      declarations: [OrderApprovalComponent],
+      imports: [ReactiveFormsModule],
       providers: [
-        DatePipe,
-        { provide: OcMeService, useValue: meService },
+        { provide: ToastrService, useValue: toasterService },
+        { provide: ModalService, useValue: modalService },
+        { provide: OcOrderService, useValue: orderService },
         { provide: Router, useValue: router },
-        { provide: ActivatedRoute, useValue: activatedRoute },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderAprovalComponent);
+    fixture = TestBed.createComponent(OrderApprovalComponent);
     component = fixture.componentInstance;
+    component.orderID = mockOrderID;
     fixture.detectChanges();
   });
 
@@ -59,79 +51,41 @@ describe('OrderAprovalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
+  describe('open modal', () => {
     beforeEach(() => {
-      spyOn(component as any, 'listOrders');
-      component.ngOnInit();
+      component.openModal(true);
     });
-    it('should call list orders', () => {
-      expect(component['listOrders']).toHaveBeenCalled();
+    it('should call open model', () => {
+      expect(modalService.open).toHaveBeenCalledWith(component.modalID);
     });
-  });
-
-  describe('sortOrders', () => {
-    it('should navigate to same route with updated sort params', () => {
-      component['sortOrders']('Name');
-      const queryParams = {
-        ...activatedRoute.snapshot.queryParams,
-        sortBy: 'Name',
-      };
-      expect(router.navigate).toHaveBeenCalledWith([], { queryParams });
+    it('should set approve value', () => {
+      expect(component.approved).toEqual(true);
     });
   });
-
-  describe('changePage', () => {
-    it('should navigate to same route with updated page params', () => {
-      component['changePage'](2);
-      const queryParams = { ...activatedRoute.snapshot.queryParams, page: 2 };
-      expect(router.navigate).toHaveBeenCalledWith([], { queryParams });
-    });
-  });
-
-  describe('filterBySearch', () => {
-    it('should navigate to same route with updated search params', () => {
-      component['filterBySearch']('another search term');
-      const queryParams = {
-        ...activatedRoute.snapshot.queryParams,
-        search: 'another search term',
-        page: undefined,
-      };
-      expect(router.navigate).toHaveBeenCalledWith([], { queryParams });
-    });
-  });
-
-  describe('filterByDate', () => {
-    it('should navigate to same route with updated status params', () => {
-      component['filterByDate'](['5-30-18']);
-      const queryParams = {
-        ...activatedRoute.snapshot.queryParams,
-        datesubmitted: ['5-30-18'],
-      };
-      expect(router.navigate).toHaveBeenCalledWith([], { queryParams });
-    });
-  });
-
-  describe('listOrders', () => {
-    const expected = {
-      sortBy: '!ID',
-      search: 'OrderID123',
-      page: 1,
-      filters: {
-        datesubmitted: ['5-30-18'],
-      },
-    };
-    beforeEach(() => {
-      meService.ListApprovableOrders.calls.reset();
-    });
-    it('should call meService.ListApprovableOrders with correct parameters', () => {
-      component['listOrders']()
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(meService.ListApprovableOrders).toHaveBeenCalledWith(expected);
-        });
-      queryParamMap.next(
-        convertToParamMap(activatedRoute.snapshot.queryParams)
+  describe('submitReview', () => {
+    it('Should call Approve if approve is true', () => {
+      component.approved = true;
+      component.submitReview();
+      expect(orderService.Approve).toHaveBeenCalledWith(
+        'outgoing',
+        mockOrderID,
+        { Comments: component.form.value.comments, AllowResubmit: false }
       );
+    });
+    it('Should call Decline if approve is false', () => {
+      component.approved = false;
+      component.submitReview();
+      expect(orderService.Approve).toHaveBeenCalledWith(
+        'outgoing',
+        mockOrderID,
+        { Comments: component.form.value.comments, AllowResubmit: false }
+      );
+    });
+    it('Should do a bunch of things after submitting the review', () => {
+      component.submitReview();
+      expect(toasterService.success).toHaveBeenCalled();
+      expect(modalService.close).toHaveBeenCalled();
+      expect(router.navigateByUrl).toHaveBeenCalled();
     });
   });
 });

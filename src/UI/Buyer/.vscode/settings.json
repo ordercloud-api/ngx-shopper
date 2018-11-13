@@ -5,5 +5,8 @@
   "tslint.autoFixOnSave": true,
   "[scss]": {
     "editor.formatOnSave": false
+  },
+  "search.exclude": {
+    "**/dist": true
   }
 }

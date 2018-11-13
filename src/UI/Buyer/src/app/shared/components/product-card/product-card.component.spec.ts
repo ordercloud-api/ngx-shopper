@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductCardComponent } from '@app-buyer/shared/components/product-card/product-card.component';
-import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ToggleFavoriteComponent } from '@app-buyer/shared/components/toggle-favorite/toggle-favorite.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -21,11 +19,7 @@ describe('ProductCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProductCardComponent,
-        QuantityInputComponent,
-        ToggleFavoriteComponent,
-      ],
+      declarations: [ProductCardComponent],
       imports: [ReactiveFormsModule, FontAwesomeModule],
       providers: [
         { provide: Router, useValue: router },

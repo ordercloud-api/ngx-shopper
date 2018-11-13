@@ -28,4 +28,10 @@ export class AppFormErrorService {
     const control = form.get(controlName);
     return control && control.hasError('required') && control.dirty;
   }
+
+  hasPatternError(controlName: string, form: FormGroup) {
+    return (
+      form.get(controlName).hasError('pattern') && form.get(controlName).dirty
+    );
+  }
 }

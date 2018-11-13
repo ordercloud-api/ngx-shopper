@@ -18,6 +18,7 @@ describe('AddressFormComponent', () => {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
     hasInvalidIdError: jasmine.createSpy('hasInValidIdError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
+    hasPatternError: jasmine.createSpy('hasPatternError'),
   };
 
   beforeEach(async(() => {

@@ -3,7 +3,7 @@ import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   faSearch,
   faShoppingCart,
@@ -15,15 +15,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { BaseResolveService, AppStateService } from '@app-buyer/shared';
-import {
-  OcTokenService,
-  Order,
-  MeUser,
-  ListCategory,
-} from '@ordercloud/angular-sdk';
-import { takeWhile, tap, debounceTime, delay } from 'rxjs/operators';
+import { AppStateService } from '@app-buyer/shared';
+import { Order, MeUser, ListCategory } from '@ordercloud/angular-sdk';
+import { takeWhile, tap, debounceTime, delay, filter } from 'rxjs/operators';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
+import { AppAuthService } from '@app-buyer/auth';
+import { SearchComponent } from '@app-buyer/shared/components/search/search.component';
 
 @Component({
   selector: 'layout-header',
@@ -38,8 +35,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentOrder: Order;
   alive = true;
   addToCartQuantity: number;
-  @ViewChild('mobilePopover') public mobilePopover: NgbPopover;
-  @ViewChild('desktopPopover') public desktopPopover: NgbPopover;
+  @ViewChild('addtocartPopover') public popover: NgbPopover;
+  @ViewChild(SearchComponent) public search: SearchComponent;
 
   faSearch = faSearch;
   faShoppingCart = faShoppingCart;
@@ -51,8 +48,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private appStateService: AppStateService,
-    private ocTokenService: OcTokenService,
-    private baseResolveService: BaseResolveService,
+    private appAuthService: AppAuthService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     @Inject(applicationConfiguration) protected appConfig: AppConfig
   ) {}
@@ -62,25 +59,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.alive))
       .subscribe((order) => (this.currentOrder = order));
 
-    this.buildAddToCartNotification();
+    this.buildAddToCartListener();
+    this.clearSearchOnNavigate();
   }
 
-  buildAddToCartNotification() {
-    let popover;
+  isMobile(): boolean {
+    return window.innerWidth < 768; // max width for bootstrap's sm breakpoint
+  }
+
+  buildAddToCartListener() {
     this.appStateService.addToCartSubject
       .pipe(
         tap((event: AddToCartEvent) => {
-          const isMobile = window.innerWidth < 768; // max width for bootstrap's sm breakpoint
-          popover = isMobile ? this.mobilePopover : this.desktopPopover;
-          popover.close();
-          popover.ngbPopover = `${event.quantity} Item(s) Added to Cart`;
+          this.popover.close();
+          this.popover.ngbPopover = `${event.quantity} Item(s) Added to Cart`;
         }),
         delay(300),
-        tap(() => popover.open()),
+        tap(() => {
+          this.popover.open();
+        }),
         debounceTime(3000)
       )
       .subscribe(() => {
-        popover.close();
+        this.popover.close();
       });
   }
 
@@ -89,12 +90,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.ocTokenService.RemoveAccess();
-    if (this.appStateService.isAnonSubject.value) {
-      this.baseResolveService.resetUser();
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.appAuthService.logout();
+  }
+
+  clearSearchOnNavigate() {
+    this.activatedRoute.queryParams
+      .pipe(
+        filter((queryParams) => {
+          return typeof queryParams.search === 'undefined';
+        }),
+        takeWhile(() => this.alive)
+      )
+      .subscribe(() => {
+        if (this.search) {
+          this.search.clearWithoutEmit();
+        }
+      });
   }
 
   // TODO: we should move responsibility for 'showing' up to the parent component instead of hard-coding route-names.

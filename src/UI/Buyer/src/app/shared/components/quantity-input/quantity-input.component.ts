@@ -8,13 +8,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BuyerProduct } from '@ordercloud/angular-sdk';
-import {
-  AppMinProductQty,
-  AppMaxProductQty,
-} from '@app-buyer/shared/validators/product-quantity/product.quantity.validator';
+import { ProductQtyValidator } from '@app-buyer/shared/validators/product-quantity/product.quantity.validator';
 import { ToastrService } from 'ngx-toastr';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { debounceTime, takeWhile } from 'rxjs/operators';
+import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
 
 @Component({
   selector: 'shared-quantity-input',
@@ -31,18 +29,15 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private formErrorService: AppFormErrorService
   ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       quantity: [
         this.existingQty || this.getDefaultQty(),
-        [
-          Validators.required,
-          AppMinProductQty(this.product),
-          AppMaxProductQty(this.product),
-        ],
+        [Validators.required, ProductQtyValidator(this.product)],
       ],
     });
     this.quantityChangeListener();
@@ -84,7 +79,10 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
   addToCart(event) {
     event.stopPropagation();
     if (!this.form.valid || isNaN(this.form.value.quantity)) {
-      return this.toastrService.error('Quantity is invalid', 'Error');
+      return this.toastrService.error(
+        this.getQuantityError() || 'Please enter a quantity',
+        'Error'
+      );
     }
     this.addedToCart.emit({
       product: this.product,
@@ -92,6 +90,14 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
     });
     // Reset form as indication of action
     this.form.setValue({ quantity: this.getDefaultQty() });
+  }
+
+  getQuantityError(): string | void {
+    const error = this.formErrorService.getProductQuantityError(
+      'quantity',
+      this.form
+    );
+    return error ? error.message: null;
   }
 
   ngOnDestroy() {

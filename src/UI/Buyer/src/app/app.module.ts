@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { OrderCloudModule } from '@ordercloud/angular-sdk';
 import { OcSDKConfig } from '@app-buyer/config/ordercloud-sdk.config';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
 
 // shared module
 import { SharedModule } from '@app-buyer/shared';
@@ -69,6 +70,7 @@ import { TermsAndConditionsComponent } from './static-pages/terms-and-conditions
     OrderCloudModule.forRoot(OcSDKConfig),
     SharedModule.forRoot(),
     ToastrModule.forRoot(),
+    NgxImageZoomModule.forRoot(),
   ],
   providers: [
     {

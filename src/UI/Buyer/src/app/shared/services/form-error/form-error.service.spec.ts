@@ -40,7 +40,7 @@ describe('OcFormErrorService', () => {
     });
   });
 
-  describe('hasValidEmailError', () => {
+  describe('hasInvalidEmailError', () => {
     let formControl: FormControl;
     beforeEach(() => {
       formControl = new FormControl('email', [
@@ -51,19 +51,19 @@ describe('OcFormErrorService', () => {
     it('should return true if form control has required error and is dirty', () => {
       formControl.setValue('');
       formControl.markAsDirty();
-      const hasError = service.hasValidEmailError(formControl);
+      const hasError = service.hasInvalidEmailError(formControl);
       expect(hasError).toBe(true);
     });
     it('should return true if form control has email error', () => {
       formControl.setValue('totallynotanemail');
       formControl.markAsDirty();
-      const hasError = service.hasValidEmailError(formControl);
+      const hasError = service.hasInvalidEmailError(formControl);
       expect(hasError).toBe(true);
     });
     it('should return false if form control has required error but is pristine', () => {
       formControl.setValue('');
       formControl.markAsPristine();
-      const hasError = service.hasValidEmailError(formControl);
+      const hasError = service.hasInvalidEmailError(formControl);
       expect(hasError).toBe(false);
     });
   });

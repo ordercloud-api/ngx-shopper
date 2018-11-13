@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AppGeographyService } from '@app-buyer/shared';
@@ -16,8 +15,8 @@ describe('AddressFormComponent', () => {
   };
   const formErrorService = {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
-    hasValidEmailError: jasmine.createSpy('hasValidEmailError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
+    hasPatternError: jasmine.createSpy('hasPatternError'),
   };
 
   beforeEach(async(() => {
@@ -88,16 +87,19 @@ describe('AddressFormComponent', () => {
     it('should emit formSubmitted event', () => {
       component['onSubmit']();
       expect(component.formSubmitted.emit).toHaveBeenCalledWith({
-        ID: '',
-        FirstName: 'Crhistian',
-        LastName: 'Ramirez',
-        Street1: '404 5th st sw',
-        Street2: '',
-        City: 'Minneapolis',
-        State: 'MN',
-        Zip: '56001',
-        Phone: '555-555-5555',
-        Country: 'US',
+        address: {
+          ID: '',
+          FirstName: 'Crhistian',
+          LastName: 'Ramirez',
+          Street1: '404 5th st sw',
+          Street2: '',
+          City: 'Minneapolis',
+          State: 'MN',
+          Zip: '56001',
+          Phone: '555-555-5555',
+          Country: 'US',
+        },
+        formDirty: component.addressForm.dirty,
       });
     });
   });
@@ -110,17 +112,6 @@ describe('AddressFormComponent', () => {
       expect(formErrorService.hasRequiredError).toHaveBeenCalledWith(
         'FirstName',
         component.addressForm
-      );
-    });
-  });
-
-  describe('hasValidEmailError', () => {
-    beforeEach(() => {
-      component['hasValidEmailError']();
-    });
-    it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasValidEmailError).toHaveBeenCalledWith(
-        component.addressForm.get('Email')
       );
     });
   });

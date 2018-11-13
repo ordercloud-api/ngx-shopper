@@ -1,4 +1,4 @@
-import { ErrorHandler, Inject, Injector } from '@angular/core';
+import { ErrorHandler, Inject, Injector, Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 /**
@@ -6,6 +6,9 @@ import { ToastrService } from 'ngx-toastr';
  * in order to automatically format ordercloud error messages
  * and display them in toastr
  */
+@Injectable({
+  providedIn: 'root',
+})
 export class AppErrorHandler extends ErrorHandler {
   constructor(@Inject(Injector) private readonly injector: Injector) {
     super();
@@ -24,10 +27,14 @@ export class AppErrorHandler extends ErrorHandler {
     let message = '';
     if (ex && ex.error && ex.error.Errors && ex.error.Errors.length) {
       const e = ex.error.Errors[0];
-      message =
-        e.ErrorCode === 'NotFound'
-          ? `${e.Data.ObjectType} ${e.Data.ObjectID} not found.`
-          : e.Message;
+      if (e.Data && e.Data.WebhookName) {
+        // webhook error
+        message = e.Data.body;
+      } else if (e.ErrorCode === 'NotFound') {
+        message = `${e.Data.ObjectType} ${e.Data.ObjectID} not found.`;
+      } else {
+        message = e.Message;
+      }
     } else if (ex && ex.error && ex.error['error_description']) {
       message = ex.error['error_description'];
     } else if (ex.error) {
@@ -39,6 +46,13 @@ export class AppErrorHandler extends ErrorHandler {
     }
     if (typeof message === 'object') {
       message = JSON.stringify(message);
+    }
+    if (
+      message === 'Token refresh attempt not possible' ||
+      message === 'Access token is invalid or expired.'
+    ) {
+      // display user friendly error
+      message = 'Your session has expired. Please log in.';
     }
     this.toastrService.error(message, 'Error', { onActivateTick: true });
   }

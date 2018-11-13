@@ -20,10 +20,13 @@ import {
   NgbDateNativeAdapter,
   NgbDateCustomParserFormatter,
 } from '@app-buyer/config/date-picker.config';
+import { AppFormErrorService } from '@app-buyer/shared';
 
 describe('DateFilterComponent', () => {
   let component: DateFilterComponent;
   let fixture: ComponentFixture<DateFilterComponent>;
+
+  const formErrorService = { hasDateError: jasmine.createSpy('hasDateError') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,6 +39,7 @@ describe('DateFilterComponent', () => {
           provide: NgbDateParserFormatter,
           useClass: NgbDateCustomParserFormatter,
         },
+        { provide: AppFormErrorService, useValue: formErrorService },
       ],
     }).compileComponents();
   }));
@@ -114,6 +118,30 @@ describe('DateFilterComponent', () => {
     it('should emit array with toDate if only toDate is defined', () => {
       component.form.controls['toDate'].setValue(new Date(2018, 4, 31));
       component['emitDate']();
+      expect(component.selectedDate.emit).toHaveBeenCalledWith(['<6-1-18']);
+    });
+  });
+
+  describe('clearToDate', () => {
+    beforeEach(() => {
+      spyOn(component.selectedDate, 'emit');
+    });
+    it('should clear to to Date and emit', () => {
+      component.form.controls['fromDate'].setValue(new Date(2018, 4, 20));
+      component.form.controls['toDate'].setValue(new Date(2018, 4, 31));
+      component['clearToDate']();
+      expect(component.selectedDate.emit).toHaveBeenCalledWith(['>5-20-18']);
+    });
+  });
+
+  describe('clearFromDate', () => {
+    beforeEach(() => {
+      spyOn(component.selectedDate, 'emit');
+    });
+    it('should clear to to Date and emit', () => {
+      component.form.controls['fromDate'].setValue(new Date(2018, 4, 20));
+      component.form.controls['toDate'].setValue(new Date(2018, 4, 31));
+      component['clearFromDate']();
       expect(component.selectedDate.emit).toHaveBeenCalledWith(['<6-1-18']);
     });
   });

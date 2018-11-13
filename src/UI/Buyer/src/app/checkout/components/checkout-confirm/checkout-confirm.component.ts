@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
 import { AppStateService, AppLineItemService } from '@app-buyer/shared';
 import {
@@ -26,6 +26,7 @@ export class CheckoutConfirmComponent extends CheckoutSectionBaseComponent
   order: Order;
   payments$: Observable<ListPayment>;
   lineItems$: Observable<ListLineItem>;
+  @Input() isSubmittingOrder: boolean;
 
   constructor(
     private appStateService: AppStateService,
@@ -50,7 +51,11 @@ export class CheckoutConfirmComponent extends CheckoutSectionBaseComponent
     this.lineItems$ = this.appLineItemService.listAll(this.order.ID);
   }
 
-  saveComments() {
+  saveCommentsAndSubmitOrder() {
+    if (this.isSubmittingOrder) {
+      return;
+    }
+    this.isSubmittingOrder = true;
     this.ocOrderService
       .Patch('outgoing', this.order.ID, {
         Comments: this.form.get('comments').value,

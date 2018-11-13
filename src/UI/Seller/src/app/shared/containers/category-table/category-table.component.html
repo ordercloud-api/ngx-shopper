@@ -41,7 +41,8 @@
                [treeAllowDrop]="node.allowDrop"
                [treeDrag]="node"
                [treeDragEnabled]="node.allowDrag()">
-            <form class="text-center mr-2">
+            <form class="text-center mr-2"
+                  style="cursor: default">
               <input type="checkbox"
                      (change)="assignCategory(node.data.category.ID, $event.target.checked)"
                      [checked]="node.data.category.Assigned || node.data.category.AssignedByParent"

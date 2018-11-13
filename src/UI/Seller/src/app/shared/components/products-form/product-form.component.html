@@ -13,8 +13,8 @@
              placeholder="(Optional)" />
     </div>
   </div>
-  <span *ngIf="hasInvalidIdError()"
-        class="error-message">ID can only contain characters Aa-Zz 0-9 - _</span>
+  <span *ngIf="hasPatternError('ID')"
+        class="error-message">ID can only contain characters Aa-Zz 0-9 - _ (no spaces)</span>
   <div class="form-group row">
     <label for="name"
            class="col-sm-3 control-label font-weight-bold mt-1">Product Name</label>
@@ -25,6 +25,8 @@
              id="name" />
     </div>
   </div>
+  <span *ngIf="hasPatternError('Name')"
+        class="error-message">Product Name can only contain 60 characters Aa-Zz 0-9 -(),:;&*</span>
   <span *ngIf="hasRequiredError('Name')"
         class="error-message">Name is Required</span>
   <div class="form-group row">

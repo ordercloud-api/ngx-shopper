@@ -1,7 +1,9 @@
 <h1 class="page-heading border-bottom pb-3">Addresses</h1>
 <div class="mb-3 justify-content-end no-gutters float-right">
   <button (click)="showAddAddress()"
-          class="btn btn-primary"><fa-icon [icon]="faPlus"></fa-icon> Add an Address</button>
+          class="btn btn-primary">
+    <fa-icon [icon]="faPlus"></fa-icon> Add an Address
+  </button>
 </div>
 <shared-generic-browse [items]="addresses?.Items"
                        [meta]="addresses?.Meta"
@@ -12,7 +14,7 @@
       <div actions
            *ngIf="address.Editable">
         <fa-icon class="text-danger ml-3 icon-button--hover-reactive"
-                 (click)="deleteAddress(address)"
+                 (click)="showAreYouSure(address)"
                  [icon]="faTrashAlt"></fa-icon>
         <fa-icon class="text-primary ml-3 icon-button--hover-reactive"
                  (click)="showEditAddress(address)"
@@ -21,9 +23,19 @@
     </shared-address-display>
   </ng-template>
 </shared-generic-browse>
-<shared-modal id="{{ modalID }}"
+<shared-modal id="{{ addAddressModalID }}"
               modalTitle="{{ currentAddress ? 'Edit' : 'Add'}} Address">
-  <shared-address-form (formSubmitted)="addressFormSubmitted($event)"
+  <shared-address-form (formSubmitted)="addressFormSubmitted($event.address)"
                        [existingAddress]="currentAddress"
-                       [btnText]="currentAddress ? 'Save Changes' : 'Create Address'"></shared-address-form>
+                       [btnText]="currentAddress ? 'Save Changes' : 'Create Address'"
+                       ResetOnModalClose></shared-address-form>
+</shared-modal>
+<shared-modal id="{{ areYouSureModalID }}"
+              modalTitle="Delete this Address?">
+  <shared-address-display *ngIf="currentAddress"
+                          [address]="currentAddress"></shared-address-display>
+  <button class="btn btn-primary"
+          (click)="deleteAddress(currentAddress)">Delete</button>
+  <button class="btn float-right"
+          (click)="closeAreYouSure()">Cancel</button>
 </shared-modal>

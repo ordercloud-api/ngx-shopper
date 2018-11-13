@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   OcMeService,
   ListBuyerAddress,
@@ -8,9 +8,12 @@ import {
   Order,
   BuyerAddress,
   ListLineItem,
+  Address,
 } from '@ordercloud/angular-sdk';
 import { AppStateService, ModalService } from '@app-buyer/shared';
 import { filter } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
 
 @Component({
   selector: 'checkout-address',
@@ -21,6 +24,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
   implements OnInit {
   @Input() isAnon: boolean;
   @Input() addressType: 'Shipping' | 'Billing';
+  @ViewChild(AddressFormComponent) addressFormComponent: AddressFormComponent;
   existingAddresses: ListBuyerAddress;
   selectedAddress: BuyerAddress;
   order: Order;
@@ -31,12 +35,14 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     search: undefined,
   };
   modalID: string;
+  usingShippingAsBilling = false;
 
   constructor(
     private ocMeService: OcMeService,
     private ocOrderService: OcOrderService,
     private appStateService: AppStateService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private toastrService: ToastrService
   ) {
     super();
   }
@@ -91,25 +97,49 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     this.modalService.close(this.modalID);
   }
 
-  saveAddress(address) {
-    const queue = [];
-    if (this.isAnon || !address.ID) {
-      queue.push(this.setOneTimeAddress(address));
-    } else {
-      queue.push(this.setSavedAddress(address));
+  useShippingAsBilling() {
+    if (this.addressType === 'Shipping') {
+      return;
     }
-    return forkJoin(queue).subscribe(([order]) => {
-      if (this.addressType === 'Shipping') {
-        this.lineItems.Items[0].ShippingAddress = address;
-        this.appStateService.lineItemSubject.next(this.lineItems);
+
+    this.usingShippingAsBilling = true;
+    this.selectedAddress = this.lineItems.Items[0].ShippingAddress;
+  }
+
+  saveAddress(address: Address, formDirty: boolean) {
+    let request = this.setSavedAddress(address);
+    if (
+      this.isAnon ||
+      formDirty ||
+      (this.usingShippingAsBilling && !this.order.ShippingAddressID) ||
+      (!address.ID || address.ID === '') //If this is not a saved address. Fix for issue 287
+    ) {
+      request = this.setOneTimeAddress(address);
+    }
+    request.subscribe(
+      (order) => {
+        if (this.addressType === 'Shipping') {
+          this.lineItems.Items[0].ShippingAddress = address;
+          this.appStateService.lineItemSubject.next(this.lineItems);
+        }
+        this.order = order;
+        this.appStateService.orderSubject.next(this.order);
+        this.continue.emit();
+      },
+      (ex) => {
+        if (ex.error.Errors[0].ErrorCode === 'NotFound') {
+          this.toastrService.error(
+            'You no longer have access to this saved address. Please enter or select a different one.'
+          );
+        }
       }
-      this.order = order;
-      this.appStateService.orderSubject.next(this.order);
-      this.continue.emit();
-    });
+    );
   }
 
   private setOneTimeAddress(address: BuyerAddress): Observable<Order> {
+    // If a saved address (with an ID) is changed by the user it is attached to an order as a one time address.
+    // However, order.ShippingAddressID (or BillingAddressID) still points to the unmodified address. The ID should be cleared.
+    address.ID = null;
     return this.ocOrderService[`Set${this.addressType}Address`](
       'outgoing',
       this.order.ID,
@@ -118,7 +148,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
   }
 
   private setSavedAddress(address): Observable<Order> {
-    const addressKey = <any>`${this.addressType}AddressID`;
+    const addressKey = `${this.addressType}AddressID`;
     const partialOrder = {};
     partialOrder[addressKey] = address.ID;
     return this.ocOrderService.Patch('outgoing', this.order.ID, partialOrder);

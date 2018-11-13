@@ -1,4 +1,3 @@
-
 // angular
 import { NgModule, ErrorHandler, ModuleWithProviders } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -20,7 +19,6 @@ import {
   NgbModalModule,
   NgbCarouselModule,
   NgbDropdownModule,
-
 } from '@ng-bootstrap/ng-bootstrap';
 
 // app services
@@ -40,17 +38,14 @@ import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
 import { AppReorderService } from '@app-buyer/shared/services/reorder/reorder.service';
 
 // pipes
-import { PhoneFormatPipe } from '@app-buyer/shared/pipes/phone-format/phone-format.pipe';
 import { OrderStatusDisplayPipe } from '@app-buyer/shared/pipes/order-status-display/order-status-display.pipe';
 import { PaymentMethodDisplayPipe } from '@app-buyer/shared/pipes/payment-method-display/payment-method-display.pipe';
 
 // directives
-import { PhoneInputDirective } from '@app-buyer/shared/directives/phone-input/phone-input.directive';
 import { FallbackImageDirective } from './directives/fallback-image/fallback-image.directive';
 
 // guards
 import { HasTokenGuard } from '@app-buyer/shared/guards/has-token/has-token.guard';
-import { IsLoggedInGuard } from '@app-buyer/shared/guards/is-logged-in/is-logged-in.guard';
 
 import { NgbDateCustomParserFormatter } from '@app-buyer/config/date-picker.config';
 
@@ -77,9 +72,14 @@ import { ProductCardComponent } from '@app-buyer/shared/components/product-card/
 import { ProductCarouselComponent } from '@app-buyer/shared/components/product-carousel/product-carousel.component';
 import { MapToIterablePipe } from '@app-buyer/shared/pipes/map-to-iterable/map-to-iterable.pipe';
 import { GenericBrowseComponent } from '@app-buyer/shared/components/generic-browse/generic-browse.component';
-import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
+import {
+  ModalComponent,
+  ResetDirective,
+} from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
+import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/is-profiled-user.guard';
+import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
 
 @NgModule({
   imports: [
@@ -106,7 +106,7 @@ import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change
     NgbPopoverModule.forRoot(),
     NgbAccordionModule.forRoot(),
     NgbCarouselModule.forRoot(),
-    NgbDropdownModule.forRoot()
+    NgbDropdownModule.forRoot(),
   ],
   exports: [
     // angular
@@ -131,7 +131,6 @@ import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change
     SearchComponent,
     RegisterComponent,
     PageTitleComponent,
-    PhoneFormatPipe,
     OrderStatusDisplayPipe,
     PaymentMethodDisplayPipe,
     MapToIterablePipe,
@@ -140,8 +139,8 @@ import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change
     CreditCardDisplayComponent,
     CreditCardFormComponent,
     LineItemListWrapperComponent,
-    PhoneInputDirective,
     FallbackImageDirective,
+    ResetDirective,
     LineItemCardComponent,
     ShipperTrackingPipe,
     ShipperTrackingSupportedPipe,
@@ -157,7 +156,6 @@ import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change
   declarations: [
     ChangePasswordFormComponent,
     RegisterComponent,
-    PhoneFormatPipe,
     OrderStatusDisplayPipe,
     PaymentMethodDisplayPipe,
     MapToIterablePipe,
@@ -165,8 +163,8 @@ import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change
     AddressDisplayComponent,
     CreditCardDisplayComponent,
     CreditCardFormComponent,
-    PhoneInputDirective,
     FallbackImageDirective,
+    ResetDirective,
     SearchComponent,
     CreditCardIconComponent,
     LineItemCardComponent,
@@ -202,14 +200,14 @@ export class SharedModule {
         BaseResolveService,
         AppFormErrorService,
         AppLineItemService,
+        RegexService,
         ModalService,
-        PhoneFormatPipe,
         OrderStatusDisplayPipe,
         PaymentMethodDisplayPipe,
         MapToIterablePipe,
         AppErrorHandler,
         HasTokenGuard,
-        IsLoggedInGuard,
+        IsProfiledUserGuard,
         DatePipe,
         NgbDateCustomParserFormatter,
         AppReorderService,

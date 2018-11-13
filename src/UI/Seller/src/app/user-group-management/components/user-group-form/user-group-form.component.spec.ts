@@ -11,6 +11,7 @@ describe('UserGroupFormComponent', () => {
     hasRequiredError: jasmine.createSpy('hasRequiredError'),
     displayFormErrors: jasmine.createSpy('displayFormErrors'),
     hasInvalidIdError: jasmine.createSpy('hasInvalidIdError'),
+    hasPatternError: jasmine.createSpy('hasPatternError'),
   };
 
   const mockUserGroup = {

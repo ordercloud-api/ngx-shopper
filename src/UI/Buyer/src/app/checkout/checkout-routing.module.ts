@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CheckoutComponent } from '@app-buyer/checkout/containers/checkout/checkout.component';
 import { CartComponent } from '@app-buyer/checkout/containers/cart/cart.component';
 import { OrderConfirmationComponent } from '@app-buyer/checkout/containers/order-confirmation/order-confirmation.component';
+import { OrderResolve } from '@app-buyer/order/order.resolve';
 
 const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   {
     path: 'order-confirmation/:orderID',
     component: OrderConfirmationComponent,
+    resolve: { orderResolve: OrderResolve },
   },
 ];
 
