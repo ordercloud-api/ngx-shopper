@@ -80,6 +80,7 @@ import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
 import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/is-profiled-user.guard';
 import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
+import { NoResultsComponent } from './components/no-results/no-results.component';
 
 @NgModule({
   imports: [
@@ -128,6 +129,7 @@ import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
     NgbCarouselModule,
     NgbDropdownModule,
 
+    NoResultsComponent,
     SearchComponent,
     RegisterComponent,
     PageTitleComponent,
@@ -179,6 +181,7 @@ import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
     GenericBrowseComponent,
     ModalComponent,
     OrderPaymentListComponent,
+    NoResultsComponent,
   ],
 
   /**

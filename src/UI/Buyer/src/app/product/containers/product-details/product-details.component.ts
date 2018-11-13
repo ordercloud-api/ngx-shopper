@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
-import { flatMap, tap } from 'rxjs/operators';
+import { flatMap, tap, catchError } from 'rxjs/operators';
 import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import { BuyerProduct, OcMeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
@@ -38,7 +38,13 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   ) {}
 
   ngOnInit(): void {
-    this.getProductData().subscribe((x) => (this.product = x));
+    this.getProductData()
+      .pipe(
+        catchError(() => {
+          return of(null);
+        })
+      )
+      .subscribe((x) => (this.product = x));
   }
 
   getProductData(): Observable<BuyerProduct> {
