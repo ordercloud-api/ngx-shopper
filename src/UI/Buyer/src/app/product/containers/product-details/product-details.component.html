@@ -1,4 +1,10 @@
 <div class="container mt-4"
+     *ngIf="!product">
+  <shared-no-results message="This product is no longer available"
+                     actionText="shop available products"
+                     (action)="routeToProductList()"></shared-no-results>
+</div>
+<div class="container mt-4"
      *ngIf="product">
   <div class="row mb-5">
     <div class="col-md-6">
@@ -71,8 +77,8 @@
   </div>
   <div *ngIf="relatedProducts$ | async; let relatedProducts">
     <product-carousel *ngIf="relatedProducts.length > 0"
-                       displayTitle="Related Products"
-                       [products]="relatedProducts">
+                      displayTitle="Related Products"
+                      [products]="relatedProducts">
     </product-carousel>
   </div>
 </div>

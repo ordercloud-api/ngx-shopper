@@ -82,7 +82,7 @@
       <div class="card"
            *ngIf="productList.Items.length === 0">
         <shared-no-results message="No products found."
-                           [actionText]="hasQueryParams ? 'clear search criteria' : 'go back to home page'"
+                           [actionText]="hasQueryParams ? 'clear search criteria' : 'go back to the home page'"
                            (action)="hasQueryParams ? clearAllFilters() : routeHome()"></shared-no-results>
       </div>
       <div *ngIf="productList.Items.length > 0">

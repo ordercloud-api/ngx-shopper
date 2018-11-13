@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef,
   AfterViewChecked,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { flatMap, tap, catchError } from 'rxjs/operators';
 import { AppLineItemService, AppStateService } from '@app-buyer/shared';
@@ -34,7 +34,8 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     private appLineItemService: AppLineItemService,
     private appStateService: AppStateService,
     private changeDetectorRef: ChangeDetectorRef,
-    protected favoriteProductService: FavoriteProductsService // used in template
+    protected favoriteProductService: FavoriteProductsService, // used in template
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +46,10 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
         })
       )
       .subscribe((x) => (this.product = x));
+  }
+
+  routeToProductList() {
+    this.router.navigate(['/products']);
   }
 
   getProductData(): Observable<BuyerProduct> {
