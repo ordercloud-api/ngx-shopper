@@ -42,6 +42,10 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     this.getProductData()
       .pipe(
         catchError(() => {
+          // we're catching the error here to solve for the case that
+          // a user has a saved link to a product that no longer exists
+          // instead of throwing error, let them know product no longer exists
+          // and link them to product list page. Also helps with SEO
           return of(null);
         })
       )
