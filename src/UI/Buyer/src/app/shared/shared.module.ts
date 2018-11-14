@@ -107,6 +107,7 @@ import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change
     NgbCarouselModule,
     NgbDropdownModule,
 
+    NoResultsComponent,
     SearchComponent,
     RegisterComponent,
     PageTitleComponent,
@@ -158,6 +159,7 @@ import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change
     GenericBrowseComponent,
     ModalComponent,
     OrderPaymentListComponent,
+    NoResultsComponent,
   ],
 })
 export class SharedModule {}
