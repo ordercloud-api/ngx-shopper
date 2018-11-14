@@ -1,4 +1,10 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  Input,
+  EventEmitter,
+  Output,
+  OnDestroy,
+} from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 
 @Component({
@@ -6,7 +12,7 @@ import { Meta } from '@angular/platform-browser';
   templateUrl: './no-results.component.html',
   styleUrls: ['./no-results.component.scss'],
 })
-export class NoResultsComponent {
+export class NoResultsComponent implements OnDestroy {
   @Input() message: string;
   @Input() actionText: string;
   @Output() action = new EventEmitter<void>();
@@ -17,5 +23,9 @@ export class NoResultsComponent {
 
   clear() {
     this.action.emit();
+  }
+
+  ngOnDestroy() {
+    this.meta.removeTag('name="robots"');
   }
 }
