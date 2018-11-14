@@ -1,7 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenericBrowseComponent } from '@app-buyer/shared/components/generic-browse/generic-browse.component';
-import { Directive, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Directive,
+  Input,
+  Output,
+  EventEmitter,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 describe('GenericBrowseComponent', () => {
@@ -35,6 +41,7 @@ describe('GenericBrowseComponent', () => {
         MockSearchDirective,
         MockPaginationDirective,
       ],
+      schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();
   }));
 
