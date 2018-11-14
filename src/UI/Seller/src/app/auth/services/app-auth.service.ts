@@ -16,7 +16,9 @@ import { AppStateService } from '@app-seller/shared/services/app-state/app-state
 
 export const TokenRefreshAttemptNotPossible =
   'Token refresh attempt not possible';
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppAuthService {
   private rememberMeCookieName = `${this.appConfig.appname
     .replace(/ /g, '_')

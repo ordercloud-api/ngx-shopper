@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppStateService {
   // Documentation on BehaviorSubject http://reactivex.io/rxjs/manual/overview.html#behaviorsubject
   public isLoggedIn: BehaviorSubject<boolean>;

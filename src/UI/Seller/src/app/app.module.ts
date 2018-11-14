@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 
 import { AppComponent } from '@app-seller/app.component';
 import { LayoutModule } from '@app-seller/layout/layout.module';
@@ -20,6 +20,7 @@ import { SharedModule } from '@app-seller/shared';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
 import { CacheInterceptor } from '@app-seller/auth/interceptors/cache/cache-interceptor';
+import { AppErrorHandler } from './config/error-handling.config';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,7 +38,7 @@ import { CacheInterceptor } from '@app-seller/auth/interceptors/cache/cache-inte
     OrderCloudModule.forRoot(OcSDKConfig),
     CookieModule.forRoot(),
     ToastrModule.forRoot(),
-    SharedModule.forRoot(),
+    SharedModule,
   ],
   providers: [
     {
@@ -59,6 +60,7 @@ import { CacheInterceptor } from '@app-seller/auth/interceptors/cache/cache-inte
       useClass: CacheInterceptor,
       multi: true,
     },
+    { provide: ErrorHandler, useClass: AppErrorHandler },
   ],
   bootstrap: [AppComponent],
 })
