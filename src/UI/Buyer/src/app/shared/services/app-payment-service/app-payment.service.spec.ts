@@ -33,7 +33,6 @@ describe('AppPaymentService', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        AppPaymentService,
         { provide: OcMeService, useValue: meService },
         { provide: OcPaymentService, useValue: paymentService },
       ],

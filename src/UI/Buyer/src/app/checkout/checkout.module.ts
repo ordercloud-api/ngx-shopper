@@ -34,6 +34,5 @@ import { CheckoutConfirmComponent } from '@app-buyer/checkout/components/checkou
     OrderConfirmationComponent,
     CheckoutConfirmComponent,
   ],
-  providers: [],
 })
 export class CheckoutModule {}

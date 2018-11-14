@@ -24,7 +24,6 @@ describe('AddressFormComponent', () => {
       declarations: [AddressFormComponent],
       imports: [ReactiveFormsModule],
       providers: [
-        AppGeographyService,
         FormBuilder,
         { provide: AppFormErrorService, useValue: formErrorService },
         { provide: OcMeService, useValue: meService },

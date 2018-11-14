@@ -11,11 +11,7 @@ import {
   AppConfig,
 } from '@app-buyer/config/app.config';
 
-import {
-  Configuration,
-  OcPasswordResetService,
-  OcTokenService,
-} from '@ordercloud/angular-sdk';
+import { OcPasswordResetService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { ToastrService } from 'ngx-toastr';
 
@@ -36,7 +32,6 @@ describe('ForgotPasswordComponent', () => {
       declarations: [ForgotPasswordComponent],
       imports: [ReactiveFormsModule, CookieModule.forRoot(), HttpClientModule],
       providers: [
-        OcTokenService,
         { provide: Router, useValue: router },
         { provide: OcPasswordResetService, useValue: ocPasswordService },
         { provide: ToastrService, useValue: toastrService },

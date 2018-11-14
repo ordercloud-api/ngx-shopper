@@ -9,13 +9,11 @@ import {
 import { DateFilterComponent } from '@app-buyer/order/components/date-filter/date-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  NgbCalendar,
   NgbDateParserFormatter,
   NgbDateAdapter,
   NgbRootModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { DatePipe } from '@angular/common';
 import {
   NgbDateNativeAdapter,
   NgbDateCustomParserFormatter,
@@ -33,7 +31,6 @@ describe('DateFilterComponent', () => {
       declarations: [DateFilterComponent, FaIconComponent],
       imports: [NgbRootModule, ReactiveFormsModule],
       providers: [
-        DatePipe,
         { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
         {
           provide: NgbDateParserFormatter,

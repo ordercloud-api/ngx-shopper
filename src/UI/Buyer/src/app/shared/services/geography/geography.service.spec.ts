@@ -5,7 +5,7 @@ import { AppGeographyService } from '@app-buyer/shared/services/geography/geogra
 describe('OcGeographyService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AppGeographyService],
+      providers: [],
     });
   });
 

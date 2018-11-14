@@ -1,4 +1,3 @@
-import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductListComponent } from '@app-buyer/product/containers/product-list/product-list.component';
@@ -89,7 +88,6 @@ describe('ProductListComponent', () => {
         FontAwesomeModule,
       ],
       providers: [
-        AppStateService,
         NgbPaginationConfig,
         { provide: AppLineItemService, useValue: ocLineItemService },
         {
