@@ -24,7 +24,9 @@ import {
   AppConfig,
 } from '@app-buyer/config/app.config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BaseResolveService {
   constructor(
     private appStateService: AppStateService,

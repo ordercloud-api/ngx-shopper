@@ -11,7 +11,6 @@ import {
 } from '@app-seller/config/app.config';
 import { CookieService } from 'ngx-cookie';
 import { keys as _keys } from 'lodash';
-import { AppErrorHandler } from '@app-seller/config/error-handling.config';
 import { isUndefined as _isUndefined } from 'lodash';
 import { AppStateService } from '@app-seller/shared/services/app-state/app-state.service';
 

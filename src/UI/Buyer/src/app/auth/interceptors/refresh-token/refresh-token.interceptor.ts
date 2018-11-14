@@ -14,7 +14,9 @@ import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
  * handle 401 unauthorized responses gracefully
  * by attempting to refresh token
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RefreshTokenInterceptor implements HttpInterceptor {
   constructor(private appAuthService: AppAuthService) {}
   intercept(

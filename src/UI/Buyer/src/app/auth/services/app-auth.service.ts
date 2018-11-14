@@ -16,7 +16,9 @@ import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base
 
 export const TokenRefreshAttemptNotPossible =
   'Token refresh attempt not possible';
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppAuthService {
   private rememberMeCookieName = `${this.appConfig.appname
     .replace(/ /g, '_')

@@ -12,7 +12,9 @@ import { of, Observable } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class HasTokenGuard implements CanActivate {
   constructor(
     private ocTokenService: OcTokenService,

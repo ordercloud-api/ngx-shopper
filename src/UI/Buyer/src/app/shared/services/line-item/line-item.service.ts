@@ -16,7 +16,9 @@ import {
   get as _get,
 } from 'lodash';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppLineItemService {
   private initializingOrder = false;
   private currentOrder: Order;

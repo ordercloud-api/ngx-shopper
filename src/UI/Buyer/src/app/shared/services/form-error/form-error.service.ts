@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, AbstractControl } from '@angular/forms';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppFormErrorService {
   displayFormErrors(form: FormGroup) {
     Object.keys(form.controls).forEach((key) => {
