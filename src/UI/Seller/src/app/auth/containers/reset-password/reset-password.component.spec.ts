@@ -7,10 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ResetPasswordComponent } from '@app-seller/auth/containers/reset-password/reset-password.component';
 
-import {
-  OcPasswordResetService,
-  OcTokenService,
-} from '@ordercloud/angular-sdk';
+import { OcPasswordResetService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { ToastrService } from 'ngx-toastr';
 import { AppFormErrorService } from '@app-seller/shared';
@@ -42,7 +39,6 @@ describe('ResetPasswordComponent', () => {
       declarations: [ResetPasswordComponent],
       imports: [ReactiveFormsModule, CookieModule.forRoot(), HttpClientModule],
       providers: [
-        OcTokenService,
         { provide: OcPasswordResetService, useValue: ocPasswordService },
         { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: activatedRoute },
