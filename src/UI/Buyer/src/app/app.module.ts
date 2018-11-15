@@ -49,26 +49,26 @@ import { AppErrorHandler } from './config/error-handling.config';
     TermsAndConditionsComponent,
   ],
   imports: [
-    /**
-     * app modules
-     */
-    AppRoutingModule,
-    AuthModule,
+    // angular core modules
     BrowserAnimationsModule,
     BrowserModule,
+
+    // app modules
+    AppRoutingModule,
+    AuthModule,
     LayoutModule,
 
     /**
      * third party modules
      * only those that must be installed
-     * with forRoot should be defined here, all else
+     * with forRoot (except shared) should be defined here, all else
      * can live in shared
      */
+    SharedModule,
     CookieModule.forRoot(),
     NgProgressModule.forRoot(),
     NgProgressHttpModule,
     OrderCloudModule.forRoot(OcSDKConfig),
-    SharedModule,
     ToastrModule.forRoot(),
     NgxImageZoomModule.forRoot(),
   ],

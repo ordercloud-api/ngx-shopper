@@ -32,20 +32,27 @@ import { AppErrorHandler } from './config/error-handling.config';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    // This app
-    AppRoutingModule,
-    AuthModule,
-
-    // Third party
+    // angular core modules
     BrowserAnimationsModule,
     BrowserModule,
+
+    // app modules
+    AppRoutingModule,
+    AuthModule,
     LayoutModule,
+
+    /**
+     * third party modules
+     * only those that must be installed
+     * with forRoot (except shared) should be defined here, all else
+     * can live in shared
+     */
+    SharedModule,
     NgProgressModule.forRoot(),
     NgProgressHttpModule,
     OrderCloudModule.forRoot(OcSDKConfig),
     CookieModule.forRoot(),
     ToastrModule.forRoot(),
-    SharedModule,
   ],
   providers: [
     {
