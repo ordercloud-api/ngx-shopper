@@ -59,6 +59,7 @@ import {
 } from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
+import { NoResultsComponent } from './components/no-results/no-results.component';
 
 @NgModule({
   imports: [

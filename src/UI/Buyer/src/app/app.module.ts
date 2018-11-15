@@ -1,4 +1,4 @@
-// core services
+// angular core
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,10 +13,8 @@ import { OrderCloudModule } from '@ordercloud/angular-sdk';
 import { OcSDKConfig } from '@app-buyer/config/ordercloud-sdk.config';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
 
-// shared module
-import { SharedModule } from '@app-buyer/shared';
-
 // app modules
+import { SharedModule } from '@app-buyer/shared';
 import { LayoutModule } from '@app-buyer/layout/layout.module';
 import { AuthModule } from '@app-buyer/auth/auth.module';
 import { AppRoutingModule } from '@app-buyer/app-routing.module';
@@ -40,13 +38,7 @@ import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateNativeAdapter } from '@app-buyer/config/date-picker.config';
 import { TermsAndConditionsComponent } from './static-pages/terms-and-conditions/terms-and-conditions.component';
 
-// app config
-import {
-  applicationConfiguration,
-  ocAppConfig,
-} from '@app-buyer/config/app.config';
-
-// error handler
+// error handler config
 import { AppErrorHandler } from './config/error-handling.config';
 
 @NgModule({
@@ -97,7 +89,6 @@ import { AppErrorHandler } from './config/error-handling.config';
       multi: true,
     },
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-    { provide: applicationConfiguration, useValue: ocAppConfig },
     { provide: ErrorHandler, useClass: AppErrorHandler },
   ],
   bootstrap: [AppComponent],

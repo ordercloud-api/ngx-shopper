@@ -2,10 +2,6 @@ import { InjectionToken } from '@angular/core';
 import { PaymentMethod } from '@app-buyer/shared/models/payment-method.enum';
 import { environment } from '../../environments/environment';
 
-export const applicationConfiguration = new InjectionToken<AppConfig>(
-  'app.config'
-);
-
 export const ocAppConfig: AppConfig = {
   appname: 'OrderCloud',
   clientID: environment.clientID,
@@ -26,6 +22,11 @@ export const ocAppConfig: AppConfig = {
     PaymentMethod.SpendingAccount,
   ],
 };
+
+export const applicationConfiguration = new InjectionToken<AppConfig>(
+  'app.config',
+  { providedIn: 'root', factory: () => ocAppConfig }
+);
 
 export interface AppConfig {
   /**

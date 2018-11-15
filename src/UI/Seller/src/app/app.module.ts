@@ -1,25 +1,32 @@
+// angular core
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent } from '@app-seller/app.component';
-import { LayoutModule } from '@app-seller/layout/layout.module';
-import {
-  applicationConfiguration,
-  ocAppConfig,
-} from '@app-seller/config/app.config';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AutoAppendTokenInterceptor, AuthModule } from '@app-seller/auth';
-import { RefreshTokenInterceptor } from '@app-seller/auth';
-import { AppRoutingModule } from '@app-seller/app-routing.module';
+// 3rd party
 import { OrderCloudModule } from '@ordercloud/angular-sdk';
 import { OcSDKConfig } from '@app-seller/config/ordercloud-sdk.config';
 import { CookieModule } from 'ngx-cookie';
 import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from '@app-seller/shared';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
+
+// app modules
+import { SharedModule } from '@app-seller/shared';
+import { AppRoutingModule } from '@app-seller/app-routing.module';
+import { LayoutModule } from '@app-seller/layout/layout.module';
+import { AuthModule } from '@app-seller/auth';
+
+//app component
+import { AppComponent } from '@app-seller/app.component';
+
+// interceptors
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AutoAppendTokenInterceptor } from '@app-seller/auth';
+import { RefreshTokenInterceptor } from '@app-seller/auth';
 import { CacheInterceptor } from '@app-seller/auth/interceptors/cache/cache-interceptor';
+
+// error handler config
 import { AppErrorHandler } from './config/error-handling.config';
 
 @NgModule({
@@ -41,10 +48,6 @@ import { AppErrorHandler } from './config/error-handling.config';
     SharedModule,
   ],
   providers: [
-    {
-      provide: applicationConfiguration,
-      useValue: ocAppConfig,
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AutoAppendTokenInterceptor,
