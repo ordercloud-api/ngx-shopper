@@ -9,7 +9,6 @@ import { ResetPasswordComponent } from '@app-buyer/auth/containers/reset-passwor
 
 // routing
 import { AuthRoutingModule } from '@app-buyer/auth/auth-routing.module';
-import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
 
 @NgModule({
   imports: [SharedModule, AuthRoutingModule],
@@ -18,6 +17,5 @@ import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
     ForgotPasswordComponent,
     ResetPasswordComponent,
   ],
-  providers: [AppAuthService],
 })
 export class AuthModule {}

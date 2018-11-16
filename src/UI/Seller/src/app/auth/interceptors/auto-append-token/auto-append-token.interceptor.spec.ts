@@ -23,7 +23,6 @@ describe('AutoAppendTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [CookieModule.forRoot(), HttpClientTestingModule],
       providers: [
-        AutoAppendTokenInterceptor,
         { provide: OcTokenService, useValue: tokenService },
         {
           provide: HTTP_INTERCEPTORS,

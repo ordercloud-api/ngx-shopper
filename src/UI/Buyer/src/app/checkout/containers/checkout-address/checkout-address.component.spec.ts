@@ -11,7 +11,6 @@ import {
   ModalService,
 } from '@app-buyer/shared';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { AppGeographyService } from '@app-buyer/shared/services/geography/geography.service';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
 import { ToastrService } from 'ngx-toastr';
 
@@ -79,7 +78,6 @@ describe('CheckoutAddressComponent', () => {
         { provide: OcOrderService, useValue: orderService },
         { provide: AppStateService, useValue: appStateService },
         { provide: ToastrService, useValue: toastrService },
-        AppGeographyService,
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();

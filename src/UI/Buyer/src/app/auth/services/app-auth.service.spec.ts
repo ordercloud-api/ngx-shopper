@@ -2,9 +2,9 @@ import { TestBed, inject } from '@angular/core/testing';
 import { applicationConfiguration } from '@app-buyer/config/app.config';
 
 import {
+  Configuration,
   OcAuthService,
   OcTokenService,
-  Configuration,
 } from '@ordercloud/angular-sdk';
 import { CookieModule, CookieService } from 'ngx-cookie';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -51,10 +51,7 @@ describe('AppAuthService', () => {
       providers: [
         { provide: Router, useValue: router },
         { provide: CookieService, useValue: cookieService },
-        OcAuthService,
-        AppAuthService,
         { provide: AppErrorHandler, useValue: appErrorHandler },
-        OcTokenService,
         { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: appConfig },
         { provide: AppStateService, useValue: appStateService },

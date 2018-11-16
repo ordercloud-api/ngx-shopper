@@ -36,7 +36,6 @@ describe('ForgotPasswordComponent', () => {
       declarations: [ForgotPasswordComponent],
       imports: [ReactiveFormsModule, CookieModule.forRoot(), HttpClientModule],
       providers: [
-        OcTokenService,
         { provide: Router, useValue: router },
         { provide: OcPasswordResetService, useValue: ocPasswordService },
         { provide: ToastrService, useValue: toastrService },

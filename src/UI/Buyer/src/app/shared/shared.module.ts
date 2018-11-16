@@ -1,8 +1,10 @@
 // angular
-import { NgModule, ErrorHandler, ModuleWithProviders } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { SharedRoutingModule } from '@app-buyer/shared/shared-routing.module';
 
 // 3rd party UI
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -21,33 +23,12 @@ import {
   NgbDropdownModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
-// app services
-import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
-import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
-import {
-  applicationConfiguration,
-  ocAppConfig,
-} from '@app-buyer/config/app.config';
-import { BaseResolve } from '@app-buyer/shared/resolves/base.resolve';
-import { SharedRoutingModule } from '@app-buyer/shared/shared-routing.module';
-import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
-import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
-import { AuthorizeNetService } from '@app-buyer/shared/services/authorize-net/authorize-net.service';
-import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
-import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
-import { AppReorderService } from '@app-buyer/shared/services/reorder/reorder.service';
-
 // pipes
 import { OrderStatusDisplayPipe } from '@app-buyer/shared/pipes/order-status-display/order-status-display.pipe';
 import { PaymentMethodDisplayPipe } from '@app-buyer/shared/pipes/payment-method-display/payment-method-display.pipe';
 
 // directives
 import { FallbackImageDirective } from './directives/fallback-image/fallback-image.directive';
-
-// guards
-import { HasTokenGuard } from '@app-buyer/shared/guards/has-token/has-token.guard';
-
-import { NgbDateCustomParserFormatter } from '@app-buyer/config/date-picker.config';
 
 // components
 import { AddressFormComponent } from '@app-buyer/shared/components/address-form/address-form.component';
@@ -78,8 +59,6 @@ import {
 } from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
 import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
-import { IsProfiledUserGuard } from '@app-buyer/shared/guards/is-profiled-user/is-profiled-user.guard';
-import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 
 @NgModule({
@@ -183,40 +162,5 @@ import { NoResultsComponent } from './components/no-results/no-results.component
     OrderPaymentListComponent,
     NoResultsComponent,
   ],
-
-  /**
-   * DO NOT define providers here
-   * define providers in the static forRoot below to ensure
-   * lazy-loaded modules define services as singletons
-   * https://angular-2-training-book.rangle.io/handout/modules/shared-di-tree.html
-   */
-  providers: [],
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: SharedModule,
-      providers: [
-        AppStateService,
-        AuthorizeNetService,
-        BaseResolve,
-        BaseResolveService,
-        AppFormErrorService,
-        AppLineItemService,
-        RegexService,
-        ModalService,
-        OrderStatusDisplayPipe,
-        PaymentMethodDisplayPipe,
-        MapToIterablePipe,
-        AppErrorHandler,
-        HasTokenGuard,
-        IsProfiledUserGuard,
-        DatePipe,
-        NgbDateCustomParserFormatter,
-        AppReorderService,
-        { provide: applicationConfiguration, useValue: ocAppConfig },
-        { provide: ErrorHandler, useClass: AppErrorHandler },
-      ],
-    };
-  }
-}
+export class SharedModule {}

@@ -16,7 +16,9 @@ import { Observable } from 'rxjs';
  * we'd like to keep caching mechanisms for other browsers and request types because
  * some things should rightfully be cached
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CacheInterceptor implements HttpInterceptor {
   constructor() {}
   intercept(

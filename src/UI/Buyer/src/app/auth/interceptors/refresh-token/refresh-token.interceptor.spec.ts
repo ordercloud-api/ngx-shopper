@@ -17,10 +17,10 @@ import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
-import { OcTokenService, Configuration } from '@ordercloud/angular-sdk';
+import { OcTokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { AppAuthService } from '@app-buyer/auth/services/app-auth.service';
-import { of, BehaviorSubject, throwError } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 describe('RefreshTokenInterceptor', () => {
@@ -43,7 +43,6 @@ describe('RefreshTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [CookieModule.forRoot(), HttpClientTestingModule],
       providers: [
-        RefreshTokenInterceptor,
         { provide: AppAuthService, useValue: appAuthService },
         { provide: OcTokenService, useValue: tokenService },
         {

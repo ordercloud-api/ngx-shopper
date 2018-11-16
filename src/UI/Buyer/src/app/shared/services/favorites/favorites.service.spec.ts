@@ -25,7 +25,6 @@ describe('FavoriteProductsService', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        FavoriteProductsService,
         { provide: AppStateService, useValue: appStateService },
         { provide: OcMeService, useValue: meService },
         { provide: ToastrService, useValue: toastrService },

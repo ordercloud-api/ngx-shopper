@@ -5,7 +5,6 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 import { OcMeService } from '@ordercloud/angular-sdk';
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
-import { AppGeographyService } from '@app-seller/shared/services/geography/geography.service';
 
 describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
@@ -26,7 +25,6 @@ describe('AddressFormComponent', () => {
       declarations: [AddressFormComponent],
       imports: [ReactiveFormsModule],
       providers: [
-        AppGeographyService,
         FormBuilder,
         { provide: AppFormErrorService, useValue: formErrorService },
         { provide: OcMeService, useValue: meService },

@@ -30,7 +30,7 @@
     "@ng-bootstrap/ng-bootstrap": "^2.0.0-alpha.0",
     "@ngx-progressbar/core": "^5.0.1",
     "@ngx-progressbar/http": "^5.0.1",
-    "@ordercloud/angular-sdk": "0.0.1-19",
+    "@ordercloud/angular-sdk": "0.0.1-25",
     "@types/lodash": "^4.14.91",
     "@types/moment": "^2.13.0",
     "angular-fontawesome": "^1.0.0",

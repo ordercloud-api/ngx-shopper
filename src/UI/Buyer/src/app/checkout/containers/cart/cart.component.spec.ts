@@ -6,27 +6,18 @@ import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
-import {
-  Configuration,
-  OcOrderService,
-  OcMeService,
-} from '@ordercloud/angular-sdk';
+import { OcOrderService, OcMeService } from '@ordercloud/angular-sdk';
 
 import { CartComponent } from '@app-buyer/checkout/containers/cart/cart.component';
 import {
-  PageTitleComponent,
   AppStateService,
   BaseResolveService,
   AppLineItemService,
 } from '@app-buyer/shared';
-import { OrderSummaryComponent } from '@app-buyer/checkout/components/order-summary/order-summary.component';
 import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
-import { LineItemCardComponent } from '@app-buyer/shared/components/line-item-card/line-item-card.component';
-import { LineItemListWrapperComponent } from '@app-buyer/shared/components/lineitem-list-wrapper/lineitem-list-wrapper.component';
-import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 
 describe('CartComponent', () => {
   let component: CartComponent;

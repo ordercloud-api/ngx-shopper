@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { InjectionToken, DebugElement } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { of, BehaviorSubject } from 'rxjs';
 
@@ -11,20 +11,14 @@ import {
   AppConfig,
 } from '@app-buyer/config/app.config';
 
-import {
-  Configuration,
-  OcAuthService,
-  OcTokenService,
-} from '@ordercloud/angular-sdk';
+import { OcAuthService, OcTokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { AppAuthService } from '@app-buyer/auth';
-import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
 import { AppStateService } from '@app-buyer/shared';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let debugElement: DebugElement;
 
   const router = { navigateByUrl: jasmine.createSpy('navigateByUrl') };
   const ocTokenService = {
@@ -45,7 +39,6 @@ describe('LoginComponent', () => {
       declarations: [LoginComponent],
       imports: [ReactiveFormsModule, CookieModule.forRoot(), HttpClientModule],
       providers: [
-        AppErrorHandler,
         { provide: AppStateService, useValue: appStateService },
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },
@@ -62,7 +55,6 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    debugElement = fixture.debugElement;
     fixture.detectChanges();
   });
 
