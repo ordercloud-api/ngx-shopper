@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@app-buyer/shared';
+import { DatePipe } from '@angular/common';
 
 import {
   OrderRoutingModule,
@@ -32,6 +33,9 @@ import { OrderApprovalComponent } from '@app-buyer/order/containers/order-approv
     MyOrdersComponent,
     OrdersToApproveComponent,
     OrderApprovalComponent,
+  ],
+  providers: [
+    DatePipe, // allows us to use in class as injectable (date filter component)
   ],
 })
 export class OrderModule {}
