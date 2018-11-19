@@ -102,5 +102,13 @@ describe('HeaderComponent', () => {
       appStateService.addToCartSubject.next({ quantity: 4 });
       expect(component.popover.ngbPopover).toBe('4 Item(s) Added to Cart');
     });
+
+    it('should set correct popover message with updating a line item', () => {
+      appStateService.addToCartSubject.next({
+        quantity: 4,
+        LineItemId: 'string',
+      });
+      expect(component.popover.ngbPopover).toBe('4 Qty Updated in the Cart');
+    });
   });
 });

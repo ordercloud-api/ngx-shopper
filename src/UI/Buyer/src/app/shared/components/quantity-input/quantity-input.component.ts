@@ -24,6 +24,7 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
   @Input() product: BuyerProduct;
   @Input() existingQty;
   @Output() qtyChanged = new EventEmitter<number>();
+  @Output() updatedLi = new EventEmitter<AddToCartEvent>();
   @Output() addedToCart = new EventEmitter<AddToCartEvent>();
   form: FormGroup;
 
@@ -91,13 +92,32 @@ export class QuantityInputComponent implements OnInit, OnDestroy {
     // Reset form as indication of action
     this.form.setValue({ quantity: this.getDefaultQty() });
   }
+  /**
+   *  this method is not tied to anything
+   *  use ViewChild to call this method
+   *  from parent component, see product-card component as example
+   */
+
+  updateLi(event) {
+    event.stopPropagation();
+    if (!this.form.valid || isNaN(this.form.value.quantity)) {
+      return this.toastrService.error(
+        this.getQuantityError() || 'Please enter a quantity',
+        'Error'
+      );
+    }
+    this.updatedLi.emit({
+      product: this.product,
+      quantity: this.form.value.quantity,
+    });
+  }
 
   getQuantityError(): string | void {
     const error = this.formErrorService.getProductQuantityError(
       'quantity',
       this.form
     );
-    return error ? error.message: null;
+    return error ? error.message : null;
   }
 
   ngOnDestroy() {

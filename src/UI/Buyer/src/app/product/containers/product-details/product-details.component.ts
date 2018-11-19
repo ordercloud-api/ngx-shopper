@@ -14,7 +14,7 @@ import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-in
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { minBy as _minBy } from 'lodash';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
-
+import { find as _find } from 'lodash';
 @Component({
   selector: 'product-details',
   templateUrl: './product-details.component.html',
@@ -27,6 +27,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   product: BuyerProduct;
   relatedProducts$: Observable<BuyerProduct[]>;
   imageUrls: string[] = [];
+  matchingLi = null;
 
   constructor(
     private ocMeService: OcMeService,
@@ -63,6 +64,11 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
           return this.ocMeService.GetProduct(params.productID).pipe(
             tap((prod) => {
               this.relatedProducts$ = this.getRelatedProducts(prod);
+              this.appStateService.lineItemSubject.subscribe((lineItems) => {
+                this.matchingLi = _find(lineItems.Items, {
+                  ProductID: prod.ID,
+                });
+              });
             })
           );
         }
@@ -85,6 +91,12 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   addToCart(event: AddToCartEvent): void {
     this.appLineItemService
       .create(event.product, event.quantity)
+      .subscribe(() => this.appStateService.addToCartSubject.next(event));
+  }
+  updateLi(event: AddToCartEvent): void {
+    event.LineItemId = this.matchingLi ? this.matchingLi.ID : null;
+    this.appLineItemService
+      .patch(event.LineItemId, { Quantity: event.quantity })
       .subscribe(() => this.appStateService.addToCartSubject.next(event));
   }
 

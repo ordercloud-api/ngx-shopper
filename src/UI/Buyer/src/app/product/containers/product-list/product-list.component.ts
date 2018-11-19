@@ -8,6 +8,7 @@ import {
   Category,
   ListCategory,
   ListFacet,
+  ListLineItem,
 } from '@ordercloud/angular-sdk';
 import {
   AppLineItemService,
@@ -36,6 +37,7 @@ export class ProductListComponent implements OnInit {
   isModalOpen = false;
   createModalID = 'selectCategory';
   facets: ListFacet[];
+  lineItems: ListLineItem;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -51,6 +53,9 @@ export class ProductListComponent implements OnInit {
     this.productList$ = this.getProductData();
     this.getCategories();
     this.configureRouter();
+    this.appStateService.lineItemSubject.subscribe(
+      (lineItems) => (this.lineItems = lineItems)
+    );
   }
 
   getProductData(): Observable<ListBuyerProduct> {
@@ -211,6 +216,11 @@ export class ProductListComponent implements OnInit {
   addToCart(event: AddToCartEvent) {
     this.appLineItemService
       .create(event.product, event.quantity)
+      .subscribe(() => this.appStateService.addToCartSubject.next(event));
+  }
+  updateLi(event: any) {
+    this.appLineItemService
+      .patch(event.LineItemId, { Quantity: event.quantity })
       .subscribe(() => this.appStateService.addToCartSubject.next(event));
   }
 

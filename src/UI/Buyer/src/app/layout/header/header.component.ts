@@ -72,7 +72,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         tap((event: AddToCartEvent) => {
           this.popover.close();
-          this.popover.ngbPopover = `${event.quantity} Item(s) Added to Cart`;
+          this.popover.ngbPopover = `${event.quantity} ${
+            event.LineItemId
+              ? 'Qty Updated in the Cart'
+              : 'Item(s) Added to Cart'
+          }`;
         }),
         delay(300),
         tap(() => {
