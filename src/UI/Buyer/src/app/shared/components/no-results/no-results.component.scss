@@ -1,0 +1,7 @@
+a {
+    vertical-align: baseline;
+    padding: 0;
+    &:hover {
+        text-decoration: underline;
+    }
+}

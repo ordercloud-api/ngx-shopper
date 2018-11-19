@@ -1,14 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA, InjectionToken } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
-import {
-  AppLineItemService,
-  AppStateService,
-} from '@app-buyer/shared';
+import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import { ProductDetailsComponent } from '@app-buyer/product/containers/product-details/product-details.component';
 
 import { CookieService, CookieModule } from 'ngx-cookie';
@@ -42,6 +39,7 @@ describe('ProductDetailsComponent', () => {
     navigate: jasmine.createSpy('navigate'),
     params,
   };
+  const router = { navigate: jasmine.createSpy('navigate') };
   const meService = {
     GetProduct: jasmine
       .createSpy('GetProduct')
@@ -64,6 +62,7 @@ describe('ProductDetailsComponent', () => {
           provide: applicationConfiguration,
           useValue: new InjectionToken<AppConfig>('app.config'),
         },
+        { provide: Router, useValue: router },
         AppStateService,
         CookieService,
         OcLineItemService,
@@ -108,6 +107,15 @@ describe('ProductDetailsComponent', () => {
     it('should call meService.getProduct', () => {
       component.getProductData();
       expect(meService.GetProduct).toHaveBeenCalled();
+    });
+  });
+
+  describe('routeToProductList', () => {
+    beforeEach(() => {
+      component['routeToProductList']();
+    });
+    it('should navigate to the product list view', () => {
+      expect(router.navigate).toHaveBeenCalledWith(['/products']);
     });
   });
 

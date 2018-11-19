@@ -5,7 +5,7 @@ import { AppStateService } from '@app-seller/shared/services/app-state/app-state
 describe('AppStateService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AppStateService],
+      providers: [],
     });
   });
 

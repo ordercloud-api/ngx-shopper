@@ -29,7 +29,9 @@ import {
  *  Note: we strongly recommend doing such integrations server-side. Eventually, a server-side example may be added.
  * */
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthorizeNetService {
   readonly url = 'https://api.ordercloud.io/v1/integrationproxy/authorizenet';
   readonly options = {

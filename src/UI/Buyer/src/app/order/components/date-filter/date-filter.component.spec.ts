@@ -9,18 +9,17 @@ import {
 import { DateFilterComponent } from '@app-buyer/order/components/date-filter/date-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  NgbCalendar,
   NgbDateParserFormatter,
   NgbDateAdapter,
-  NgbRootModule,
+  NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { DatePipe } from '@angular/common';
 import {
   NgbDateNativeAdapter,
   NgbDateCustomParserFormatter,
 } from '@app-buyer/config/date-picker.config';
 import { AppFormErrorService } from '@app-buyer/shared';
+import { DatePipe } from '@angular/common';
 
 describe('DateFilterComponent', () => {
   let component: DateFilterComponent;
@@ -31,7 +30,7 @@ describe('DateFilterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DateFilterComponent, FaIconComponent],
-      imports: [NgbRootModule, ReactiveFormsModule],
+      imports: [NgbModule, ReactiveFormsModule],
       providers: [
         DatePipe,
         { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
@@ -74,17 +73,14 @@ describe('DateFilterComponent', () => {
     beforeEach(() => {
       spyOn(component as any, 'emitDate');
     });
-    it(
-      'should call emitData after 500ms',
-      fakeAsync(() => {
-        component['onFormChanges']();
-        component.form.controls['fromDate'].setValue('08-09-2018');
-        tick(499);
-        expect(component['emitDate']).not.toHaveBeenCalled();
-        tick(1);
-        expect(component['emitDate']).toHaveBeenCalled();
-      })
-    );
+    it('should call emitData after 500ms', fakeAsync(() => {
+      component['onFormChanges']();
+      component.form.controls['fromDate'].setValue('08-09-2018');
+      tick(499);
+      expect(component['emitDate']).not.toHaveBeenCalled();
+      tick(1);
+      expect(component['emitDate']).toHaveBeenCalled();
+    }));
   });
 
   describe('emitDate', () => {

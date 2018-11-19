@@ -135,6 +135,10 @@ export class ProductListComponent implements OnInit {
       });
   }
 
+  routeHome() {
+    this.router.navigate(['/home']);
+  }
+
   clearAllFilters() {
     this.router.navigate([]);
   }

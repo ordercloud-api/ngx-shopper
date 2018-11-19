@@ -5,9 +5,9 @@ import {
   ChangeDetectorRef,
   AfterViewChecked,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
-import { flatMap, tap } from 'rxjs/operators';
+import { flatMap, tap, catchError } from 'rxjs/operators';
 import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import { BuyerProduct, OcMeService } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
@@ -34,11 +34,26 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     private appLineItemService: AppLineItemService,
     private appStateService: AppStateService,
     private changeDetectorRef: ChangeDetectorRef,
-    protected favoriteProductService: FavoriteProductsService // used in template
+    protected favoriteProductService: FavoriteProductsService, // used in template
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getProductData().subscribe((x) => (this.product = x));
+    this.getProductData()
+      .pipe(
+        catchError(() => {
+          // we're catching the error here to solve for the case that
+          // a user has a saved link to a product that no longer exists
+          // instead of throwing error, let them know product no longer exists
+          // and link them to product list page. Also helps with SEO
+          return of(null);
+        })
+      )
+      .subscribe((x) => (this.product = x));
+  }
+
+  routeToProductList() {
+    this.router.navigate(['/products']);
   }
 
   getProductData(): Observable<BuyerProduct> {

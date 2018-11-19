@@ -41,10 +41,6 @@ import 'core-js/es7/array';
 /** IE10 and IE11 requires the following for the Reflect API. */
 import 'core-js/es6/reflect';
 
-/** Evergreen browsers require these. **/
-// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import 'core-js/es7/reflect';
-
 /**
  * Required to support Web Animations `@angular/platform-browser/animations`.
  * Needed for: All but Chrome, Firefox and Opera. http://caniuse.com/#feat=web-animation
@@ -59,15 +55,6 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-
-/**
- * this polyfill is to allow us to use avatax clientside
- * I will make a PR to the library to allow clientside and serverside
- * usage, if accepted we can remove this polyfill
- */
-(window as any).Buffer = (stringToEncode) => ({
-  toString: () => btoa(stringToEncode),
-});
 
 /**
  * polyfill for childNode.remove() to work in IE.

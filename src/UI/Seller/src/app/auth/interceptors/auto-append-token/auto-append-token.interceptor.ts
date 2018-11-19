@@ -16,7 +16,9 @@ import {
  * automatically append token to the authorization header
  * required to interact with middleware layer
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AutoAppendTokenInterceptor implements HttpInterceptor {
   constructor(
     private ocTokenService: OcTokenService,
