@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegisterComponent } from '@app-buyer/shared/containers/register/register.component';
+import { MeUpdateComponent } from '@app-buyer/profile/containers/me-update/me-update.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   OcMeService,
@@ -12,15 +12,15 @@ import {
   AppConfig,
 } from '@app-buyer/config/app.config';
 import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AppStateService, AppFormErrorService } from '@app-buyer/shared';
-import { of, Subject, BehaviorSubject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
 
-describe('RegisterComponent', () => {
-  let component: RegisterComponent;
-  let fixture: ComponentFixture<RegisterComponent>;
+describe('MeUpdateComponent', () => {
+  let component: MeUpdateComponent;
+  let fixture: ComponentFixture<MeUpdateComponent>;
 
   const appStateService = { userSubject: new Subject<any>() };
   const me = {
@@ -29,18 +29,6 @@ describe('RegisterComponent', () => {
     LastName: 'Ramirez',
     Email: 'crhistian@gmail.com',
     Phone: '555-555-5555',
-    xp: {
-      age: '27',
-      zip: '55418',
-      getNewsletter: false,
-      interestedIn: {
-        guitars: true,
-        percussion: false,
-        band: true,
-        keyboards: true,
-        proSound: false,
-      },
-    },
   };
   const ocMeService = {
     Get: jasmine.createSpy('Get').and.returnValue(of(me)),
@@ -49,9 +37,6 @@ describe('RegisterComponent', () => {
     ResetPasswordByToken: jasmine
       .createSpy('ResetPasswordByToken')
       .and.returnValue(of(null)),
-  };
-  const activatedRoute = {
-    data: new BehaviorSubject({ shouldAllowUpdate: true }),
   };
   const toastrService = { success: jasmine.createSpy('success') };
   const tokenService = {
@@ -79,14 +64,13 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RegisterComponent],
+      declarations: [MeUpdateComponent],
       imports: [ReactiveFormsModule, CookieModule.forRoot()],
       providers: [
         { provide: AppFormErrorService, useValue: formErrorService },
         { provide: Router, useValue: router },
         { provide: OcTokenService, useValue: tokenService },
         { provide: OcMeService, useValue: ocMeService },
-        { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: AppStateService, useValue: appStateService },
         { provide: ToastrService, useValue: toastrService },
         { provide: ModalService, useValue: modalService },
@@ -102,7 +86,7 @@ describe('RegisterComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegisterComponent);
+    fixture = TestBed.createComponent(MeUpdateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -115,56 +99,19 @@ describe('RegisterComponent', () => {
     beforeEach(() => {
       spyOn(component as any, 'setForm');
       spyOn(component as any, 'getMeData');
-      spyOn(component as any, 'identifyShouldAllowUpdate');
     });
     it('should call setForm', () => {
       component.ngOnInit();
       expect(component['setForm']).toHaveBeenCalled();
     });
-    it('should identify whether component should allow update or just creation', () => {
-      component.ngOnInit();
-      expect(component['identifyShouldAllowUpdate']).toHaveBeenCalled();
-    });
-    it('should call getMeData if shouldAllowUpdate is true', () => {
-      activatedRoute.data.next({ shouldAllowUpdate: true });
+    it('should call getMeData', () => {
       component.ngOnInit();
       expect(component['getMeData']).toHaveBeenCalled();
-    });
-    it('should not call getMeDate if shouldAllowUpdate is false', () => {
-      activatedRoute.data.next({ shouldAllowUpdate: false });
-      component.ngOnInit();
-      expect(component['getMeData']).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('openChangePasswordModal', () => {
-    let mockModalId;
-    beforeEach(() => {
-      mockModalId = 'mock id';
-      component.changePasswordModalId = mockModalId;
-      component.openChangePasswordModal();
-    });
-    it('should open modal', () => {
-      expect(modalService.open).toHaveBeenCalledWith(mockModalId);
     });
   });
 
   describe('setForm', () => {
-    it('should set form with password and confirmPassword if shouldAllowUpdate is false', () => {
-      component.shouldAllowUpdate = false;
-      component['setForm']();
-      expect(component.form.value).toEqual({
-        Username: '',
-        FirstName: '',
-        LastName: '',
-        Email: '',
-        Phone: '',
-        Password: '',
-        ConfirmPassword: '',
-      });
-    });
-    it('should set form without password and confirmPassword if shouldAllowUpdate is true', () => {
-      component.shouldAllowUpdate = true;
+    it('should initialize form', () => {
       component['setForm']();
       expect(component.form.value).toEqual({
         Username: '',
@@ -220,48 +167,29 @@ describe('RegisterComponent', () => {
   });
 
   describe('onSubmit', () => {
-    beforeEach(() => {
-      activatedRoute.data.next({ shouldAllowUpdate: true });
-    });
+    beforeEach(() => {});
     it('should call displayFormErrors if form is invalid', () => {
       component.form.controls.FirstName.setValue('');
       component['onSubmit']();
       expect(formErrorService.displayFormErrors).toHaveBeenCalled();
     });
-    it('should call update if shouldAllowUpdate is true', () => {
-      activatedRoute.data.next({ shouldAllowUpdate: true });
-      spyOn(component as any, 'update');
-      component['onSubmit']();
-      expect(component['update']).toHaveBeenCalled();
-    });
-    it('should call register if shouldAllowUpdate is false', () => {
-      activatedRoute.data.next({ shouldAllowUpdate: false });
-      spyOn(component as any, 'register');
-      component['onSubmit']();
-      expect(component['register']).toHaveBeenCalled();
-    });
-  });
-
-  describe('register', () => {
-    const mockMe = { ID: 'NewUser' };
-    beforeEach(() => {
-      component['register'](mockMe);
-    });
-    it('should call meService.Register', () => {
-      expect(ocMeService.Register).toHaveBeenCalledWith('mockToken', mockMe);
-    });
-    it('should navigate to login', () => {
-      expect(router.navigate).toHaveBeenCalledWith(['/login']);
-    });
-  });
-
-  describe('update', () => {
-    const mockMe = { ID: 'NewUser' };
-    beforeEach(() => {
-      component['update'](mockMe);
-    });
     it('should call meService.Patch', () => {
-      expect(ocMeService.Patch).toHaveBeenCalledWith(mockMe);
+      component.form.controls.Username.setValue('crhistianr');
+      component.form.controls.FirstName.setValue('Crhistian');
+      component.form.controls.LastName.setValue('Ramirez');
+      component.form.controls.Phone.setValue('5555555555');
+      component.form.controls.Email.setValue(
+        'crhistian-rawks@my-little-pony.com'
+      );
+      component['onSubmit']();
+      expect(ocMeService.Patch).toHaveBeenCalledWith({
+        Username: 'crhistianr',
+        FirstName: 'Crhistian',
+        LastName: 'Ramirez',
+        Phone: '5555555555',
+        Email: 'crhistian-rawks@my-little-pony.com',
+        Active: true,
+      });
     });
   });
 
@@ -281,29 +209,6 @@ describe('RegisterComponent', () => {
         Phone: me.Phone,
         Email: me.Email,
       });
-    });
-  });
-
-  describe('hasRequiredError', () => {
-    beforeEach(() => {
-      component['hasRequiredError']('firstName');
-    });
-    it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasRequiredError).toHaveBeenCalledWith(
-        'firstName',
-        component.form
-      );
-    });
-  });
-
-  describe('passwordMismatchError', () => {
-    beforeEach(() => {
-      component['passwordMismatchError']();
-    });
-    it('should call formErrorService.hasRequiredError', () => {
-      expect(formErrorService.hasPasswordMismatchError).toHaveBeenCalledWith(
-        component.form
-      );
     });
   });
 });

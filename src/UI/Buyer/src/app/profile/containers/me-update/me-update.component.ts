@@ -1,84 +1,47 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import {
-  OcMeService,
-  OcTokenService,
-  MeUser,
-  OcAuthService,
-} from '@ordercloud/angular-sdk';
-import { tap, takeWhile, flatMap } from 'rxjs/operators';
+import { OcMeService, MeUser, OcAuthService } from '@ordercloud/angular-sdk';
+import { flatMap } from 'rxjs/operators';
 import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { AppFormErrorService } from '@app-buyer/shared/services/form-error/form-error.service';
-import { AppMatchFieldsValidator } from '@app-buyer/shared/validators/match-fields/match-fields.validator';
 import { ModalService } from '@app-buyer/shared/services/modal/modal.service';
 import { RegexService } from '@app-buyer/shared/services/regex/regex.service';
 
 @Component({
-  selector: 'shared-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  selector: 'profile-meupdate',
+  templateUrl: './me-update.component.html',
+  styleUrls: ['./me-update.component.scss'],
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class MeUpdateComponent implements OnInit, OnDestroy {
   form: FormGroup;
   me: MeUser;
   alive = true;
-  appName: string;
-  shouldAllowUpdate: boolean;
   changePasswordModalId = 'forgotPasswordModal';
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private appStateService: AppStateService,
     private formBuilder: FormBuilder,
     private formErrorService: AppFormErrorService,
     private modalService: ModalService,
     private ocAuthService: OcAuthService,
     private ocMeService: OcMeService,
-    private ocTokenService: OcTokenService,
-    private router: Router,
     private toastrService: ToastrService,
     private regexService: RegexService,
-    @Inject(applicationConfiguration) private appConfig: AppConfig
-  ) {
-    this.appName = this.appConfig.appname;
-  }
+    @Inject(applicationConfiguration) protected appConfig: AppConfig
+  ) {}
 
   ngOnInit() {
-    this.identifyShouldAllowUpdate();
     this.setForm();
-    if (this.shouldAllowUpdate) {
-      this.getMeData();
-    }
-  }
-
-  private identifyShouldAllowUpdate() {
-    /**
-     * this component is used in two places:
-     * in auth when first registering (!shouldAllowUpdate)
-     * in profile when editing current user (shouldAllowUpdate)
-     */
-    this.activatedRoute.data
-      .pipe(
-        takeWhile(() => this.alive),
-        tap(({ shouldAllowUpdate }) => {
-          this.shouldAllowUpdate = shouldAllowUpdate;
-        })
-      )
-      .subscribe();
-  }
-
-  openChangePasswordModal() {
-    this.modalService.open(this.changePasswordModalId);
+    this.getMeData();
   }
 
   private setForm() {
-    const formObj = {
+    this.form = this.formBuilder.group({
       Username: ['', Validators.required],
       FirstName: [
         '',
@@ -90,18 +53,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ],
       Email: ['', [Validators.required, Validators.email]],
       Phone: ['', Validators.pattern(this.regexService.Phone)],
-    };
-
-    const validatorObj = this.shouldAllowUpdate
-      ? {}
-      : { validator: AppMatchFieldsValidator('Password', 'ConfirmPassword') };
-    if (!this.shouldAllowUpdate) {
-      Object.assign(formObj, {
-        Password: ['', [Validators.required, Validators.minLength(8)]],
-        ConfirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-      });
-    }
-    this.form = this.formBuilder.group(formObj, validatorObj);
+    });
   }
 
   onChangePassword({ currentPassword, newPassword }) {
@@ -113,11 +65,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.appConfig.scope
       )
       .pipe(
-        flatMap(() => {
-          return this.ocMeService.ResetPasswordByToken({
+        flatMap(() =>
+          this.ocMeService.ResetPasswordByToken({
             NewPassword: newPassword,
-          });
-        })
+          })
+        )
       )
       .subscribe(() => {
         this.toastrService.success('Account Info Updated', 'Success');
@@ -133,23 +85,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const me = <MeUser>this.form.value;
     me.Active = true;
 
-    if (this.shouldAllowUpdate) {
-      this.update(me);
-    } else {
-      this.register(me);
-    }
-  }
-
-  private register(me) {
-    this.ocMeService
-      .Register(this.ocTokenService.GetAccess(), me)
-      .subscribe(() => {
-        this.toastrService.success('New User Created');
-        this.router.navigate(['/login']);
-      });
-  }
-
-  private update(me) {
     this.ocMeService.Patch(me).subscribe((res) => {
       this.appStateService.userSubject.next(res);
       this.toastrService.success('Account Info Updated');

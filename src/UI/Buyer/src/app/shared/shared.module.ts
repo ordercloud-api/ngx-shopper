@@ -42,7 +42,6 @@ import { LineItemCardComponent } from '@app-buyer/shared/components/line-item-ca
 import { LineItemListWrapperComponent } from '@app-buyer/shared/components/lineitem-list-wrapper/lineitem-list-wrapper.component';
 
 // containers
-import { RegisterComponent } from '@app-buyer/shared/containers/register/register.component';
 import {
   ShipperTrackingPipe,
   ShipperTrackingSupportedPipe,
@@ -58,7 +57,6 @@ import {
   ResetDirective,
 } from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
-import { ChangePasswordFormComponent } from '@app-buyer/shared/components/change-password-form/change-password-form.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 
 @NgModule({
@@ -110,7 +108,6 @@ import { NoResultsComponent } from './components/no-results/no-results.component
 
     NoResultsComponent,
     SearchComponent,
-    RegisterComponent,
     PageTitleComponent,
     OrderStatusDisplayPipe,
     PaymentMethodDisplayPipe,
@@ -135,8 +132,6 @@ import { NoResultsComponent } from './components/no-results/no-results.component
     OrderPaymentListComponent,
   ],
   declarations: [
-    ChangePasswordFormComponent,
-    RegisterComponent,
     OrderStatusDisplayPipe,
     PaymentMethodDisplayPipe,
     MapToIterablePipe,

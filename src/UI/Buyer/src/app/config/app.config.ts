@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 export const ocAppConfig: AppConfig = {
   appname: 'OrderCloud',
   clientID: environment.clientID,
-  anonymousShoppingEnabled: false,
+  anonymousShoppingEnabled: true,
   premiumSearchEnabled: false,
   middlewareUrl: environment.middlewareUrl,
   scope: [

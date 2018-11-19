@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 // auth components
 import { LoginComponent } from '@app-buyer/auth/containers/login/login.component';
 import { ForgotPasswordComponent } from '@app-buyer/auth/containers/forgot-password/forgot-password.component';
-import { RegisterComponent } from '@app-buyer/shared';
+import { RegisterComponent } from '@app-buyer/auth/containers/register/register.component';
 import { ResetPasswordComponent } from '@app-buyer/auth/containers/reset-password/reset-password.component';
 
 const routes: Routes = [
