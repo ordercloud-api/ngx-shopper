@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductCardComponent } from '@app-buyer/shared/components/product-card/product-card.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,6 +18,9 @@ describe('ProductCardComponent', () => {
   const toastrService = {
     error: jasmine.createSpy('error'),
   };
+  const appStateService = {
+    lineItemSubject: of({ Items: [] }),
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,6 +29,7 @@ describe('ProductCardComponent', () => {
       providers: [
         { provide: Router, useValue: router },
         { provide: ToastrService, useValue: toastrService },
+        { provide: AppStateService, useValue: appStateService },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();

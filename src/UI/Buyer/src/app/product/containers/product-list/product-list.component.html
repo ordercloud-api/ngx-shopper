@@ -90,9 +90,11 @@
           <product-product-card *ngFor="let product of productList.Items"
                                 [product]="product"
                                 [favorite]="favoriteProductsService.isFavorite(product)"
+                                [lineItems]="lineItems"
                                 (setFavorite)="favoriteProductsService.setFavoriteValue($event, product)"
                                 class="col-sm-6 col-md-4 col-xl-3 d-flex"
-                                (addedToCart)="addToCart($event)">
+                                (addedToCart)="addToCart($event)"
+                                (updatedLi)="updateLi($event)">
           </product-product-card>
         </div>
         <ngb-pagination *ngIf="productList.Meta.TotalPages > 1"

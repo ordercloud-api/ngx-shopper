@@ -47,6 +47,7 @@ describe('ProductDetailsComponent', () => {
   };
   const ocLineItemService = {
     create: jasmine.createSpy('create').and.returnValue(of(null)),
+    patch: jasmine.createSpy('patch').and.returnValue(of(null)),
   };
   const favoriteProductsService = {
     isFavorite: () => jasmine.createSpy('isFavorite').and.returnValue(true),
@@ -133,6 +134,25 @@ describe('ProductDetailsComponent', () => {
         mockEmittedProduct,
         mockQuantity
       );
+    });
+  });
+
+  describe('updateLi', () => {
+    const mockQuantity = 3;
+    const mockEmittedProduct = <BuyerProduct>{ id: 'MockProduct123' };
+    const matchingLi = { ID: 'MockLineItemId' };
+    beforeEach(() => {
+      component.matchingLi = matchingLi;
+      component.updateLi({
+        product: mockEmittedProduct,
+        quantity: mockQuantity,
+        LineItemId: matchingLi.ID,
+      });
+    });
+    it('should call ocLineItemService patch method', () => {
+      expect(ocLineItemService.patch).toHaveBeenCalledWith(matchingLi.ID, {
+        Quantity: mockQuantity,
+      });
     });
   });
 

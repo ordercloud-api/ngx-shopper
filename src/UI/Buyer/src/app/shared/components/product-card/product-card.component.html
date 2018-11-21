@@ -26,19 +26,29 @@
       <shared-quantity-input class="w-50"
                              id="quantity"
                              [product]="product"
+                             [existingQty]="!matchingLi ? null : matchingLi.Quantity"
                              (addedToCart)="addToCart($event)"
+                             (updatedLi)="sendUpdatedLi($event)"
                              *ngIf="!featuredProducts()">
       </shared-quantity-input>
     </div>
   </div>
   <div class="card-footer"
        *ngIf="!featuredProducts()">
-    <button *ngIf="shouldDisplayAddToCart"
+    <button *ngIf="shouldDisplayAddToCart && !matchingLi"
             (click)="$event.stopPropagation()"
             class="btn btn-primary btn-block small"
             type="submit"
             (click)="quantityInputComponent.addToCart($event)">
-      Add <span class="d-md-none d-lg-inline">to Cart</span>
+      Add <span class="d-md-none d-lg-inline"> to Cart</span>
+    </button>
+    <!-- [disabled]="updatedLiInfo?.Quantity == matchingLi?.Quantity || !updatedLiInfo" -->
+    <button *ngIf="shouldDisplayAddToCart && matchingLi"
+            (click)="$event.stopPropagation()"
+            class="btn btn-outline-primary btn-block small"
+            type="button"
+            (click)="quantityInputComponent.updateLi($event)">
+      Update <span class="d-md-none d-lg-inline">Cart</span>
     </button>
     <button *ngIf="isViewOnlyProduct"
             [routerLink]="['/products', product.ID]"
