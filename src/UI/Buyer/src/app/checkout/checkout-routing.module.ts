@@ -10,6 +10,7 @@ import { OrderResolve } from '@app-buyer/order/order.resolve';
 
 const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
+  { path: 'checkout/confirm', component: CheckoutComponent },
   { path: 'cart', component: CartComponent },
   {
     path: 'order-confirmation/:orderID',

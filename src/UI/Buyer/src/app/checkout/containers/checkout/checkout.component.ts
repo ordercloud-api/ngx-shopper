@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { Order, OcOrderService } from '@ordercloud/angular-sdk';
 import { AppStateService, BaseResolveService } from '@app-buyer/shared';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AppErrorHandler } from '@app-buyer/config/error-handling.config';
 import { flatMap } from 'rxjs/operators';
 
@@ -13,13 +13,14 @@ import { flatMap } from 'rxjs/operators';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, AfterViewChecked {
   @ViewChild('acc') public accordian: NgbAccordion;
   currentOrder$: Observable<Order> = this.appStateService.orderSubject;
   isAnon: boolean;
   isSubmittingOrder = false;
   currentPanel: string;
   faCheck = faCheck;
+  quickOrder = false;
   sections: any = [
     {
       id: 'login',
@@ -48,13 +49,28 @@ export class CheckoutComponent implements OnInit {
     private ocOrderService: OcOrderService,
     private router: Router,
     private baseResolveService: BaseResolveService,
-    private appErrorHandler: AppErrorHandler
+    private appErrorHandler: AppErrorHandler,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.quickOrder = this.route.snapshot.url.toString().endsWith('confirm');
+    if (this.quickOrder) {
+      this.sections.forEach((x) => {
+        x.valid = true;
+      });
+      this.currentPanel = 'confirm';
+      return;
+    }
     this.isAnon = this.appStateService.isAnonSubject.value;
     this.currentPanel = this.isAnon ? 'login' : 'shippingAddress';
     this.setValidation('login', !this.isAnon);
+  }
+
+  ngAfterViewChecked() {
+    if (this.quickOrder) {
+      this.toSection('confirm');
+    }
   }
 
   getValidation(id: string) {
