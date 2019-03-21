@@ -1,11 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ModalService } from '@app-seller/shared';
-import {
-  OcUserService,
-  OcUserGroupService,
-  OcPasswordResetService,
-} from '@ordercloud/angular-sdk';
+import { OcUserService, OcUserGroupService } from '@ordercloud/angular-sdk';
 import { applicationConfiguration } from '@app-seller/config/app.config';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -39,11 +35,6 @@ describe('UserTableComponent', () => {
       .createSpy('DeleteUserAssignment')
       .and.returnValue(of({})),
   };
-  const ocPasswordResetService = {
-    SendVerificationCode: jasmine
-      .createSpy('SendVerificationCode')
-      .and.returnValue(of({})),
-  };
 
   const modalService = {
     open: jasmine.createSpy('open'),
@@ -58,10 +49,9 @@ describe('UserTableComponent', () => {
         { provide: ModalService, useValue: modalService },
         { provide: OcUserService, useValue: ocUserService },
         { provide: OcUserGroupService, useValue: ocUserGroupService },
-        { provide: OcPasswordResetService, useValue: ocPasswordResetService },
         {
           provide: applicationConfiguration,
-          useValue: { buyerID: 'buyerID', buyerUrl: 'test' },
+          useValue: { buyerID: 'buyerID' },
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -149,7 +139,6 @@ describe('UserTableComponent', () => {
         mockUserList.Items[0]
       );
       expect(component.loadData).toHaveBeenCalled();
-      expect(ocPasswordResetService.SendVerificationCode).toHaveBeenCalled();
     });
   });
 

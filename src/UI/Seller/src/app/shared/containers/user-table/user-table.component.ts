@@ -5,7 +5,6 @@ import {
   ListUser,
   OcUserGroupService,
   ListUserGroupAssignment,
-  OcPasswordResetService,
 } from '@ordercloud/angular-sdk';
 import {
   faTrashAlt,
@@ -55,7 +54,6 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
     private ocUserService: OcUserService,
     private ocUserGroupService: OcUserGroupService,
     private modalService: ModalService,
-    private ocPasswordResetService: OcPasswordResetService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
     // The BaseBrowse super class contains functionality for search, sort, and pagination.
@@ -127,18 +125,7 @@ export class UserTableComponent extends BaseBrowse implements OnInit {
     this.modalService.close(this.createModalID);
     this.ocUserService.Create(this.appConfig.buyerID, user).subscribe(() => {
       this.loadData();
-      this.sendSetPasswordEmail(user.Email);
     });
-  }
-
-  sendSetPasswordEmail(email: string) {
-    this.ocPasswordResetService
-      .SendVerificationCode({
-        Email: email,
-        ClientID: this.appConfig.buyerClientID,
-        URL: this.appConfig.buyerUrl,
-      })
-      .subscribe();
   }
 
   editUser(user: User, prevID: string) {
