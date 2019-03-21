@@ -15,7 +15,7 @@
     <div class="row flex-lg-row-reverse"
          *ngIf="order.LineItemCount">
       <div class="col-lg-4">
-        <shared-order-summary [order]="order"></shared-order-summary>
+        <checkout-order-summary [order]="order"></checkout-order-summary>
         <button class="btn btn-primary btn-block mb-4 font-weight-bold"
                 routerLink="/checkout">CHECKOUT</button>
       </div>

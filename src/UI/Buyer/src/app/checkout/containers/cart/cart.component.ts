@@ -1,5 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
+  AppStateService,
+  BaseResolveService,
+  AppLineItemService,
+} from '@app-buyer/shared';
+import {
   Order,
   LineItem,
   OcOrderService,
@@ -9,9 +14,6 @@ import {
 } from '@ordercloud/angular-sdk';
 import { Observable, forkJoin } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
-import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
-import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base-resolve.service';
-import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 
 @Component({
   selector: 'checkout-cart',

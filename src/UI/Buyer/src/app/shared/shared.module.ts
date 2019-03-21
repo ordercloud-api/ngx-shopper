@@ -58,7 +58,7 @@ import {
 } from '@app-buyer/shared/components/modal/modal.component';
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
-import { MiniCartComponent } from './containers/cart/mini-cart.component';
+import { MiniCartComponent } from './components/mini-cart/mini-cart.component';
 
 @NgModule({
   imports: [

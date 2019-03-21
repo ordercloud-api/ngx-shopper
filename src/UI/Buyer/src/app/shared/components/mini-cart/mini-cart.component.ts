@@ -6,7 +6,6 @@ import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.
 @Component({
   selector: 'checkout-mini-cart',
   templateUrl: './mini-cart.component.html',
-  styleUrls: ['./cart.component.scss'],
 })
 export class MiniCartComponent implements OnInit {
   @Input() popover: NgbPopover;
