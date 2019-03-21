@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
-  AppStateService,
-  BaseResolveService,
   AppLineItemService,
+  BaseResolveService,
+  AppStateService,
 } from '@app-buyer/shared';
 import {
   Order,
