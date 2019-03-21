@@ -27,7 +27,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.1.0-4",
     "@fortawesome/free-regular-svg-icons": "^5.1.0-4",
     "@fortawesome/free-solid-svg-icons": "^5.1.0-4",
-    "@ng-bootstrap/ng-bootstrap": "^2.0.0-alpha.0",
+    "@ng-bootstrap/ng-bootstrap": "^3.0.0",
     "@ngx-progressbar/core": "^5.0.1",
     "@ngx-progressbar/http": "^5.0.1",
     "@ordercloud/angular-sdk": "0.0.1-19",

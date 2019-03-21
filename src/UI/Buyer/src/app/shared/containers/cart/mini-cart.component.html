@@ -1,6 +1,26 @@
-<h3>Shopping Cart</h3>
-<div *ngFor="let li of lineItems.Items">
-  {{ li.Product.Name }}
+<div class="card text-center">
+  <div class="card-header">My Cart</div>
+  <div class="card-body">
+    <div class="row border-bottom"
+         *ngFor="let li of lineItems.Items">
+      <a class="col-5 link-text"
+         [routerLink]="['/products', li.Product.ID]"
+         (click)="close()">{{ li.Product.Name }}</a>
+      <div class="col-3">{{ li.Quantity | number}}x</div>
+      <div class="col-4">{{ li.UnitPrice | currency}}</div>
+    </div>
+
+  </div>
+  <div class="row card-footer">
+    <div class="col-6">
+      <button class="btn btn-primary"
+              routerLink="/cart"
+              (click)="close()">Edit Cart</button>
+    </div>
+    <div class="col-6">
+      <button class="btn btn-primary"
+              routerLink="/checkout"
+              (click)="close()">Checkout</button>
+    </div>
+  </div>
 </div>
-<button class="btn btn-primary">Edit Cart</button>
-<button class="btn btn-primary">Checkout</button>

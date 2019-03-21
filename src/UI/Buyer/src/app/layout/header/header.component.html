@@ -84,10 +84,14 @@
     <ul class="navbar-nav">
       <li class="nav-item"
           [ngbPopover]="CartHoverContent"
-          triggers="mouseenter"
-          placement="bottom"
+          #popover="ngbPopover"
+          triggers="mouseenter:click"
+          placement="bottom-right"
           popoverClass="mini-cart-popover"
-          #miniCartAnchor>
+          [autoClose]="'outside'">
+        <ng-template #CartHoverContent>
+          <checkout-mini-cart [popover]="popover"></checkout-mini-cart>
+        </ng-template>
         <a class="nav-link text-nowrap"
            routerLink="/cart"
            routerLinkActive="active"
@@ -107,6 +111,3 @@
     </ul>
   </div>
 </nav>
-<ng-template #CartHoverContent>
-  <checkout-mini-cart [anchor]="mini"></checkout-mini-cart>
-</ng-template>

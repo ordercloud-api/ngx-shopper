@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   Order,
   LineItem,
@@ -75,15 +75,4 @@ export class CartComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.alive = false;
   }
-}
-
-@Component({
-  selector: 'checkout-mini-cart',
-  templateUrl: './mini-cart.component.html',
-  styleUrls: ['./cart.component.scss'],
-})
-export class MiniCartComponent extends CartComponent implements OnInit {
-  @Input() anchor: ElementRef;
-
-  ngOnInit() {}
 }
