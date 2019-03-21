@@ -111,7 +111,8 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     if (
       this.isAnon ||
       formDirty ||
-      (this.usingShippingAsBilling && !this.order.ShippingAddressID)
+      (this.usingShippingAsBilling && !this.order.ShippingAddressID) ||
+      (!address.ID || address.ID === '') //If this is not a saved address. Fix for issue 287
     ) {
       request = this.setOneTimeAddress(address);
     }

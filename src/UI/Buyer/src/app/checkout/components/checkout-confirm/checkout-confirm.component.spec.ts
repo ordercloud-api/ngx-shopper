@@ -71,7 +71,7 @@ describe('CheckoutConfirmComponent', () => {
       spyOn(appStateService.orderSubject, 'next');
       spyOn(component.continue, 'emit');
       component.form.setValue({ comments: 'comment' });
-      component.saveComments();
+      component.saveCommentsAndSubmitOrder();
       expect(orderService.Patch).toHaveBeenCalledWith(
         'outgoing',
         mockOrder.ID,

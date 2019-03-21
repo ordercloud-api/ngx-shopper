@@ -16,7 +16,9 @@ import { BaseResolveService } from '@app-buyer/shared/services/base-resolve/base
 
 export const TokenRefreshAttemptNotPossible =
   'Token refresh attempt not possible';
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppAuthService {
   private rememberMeCookieName = `${this.appConfig.appname
     .replace(/ /g, '_')
@@ -46,13 +48,7 @@ export class AppAuthService {
         this.ocTokenService.SetAccess(token);
         this.refreshToken.next(token);
       }),
-      catchError((error) => {
-        if (
-          this.ocTokenService.GetAccess() &&
-          error === TokenRefreshAttemptNotPossible
-        ) {
-          this.appErrorHandler.displayError({ message: error });
-        }
+      catchError(() => {
         // ignore new refresh attempts if a refresh
         // attempt failed within the last 3 seconds
         this.failedRefreshAttempt = true;

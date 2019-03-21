@@ -11,14 +11,14 @@ import {
 } from '@app-seller/config/app.config';
 import { CookieService } from 'ngx-cookie';
 import { keys as _keys } from 'lodash';
-import { AppErrorHandler } from '@app-seller/config/error-handling.config';
-import * as jwtDecode from 'jwt-decode';
 import { isUndefined as _isUndefined } from 'lodash';
 import { AppStateService } from '@app-seller/shared/services/app-state/app-state.service';
 
 export const TokenRefreshAttemptNotPossible =
   'Token refresh attempt not possible';
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppAuthService {
   private rememberMeCookieName = `${this.appConfig.appname
     .replace(/ /g, '_')
@@ -32,7 +32,6 @@ export class AppAuthService {
     private ocAuthService: OcAuthService,
     private cookieService: CookieService,
     private router: Router,
-    private appErrorHandler: AppErrorHandler,
     private appStateService: AppStateService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
   ) {
@@ -47,13 +46,7 @@ export class AppAuthService {
         this.refreshToken.next(token);
         this.appStateService.isLoggedIn.next(true);
       }),
-      catchError((error) => {
-        if (
-          this.ocTokenService.GetAccess() &&
-          error === TokenRefreshAttemptNotPossible
-        ) {
-          this.appErrorHandler.displayError({ message: error });
-        }
+      catchError(() => {
         // ignore new refresh attempts if a refresh
         // attempt failed within the last 3 seconds
         this.failedRefreshAttempt = true;

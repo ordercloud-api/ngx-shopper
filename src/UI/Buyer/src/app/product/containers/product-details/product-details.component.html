@@ -1,4 +1,10 @@
 <div class="container mt-4"
+     *ngIf="!product">
+  <shared-no-results message="This product is no longer available"
+                     actionText="shop available products"
+                     (action)="routeToProductList()"></shared-no-results>
+</div>
+<div class="container mt-4"
      *ngIf="product">
   <div class="row mb-5">
     <div class="col-md-6">
@@ -21,12 +27,23 @@
         <shared-quantity-input class="d-inline-block"
                                style="max-width: 100px"
                                [product]="product"
-                               (addedToCart)="addToCart($event)">
+                               [existingQty]="!matchingLi ? null : matchingLi.Quantity"
+                               (addedToCart)="addToCart($event)"
+                               (updatedLi)="updateLi($event)">
         </shared-quantity-input>
-        <button class="btn btn-primary ml-2"
+        <button *ngIf="!matchingLi"
+                class="btn btn-primary ml-2"
                 type="submit"
                 (click)="quantityInputComponent.addToCart($event)">Add to Cart
-          <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span></button>
+          <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span>
+        </button>
+        <button *ngIf="matchingLi"
+                class="btn btn-outline-primary ml-2"
+                type="button"
+                (click)="quantityInputComponent.updateLi($event)">Update Cart
+          <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span>
+        </button>
+
       </div>
       <ng-template #viewOnly>
         <div class="alert alert-info">
@@ -71,8 +88,8 @@
   </div>
   <div *ngIf="relatedProducts$ | async; let relatedProducts">
     <product-carousel *ngIf="relatedProducts.length > 0"
-                       displayTitle="Related Products"
-                       [products]="relatedProducts">
+                      displayTitle="Related Products"
+                      [products]="relatedProducts">
     </product-carousel>
   </div>
 </div>

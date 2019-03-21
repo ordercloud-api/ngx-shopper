@@ -39,6 +39,13 @@ export class AppErrorHandler extends ErrorHandler {
     if (typeof message === 'object') {
       message = JSON.stringify(message);
     }
+    if (
+      message === 'Token refresh attempt not possible' ||
+      message === 'Access token is invalid or expired.'
+    ) {
+      // display user friendly error
+      message = 'Your session has expired. Please log in.';
+    }
     this.toastrService.error(message, 'Error', { onActivateTick: true });
   }
 

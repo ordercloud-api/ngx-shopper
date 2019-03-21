@@ -7,6 +7,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
 import { OcOrderService, OcMeService } from '@ordercloud/angular-sdk';
+
+import { CartComponent } from '@app-buyer/checkout/containers/cart/cart.component';
 import {
   AppStateService,
   BaseResolveService,
@@ -16,7 +18,6 @@ import {
   applicationConfiguration,
   AppConfig,
 } from '@app-buyer/config/app.config';
-import { CartComponent } from './cart.component';
 
 describe('CartComponent', () => {
   let component: CartComponent;

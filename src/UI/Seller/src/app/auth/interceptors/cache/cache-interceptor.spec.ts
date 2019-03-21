@@ -14,7 +14,6 @@ describe('CacheInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        CacheInterceptor,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: CacheInterceptor,

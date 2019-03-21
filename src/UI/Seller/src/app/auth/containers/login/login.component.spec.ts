@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InjectionToken, DebugElement } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,14 +11,9 @@ import {
   AppConfig,
 } from '@app-seller/config/app.config';
 
-import {
-  Configuration,
-  OcAuthService,
-  OcTokenService,
-} from '@ordercloud/angular-sdk';
+import { OcAuthService, OcTokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { AppAuthService } from '@app-seller/auth/services/app-auth.service';
-import { AppErrorHandler } from '@app-seller/config/error-handling.config';
 import { AppStateService } from '@app-seller/shared';
 
 describe('LoginComponent', () => {
@@ -45,7 +40,6 @@ describe('LoginComponent', () => {
       declarations: [LoginComponent],
       imports: [ReactiveFormsModule, CookieModule.forRoot(), HttpClientModule],
       providers: [
-        AppErrorHandler,
         { provide: AppStateService, useValue: appStateService },
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },

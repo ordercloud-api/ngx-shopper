@@ -28,4 +28,5 @@
                 [collectionSize]="meta.TotalCount"
                 [pageSize]="meta.PageSize"
                 [(page)]="meta.Page"
-                (pageChange)="requestOptionsUpdated.emit({ page: $event })"></ngb-pagination>
+                (pageChange)="requestOptionsUpdated.emit({ page: $event })"
+                [rotate]="true"></ngb-pagination>

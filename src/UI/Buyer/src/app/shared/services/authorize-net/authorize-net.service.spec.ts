@@ -4,7 +4,6 @@ import { AuthorizeNetService } from '@app-buyer/shared/services/authorize-net/au
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
   OcTokenService,
-  Configuration,
   OcOrderService,
   OcPaymentService,
 } from '@ordercloud/angular-sdk';
@@ -28,7 +27,6 @@ describe('Authorize.NetService', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        AuthorizeNetService,
         { provide: OcTokenService, useValue: tokenService },
         { provide: OcPaymentService, useValue: payementService },
         { provide: OcOrderService, useValue: orderService },

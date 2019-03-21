@@ -1,11 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { InjectionToken } from '@angular/core';
-import {
-  HttpClient,
-  HttpHandler,
-  HTTP_INTERCEPTORS,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -17,10 +12,10 @@ import {
   applicationConfiguration,
   AppConfig,
 } from '@app-seller/config/app.config';
-import { OcTokenService, Configuration } from '@ordercloud/angular-sdk';
+import { OcTokenService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { AppAuthService } from '@app-seller/auth/services/app-auth.service';
-import { of, BehaviorSubject, throwError } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 describe('RefreshTokenInterceptor', () => {
@@ -43,7 +38,6 @@ describe('RefreshTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [CookieModule.forRoot(), HttpClientTestingModule],
       providers: [
-        RefreshTokenInterceptor,
         { provide: AppAuthService, useValue: appAuthService },
         { provide: OcTokenService, useValue: tokenService },
         {

@@ -3,9 +3,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { OrderHistoryComponent } from '@app-buyer/order/containers/order-history/order-history.component';
-import { NgbPaginationModule, NgbRootModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OcMeService } from '@ordercloud/angular-sdk';
-import { DatePipe } from '@angular/common';
 import { OrderStatus } from '@app-buyer/order/models/order-status.model';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -46,9 +45,8 @@ describe('OrderHistoryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [OrderHistoryComponent],
-      imports: [ReactiveFormsModule, NgbPaginationModule, NgbRootModule],
+      imports: [ReactiveFormsModule, NgbPaginationModule, NgbModule],
       providers: [
-        DatePipe,
         { provide: AppStateService, useValue: {} },
         { provide: OcMeService, useValue: meService },
         { provide: Router, useValue: router },

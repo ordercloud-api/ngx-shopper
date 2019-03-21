@@ -1,22 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { HeaderComponent } from '@app-buyer/layout/header/header.component';
-import {
-  AppStateService,
-  BaseResolveService,
-  AppLineItemService,
-} from '@app-buyer/shared';
-import {
-  OcTokenService,
-  OcAuthService,
-  OcMeService,
-  OcLineItemService,
-  OcSupplierService,
-  OcOrderService,
-} from '@ordercloud/angular-sdk';
+import { AppStateService, BaseResolveService } from '@app-buyer/shared';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbPopoverModule, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -96,6 +90,25 @@ describe('HeaderComponent', () => {
     });
     it('should call buildAddToCartListener', () => {
       expect(component.buildAddToCartListener).toHaveBeenCalled();
+    });
+  });
+
+  describe('buildAddToCartListener', () => {
+    beforeEach(() => {
+      spyOn(component.popover, 'open');
+      spyOn(component.popover, 'close');
+    });
+    it('should set correct popover message', () => {
+      appStateService.addToCartSubject.next({ quantity: 4 });
+      expect(component.popover.ngbPopover).toBe('4 Item(s) Added to Cart');
+    });
+
+    it('should set correct popover message with updating a line item', () => {
+      appStateService.addToCartSubject.next({
+        quantity: 4,
+        LineItemId: 'string',
+      });
+      expect(component.popover.ngbPopover).toBe('4 Qty Updated in the Cart');
     });
   });
 });

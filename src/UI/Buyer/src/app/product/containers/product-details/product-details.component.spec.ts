@@ -1,14 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA, InjectionToken } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
-import {
-  AppLineItemService,
-  AppStateService,
-} from '@app-buyer/shared';
+import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import { ProductDetailsComponent } from '@app-buyer/product/containers/product-details/product-details.component';
 
 import { CookieService, CookieModule } from 'ngx-cookie';
@@ -42,6 +39,7 @@ describe('ProductDetailsComponent', () => {
     navigate: jasmine.createSpy('navigate'),
     params,
   };
+  const router = { navigate: jasmine.createSpy('navigate') };
   const meService = {
     GetProduct: jasmine
       .createSpy('GetProduct')
@@ -49,6 +47,7 @@ describe('ProductDetailsComponent', () => {
   };
   const ocLineItemService = {
     create: jasmine.createSpy('create').and.returnValue(of(null)),
+    patch: jasmine.createSpy('patch').and.returnValue(of(null)),
   };
   const favoriteProductsService = {
     isFavorite: () => jasmine.createSpy('isFavorite').and.returnValue(true),
@@ -64,6 +63,7 @@ describe('ProductDetailsComponent', () => {
           provide: applicationConfiguration,
           useValue: new InjectionToken<AppConfig>('app.config'),
         },
+        { provide: Router, useValue: router },
         AppStateService,
         CookieService,
         OcLineItemService,
@@ -111,6 +111,15 @@ describe('ProductDetailsComponent', () => {
     });
   });
 
+  describe('routeToProductList', () => {
+    beforeEach(() => {
+      component['routeToProductList']();
+    });
+    it('should navigate to the product list view', () => {
+      expect(router.navigate).toHaveBeenCalledWith(['/products']);
+    });
+  });
+
   describe('addToCart', () => {
     const mockQuantity = 3;
     const mockEmittedProduct = <BuyerProduct>{ id: 'MockProduct123' };
@@ -125,6 +134,25 @@ describe('ProductDetailsComponent', () => {
         mockEmittedProduct,
         mockQuantity
       );
+    });
+  });
+
+  describe('updateLi', () => {
+    const mockQuantity = 3;
+    const mockEmittedProduct = <BuyerProduct>{ id: 'MockProduct123' };
+    const matchingLi = { ID: 'MockLineItemId' };
+    beforeEach(() => {
+      component.matchingLi = matchingLi;
+      component.updateLi({
+        product: mockEmittedProduct,
+        quantity: mockQuantity,
+        LineItemId: matchingLi.ID,
+      });
+    });
+    it('should call ocLineItemService patch method', () => {
+      expect(ocLineItemService.patch).toHaveBeenCalledWith(matchingLi.ID, {
+        Quantity: mockQuantity,
+      });
     });
   });
 

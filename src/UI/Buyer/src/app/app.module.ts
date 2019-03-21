@@ -1,5 +1,5 @@
-// core services
-import { NgModule } from '@angular/core';
+// angular core
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -9,21 +9,18 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
 import { CookieModule } from 'ngx-cookie';
 import { ToastrModule } from 'ngx-toastr';
-
 import { OrderCloudModule } from '@ordercloud/angular-sdk';
 import { OcSDKConfig } from '@app-buyer/config/ordercloud-sdk.config';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
 
-// shared module
-import { SharedModule } from '@app-buyer/shared';
-
 // app modules
+import { SharedModule } from '@app-buyer/shared';
 import { LayoutModule } from '@app-buyer/layout/layout.module';
 import { AuthModule } from '@app-buyer/auth/auth.module';
-
-// app components
-import { AppComponent } from '@app-buyer/app.component';
 import { AppRoutingModule } from '@app-buyer/app-routing.module';
+
+// app component
+import { AppComponent } from '@app-buyer/app.component';
 
 // static pages
 import { SupportComponent } from './static-pages/support/support.component';
@@ -41,6 +38,9 @@ import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateNativeAdapter } from '@app-buyer/config/date-picker.config';
 import { TermsAndConditionsComponent } from './static-pages/terms-and-conditions/terms-and-conditions.component';
 
+// error handler config
+import { AppErrorHandler } from './config/error-handling.config';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,26 +49,26 @@ import { TermsAndConditionsComponent } from './static-pages/terms-and-conditions
     TermsAndConditionsComponent,
   ],
   imports: [
-    /**
-     * app modules
-     */
-    AppRoutingModule,
-    AuthModule,
+    // angular core modules
     BrowserAnimationsModule,
     BrowserModule,
+
+    // app modules
+    AppRoutingModule,
+    AuthModule,
     LayoutModule,
 
     /**
      * third party modules
      * only those that must be installed
-     * with forRoot should be defined here, all else
+     * with forRoot (except shared) should be defined here, all else
      * can live in shared
      */
+    SharedModule,
     CookieModule.forRoot(),
     NgProgressModule.forRoot(),
     NgProgressHttpModule,
     OrderCloudModule.forRoot(OcSDKConfig),
-    SharedModule.forRoot(),
     ToastrModule.forRoot(),
     NgxImageZoomModule.forRoot(),
   ],
@@ -89,6 +89,7 @@ import { TermsAndConditionsComponent } from './static-pages/terms-and-conditions
       multi: true,
     },
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    { provide: ErrorHandler, useClass: AppErrorHandler },
   ],
   bootstrap: [AppComponent],
 })

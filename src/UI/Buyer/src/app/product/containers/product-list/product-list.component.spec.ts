@@ -1,4 +1,3 @@
-import { ModalComponent } from '@app-buyer/shared/components/modal/modal.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductListComponent } from '@app-buyer/product/containers/product-list/product-list.component';
@@ -58,6 +57,7 @@ describe('ProductListComponent', () => {
   };
   const ocLineItemService = {
     create: jasmine.createSpy('create').and.returnValue(of(null)),
+    patch: jasmine.createSpy('patch').and.returnValue(of(null)),
   };
   const favoriteProductsService = {
     getFavorites: () => ['Id1', 'Id2'],
@@ -89,7 +89,6 @@ describe('ProductListComponent', () => {
         FontAwesomeModule,
       ],
       providers: [
-        AppStateService,
         NgbPaginationConfig,
         { provide: AppLineItemService, useValue: ocLineItemService },
         {
@@ -446,6 +445,28 @@ describe('ProductListComponent', () => {
       expect(ocLineItemService.create).toHaveBeenCalledWith(
         mockEvent.product,
         mockEvent.quantity
+      );
+    });
+    it('should call AppStateService.addToCartEvent', () => {
+      expect(appStateService.addToCartSubject.next).toHaveBeenCalledWith(
+        mockEvent
+      );
+    });
+  });
+  describe('updateLi', () => {
+    const mockEvent = {
+      product: { ID: 'MockProduct' },
+      quantity: 3,
+      LineItemId: 'MockLiID',
+    };
+    beforeEach(() => {
+      spyOn(appStateService.addToCartSubject, 'next');
+      component.updateLi(mockEvent);
+    });
+    it('should call ocLineItemService.patch', () => {
+      expect(ocLineItemService.patch).toHaveBeenCalledWith(
+        mockEvent.LineItemId,
+        { Quantity: mockEvent.quantity }
       );
     });
     it('should call AppStateService.addToCartEvent', () => {

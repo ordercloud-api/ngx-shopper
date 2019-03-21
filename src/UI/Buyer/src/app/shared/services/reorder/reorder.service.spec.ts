@@ -1,10 +1,6 @@
-import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
-import { element } from 'protractor';
-import { async, TestBed, inject } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { AppReorderService } from '@app-buyer/shared/services/reorder/reorder.service';
-import { OrderReorderResponse } from '@app-buyer/shared/services/reorder/reorder.interface';
-import { OcMeService, BuyerProduct, LineItem } from '@ordercloud/angular-sdk';
-import { and } from '@angular/router/src/utils/collection';
+import { OcMeService } from '@ordercloud/angular-sdk';
 import { of } from 'rxjs';
 import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
 
@@ -48,7 +44,6 @@ describe('ReOrder Service', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        AppReorderService,
         { provide: AppLineItemService, useValue: appLineItemService },
         { provide: OcMeService, useValue: meService },
       ],

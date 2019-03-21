@@ -8,7 +8,9 @@ import { OcTokenService } from '@ordercloud/angular-sdk';
 import { AppStateService } from '@app-seller/shared/services/app-state/app-state.service';
 import { AppAuthService } from '@app-seller/auth/services/app-auth.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class HasTokenGuard implements CanActivate {
   constructor(
     private ocTokenService: OcTokenService,

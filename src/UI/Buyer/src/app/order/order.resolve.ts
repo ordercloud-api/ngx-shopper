@@ -5,7 +5,9 @@ import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppLineItemService } from '@app-buyer/shared';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OrderResolve implements Resolve<any> {
   constructor(
     private ocOrderService: OcOrderService,

@@ -1,20 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { InjectionToken, NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CookieModule } from 'ngx-cookie';
-import {
-  OcSupplierService,
-  OcLineItemService,
-  OcTokenService,
-  OcOrderService,
-} from '@ordercloud/angular-sdk';
-
-import { AppLineItemService, AppStateService } from '@app-buyer/shared';
 import {
   applicationConfiguration,
   AppConfig,
@@ -35,14 +26,8 @@ describe('LineItemSummaryComponent', () => {
         CookieModule.forRoot(),
       ],
       providers: [
-        AppLineItemService,
-        OcSupplierService,
-        AppStateService,
-        OcLineItemService,
         HttpClient,
         HttpHandler,
-        OcTokenService,
-        OcOrderService,
         {
           provide: applicationConfiguration,
           useValue: new InjectionToken<AppConfig>('app.config'),

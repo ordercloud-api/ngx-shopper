@@ -3,7 +3,9 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { MeUser, Order, ListLineItem } from '@ordercloud/angular-sdk';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppStateService {
   // Documentation on BehaviorSubject http://reactivex.io/rxjs/manual/overview.html#behaviorsubject
   public userSubject: BehaviorSubject<MeUser>;

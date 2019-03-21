@@ -6,7 +6,7 @@ describe('OcFormErrorService', () => {
   let service;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AppFormErrorService],
+      providers: [],
     });
   });
 

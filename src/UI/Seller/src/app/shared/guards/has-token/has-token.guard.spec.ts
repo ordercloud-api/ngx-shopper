@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { HasTokenGuard } from '@app-seller/shared/guards/has-token/has-token.guard';
 import { OcTokenService } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
@@ -42,7 +41,6 @@ describe('HasTokenGuard', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        HasTokenGuard,
         { provide: applicationConfiguration, useValue: appConfig },
         { provide: AppAuthService, useValue: appAuthService },
         { provide: Router, useValue: router },
