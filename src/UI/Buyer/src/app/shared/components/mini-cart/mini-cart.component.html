@@ -1,6 +1,7 @@
 <div class="card">
   <div class="card-header text-center">My Cart</div>
-  <div class="list-group list-group-flush">
+  <div *ngIf="lineItems.Items.length > 0"
+       class="list-group list-group-flush">
     <div class="list-group-item"
          *ngFor="let li of lineItems.Items">
       <a class="link-text"
@@ -18,7 +19,10 @@
       </div>
     </div>
   </div>
-  <div class="d-flex justify-content-between card-footer">
+  <div class="card-body"
+       *ngIf="lineItems.Items.length === 0">No items in the cart</div>
+  <div *ngIf="lineItems.Items.length > 0"
+       class="d-flex justify-content-between card-footer">
     <div>
       <button class="btn btn-sm btn-primary"
               routerLink="/cart"
