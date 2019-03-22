@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-header text-center">My Cart</div>
+  <div *ngIf="lineItems.Items.length > 0"
+       class="list-group list-group-flush">
+    <div class="list-group-item"
+         *ngFor="let li of lineItems.Items">
+      <a class="link-text"
+         [routerLink]="['/products', li.Product.ID]"
+         (click)="close()">{{ li.Product.Name }}</a>
+      <div class="d-flex justify-content-between">
+        <div><span class="text-muted">Qty:</span> {{ li.Quantity | number}}</div>
+        <div><span class="text-muted">Unit Price:</span> {{ li.UnitPrice | currency}}</div>
+      </div>
+    </div>
+    <div class="list-group-item">
+      <div class="d-flex justify-content-between">
+        <div>Subtotal</div>
+        <div>{{ order.Subtotal | currency}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body"
+       *ngIf="lineItems.Items.length === 0">No items in the cart</div>
+  <div *ngIf="lineItems.Items.length > 0"
+       class="d-flex justify-content-between card-footer">
+    <div>
+      <button class="btn btn-sm btn-primary"
+              routerLink="/cart"
+              (click)="close()">Edit Cart</button>
+    </div>
+    <div>
+      <button class="btn btn-sm btn-primary"
+              routerLink="/checkout"
+              (click)="close()">Checkout</button>
+    </div>
+  </div>
+</div>

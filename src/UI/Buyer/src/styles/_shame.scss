@@ -66,3 +66,8 @@ shared-address-display {
 .card-body#confirm {
   flex:none;
 }
+.mini-cart-popover {
+  .popover-body {
+    padding: 0;
+  }
+}
