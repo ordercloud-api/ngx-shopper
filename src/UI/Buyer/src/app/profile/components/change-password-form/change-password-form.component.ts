@@ -7,7 +7,7 @@ import { MeUser } from '@ordercloud/angular-sdk';
 import { ValidateStrongPassword } from '@app-buyer/shared/validators/strong-password/strong-password.validator';
 
 @Component({
-  selector: 'shared-change-password-form',
+  selector: 'profile-change-password-form',
   templateUrl: './change-password-form.component.html',
   styleUrls: ['./change-password-form.component.scss'],
 })

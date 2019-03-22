@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InjectionToken } from '@angular/core';
 import { of } from 'rxjs';
@@ -11,10 +11,7 @@ import {
   AppConfig,
 } from '@app-buyer/config/app.config';
 
-import {
-  OcPasswordResetService,
-  OcTokenService,
-} from '@ordercloud/angular-sdk';
+import { OcPasswordResetService } from '@ordercloud/angular-sdk';
 import { CookieModule } from 'ngx-cookie';
 import { ToastrService } from 'ngx-toastr';
 import { AppFormErrorService } from '@app-buyer/shared';
@@ -44,7 +41,6 @@ describe('ResetPasswordComponent', () => {
       declarations: [ResetPasswordComponent],
       imports: [ReactiveFormsModule, CookieModule.forRoot(), HttpClientModule],
       providers: [
-        OcTokenService,
         { provide: OcPasswordResetService, useValue: ocPasswordService },
         { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: activatedRoute },

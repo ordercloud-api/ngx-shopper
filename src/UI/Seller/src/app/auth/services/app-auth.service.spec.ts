@@ -55,10 +55,7 @@ describe('AppAuthService', () => {
       providers: [
         { provide: Router, useValue: router },
         { provide: CookieService, useValue: cookieService },
-        OcAuthService,
-        AppAuthService,
         { provide: AppErrorHandler, useValue: appErrorHandler },
-        OcTokenService,
         { provide: Configuration, useValue: new Configuration() },
         { provide: applicationConfiguration, useValue: appConfig },
         { provide: AppStateService, useValue: appStateService },

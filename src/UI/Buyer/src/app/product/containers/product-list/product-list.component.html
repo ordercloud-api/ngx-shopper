@@ -81,16 +81,20 @@
       </div>
       <div class="card"
            *ngIf="productList.Items.length === 0">
-        <b class="card-body text-center">No products found.</b>
+        <shared-no-results message="No products found."
+                           [actionText]="hasQueryParams ? 'clear search criteria' : 'go back to the home page'"
+                           (action)="hasQueryParams ? clearAllFilters() : routeHome()"></shared-no-results>
       </div>
       <div *ngIf="productList.Items.length > 0">
         <div class="product-list-grid row align-items-stretch">
           <product-product-card *ngFor="let product of productList.Items"
                                 [product]="product"
                                 [favorite]="favoriteProductsService.isFavorite(product)"
+                                [lineItems]="lineItems"
                                 (setFavorite)="favoriteProductsService.setFavoriteValue($event, product)"
                                 class="col-sm-6 col-md-4 col-xl-3 d-flex"
-                                (addedToCart)="addToCart($event)">
+                                (addedToCart)="addToCart($event)"
+                                (updatedLi)="updateLi($event)">
           </product-product-card>
         </div>
         <ngb-pagination *ngIf="productList.Meta.TotalPages > 1"
@@ -99,7 +103,8 @@
                         [collectionSize]="productList.Meta.TotalCount"
                         [pageSize]="productList.Meta.PageSize"
                         [(page)]="productList.Meta.Page"
-                        (pageChange)="changePage($event)"></ngb-pagination>
+                        (pageChange)="changePage($event)"
+                        [rotate]="true"></ngb-pagination>
       </div>
     </div>
   </div>

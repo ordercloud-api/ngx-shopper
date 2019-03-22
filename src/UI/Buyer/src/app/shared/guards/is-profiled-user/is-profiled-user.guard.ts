@@ -3,7 +3,9 @@ import { CanActivate } from '@angular/router';
 
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class IsProfiledUserGuard implements CanActivate {
   constructor(private appStateService: AppStateService) {}
 

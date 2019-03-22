@@ -5,7 +5,7 @@ import { RegexService } from '@app-seller/shared/services/regex/regex.service';
 describe('RegexService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [RegexService],
+      providers: [],
     });
   });
 

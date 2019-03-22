@@ -5,7 +5,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule, FormsModule, FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AppFormErrorService } from '@app-seller/shared/services/form-error/form-error.service';
-import { RegexService } from '@app-seller/shared/services/regex/regex.service';
 
 describe('CarouselSlideDisplayComponent', () => {
   let component: CarouselSlideDisplayComponent;
@@ -27,7 +26,6 @@ describe('CarouselSlideDisplayComponent', () => {
         FormBuilder,
         { provide: ToastrService, useValue: toastrService },
         { provide: AppFormErrorService, useValue: formErrorService },
-        RegexService,
       ],
       declarations: [CarouselSlideDisplayComponent],
     }).compileComponents();

@@ -10,7 +10,9 @@ import {
  * interacting with ngb datepicker instead of their ngbDateStruct
  * docs on adapter: https://ng-bootstrap.github.io/#/components/datepicker/examples#adapter
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NgbDateNativeAdapter extends NgbDateAdapter<Date> {
   fromModel(date: Date): NgbDateStruct {
     return date && date.getFullYear
@@ -31,7 +33,9 @@ export class NgbDateNativeAdapter extends NgbDateAdapter<Date> {
  * this formatter overrides the default yyyy-mm-dd format
  * provided by ng-bootstrap to a custom one of mm-dd-yyyy
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
   parse(value: string): NgbDateStruct {
     if (value) {

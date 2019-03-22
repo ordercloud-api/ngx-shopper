@@ -1,10 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { environment } from '../../environments/environment';
 
-export const applicationConfiguration = new InjectionToken<AppConfig>(
-  'app.config'
-);
-
 export const ocAppConfig: AppConfig = {
   appname: 'OrderCloud Admin',
   clientID: environment.clientID,
@@ -35,6 +31,11 @@ export const ocAppConfig: AppConfig = {
     'CatalogAdmin',
   ],
 };
+
+export const applicationConfiguration = new InjectionToken<AppConfig>(
+  'app.config',
+  { providedIn: 'root', factory: () => ocAppConfig }
+);
 
 export interface AppConfig {
   /**

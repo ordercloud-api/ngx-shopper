@@ -11,10 +11,7 @@ describe('IsProfiledUserGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
-      providers: [
-        IsProfiledUserGuard,
-        { provide: AppStateService, useValue: appStateService },
-      ],
+      providers: [{ provide: AppStateService, useValue: appStateService }],
     });
     service = TestBed.get(IsProfiledUserGuard);
   });

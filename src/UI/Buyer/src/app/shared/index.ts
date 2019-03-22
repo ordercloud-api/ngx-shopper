@@ -1,5 +1,4 @@
 // components
-export * from '@app-buyer/shared/containers/register/register.component';
 export * from '@app-buyer/shared/components/page-title/page-title.component';
 
 // models

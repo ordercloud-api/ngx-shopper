@@ -1,25 +1,19 @@
-<div *ngIf="!shouldAllowUpdate"
-     class="text-center mt-3">
+<div class="text-center mt-3">
   <p>Already have an account? <button type="button"
             class="btn btn-link"
             routerLink="/login">Login</button></p>
   <h1 class="display-4">{{appConfig.appname}}</h1>
 </div>
-<div *ngIf="shouldAllowUpdate">
-  <h1 class="page-heading border-bottom pb-3">Account Details</h1>
-</div>
 <div class="row">
-  <div class="col-lg-6"
-       [ngClass]="{'mx-auto': !shouldAllowUpdate}"
-       [ngStyle]="{'max-width': !shouldAllowUpdate ? '350px' : ''}">
-    <h3 *ngIf="!shouldAllowUpdate"
-        class="text-center headline-text mb-3">Sign Up</h3>
+  <div class="col-lg-6 mx-auto"
+       style="max-width:400px">
+    <h3 class="text-center headline-text mb-3">Sign Up</h3>
     <form (ngSubmit)="onSubmit()"
           novalidate
           [formGroup]="form"
           name="RegisterForm">
       <div class="form-group">
-        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+        <label class="sr-only"
                for="Username">Username</label>
         <input type="text"
                formControlName="Username"
@@ -32,7 +26,7 @@
               class="error-message">Username is required</span>
       </div>
       <div class="form-group">
-        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+        <label class="sr-only"
                for="FirstName">First Name</label>
         <input type="text"
                formControlName="FirstName"
@@ -46,7 +40,7 @@
               class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
       </div>
       <div class="form-group">
-        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+        <label class="sr-only"
                for="LastName">Last Name</label>
         <input type="text"
                formControlName="LastName"
@@ -60,7 +54,7 @@
               class="error-message">Name can only contain characters Aa-Zz 0-9 - ' .</span>
       </div>
       <div class="form-group">
-        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+        <label class="sr-only"
                for="Email">Email</label>
         <input type="email"
                formControlName="Email"
@@ -72,7 +66,7 @@
               class="error-message">Please enter a valid email</span>
       </div>
       <div class="form-group">
-        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+        <label class="sr-only"
                for="Phone">Phone Number</label>
         <input type="text"
                formControlName="Phone"
@@ -83,9 +77,8 @@
         <span *ngIf="hasPatternError('Phone')"
               class="error-message">Phone can only contain 20 numbers or "-" chars (no spaces)</span>
       </div>
-      <div *ngIf="!shouldAllowUpdate"
-           class="form-group">
-        <label [ngClass]="{'sr-only': !shouldAllowUpdate}"
+      <div class="form-group">
+        <label class="sr-only"
                for="Password">Password</label>
         <input type="password"
                formControlName="Password"
@@ -96,8 +89,7 @@
         <span *ngIf="hasRequiredError('Password')"
               class="error-message">Password is required</span>
       </div>
-      <div *ngIf="!shouldAllowUpdate"
-           class="form-group">
+      <div class="form-group">
         <label class="sr-only"
                for="ConfirmPassword">Confirm Password</label>
         <input type="password"
@@ -111,28 +103,14 @@
         <span *ngIf="passwordMismatchError()"
               class="error-message">Passwords must match</span>
       </div>
-      <button type="button"
-              *ngIf="shouldAllowUpdate"
-              class="btn btn-outline-primary btn-block"
-              (click)="openChangePasswordModal()">Change
-        Password
-      </button>
       <button type="submit"
-              class="btn btn-primary btn-lg btn-block mt-4">{{ shouldAllowUpdate ? 'Save Changes' : 'Register'
-        }}
+              class="btn btn-primary btn-lg btn-block mt-4">Register
       </button>
     </form>
-    <button *ngIf="!shouldAllowUpdate"
-            type="button"
+    <button type="button"
             class="btn btn-link btn-block"
             routerLink="/forgot-password">Forgot
       Password
     </button>
   </div>
 </div>
-
-<!--  Change Password Modal Content -->
-<shared-modal [id]="changePasswordModalId"
-              modalTitle="Change Password">
-  <shared-change-password-form (changePassword)="onChangePassword($event)"></shared-change-password-form>
-</shared-modal>

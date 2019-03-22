@@ -1,10 +1,12 @@
 ![Travis (.org) branch](https://img.shields.io/travis/ordercloud-api/ngx-shopper/master.svg?style=flat-square)
+
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)
+
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Overview
 
-The buyer app is the entire shopping experience from the perspective of a buyer user. This front end ecommerce application is built with Angular(6+) and is currently MVP complete meaning its ready to start taking orders!
+The buyer app is the entire shopping experience from the perspective of a buyer user. This front end ecommerce application is built with Angular(7+) and is currently MVP complete meaning its ready to start taking orders!
 
 ## Features
 
