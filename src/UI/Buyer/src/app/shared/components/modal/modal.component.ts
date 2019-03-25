@@ -24,7 +24,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
  *  ModalService.open('myId')
  */
 
-// Put this on a custom component within the <shared-model> if you want to reset it when the modal closes.
+// Put this on a custom component within the <shared-model> tags if you want to reset it when the modal closes.
 @Directive({ selector: '[ResetOnModalClose]' })
 export class ResetDirective {
   constructor(private view: ViewContainerRef) {}

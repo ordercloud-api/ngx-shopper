@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MiniCartComponent } from './mini-cart.component';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 describe('MiniCartComponent', () => {
   let component: MiniCartComponent;
@@ -32,7 +33,7 @@ describe('MiniCartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MiniCartComponent],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, FontAwesomeModule],
       providers: [{ provide: AppStateService, useValue: appStateService }],
     }).compileComponents();
   }));

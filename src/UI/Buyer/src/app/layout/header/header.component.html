@@ -81,7 +81,9 @@
     <shared-search class="mr-3 w-100"
                    placeholderText="Search Products..."
                    (searched)="searchProducts($event)"></shared-search>
-    <ul class="navbar-nav">
+    <ul class="navbar-nav"
+        #cartIcon
+        (mouseleave)="closeMiniCart($event, popover)">
       <li class="nav-item"
           [ngbPopover]="CartHoverContent"
           #popover="ngbPopover"

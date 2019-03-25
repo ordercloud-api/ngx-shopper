@@ -1,17 +1,22 @@
-<div class="card">
+<div class="card"
+     (mouseleave)="close()">
   <div class="card-header text-center">My Cart</div>
   <div *ngIf="lineItems.Items.length > 0"
        class="list-group list-group-flush">
     <div class="list-group-item"
-         *ngFor="let li of lineItems.Items">
+         *ngFor="let li of lineItems.Items | slice:0:maxLines">
       <a class="link-text"
          [routerLink]="['/products', li.Product.ID]"
          (click)="close()">{{ li.Product.Name }}</a>
       <div class="d-flex justify-content-between">
         <div><span class="text-muted">Qty:</span> {{ li.Quantity | number}}</div>
-        <div><span class="text-muted">Unit Price:</span> {{ li.UnitPrice | currency}}</div>
+        <div><span class="text-muted">Unit Price:</span> {{ li.UnitPrice || 0 | currency}}</div>
       </div>
     </div>
+    <h4 *ngIf="lineItems.Items.length > maxLines"
+        class="list-group-item text-center">
+      <fa-icon [icon]="faEllipsisH"></fa-icon>
+    </h4>
     <div class="list-group-item">
       <div class="d-flex justify-content-between">
         <div>Subtotal</div>
