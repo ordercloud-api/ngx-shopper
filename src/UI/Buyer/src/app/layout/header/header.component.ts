@@ -1,4 +1,11 @@
-import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ViewChild,
+  OnDestroy,
+  ElementRef,
+} from '@angular/core';
 import {
   applicationConfiguration,
   AppConfig,
@@ -36,6 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   alive = true;
   addToCartQuantity: number;
   @ViewChild('addtocartPopover') public popover: NgbPopover;
+  @ViewChild('cartIcon') cartIcon: ElementRef;
   @ViewChild(SearchComponent) public search: SearchComponent;
 
   faSearch = faSearch;
@@ -110,6 +118,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.search.clearWithoutEmit();
         }
       });
+  }
+
+  closeMiniCart(event: MouseEvent, popover: NgbPopover) {
+    const rect = this.cartIcon.nativeElement.getBoundingClientRect();
+    // do not close if leaving through the bottom
+    if (event.y < rect.top + rect.height) {
+      popover.close();
+    }
   }
 
   // TODO: we should move responsibility for 'showing' up to the parent component instead of hard-coding route-names.
