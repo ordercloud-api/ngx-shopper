@@ -42,7 +42,8 @@
       <hr>
       <p class="mt-4">{{ product.Description || 'This product has no description.' }}</p>
       <product-spec-form *ngIf="isOrderable() && specs.length > 0"
-                         [specs]="specs"></product-spec-form>
+                         [specs]="specs"
+                         (formUpdated)="specsUpdated($event)"></product-spec-form>
       <div *ngIf="!isOrderable()"
            class="alert alert-info">
         This is a view-only product and cannot be ordered

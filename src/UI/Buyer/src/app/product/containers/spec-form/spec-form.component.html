@@ -10,7 +10,7 @@
               disabled>Select</option>
       <option *ngFor="let option of spec.Options"
               [ngValue]="option.ID">
-        {{ option.Value }}
+        {{ option.Value }} <span class="text-light">{{ getMarkupText(option) }}</span>
       </option>
     </select>
   </div>

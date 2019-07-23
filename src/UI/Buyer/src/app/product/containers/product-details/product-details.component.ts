@@ -13,10 +13,11 @@ import {
   OcMeService,
   BuyerSpec,
   LineItemSpec,
+  SpecOption,
 } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
-import { minBy as _minBy } from 'lodash';
+import { maxBy as _maxBy } from 'lodash';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 import { find as _find } from 'lodash';
 import { SpecFormComponent } from '../spec-form/spec-form.component';
@@ -32,6 +33,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   specFormComponent: SpecFormComponent;
   quantityInputReady = false;
   specs: BuyerSpec[] = [];
+  specSelections: FullSpecOption[];
   product: BuyerProduct;
   relatedProducts$: Observable<BuyerProduct[]>;
   imageUrls: string[] = [];
@@ -83,15 +85,15 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     return forkJoin(requests);
   }
 
-  addToCart(event: AddToCartEvent): void {
-    const specs: LineItemSpec[] = [];
-    const form = this.specFormComponent.specForm.value;
-    for (const specID in form) {
-      if (form.hasOwnProperty(specID)) {
-        specs.push({ SpecID: specID, OptionID: form[specID] });
-      }
-    }
+  specsUpdated(event: FullSpecOption[]) {
+    this.specSelections = event;
+  }
 
+  addToCart(event: AddToCartEvent): void {
+    const specs: LineItemSpec[] = this.specSelections.map((o) => ({
+      SpecID: o.SpecID,
+      OptionID: o.ID,
+    }));
     this.cartService
       .addToCart(event.product.ID, event.quantity, specs)
       .subscribe(() => this.appStateService.addToCartSubject.next(event));
@@ -129,14 +131,12 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     }
     const quantity = this.quantityInputComponent.form.value.quantity;
     const priceBreaks = this.product.PriceSchedule.PriceBreaks;
-    const startingBreak = _minBy(priceBreaks, 'Quantity');
+    const lessThanOrdered = priceBreaks.filter(
+      (price) => price.Quantity < quantity
+    );
+    const selectedBreak = _maxBy(lessThanOrdered, 'Quantity');
 
-    const selectedBreak = priceBreaks.reduce((current, candidate) => {
-      return candidate.Quantity > current.Quantity &&
-        candidate.Quantity <= quantity
-        ? candidate
-        : current;
-    }, startingBreak);
+    // TODO - math
 
     return selectedBreak.Price * quantity;
   }
@@ -147,4 +147,8 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     // If you remove the @ViewChild(QuantityInputComponent) this will be unecessary.
     this.changeDetectorRef.detectChanges();
   }
+}
+
+export interface FullSpecOption extends SpecOption {
+  SpecID: string;
 }
