@@ -35,7 +35,6 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   product: BuyerProduct;
   relatedProducts$: Observable<BuyerProduct[]>;
   imageUrls: string[] = [];
-  matchingLi = null;
 
   constructor(
     private ocMeService: OcMeService,
@@ -59,11 +58,6 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
 
   async getProductData(productID: string): Promise<void> {
     if (!productID) return;
-    this.appStateService.lineItemSubject.subscribe((lineItems) => {
-      this.matchingLi = _find(lineItems.Items, {
-        ProductID: this.product.ID,
-      });
-    });
     this.product = await this.ocMeService.GetProduct(productID).toPromise();
     this.specs = await this.listSpecs(productID);
     this.relatedProducts$ = this.getRelatedProducts(this.product);
@@ -99,7 +93,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     }
 
     this.cartService
-      .addToCart(event.product.ID, event.quantity)
+      .addToCart(event.product.ID, event.quantity, specs)
       .subscribe(() => this.appStateService.addToCartSubject.next(event));
   }
 

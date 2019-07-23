@@ -14,6 +14,7 @@ import {
   isUndefined as _isUndefined,
   flatMap as _flatMap,
   get as _get,
+  isEqual as _isEqual,
 } from 'lodash';
 
 @Injectable({
@@ -113,8 +114,8 @@ export class CartService {
   private addLineItem(newLI: LineItem): Observable<LineItem> {
     const lineItems = this.appStateService.lineItemSubject.value;
     // if line item exists simply update quantity, else create
-    const existingLI = lineItems.Items.find(
-      (li: LineItem) => li.ProductID === newLI.ProductID
+    const existingLI = lineItems.Items.find((li) =>
+      this.LineItemsMatch(li, newLI)
     );
 
     newLI.Quantity += _get(existingLI, 'Quantity', 0);
@@ -137,5 +138,10 @@ export class CartService {
       this.appStateService.orderSubject.next(res[0]);
       this.appStateService.lineItemSubject.next(res[1]);
     });
+  }
+
+  // product ID and specs must be the same
+  private LineItemsMatch(li1: LineItem, li2: LineItem): boolean {
+    return li1.ProductID === li2.ProductID && _isEqual(li1.Specs, li2.Specs);
   }
 }
