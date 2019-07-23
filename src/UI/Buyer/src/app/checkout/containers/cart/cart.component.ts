@@ -67,7 +67,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   deleteLineItem(li: LineItem) {
-    return this.cartService.delete(li.ID).subscribe();
+    return this.cartService.removeItem(li.ID).subscribe();
   }
 
   updateLineItem(li: LineItem) {

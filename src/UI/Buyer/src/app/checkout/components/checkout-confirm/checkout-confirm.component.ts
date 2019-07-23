@@ -48,7 +48,7 @@ export class CheckoutConfirmComponent extends CheckoutSectionBaseComponent
       'outgoing',
       this.order.ID
     );
-    this.lineItems$ = this.cartService.listAll(this.order.ID);
+    this.lineItems$ = this.cartService.listAllItems(this.order.ID);
   }
 
   saveCommentsAndSubmitOrder() {

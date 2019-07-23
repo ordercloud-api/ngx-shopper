@@ -33,7 +33,7 @@ export class CartService {
     });
   }
 
-  listAll(orderID: string): Observable<ListLineItem> {
+  listAllItems(orderID: string): Observable<ListLineItem> {
     const options = {
       page: 1,
       pageSize: 100, // The maximum # of records an OC request can return.
@@ -58,7 +58,7 @@ export class CartService {
     );
   }
 
-  delete(lineItemID: string) {
+  removeItem(lineItemID: string) {
     return this.ocLineItemService
       .Delete('outgoing', this.currentOrder.ID, lineItemID)
       .pipe(tap(() => this.updateAppState()));
@@ -132,7 +132,7 @@ export class CartService {
   private updateAppState() {
     forkJoin([
       this.ocOrderService.Get('outgoing', this.currentOrder.ID),
-      this.listAll(this.currentOrder.ID),
+      this.listAllItems(this.currentOrder.ID),
     ]).subscribe((res) => {
       this.appStateService.orderSubject.next(res[0]);
       this.appStateService.lineItemSubject.next(res[1]);

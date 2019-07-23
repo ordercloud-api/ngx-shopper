@@ -67,7 +67,7 @@ export class BaseResolveService {
   private setLineItems(): Observable<ListLineItem> {
     const order = this.appStateService.orderSubject.value;
     if (order.DateCreated) {
-      return this.cartService.listAll(order.ID);
+      return this.cartService.listAllItems(order.ID);
     }
     const lineitemlist = {
       Meta: { Page: 1, PageSize: 25, TotalCount: 0, TotalPages: 1 },

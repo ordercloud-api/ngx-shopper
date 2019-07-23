@@ -18,7 +18,7 @@ export class OrderResolve implements Resolve<any> {
     const orderID = route.paramMap.get('orderID');
     return forkJoin([
       this.ocOrderService.Get('outgoing', orderID),
-      this.cartService.listAll(orderID),
+      this.cartService.listAllItems(orderID),
     ]).pipe(map((results) => ({ order: results[0], lineItems: results[1] })));
   }
 }

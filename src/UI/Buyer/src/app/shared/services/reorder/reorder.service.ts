@@ -17,7 +17,7 @@ export class AppReorderService {
 
   public order(orderID: string): Observable<OrderReorderResponse> {
     if (!orderID) throw new Error('Needs Order ID');
-    return this.cartService.listAll(orderID).pipe(
+    return this.cartService.listAllItems(orderID).pipe(
       flatMap((list) => {
         const lineItems = of(list.Items); // this sets var into an observable
         const productIds = list.Items.map((item) => item.ProductID);
