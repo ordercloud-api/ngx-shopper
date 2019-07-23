@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutConfirmComponent } from '@app-buyer/checkout/components/checkout-confirm/checkout-confirm.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { AppStateService, AppLineItemService } from '@app-buyer/shared';
+import { AppStateService, CartService } from '@app-buyer/shared';
 import { AppPaymentService } from '@app-buyer/shared/services/app-payment-service/app-payment.service';
 import { FormBuilder } from '@angular/forms';
 import { OcOrderService } from '@ordercloud/angular-sdk';
@@ -35,7 +35,7 @@ describe('CheckoutConfirmComponent', () => {
         { provide: OcOrderService, useValue: orderService },
         { provide: AppStateService, useValue: appStateService },
         { provide: AppPaymentService, useValue: appPaymentService },
-        { provide: AppLineItemService, useValue: ocLineItemService },
+        { provide: CartService, useValue: ocLineItemService },
         { provide: applicationConfiguration, useValue: mockConfig },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template

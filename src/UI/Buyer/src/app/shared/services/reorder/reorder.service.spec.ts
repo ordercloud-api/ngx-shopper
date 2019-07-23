@@ -2,7 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { AppReorderService } from '@app-buyer/shared/services/reorder/reorder.service';
 import { OcMeService } from '@ordercloud/angular-sdk';
 import { of } from 'rxjs';
-import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
+import { CartService } from '@app-buyer/shared/services/cart/cart.service';
 
 describe('ReOrder Service', () => {
   const mockLineItems = {
@@ -44,12 +44,12 @@ describe('ReOrder Service', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: AppLineItemService, useValue: appLineItemService },
+        { provide: CartService, useValue: appLineItemService },
         { provide: OcMeService, useValue: meService },
       ],
     });
     service = TestBed.get(AppReorderService);
-    appLineItemService = TestBed.get(AppLineItemService);
+    appLineItemService = TestBed.get(CartService);
     meService = TestBed.get(OcMeService);
   }));
 

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
-import { AppLineItemService, AppStateService } from '@app-buyer/shared';
+import { CartService, AppStateService } from '@app-buyer/shared';
 import { ProductDetailsComponent } from '@app-buyer/product/containers/product-details/product-details.component';
 
 import { CookieService, CookieModule } from 'ngx-cookie';
@@ -68,7 +68,7 @@ describe('ProductDetailsComponent', () => {
         CookieService,
         OcLineItemService,
         { provide: OcMeService, useValue: meService },
-        { provide: AppLineItemService, useValue: ocLineItemService },
+        { provide: CartService, useValue: ocLineItemService },
         {
           provide: FavoriteProductsService,
           useValue: favoriteProductsService,

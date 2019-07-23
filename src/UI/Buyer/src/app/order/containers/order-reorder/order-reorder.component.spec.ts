@@ -5,7 +5,7 @@ import { OrderReorderComponent } from '@app-buyer/order/containers/order-reorder
 import {
   ModalService,
   AppReorderService,
-  AppLineItemService,
+  CartService,
 } from '@app-buyer/shared';
 import { of } from 'rxjs';
 
@@ -38,7 +38,7 @@ describe('OrderReorderComponent', () => {
       providers: [
         { provide: ModalService, useValue: modalServiceTest },
         { provide: AppReorderService, useValue: AppReorderServiceTest },
-        { provide: AppLineItemService, useValue: AppLineItemServiceTest },
+        { provide: CartService, useValue: AppLineItemServiceTest },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();

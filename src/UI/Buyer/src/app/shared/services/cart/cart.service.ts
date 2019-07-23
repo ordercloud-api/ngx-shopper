@@ -4,8 +4,8 @@ import {
   ListLineItem,
   LineItem,
   OcOrderService,
-  BuyerProduct,
   Order,
+  LineItemSpec,
 } from '@ordercloud/angular-sdk';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { Observable, of, forkJoin } from 'rxjs';
@@ -19,7 +19,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class AppLineItemService {
+export class CartService {
   private initializingOrder = false;
   private currentOrder: Order;
 
@@ -64,16 +64,26 @@ export class AppLineItemService {
       .pipe(tap(() => this.updateAppState()));
   }
 
-  patch(lineItemID: string, partialLineItem: LineItem): Observable<LineItem> {
+  updateQuantity(
+    lineItemID: string,
+    newQuantity: number
+  ): Observable<LineItem> {
     return this.ocLineItemService
-      .Patch('outgoing', this.currentOrder.ID, lineItemID, partialLineItem)
+      .Patch('outgoing', this.currentOrder.ID, lineItemID, {
+        Quantity: newQuantity,
+      })
       .pipe(tap(() => this.updateAppState()));
   }
 
-  create(product: BuyerProduct, quantity: number): Observable<LineItem> {
-    const newLineItem = {
-      ProductID: product.ID,
+  addToCart(
+    productID: string,
+    quantity: number,
+    specs: LineItemSpec[] = []
+  ): Observable<LineItem> {
+    const newLineItem: LineItem = {
+      ProductID: productID,
       Quantity: quantity,
+      Specs: specs,
     };
     // order is well defined, line item can be added
     if (!_isUndefined(this.currentOrder.DateCreated)) {

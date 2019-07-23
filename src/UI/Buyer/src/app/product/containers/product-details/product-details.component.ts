@@ -7,14 +7,19 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
-import { flatMap, tap, catchError } from 'rxjs/operators';
-import { AppLineItemService, AppStateService } from '@app-buyer/shared';
-import { BuyerProduct, OcMeService } from '@ordercloud/angular-sdk';
+import { CartService, AppStateService } from '@app-buyer/shared';
+import {
+  BuyerProduct,
+  OcMeService,
+  BuyerSpec,
+  LineItemSpec,
+} from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { minBy as _minBy } from 'lodash';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 import { find as _find } from 'lodash';
+import { SpecFormComponent } from '../spec-form/spec-form.component';
 @Component({
   selector: 'product-details',
   templateUrl: './product-details.component.html',
@@ -23,7 +28,10 @@ import { find as _find } from 'lodash';
 export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   @ViewChild(QuantityInputComponent)
   quantityInputComponent: QuantityInputComponent;
+  @ViewChild(SpecFormComponent)
+  specFormComponent: SpecFormComponent;
   quantityInputReady = false;
+  specs: BuyerSpec[] = [];
   product: BuyerProduct;
   relatedProducts$: Observable<BuyerProduct[]>;
   imageUrls: string[] = [];
@@ -32,7 +40,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   constructor(
     private ocMeService: OcMeService,
     private activatedRoute: ActivatedRoute,
-    private appLineItemService: AppLineItemService,
+    private cartService: CartService,
     private appStateService: AppStateService,
     private changeDetectorRef: ChangeDetectorRef,
     protected favoriteProductService: FavoriteProductsService, // used in template
@@ -40,40 +48,33 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   ) {}
 
   ngOnInit(): void {
-    this.getProductData()
-      .pipe(
-        catchError(() => {
-          // we're catching the error here to solve for the case that
-          // a user has a saved link to a product that no longer exists
-          // instead of throwing error, let them know product no longer exists
-          // and link them to product list page. Also helps with SEO
-          return of(null);
-        })
-      )
-      .subscribe((x) => (this.product = x));
+    this.activatedRoute.params.subscribe(async (params) => {
+      await this.getProductData(params.productID);
+    });
   }
 
-  routeToProductList() {
+  routeToProductList(): void {
     this.router.navigate(['/products']);
   }
 
-  getProductData(): Observable<BuyerProduct> {
-    return this.activatedRoute.params.pipe(
-      flatMap((params) => {
-        if (params.productID) {
-          return this.ocMeService.GetProduct(params.productID).pipe(
-            tap((prod) => {
-              this.relatedProducts$ = this.getRelatedProducts(prod);
-              this.appStateService.lineItemSubject.subscribe((lineItems) => {
-                this.matchingLi = _find(lineItems.Items, {
-                  ProductID: prod.ID,
-                });
-              });
-            })
-          );
-        }
-      })
-    );
+  async getProductData(productID: string): Promise<void> {
+    if (!productID) return;
+    this.appStateService.lineItemSubject.subscribe((lineItems) => {
+      this.matchingLi = _find(lineItems.Items, {
+        ProductID: this.product.ID,
+      });
+    });
+    this.product = await this.ocMeService.GetProduct(productID).toPromise();
+    this.specs = await this.listSpecs(productID);
+    this.relatedProducts$ = this.getRelatedProducts(this.product);
+  }
+
+  async listSpecs(productID: string): Promise<BuyerSpec[]> {
+    const specs = await this.ocMeService.ListSpecs(productID).toPromise();
+    const details = specs.Items.map((spec) => {
+      return this.ocMeService.GetSpec(productID, spec.ID).toPromise();
+    });
+    return await Promise.all(details);
   }
 
   getRelatedProducts(product: BuyerProduct): Observable<BuyerProduct[]> {
@@ -89,14 +90,16 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   addToCart(event: AddToCartEvent): void {
-    this.appLineItemService
-      .create(event.product, event.quantity)
-      .subscribe(() => this.appStateService.addToCartSubject.next(event));
-  }
-  updateLi(event: AddToCartEvent): void {
-    event.LineItemId = this.matchingLi ? this.matchingLi.ID : null;
-    this.appLineItemService
-      .patch(event.LineItemId, { Quantity: event.quantity })
+    const specs: LineItemSpec[] = [];
+    const form = this.specFormComponent.specForm.value;
+    for (const specID in form) {
+      if (form.hasOwnProperty(specID)) {
+        specs.push({ SpecID: specID, OptionID: form[specID] });
+      }
+    }
+
+    this.cartService
+      .addToCart(event.product.ID, event.quantity)
       .subscribe(() => this.appStateService.addToCartSubject.next(event));
   }
 
@@ -112,6 +115,12 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
       this.product.PriceSchedule.PriceBreaks.length &&
       this.product.PriceSchedule.PriceBreaks[0].Price > 0
     );
+  }
+
+  missingRequiredSpec(): boolean {
+    if (!this.specFormComponent) return false;
+
+    return this.specFormComponent.specForm.invalid;
   }
 
   getTotalPrice(): number {

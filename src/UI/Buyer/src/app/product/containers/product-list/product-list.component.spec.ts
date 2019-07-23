@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListComponent } from '@app-buyer/product/containers/product-list/product-list.component';
 import {
   PageTitleComponent,
-  AppLineItemService,
+  CartService,
   AppStateService,
   ModalService,
 } from '@app-buyer/shared';
@@ -90,7 +90,7 @@ describe('ProductListComponent', () => {
       ],
       providers: [
         NgbPaginationConfig,
-        { provide: AppLineItemService, useValue: ocLineItemService },
+        { provide: CartService, useValue: ocLineItemService },
         {
           provide: ActivatedRoute,
           useValue: { queryParams, snapshot: { queryParams: mockQueryParams } },

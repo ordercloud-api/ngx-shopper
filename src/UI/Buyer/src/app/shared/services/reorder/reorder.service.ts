@@ -4,20 +4,20 @@ import { Observable, of, forkJoin } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { OcMeService, BuyerProduct, LineItem } from '@ordercloud/angular-sdk';
 import { forEach as _forEach, differenceBy as _differenceBy } from 'lodash';
-import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
+import { CartService } from '@app-buyer/shared/services/cart/cart.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppReorderService {
   constructor(
-    private appLineItemService: AppLineItemService,
+    private cartService: CartService,
     private meService: OcMeService
   ) {}
 
   public order(orderID: string): Observable<OrderReorderResponse> {
     if (!orderID) throw new Error('Needs Order ID');
-    return this.appLineItemService.listAll(orderID).pipe(
+    return this.cartService.listAll(orderID).pipe(
       flatMap((list) => {
         const lineItems = of(list.Items); // this sets var into an observable
         const productIds = list.Items.map((item) => item.ProductID);

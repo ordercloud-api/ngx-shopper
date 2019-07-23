@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { OcOrderService } from '@ordercloud/angular-sdk';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AppLineItemService } from '@app-buyer/shared';
+import { CartService } from '@app-buyer/shared';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +11,14 @@ import { AppLineItemService } from '@app-buyer/shared';
 export class OrderResolve implements Resolve<any> {
   constructor(
     private ocOrderService: OcOrderService,
-    private appLineItemService: AppLineItemService
+    private cartService: CartService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot) {
     const orderID = route.paramMap.get('orderID');
     return forkJoin([
       this.ocOrderService.Get('outgoing', orderID),
-      this.appLineItemService.listAll(orderID),
+      this.cartService.listAll(orderID),
     ]).pipe(map((results) => ({ order: results[0], lineItems: results[1] })));
   }
 }
