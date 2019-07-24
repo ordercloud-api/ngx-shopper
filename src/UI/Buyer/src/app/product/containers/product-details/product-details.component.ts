@@ -19,8 +19,9 @@ import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-in
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
 import { minBy as _minBy } from 'lodash';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
-import { find as _find } from 'lodash';
-import { SpecFormComponent } from '../spec-form/spec-form.component';
+import { find as _find, difference as _difference } from 'lodash';
+import { SpecFormComponent } from '@app-buyer/product/components/spec-form/spec-form.component';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'product-details',
   templateUrl: './product-details.component.html',
@@ -31,6 +32,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   quantityInputComponent: QuantityInputComponent;
   @ViewChild(SpecFormComponent)
   specFormComponent: SpecFormComponent;
+  @ViewChild('p') public popover: NgbPopover;
   quantityInputReady = false;
   specs: BuyerSpec[] = [];
   specSelections: FullSpecOption[] = [];
@@ -85,10 +87,6 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     return forkJoin(requests);
   }
 
-  specsUpdated(event: FullSpecOption[]) {
-    this.specSelections = event;
-  }
-
   addToCart(event: AddToCartEvent): void {
     const specs: LineItemSpec[] = this.specSelections.map((o) => ({
       SpecID: o.SpecID,
@@ -112,12 +110,6 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
       this.product.PriceSchedule.PriceBreaks.length &&
       this.product.PriceSchedule.PriceBreaks[0].Price > 0
     );
-  }
-
-  missingRequiredSpec(): boolean {
-    if (!this.specFormComponent) return false;
-
-    return this.specFormComponent.specForm.invalid;
   }
 
   getTotalPrice(): number {
@@ -152,6 +144,16 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     return markups.reduce((x, acc) => x + acc, 0); //sum
   }
 
+  specsUpdated(event: FullSpecOption[]) {
+    this.specSelections = event;
+  }
+
+  missingRequiredSpec(): boolean {
+    if (this.specs.length === 0) return false;
+    if (this.specFormComponent === undefined) return true;
+    return this.specFormComponent.specForm.invalid;
+  }
+
   singleSpecMarkup(
     unitPrice: number,
     quantity: number,
@@ -167,6 +169,21 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
       case 'Percentage':
         return spec.PriceMarkup * unitPrice * 0.01;
     }
+  }
+
+  getFirstMissingSpec(): string {
+    const selected = this.specSelections.map((o) => o.SpecID);
+    const all = this.specs.map((o) => o.ID);
+    return _difference(all, selected)[0];
+  }
+
+  closeSpecPrompt(): void {
+    this.popover.close();
+  }
+
+  openSpecPrompt(): void {
+    if (!this.missingRequiredSpec()) return;
+    this.popover.open();
   }
 
   ngAfterViewChecked() {

@@ -12,7 +12,6 @@ import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.inter
 import { BuyerProduct } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
 import { find as _find } from 'lodash';
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 @Component({
   selector: 'product-product-card',

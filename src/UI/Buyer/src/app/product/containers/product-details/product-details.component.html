@@ -31,12 +31,19 @@
                                  [existingQty]="!matchingLi ? null : matchingLi.Quantity"
                                  (addedToCart)="addToCart($event)">
           </shared-quantity-input>
-          <button [disabled]="missingRequiredSpec()"
-                  class="btn btn-primary ml-2"
-                  type="submit"
-                  (click)="quantityInputComponent.addToCart($event)">Add to Cart
-            <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span>
-          </button>
+          <div class="d-inline-block"
+               ngbPopover="Choose a {{ getFirstMissingSpec() }}"
+               #p="ngbPopover"
+               (mouseenter)="openSpecPrompt()"
+               (mouseleave)="closeSpecPrompt()"
+               triggers="manual">
+            <button [disabled]="missingRequiredSpec()"
+                    class="btn btn-primary ml-2"
+                    type="submit"
+                    (click)="quantityInputComponent.addToCart($event)">Add to Cart
+              <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span>
+            </button>
+          </div>
         </div>
       </div>
       <hr>

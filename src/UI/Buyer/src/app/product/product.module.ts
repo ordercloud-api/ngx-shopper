@@ -11,7 +11,7 @@ import { SortFilterComponent } from '@app-buyer/product/components/sort-filter/s
 import { FacetFilterComponent } from '@app-buyer/product/components/facet-filter/facet-filter.component';
 import { FacetListComponent } from '@app-buyer/product/components/facet-list/facet-list.component';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
-import { SpecFormComponent } from './containers/spec-form/spec-form.component';
+import { SpecFormComponent } from './components/spec-form/spec-form.component';
 
 @NgModule({
   imports: [
