@@ -48,25 +48,6 @@
            class="alert alert-info">
         This is a view-only product and cannot be ordered
       </div>
-      <div class="mt-5">
-        <ngb-tabset>
-          <ngb-tab *ngIf="hasPrice()">
-            <ng-template ngbTabTitle>Price Breaks</ng-template>
-            <ng-template ngbTabContent>
-              <table class="mt-4 table table-striped">
-                <tr>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                </tr>
-                <tr *ngFor="let break of product.PriceSchedule.PriceBreaks">
-                  <td>{{ break.Quantity }}</td>
-                  <td>{{ break.Price | currency }}</td>
-                </tr>
-              </table>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
-      </div>
     </div>
   </div>
   <div *ngIf="relatedProducts$ | async; let relatedProducts">

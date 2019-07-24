@@ -1,10 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BuyerSpec, SpecOption } from '@ordercloud/angular-sdk';
+import { BuyerSpec } from '@ordercloud/angular-sdk';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CurrencyPipe } from '@angular/common';
 import { FullSpecOption } from '../product-details/product-details.component';
-import { find as _find, keys as _keys } from 'lodash';
-import { Options } from 'selenium-webdriver/chrome';
+import {
+  find as _find,
+  keys as _keys,
+  pickBy as _pickBy,
+  identity as _identity,
+} from 'lodash';
 
 @Component({
   selector: 'product-spec-form',
@@ -25,32 +28,18 @@ export class SpecFormComponent implements OnInit {
       formObj[spec.ID] = value;
     });
     this.specForm = this.formBuilder.group(formObj);
+    this.onChange();
   }
 
   onChange() {
-    const selections: FullSpecOption[] = _keys(this.specForm.value).map(
-      (specID) => {
-        const spec = this.specs.find((s) => s.ID === specID);
-        const optionID = this.specForm.value[specID];
-        const option: any = spec.Options.find((o) => o.ID === optionID);
-        option.SpecID = specID;
-        return option;
-      }
-    );
+    const specIDs = _keys(_pickBy(this.specForm.value, _identity));
+    const selections: FullSpecOption[] = specIDs.map((specID) => {
+      const spec = this.specs.find((s) => s.ID === specID);
+      const optionID = this.specForm.value[specID];
+      const option: any = spec.Options.find((o) => o.ID === optionID);
+      option.SpecID = specID;
+      return option;
+    });
     this.formUpdated.emit(selections);
-  }
-
-  getMarkupText(option: SpecOption): string {
-    const pipe = new CurrencyPipe('en-US');
-    switch (option.PriceMarkupType) {
-      case 'NoMarkup':
-        return '';
-      case 'AmountPerQuantity':
-        return `(+${pipe.transform(option.PriceMarkup)} per unit)`;
-      case 'AmountTotal':
-        return `(+${pipe.transform(option.PriceMarkup)} per order)`;
-      case 'Percentage':
-        return `(+${option.PriceMarkup}%)`;
-    }
   }
 }

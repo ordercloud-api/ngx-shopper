@@ -46,5 +46,10 @@
             class="btn btn-default btn-block btn-outline-dark">View
       <span class="d-sm-none d-lg-inline">Product</span>
     </button>
+    <button *ngIf="hasSpecs()"
+            [routerLink]="['/products', product.ID]"
+            class="btn btn-primary btn-block small">Select
+      <span class="d-sm-none d-lg-inline">Specs</span>
+    </button>
   </div>
 </div>

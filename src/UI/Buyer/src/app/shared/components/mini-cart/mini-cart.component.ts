@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { ListLineItem, Order } from '@ordercloud/angular-sdk';
+import { ListLineItem, Order, LineItem } from '@ordercloud/angular-sdk';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { CartService } from '@app-buyer/shared/services/cart/cart.service';
 
 @Component({
   selector: 'checkout-mini-cart',
@@ -15,7 +16,10 @@ export class MiniCartComponent implements OnInit {
   maxLines = 5; // Limit the height for UI purposes
   faEllipsisH = faEllipsisH;
 
-  constructor(private appStateService: AppStateService) {}
+  constructor(
+    private appStateService: AppStateService,
+    private cartService: CartService // used in template
+  ) {}
 
   ngOnInit() {
     this.lineItems = this.appStateService.lineItemSubject.value;

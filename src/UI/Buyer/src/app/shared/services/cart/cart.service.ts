@@ -59,6 +59,12 @@ export class CartService {
     );
   }
 
+  buildSpecList(lineItem: LineItem): string {
+    if (lineItem.Specs.length === 0) return '';
+    const list = lineItem.Specs.map((spec) => spec.Value).join(', ');
+    return `(${list})`;
+  }
+
   removeItem(lineItemID: string) {
     return this.ocLineItemService
       .Delete('outgoing', this.currentOrder.ID, lineItemID)

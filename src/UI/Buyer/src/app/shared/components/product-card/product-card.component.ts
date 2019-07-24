@@ -12,6 +12,7 @@ import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.inter
 import { BuyerProduct } from '@ordercloud/angular-sdk';
 import { Router } from '@angular/router';
 import { find as _find } from 'lodash';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 @Component({
   selector: 'product-product-card',
@@ -37,6 +38,10 @@ export class ProductCardComponent implements OnInit {
     this.addedToCart.emit(event);
   }
 
+  hasSpecs(): boolean {
+    return this.product.SpecCount > 0;
+  }
+
   ngOnInit() {
     /**
      * this will be true if the parent component
@@ -45,7 +50,8 @@ export class ProductCardComponent implements OnInit {
     this.isSetFavoriteUsed = this.setFavorite.observers.length > 0;
     const isAddedToCartUsed = this.addedToCart.observers.length > 0;
     this.isViewOnlyProduct = !this.product.PriceSchedule;
-    this.shouldDisplayAddToCart = isAddedToCartUsed && !this.isViewOnlyProduct;
+    this.shouldDisplayAddToCart =
+      isAddedToCartUsed && !this.isViewOnlyProduct && !this.hasSpecs();
   }
 
   featuredProducts() {

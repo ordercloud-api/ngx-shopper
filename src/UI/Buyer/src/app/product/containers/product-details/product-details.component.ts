@@ -17,7 +17,7 @@ import {
 } from '@ordercloud/angular-sdk';
 import { QuantityInputComponent } from '@app-buyer/shared/components/quantity-input/quantity-input.component';
 import { AddToCartEvent } from '@app-buyer/shared/models/add-to-cart-event.interface';
-import { maxBy as _maxBy } from 'lodash';
+import { minBy as _minBy } from 'lodash';
 import { FavoriteProductsService } from '@app-buyer/shared/services/favorites/favorites.service';
 import { find as _find } from 'lodash';
 import { SpecFormComponent } from '../spec-form/spec-form.component';
@@ -33,7 +33,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
   specFormComponent: SpecFormComponent;
   quantityInputReady = false;
   specs: BuyerSpec[] = [];
-  specSelections: FullSpecOption[];
+  specSelections: FullSpecOption[] = [];
   product: BuyerProduct;
   relatedProducts$: Observable<BuyerProduct[]>;
   imageUrls: string[] = [];
@@ -93,6 +93,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     const specs: LineItemSpec[] = this.specSelections.map((o) => ({
       SpecID: o.SpecID,
       OptionID: o.ID,
+      Value: o.Value,
     }));
     this.cartService
       .addToCart(event.product.ID, event.quantity, specs)
@@ -131,14 +132,41 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     }
     const quantity = this.quantityInputComponent.form.value.quantity;
     const priceBreaks = this.product.PriceSchedule.PriceBreaks;
-    const lessThanOrdered = priceBreaks.filter(
-      (price) => price.Quantity < quantity
+    const startingBreak = _minBy(priceBreaks, 'Quantity');
+
+    const selectedBreak = priceBreaks.reduce((current, candidate) => {
+      return candidate.Quantity > current.Quantity &&
+        candidate.Quantity <= quantity
+        ? candidate
+        : current;
+    }, startingBreak);
+    const markup = this.totalSpecMarkup(selectedBreak.Price, quantity);
+
+    return (selectedBreak.Price + markup) * quantity;
+  }
+
+  totalSpecMarkup(unitPrice: number, quantity: number): number {
+    const markups = this.specSelections.map((s) =>
+      this.singleSpecMarkup(unitPrice, quantity, s)
     );
-    const selectedBreak = _maxBy(lessThanOrdered, 'Quantity');
+    return markups.reduce((x, acc) => x + acc, 0); //sum
+  }
 
-    // TODO - math
-
-    return selectedBreak.Price * quantity;
+  singleSpecMarkup(
+    unitPrice: number,
+    quantity: number,
+    spec: FullSpecOption
+  ): number {
+    switch (spec.PriceMarkupType) {
+      case 'NoMarkup':
+        return 0;
+      case 'AmountPerQuantity':
+        return spec.PriceMarkup;
+      case 'AmountTotal':
+        return spec.PriceMarkup / quantity;
+      case 'Percentage':
+        return spec.PriceMarkup * unitPrice * 0.01;
+    }
   }
 
   ngAfterViewChecked() {
