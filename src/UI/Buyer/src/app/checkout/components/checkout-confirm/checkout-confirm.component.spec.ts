@@ -19,7 +19,7 @@ describe('CheckoutConfirmComponent', () => {
     getPayments: jasmine.createSpy('getPayments').and.returnValue(of(null)),
   };
   const ocLineItemService = {
-    listAll: jasmine.createSpy('listAll').and.returnValue(of(null)),
+    listAllItems: jasmine.createSpy('listAllItems').and.returnValue(of(null)),
   };
   const orderService = {
     Patch: jasmine
@@ -62,7 +62,7 @@ describe('CheckoutConfirmComponent', () => {
         'outgoing',
         mockOrder.ID
       );
-      expect(ocLineItemService.listAll).toHaveBeenCalledWith(mockOrder.ID);
+      expect(ocLineItemService.listAllItems).toHaveBeenCalledWith(mockOrder.ID);
     });
   });
 

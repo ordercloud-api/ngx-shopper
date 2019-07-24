@@ -38,7 +38,7 @@ describe('ReOrder Service', () => {
 
   let service;
   let response;
-  let appLineItemService = { listAll: () => {} };
+  let appLineItemService = { listAllItems: () => {} };
   let meService = { ListProducts: () => {} };
 
   beforeEach(async(() => {
@@ -59,19 +59,14 @@ describe('ReOrder Service', () => {
 
   describe('Order', () => {
     beforeEach(() => {
-      spyOn(appLineItemService, 'listAll').and.returnValue(of(mockLineItems));
+      spyOn(appLineItemService, 'listAllItems').and.returnValue(
+        of(mockLineItems)
+      );
       spyOn(service, 'getValidProducts').and.returnValue(of(mockBuyerProducts));
       spyOn(service, 'isProductInLiValid').and.returnValue(
         of(mockReOrderResponse)
       );
       spyOn(service, 'hasInventory').and.returnValue(of(mockReOrderResponse));
-    });
-
-    it('should call appLineItem service with Order ID', () => {
-      service.order('orderID');
-      expect(service.appLineItemService.listAll).toHaveBeenCalledWith(
-        'orderID'
-      );
     });
 
     it('should throw an error if there is no argument Passed', () => {

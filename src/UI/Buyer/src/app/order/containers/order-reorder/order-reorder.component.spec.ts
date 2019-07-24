@@ -21,7 +21,7 @@ describe('OrderReorderComponent', () => {
   };
 
   const AppLineItemServiceTest = {
-    create: jasmine.createSpy('create').and.returnValue(of({})),
+    addToCart: jasmine.createSpy('addToCart').and.returnValue(of({})),
   };
 
   beforeEach(async(() => {
@@ -93,7 +93,7 @@ describe('OrderReorderComponent', () => {
       component.reorderResponse$ = AppReorderServiceTest.order();
       component.ngOnInit();
       component.addToCart();
-      expect(AppLineItemServiceTest.create).not.toHaveBeenCalled();
+      expect(AppLineItemServiceTest.addToCart).not.toHaveBeenCalled();
     });
 
     it('should call the li create service the correct amount of times', () => {
@@ -107,7 +107,7 @@ describe('OrderReorderComponent', () => {
       reorderResponse$ = AppReorderServiceTest.order();
       component.ngOnInit();
       component.addToCart();
-      expect(AppLineItemServiceTest.create).toHaveBeenCalledTimes(2);
+      expect(AppLineItemServiceTest.addToCart).toHaveBeenCalledTimes(2);
     });
   });
 });
