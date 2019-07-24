@@ -18,7 +18,7 @@ export class LineItemCardComponent {
   @Output() lineItemUpdated = new EventEmitter<LineItem>();
 
   constructor(
-    private cartService: CartService // used in template
+    protected cartService: CartService // used in template
   ) {}
 
   protected deleteLineItem() {

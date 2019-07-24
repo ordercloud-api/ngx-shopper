@@ -7,8 +7,8 @@
     <select class="custom-select"
             [formControlName]="spec.ID"
             (change)="onChange()">
-      <option value="null"
-              disabled></option>
+      <option *ngIf="!spec.Required"
+              value="null"></option>
       <option *ngFor="let option of spec.Options"
               [ngValue]="option.ID">
         {{ option.Value }}

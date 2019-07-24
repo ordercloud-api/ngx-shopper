@@ -23,12 +23,16 @@ export class SpecFormComponent implements OnInit {
   ngOnInit() {
     const formObj = {};
     this.specs.forEach((spec) => {
-      const value: any = [spec.DefaultOptionID || null];
+      const value: any = [this.getDefaultOption(spec)];
       if (spec.Required) value.push(Validators.required);
       formObj[spec.ID] = value;
     });
     this.specForm = this.formBuilder.group(formObj);
     this.onChange();
+  }
+
+  getDefaultOption(spec: BuyerSpec) {
+    return spec.DefaultOptionID || (spec.Required ? spec.Options[0].ID : null);
   }
 
   onChange() {
