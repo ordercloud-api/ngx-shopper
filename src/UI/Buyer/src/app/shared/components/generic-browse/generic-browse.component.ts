@@ -42,5 +42,5 @@ export class GenericBrowseComponent<T> {
   }>();
 
   // References the html content inside the instance of the element
-  @ContentChild(TemplateRef) itemTemplate;
+  @ContentChild(TemplateRef, { static: false }) itemTemplate;
 }

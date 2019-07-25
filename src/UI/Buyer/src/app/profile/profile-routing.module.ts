@@ -16,7 +16,7 @@ const routes: Routes = [
       { path: 'details', component: MeUpdateComponent },
       { path: 'addresses', component: AddressListComponent },
       { path: 'payment-methods', component: PaymentListComponent },
-      { path: 'orders', loadChildren: '../order/order.module#OrderModule' },
+      { path: 'orders', loadChildren: () => import('../order/order.module').then(m => m.OrderModule) },
     ],
   },
 ];

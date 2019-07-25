@@ -17,7 +17,7 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       {
         path: 'products',
-        loadChildren: './product-management/products.module#ProductsModule',
+        loadChildren: () => import('./product-management/products.module').then(m => m.ProductsModule),
       },
       {
         path: 'categories',
@@ -38,7 +38,7 @@ const routes: Routes = [
       {
         path: 'usergroups',
         loadChildren:
-          './user-group-management/user-group.module#UserGroupModule',
+          () => import('./user-group-management/user-group.module').then(m => m.UserGroupModule),
       },
     ],
   },

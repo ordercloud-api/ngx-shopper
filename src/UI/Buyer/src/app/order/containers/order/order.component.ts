@@ -17,7 +17,8 @@ export class OrderComponent implements OnInit {
   faTruck = faTruck;
   approvalVersion: boolean;
   order$: Observable<Order>;
-  @ViewChild(ToggleFavoriteComponent) toggleFavorite: ToggleFavoriteComponent;
+  @ViewChild(ToggleFavoriteComponent, { static: false })
+  toggleFavorite: ToggleFavoriteComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
