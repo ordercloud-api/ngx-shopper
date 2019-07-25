@@ -42,9 +42,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentOrder: Order;
   alive = true;
   addToCartQuantity: number;
-  @ViewChild('addtocartPopover') public popover: NgbPopover;
-  @ViewChild('cartIcon') cartIcon: ElementRef;
-  @ViewChild(SearchComponent) public search: SearchComponent;
+  @ViewChild('addtocartPopover', { static: false }) public popover: NgbPopover;
+  @ViewChild('cartIcon', { static: false }) cartIcon: ElementRef;
+  @ViewChild(SearchComponent, { static: false }) public search: SearchComponent;
 
   faSearch = faSearch;
   faShoppingCart = faShoppingCart;
