@@ -5,7 +5,7 @@ import { OrderReorderComponent } from '@app-buyer/order/containers/order-reorder
 import {
   ModalService,
   AppReorderService,
-  AppLineItemService,
+  CartService,
 } from '@app-buyer/shared';
 import { of } from 'rxjs';
 
@@ -21,7 +21,7 @@ describe('OrderReorderComponent', () => {
   };
 
   const AppLineItemServiceTest = {
-    create: jasmine.createSpy('create').and.returnValue(of({})),
+    addToCart: jasmine.createSpy('addToCart').and.returnValue(of({})),
   };
 
   beforeEach(async(() => {
@@ -38,7 +38,7 @@ describe('OrderReorderComponent', () => {
       providers: [
         { provide: ModalService, useValue: modalServiceTest },
         { provide: AppReorderService, useValue: AppReorderServiceTest },
-        { provide: AppLineItemService, useValue: AppLineItemServiceTest },
+        { provide: CartService, useValue: AppLineItemServiceTest },
       ],
       schemas: [NO_ERRORS_SCHEMA], // Ignore template errors: remove if tests are added to test template
     }).compileComponents();
@@ -93,7 +93,7 @@ describe('OrderReorderComponent', () => {
       component.reorderResponse$ = AppReorderServiceTest.order();
       component.ngOnInit();
       component.addToCart();
-      expect(AppLineItemServiceTest.create).not.toHaveBeenCalled();
+      expect(AppLineItemServiceTest.addToCart).not.toHaveBeenCalled();
     });
 
     it('should call the li create service the correct amount of times', () => {
@@ -107,7 +107,7 @@ describe('OrderReorderComponent', () => {
       reorderResponse$ = AppReorderServiceTest.order();
       component.ngOnInit();
       component.addToCart();
-      expect(AppLineItemServiceTest.create).toHaveBeenCalledTimes(2);
+      expect(AppLineItemServiceTest.addToCart).toHaveBeenCalledTimes(2);
     });
   });
 });

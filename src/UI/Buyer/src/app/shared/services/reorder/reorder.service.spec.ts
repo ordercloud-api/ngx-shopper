@@ -2,7 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { AppReorderService } from '@app-buyer/shared/services/reorder/reorder.service';
 import { OcMeService } from '@ordercloud/angular-sdk';
 import { of } from 'rxjs';
-import { AppLineItemService } from '@app-buyer/shared/services/line-item/line-item.service';
+import { CartService } from '@app-buyer/shared/services/cart/cart.service';
 
 describe('ReOrder Service', () => {
   const mockLineItems = {
@@ -38,18 +38,18 @@ describe('ReOrder Service', () => {
 
   let service;
   let response;
-  let appLineItemService = { listAll: () => {} };
+  let appLineItemService = { listAllItems: () => {} };
   let meService = { ListProducts: () => {} };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: AppLineItemService, useValue: appLineItemService },
+        { provide: CartService, useValue: appLineItemService },
         { provide: OcMeService, useValue: meService },
       ],
     });
     service = TestBed.get(AppReorderService);
-    appLineItemService = TestBed.get(AppLineItemService);
+    appLineItemService = TestBed.get(CartService);
     meService = TestBed.get(OcMeService);
   }));
 
@@ -59,19 +59,14 @@ describe('ReOrder Service', () => {
 
   describe('Order', () => {
     beforeEach(() => {
-      spyOn(appLineItemService, 'listAll').and.returnValue(of(mockLineItems));
+      spyOn(appLineItemService, 'listAllItems').and.returnValue(
+        of(mockLineItems)
+      );
       spyOn(service, 'getValidProducts').and.returnValue(of(mockBuyerProducts));
       spyOn(service, 'isProductInLiValid').and.returnValue(
         of(mockReOrderResponse)
       );
       spyOn(service, 'hasInventory').and.returnValue(of(mockReOrderResponse));
-    });
-
-    it('should call appLineItem service with Order ID', () => {
-      service.order('orderID');
-      expect(service.appLineItemService.listAll).toHaveBeenCalledWith(
-        'orderID'
-      );
     });
 
     it('should throw an error if there is no argument Passed', () => {

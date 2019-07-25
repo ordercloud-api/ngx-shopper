@@ -14,75 +14,40 @@
     </div>
     <div class="col-md-6 bg-light">
       <h1 class="h1 my-0">{{ product.Name }}</h1>
-      <span class="text-muted">ID: {{ product.ID }}</span>
-      <span class="ml-3">
-        <shared-toggle-favorite title="Favorite"
-                                (click)="$event.stopPropagation()"
-                                [favorite]="favoriteProductService.isFavorite(product)"
-                                (favoriteChanged)="favoriteProductService.setFavoriteValue($event, product)">
-        </shared-toggle-favorite>
-      </span>
-      <hr>
-      <div *ngIf="isOrderable(); else viewOnly">
-        <shared-quantity-input class="d-inline-block"
-                               style="max-width: 100px"
-                               [product]="product"
-                               [existingQty]="!matchingLi ? null : matchingLi.Quantity"
-                               (addedToCart)="addToCart($event)"
-                               (updatedLi)="updateLi($event)">
-        </shared-quantity-input>
-        <button *ngIf="!matchingLi"
-                class="btn btn-primary ml-2"
-                type="submit"
-                (click)="quantityInputComponent.addToCart($event)">Add to Cart
-          <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span>
-        </button>
-        <button *ngIf="matchingLi"
-                class="btn btn-outline-primary ml-2"
-                type="button"
-                (click)="quantityInputComponent.updateLi($event)">Update Cart
-          <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span>
-        </button>
-
-      </div>
-      <ng-template #viewOnly>
-        <div class="alert alert-info">
-          This is a view-only product and cannot be ordered
+      <div class="d-flex mt-2">
+        <div class="mt-2 text-muted">ID: {{ product.ID }}</div>
+        <div class="mt-2 ml-3">
+          <shared-toggle-favorite title="Favorite"
+                                  (click)="$event.stopPropagation()"
+                                  [favorite]="favoriteProductService.isFavorite(product)"
+                                  (favoriteChanged)="favoriteProductService.setFavoriteValue($event, product)">
+          </shared-toggle-favorite>
         </div>
-      </ng-template>
-      <div class="mt-5">
-        <ngb-tabset>
-          <ngb-tab title="Details">
-            <ng-template ngbTabContent>
-              <p class="mt-4">{{ product.Description || 'This product has no description.' }}</p>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab *ngIf="hasPrice()">
-            <ng-template ngbTabTitle>Price Breaks</ng-template>
-            <ng-template ngbTabContent>
-              <table class="mt-4 table table-striped">
-                <tr>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                </tr>
-                <tr *ngFor="let break of product.PriceSchedule.PriceBreaks">
-                  <td>{{ break.Quantity }}</td>
-                  <td>{{ break.Price | currency }}</td>
-                </tr>
-              </table>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab>
-            <ng-template ngbTabTitle>Specs</ng-template>
-            <ng-template ngbTabContent>
-              <p class="mt-4">Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee.
-                Qui photo booth letterpress,
-                commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan
-                fanny
-                pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
+        <div class="ml-auto"
+             *ngIf="isOrderable()">
+          <shared-quantity-input class="d-inline-block"
+                                 style="max-width: 100px"
+                                 [product]="product"
+                                 [existingQty]="!matchingLi ? null : matchingLi.Quantity"
+                                 (addedToCart)="addToCart($event)">
+          </shared-quantity-input>
+          <button [disabled]="missingRequiredSpec()"
+                  class="btn btn-primary ml-2"
+                  type="submit"
+                  (click)="quantityInputComponent.addToCart($event)">Add to Cart
+            <span class="badge badge-light ml-2">{{ getTotalPrice() | currency }}</span>
+          </button>
+        </div>
+      </div>
+      <hr>
+      <p class="mt-4"
+         [innerHTML]="product.Description || 'This product has no description.'"></p>
+      <product-spec-form *ngIf="isOrderable() && specs.length > 0"
+                         [specs]="specs"
+                         (formUpdated)="specsUpdated($event)"></product-spec-form>
+      <div *ngIf="!isOrderable()"
+           class="alert alert-info">
+        This is a view-only product and cannot be ordered
       </div>
     </div>
   </div>

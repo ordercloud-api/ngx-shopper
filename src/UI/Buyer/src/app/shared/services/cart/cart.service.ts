@@ -4,8 +4,8 @@ import {
   ListLineItem,
   LineItem,
   OcOrderService,
-  BuyerProduct,
   Order,
+  LineItemSpec,
 } from '@ordercloud/angular-sdk';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { Observable, of, forkJoin } from 'rxjs';
@@ -14,12 +14,13 @@ import {
   isUndefined as _isUndefined,
   flatMap as _flatMap,
   get as _get,
+  isEqual as _isEqual,
 } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AppLineItemService {
+export class CartService {
   private initializingOrder = false;
   private currentOrder: Order;
 
@@ -33,7 +34,7 @@ export class AppLineItemService {
     });
   }
 
-  listAll(orderID: string): Observable<ListLineItem> {
+  listAllItems(orderID: string): Observable<ListLineItem> {
     const options = {
       page: 1,
       pageSize: 100, // The maximum # of records an OC request can return.
@@ -58,22 +59,38 @@ export class AppLineItemService {
     );
   }
 
-  delete(lineItemID: string) {
+  buildSpecList(lineItem: LineItem): string {
+    if (lineItem.Specs.length === 0) return '';
+    const list = lineItem.Specs.map((spec) => spec.Value).join(', ');
+    return `(${list})`;
+  }
+
+  removeItem(lineItemID: string) {
     return this.ocLineItemService
       .Delete('outgoing', this.currentOrder.ID, lineItemID)
       .pipe(tap(() => this.updateAppState()));
   }
 
-  patch(lineItemID: string, partialLineItem: LineItem): Observable<LineItem> {
+  updateQuantity(
+    lineItemID: string,
+    newQuantity: number
+  ): Observable<LineItem> {
     return this.ocLineItemService
-      .Patch('outgoing', this.currentOrder.ID, lineItemID, partialLineItem)
+      .Patch('outgoing', this.currentOrder.ID, lineItemID, {
+        Quantity: newQuantity,
+      })
       .pipe(tap(() => this.updateAppState()));
   }
 
-  create(product: BuyerProduct, quantity: number): Observable<LineItem> {
-    const newLineItem = {
-      ProductID: product.ID,
+  addToCart(
+    productID: string,
+    quantity: number,
+    specs: LineItemSpec[] = []
+  ): Observable<LineItem> {
+    const newLineItem: LineItem = {
+      ProductID: productID,
       Quantity: quantity,
+      Specs: specs,
     };
     // order is well defined, line item can be added
     if (!_isUndefined(this.currentOrder.DateCreated)) {
@@ -103,8 +120,8 @@ export class AppLineItemService {
   private addLineItem(newLI: LineItem): Observable<LineItem> {
     const lineItems = this.appStateService.lineItemSubject.value;
     // if line item exists simply update quantity, else create
-    const existingLI = lineItems.Items.find(
-      (li: LineItem) => li.ProductID === newLI.ProductID
+    const existingLI = lineItems.Items.find((li) =>
+      this.LineItemsMatch(li, newLI)
     );
 
     newLI.Quantity += _get(existingLI, 'Quantity', 0);
@@ -122,10 +139,15 @@ export class AppLineItemService {
   private updateAppState() {
     forkJoin([
       this.ocOrderService.Get('outgoing', this.currentOrder.ID),
-      this.listAll(this.currentOrder.ID),
+      this.listAllItems(this.currentOrder.ID),
     ]).subscribe((res) => {
       this.appStateService.orderSubject.next(res[0]);
       this.appStateService.lineItemSubject.next(res[1]);
     });
+  }
+
+  // product ID and specs must be the same
+  private LineItemsMatch(li1: LineItem, li2: LineItem): boolean {
+    return li1.ProductID === li2.ProductID && _isEqual(li1.Specs, li2.Specs);
   }
 }
