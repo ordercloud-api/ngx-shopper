@@ -14,7 +14,7 @@ import { flatMap } from 'rxjs/operators';
   styleUrls: ['./checkout.component.scss'],
 })
 export class CheckoutComponent implements OnInit {
-  @ViewChild('acc') public accordian: NgbAccordion;
+  @ViewChild('acc', { static: false }) public accordian: NgbAccordion;
   currentOrder$: Observable<Order> = this.appStateService.orderSubject;
   isAnon: boolean;
   isSubmittingOrder = false;

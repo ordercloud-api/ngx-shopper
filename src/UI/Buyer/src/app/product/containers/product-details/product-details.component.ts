@@ -27,9 +27,9 @@ import { SpecFormComponent } from '@app-buyer/product/components/spec-form/spec-
   styleUrls: ['./product-details.component.scss'],
 })
 export class ProductDetailsComponent implements OnInit, AfterViewChecked {
-  @ViewChild(QuantityInputComponent)
+  @ViewChild(QuantityInputComponent, { static: false })
   quantityInputComponent: QuantityInputComponent;
-  @ViewChild(SpecFormComponent)
+  @ViewChild(SpecFormComponent, { static: false })
   specFormComponent: SpecFormComponent;
   quantityInputReady = false;
   specs: BuyerSpec[] = [];

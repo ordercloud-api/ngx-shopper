@@ -24,7 +24,7 @@ export class ProductCardComponent implements OnInit {
   @Input() favorite: boolean;
   @Output() addedToCart = new EventEmitter<AddToCartEvent>();
   @Output() setFavorite = new EventEmitter<boolean>();
-  @ViewChild(QuantityInputComponent)
+  @ViewChild(QuantityInputComponent, { static: false })
   quantityInputComponent: QuantityInputComponent;
   shouldDisplayAddToCart: boolean;
   isViewOnlyProduct: boolean;

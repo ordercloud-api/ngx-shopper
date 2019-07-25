@@ -24,7 +24,8 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
   implements OnInit {
   @Input() isAnon: boolean;
   @Input() addressType: 'Shipping' | 'Billing';
-  @ViewChild(AddressFormComponent) addressFormComponent: AddressFormComponent;
+  @ViewChild(AddressFormComponent, { static: false })
+  addressFormComponent: AddressFormComponent;
   existingAddresses: ListBuyerAddress;
   selectedAddress: BuyerAddress;
   order: Order;
