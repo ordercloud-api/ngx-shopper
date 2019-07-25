@@ -7,6 +7,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CartService } from '@app-buyer/shared/services/cart/cart.service';
+import { of } from 'rxjs';
 
 describe('LineItemCardComponent', () => {
   let component: LineItemCardComponent;
@@ -21,7 +23,18 @@ describe('LineItemCardComponent', () => {
         ReactiveFormsModule,
         ToastrModule.forRoot(),
       ],
-      providers: [FormBuilder, ToastrService],
+      providers: [
+        FormBuilder,
+        ToastrService,
+        {
+          provide: CartService,
+          useValue: {
+            buildSpecList: jasmine
+              .createSpy('buildSpecList')
+              .and.returnValue(of(null)),
+          },
+        },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

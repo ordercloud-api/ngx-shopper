@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListComponent } from '@app-buyer/product/containers/product-list/product-list.component';
 import {
   PageTitleComponent,
-  AppLineItemService,
+  CartService,
   AppStateService,
   ModalService,
 } from '@app-buyer/shared';
@@ -56,7 +56,7 @@ describe('ProductListComponent', () => {
     Patch: jasmine.createSpy('Patch').and.returnValue(mockMe),
   };
   const ocLineItemService = {
-    create: jasmine.createSpy('create').and.returnValue(of(null)),
+    addToCart: jasmine.createSpy('addToCart').and.returnValue(of(null)),
     patch: jasmine.createSpy('patch').and.returnValue(of(null)),
   };
   const favoriteProductsService = {
@@ -90,7 +90,7 @@ describe('ProductListComponent', () => {
       ],
       providers: [
         NgbPaginationConfig,
-        { provide: AppLineItemService, useValue: ocLineItemService },
+        { provide: CartService, useValue: ocLineItemService },
         {
           provide: ActivatedRoute,
           useValue: { queryParams, snapshot: { queryParams: mockQueryParams } },
@@ -441,32 +441,10 @@ describe('ProductListComponent', () => {
       spyOn(appStateService.addToCartSubject, 'next');
       component.addToCart(mockEvent);
     });
-    it('should call ocLineItemService.Create', () => {
-      expect(ocLineItemService.create).toHaveBeenCalledWith(
-        mockEvent.product,
+    it('should call ocLineItemService.addToCart', () => {
+      expect(ocLineItemService.addToCart).toHaveBeenCalledWith(
+        mockEvent.product.ID,
         mockEvent.quantity
-      );
-    });
-    it('should call AppStateService.addToCartEvent', () => {
-      expect(appStateService.addToCartSubject.next).toHaveBeenCalledWith(
-        mockEvent
-      );
-    });
-  });
-  describe('updateLi', () => {
-    const mockEvent = {
-      product: { ID: 'MockProduct' },
-      quantity: 3,
-      LineItemId: 'MockLiID',
-    };
-    beforeEach(() => {
-      spyOn(appStateService.addToCartSubject, 'next');
-      component.updateLi(mockEvent);
-    });
-    it('should call ocLineItemService.patch', () => {
-      expect(ocLineItemService.patch).toHaveBeenCalledWith(
-        mockEvent.LineItemId,
-        { Quantity: mockEvent.quantity }
       );
     });
     it('should call AppStateService.addToCartEvent', () => {

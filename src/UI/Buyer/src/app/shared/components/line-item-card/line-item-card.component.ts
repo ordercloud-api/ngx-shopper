@@ -1,6 +1,7 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { LineItem, BuyerProduct } from '@ordercloud/angular-sdk';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { CartService } from '@app-buyer/shared/services/cart/cart.service';
 
 @Component({
   selector: 'shared-line-item-card',
@@ -15,6 +16,10 @@ export class LineItemCardComponent {
   @Input() readOnly: boolean;
   @Output() deletedLineItem = new EventEmitter<LineItem>();
   @Output() lineItemUpdated = new EventEmitter<LineItem>();
+
+  constructor(
+    protected cartService: CartService // used in template
+  ) {}
 
   protected deleteLineItem() {
     this.deletedLineItem.emit(this.lineitem);

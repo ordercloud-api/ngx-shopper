@@ -1,0 +1,18 @@
+<form [formGroup]="specForm">
+  <div *ngFor="let spec of specs"
+       class="my-1">
+    <div class="mr-2">
+      <b>{{spec.Name}}<span *ngIf="spec.Required">* :</span></b>
+    </div>
+    <select class="custom-select"
+            [formControlName]="spec.ID"
+            (change)="onChange()">
+      <option *ngIf="!spec.Required"
+              value="null"></option>
+      <option *ngFor="let option of spec.Options"
+              [ngValue]="option.ID">
+        {{ option.Value }}
+      </option>
+    </select>
+  </div>
+</form>

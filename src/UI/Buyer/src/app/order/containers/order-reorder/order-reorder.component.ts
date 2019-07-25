@@ -6,7 +6,7 @@ import { forEach as _forEach } from 'lodash';
 
 import {
   ModalService,
-  AppLineItemService,
+  CartService,
   AppReorderService,
 } from '@app-buyer/shared';
 import { OrderReorderResponse } from '@app-buyer/shared/services/reorder/reorder.interface';
@@ -26,7 +26,7 @@ export class OrderReorderComponent implements OnInit, OnDestroy {
   constructor(
     private appReorderService: AppReorderService,
     private modalService: ModalService,
-    private appLineItemService: AppLineItemService
+    private cartService: CartService
   ) {}
 
   ngOnInit() {
@@ -66,7 +66,7 @@ export class OrderReorderComponent implements OnInit, OnDestroy {
       .subscribe((reorderResponse) => {
         _forEach(reorderResponse.ValidLi, (li) => {
           if (!li) return;
-          this.appLineItemService.create(li.Product, li.Quantity).subscribe();
+          this.cartService.addToCart(li.Product.ID, li.Quantity).subscribe();
         });
         this.modalService.close(this.modalID);
       });

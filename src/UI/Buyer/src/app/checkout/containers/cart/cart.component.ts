@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
-  AppLineItemService,
+  CartService,
   BaseResolveService,
   AppStateService,
 } from '@app-buyer/shared';
@@ -30,7 +30,7 @@ export class CartComponent implements OnInit, OnDestroy {
   constructor(
     private appStateService: AppStateService,
     private baseResolveService: BaseResolveService,
-    private appLineItemService: AppLineItemService,
+    private cartService: CartService,
     private ocOrderService: OcOrderService,
     private ocMeService: OcMeService
   ) {}
@@ -67,11 +67,11 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   deleteLineItem(li: LineItem) {
-    return this.appLineItemService.delete(li.ID).subscribe();
+    return this.cartService.removeItem(li.ID).subscribe();
   }
 
   updateLineItem(li: LineItem) {
-    this.appLineItemService.patch(li.ID, li).subscribe();
+    this.cartService.updateQuantity(li.ID, li.Quantity).subscribe();
   }
 
   ngOnDestroy() {

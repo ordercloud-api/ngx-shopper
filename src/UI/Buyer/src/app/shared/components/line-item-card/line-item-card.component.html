@@ -9,7 +9,7 @@
       <div class="col-9">
         <h6>
           <a [routerLink]="['/products', lineitem.Product.ID]"
-             class="link-text">{{lineitem.Product.Name}}</a>
+             class="link-text">{{lineitem.Product.Name}} {{cartService.buildSpecList(lineitem)}}</a>
 
           <small class="text-muted d-block">{{lineitem.Product.ID}}</small>
         </h6>

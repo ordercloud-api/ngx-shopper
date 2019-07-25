@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { CheckoutSectionBaseComponent } from '@app-buyer/checkout/components/checkout-section-base/checkout-section-base.component';
-import { AppStateService, AppLineItemService } from '@app-buyer/shared';
+import { AppStateService, CartService } from '@app-buyer/shared';
 import {
   Order,
   ListPayment,
@@ -31,7 +31,7 @@ export class CheckoutConfirmComponent extends CheckoutSectionBaseComponent
   constructor(
     private appStateService: AppStateService,
     private appPaymentService: AppPaymentService,
-    private appLineItemService: AppLineItemService,
+    private cartService: CartService,
     private formBuilder: FormBuilder,
     private ocOrderService: OcOrderService,
     @Inject(applicationConfiguration) private appConfig: AppConfig
@@ -48,7 +48,7 @@ export class CheckoutConfirmComponent extends CheckoutSectionBaseComponent
       'outgoing',
       this.order.ID
     );
-    this.lineItems$ = this.appLineItemService.listAll(this.order.ID);
+    this.lineItems$ = this.cartService.listAllItems(this.order.ID);
   }
 
   saveCommentsAndSubmitOrder() {

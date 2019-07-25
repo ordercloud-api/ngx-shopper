@@ -12,7 +12,7 @@ import { CartComponent } from '@app-buyer/checkout/containers/cart/cart.componen
 import {
   AppStateService,
   BaseResolveService,
-  AppLineItemService,
+  CartService,
 } from '@app-buyer/shared';
 import {
   applicationConfiguration,
@@ -54,7 +54,7 @@ describe('CartComponent', () => {
         { provide: AppStateService, useValue: appStateService },
         { provide: BaseResolveService, useValue: baseResolveService },
         { provide: OcOrderService, useValue: orderService },
-        { provide: AppLineItemService, useValue: ocLineItemService },
+        { provide: CartService, useValue: ocLineItemService },
         { provide: OcMeService, useValue: meService },
         {
           provide: applicationConfiguration,

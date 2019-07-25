@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
-import { AppLineItemService, AppStateService } from '@app-buyer/shared';
+import { CartService, AppStateService } from '@app-buyer/shared';
 import { ProductDetailsComponent } from '@app-buyer/product/containers/product-details/product-details.component';
 
 import { CookieService, CookieModule } from 'ngx-cookie';
@@ -44,9 +44,12 @@ describe('ProductDetailsComponent', () => {
     GetProduct: jasmine
       .createSpy('GetProduct')
       .and.returnValue(of(mockProduct)),
+    ListSpecs: jasmine
+      .createSpy('ListSpecs')
+      .and.returnValue(of({ Items: [] })),
   };
   const ocLineItemService = {
-    create: jasmine.createSpy('create').and.returnValue(of(null)),
+    addToCart: jasmine.createSpy('addToCart').and.returnValue(of(null)),
     patch: jasmine.createSpy('patch').and.returnValue(of(null)),
   };
   const favoriteProductsService = {
@@ -68,7 +71,7 @@ describe('ProductDetailsComponent', () => {
         CookieService,
         OcLineItemService,
         { provide: OcMeService, useValue: meService },
-        { provide: AppLineItemService, useValue: ocLineItemService },
+        { provide: CartService, useValue: ocLineItemService },
         {
           provide: FavoriteProductsService,
           useValue: favoriteProductsService,
@@ -104,13 +107,6 @@ describe('ProductDetailsComponent', () => {
     });
   });
 
-  describe('getProductData', () => {
-    it('should call meService.getProduct', () => {
-      component.getProductData();
-      expect(meService.GetProduct).toHaveBeenCalled();
-    });
-  });
-
   describe('routeToProductList', () => {
     beforeEach(() => {
       component['routeToProductList']();
@@ -120,44 +116,9 @@ describe('ProductDetailsComponent', () => {
     });
   });
 
-  describe('addToCart', () => {
-    const mockQuantity = 3;
-    const mockEmittedProduct = <BuyerProduct>{ id: 'MockProduct123' };
-    beforeEach(() => {
-      component.addToCart({
-        product: mockEmittedProduct,
-        quantity: mockQuantity,
-      });
-    });
-    it('should call add to cart', () => {
-      expect(ocLineItemService.create).toHaveBeenCalledWith(
-        mockEmittedProduct,
-        mockQuantity
-      );
-    });
-  });
-
-  describe('updateLi', () => {
-    const mockQuantity = 3;
-    const mockEmittedProduct = <BuyerProduct>{ id: 'MockProduct123' };
-    const matchingLi = { ID: 'MockLineItemId' };
-    beforeEach(() => {
-      component.matchingLi = matchingLi;
-      component.updateLi({
-        product: mockEmittedProduct,
-        quantity: mockQuantity,
-        LineItemId: matchingLi.ID,
-      });
-    });
-    it('should call ocLineItemService patch method', () => {
-      expect(ocLineItemService.patch).toHaveBeenCalledWith(matchingLi.ID, {
-        Quantity: mockQuantity,
-      });
-    });
-  });
-
   describe('getTotalPrice', () => {
     beforeEach(() => {
+      component.product = {};
       component.product.PriceSchedule = {
         PriceBreaks: [
           { Quantity: 5, Price: 10 },
@@ -167,7 +128,7 @@ describe('ProductDetailsComponent', () => {
         ],
       };
     });
-    it('should calculate total correctly', () => {
+    it('should calculate total correctly without specs', () => {
       component.quantityInputComponent.form.value.quantity = 2;
       expect(component.getTotalPrice()).toEqual(2 * 10);
       component.quantityInputComponent.form.value.quantity = 7;

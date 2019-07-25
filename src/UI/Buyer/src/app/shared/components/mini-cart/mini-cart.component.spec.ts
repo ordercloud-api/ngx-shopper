@@ -3,6 +3,8 @@ import { MiniCartComponent } from './mini-cart.component';
 import { AppStateService } from '@app-buyer/shared/services/app-state/app-state.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CartService } from '@app-buyer/shared/services/cart/cart.service';
+import { of } from 'rxjs';
 
 describe('MiniCartComponent', () => {
   let component: MiniCartComponent;
@@ -34,7 +36,17 @@ describe('MiniCartComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MiniCartComponent],
       imports: [RouterTestingModule, FontAwesomeModule],
-      providers: [{ provide: AppStateService, useValue: appStateService }],
+      providers: [
+        { provide: AppStateService, useValue: appStateService },
+        {
+          provide: CartService,
+          useValue: {
+            buildSpecList: jasmine
+              .createSpy('buildSpecList')
+              .and.returnValue(of(null)),
+          },
+        },
+      ],
     }).compileComponents();
   }));
 
