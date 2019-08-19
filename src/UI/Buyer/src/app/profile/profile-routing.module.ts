@@ -7,6 +7,10 @@ import { AddressListComponent } from '@app-buyer/profile/containers/address-list
 import { MeUpdateComponent } from '@app-buyer/profile/containers/me-update/me-update.component';
 import { PaymentListComponent } from '@app-buyer/profile/containers/payment-list/payment-list.component';
 
+export function LoadOrderChildren() {
+  return import('../order/order.module').then((m) => m.OrderModule);
+}
+
 const routes: Routes = [
   {
     path: '',
@@ -16,7 +20,7 @@ const routes: Routes = [
       { path: 'details', component: MeUpdateComponent },
       { path: 'addresses', component: AddressListComponent },
       { path: 'payment-methods', component: PaymentListComponent },
-      { path: 'orders', loadChildren: () => import('../order/order.module').then(m => m.OrderModule) },
+      { path: 'orders', loadChildren: LoadOrderChildren },
     ],
   },
 ];

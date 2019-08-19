@@ -22,29 +22,29 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
-      {
-        path: 'profile',
-        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
-        canActivate: [isProfiledUser],
-      },
-      {
-        path: 'support',
-        component: SupportComponent,
-      },
-      {
-        path: 'faq',
-        component: FaqComponent,
-      },
-      {
-        path: 'terms-and-conditions',
-        component: TermsAndConditionsComponent,
-      },
-      {
-        path: 'products',
-        loadChildren: () => import('./product/product.module').then(m => m.ProductsModule),
-      },
-      { path: '', loadChildren: () => import('./checkout/checkout.module').then(m => m.CheckoutModule) },
-      { path: 'impersonation', redirectTo: '/home' },
+      //   {
+      //     path: 'profile',
+      //     loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
+      //     canActivate: [isProfiledUser],
+      //   },
+      //   {
+      //     path: 'support',
+      //     component: SupportComponent,
+      //   },
+      //   {
+      //     path: 'faq',
+      //     component: FaqComponent,
+      //   },
+      //   {
+      //     path: 'terms-and-conditions',
+      //     component: TermsAndConditionsComponent,
+      //   },
+      //   {
+      //     path: 'products',
+      //     loadChildren: () => import('./product/product.module').then(m => m.ProductsModule),
+      //   },
+      //   { path: '', loadChildren: () => import('./checkout/checkout.module').then(m => m.CheckoutModule) },
+      //   { path: 'impersonation', redirectTo: '/home' },
     ],
   },
 ];

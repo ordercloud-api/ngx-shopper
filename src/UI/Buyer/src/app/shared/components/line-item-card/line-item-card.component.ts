@@ -18,14 +18,14 @@ export class LineItemCardComponent {
   @Output() lineItemUpdated = new EventEmitter<LineItem>();
 
   constructor(
-    protected cartService: CartService // used in template
+    public cartService: CartService // used in template
   ) {}
 
-  protected deleteLineItem() {
+  public deleteLineItem() {
     this.deletedLineItem.emit(this.lineitem);
   }
 
-  protected updateQuantity(qty: number) {
+  updateQuantity(qty: number) {
     this.lineitem.Quantity = qty;
     this.lineItemUpdated.emit(this.lineitem);
   }

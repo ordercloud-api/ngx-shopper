@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastrService: ToastrService,
     private regexService: RegexService,
-    @Inject(applicationConfiguration) protected appConfig: AppConfig
+    @Inject(applicationConfiguration) public appConfig: AppConfig
   ) {}
 
   ngOnInit() {
@@ -86,12 +86,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   // control display of error messages
-  protected hasRequiredError = (controlName: string): boolean =>
+  public hasRequiredError = (controlName: string): boolean =>
     this.formErrorService.hasRequiredError(controlName, this.form);
-  protected hasEmailError = (): boolean =>
+  public hasEmailError = (): boolean =>
     this.formErrorService.hasInvalidEmailError(this.form.get('Email'));
-  protected hasPatternError = (controlName: string) =>
+  public hasPatternError = (controlName: string) =>
     this.formErrorService.hasPatternError(controlName, this.form);
-  protected passwordMismatchError = (): boolean =>
+  public passwordMismatchError = (): boolean =>
     this.formErrorService.hasPasswordMismatchError(this.form);
 }
