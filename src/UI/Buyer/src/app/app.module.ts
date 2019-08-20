@@ -66,7 +66,7 @@ import { AppErrorHandler } from './config/error-handling.config';
      */
     SharedModule,
     CookieModule.forRoot(),
-    NgProgressModule.forRoot(),
+    NgProgressModule,
     NgProgressHttpModule,
     OrderCloudModule.forRoot(OcSDKConfig),
     ToastrModule.forRoot(),

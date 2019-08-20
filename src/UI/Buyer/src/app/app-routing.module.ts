@@ -11,6 +11,11 @@ import {
 } from '@app-buyer/shared';
 import { HomeComponent } from '@app-buyer/layout/home/home.component';
 import { TermsAndConditionsComponent } from '@app-buyer/static-pages/terms-and-conditions/terms-and-conditions.component';
+import { ProductsModule } from './product/product.module';
+
+export function loadProductsModule() {
+  return ProductsModule;
+}
 
 const routes: Routes = [
   {
@@ -39,10 +44,10 @@ const routes: Routes = [
       //     path: 'terms-and-conditions',
       //     component: TermsAndConditionsComponent,
       //   },
-      //   {
-      //     path: 'products',
-      //     loadChildren: () => import('./product/product.module').then(m => m.ProductsModule),
-      //   },
+      {
+        path: 'products',
+        loadChildren: './product/product.module#ProductsModule',
+      },
       //   { path: '', loadChildren: () => import('./checkout/checkout.module').then(m => m.CheckoutModule) },
       //   { path: 'impersonation', redirectTo: '/home' },
     ],

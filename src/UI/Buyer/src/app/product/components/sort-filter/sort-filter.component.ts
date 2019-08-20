@@ -62,7 +62,7 @@ export class SortFilterComponent implements OnInit {
     });
   }
 
-  protected sortStrategyChanged() {
+  public sortStrategyChanged() {
     const sortStrategy = this.form.get('strategy').value;
     this.sortStrategyChange.emit(sortStrategy);
   }

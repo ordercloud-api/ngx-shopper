@@ -16,7 +16,6 @@
     "test.ts", "**/*.spec.ts",
     "app/profile/",
     "app/checkout/",
-    "app/order/",
-    "app/product/"
+    "app/order/"
   ]
 }
