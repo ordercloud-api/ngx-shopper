@@ -21,7 +21,7 @@ export class OrderShipmentsComponent implements OnInit {
   shipments: ListShipment;
   shipmentItems$: Observable<ListShipmentItem>;
   lineItems: ListLineItem;
-  shipmentCount: Dictionary<number>;
+  shipmentCount: Dictionary<number> = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -48,10 +48,6 @@ export class OrderShipmentsComponent implements OnInit {
   private setShipmentCount(shipments: ListShipment): ListShipment {
     shipments.Items.forEach((shipment, index) => {
       this.shipmentCount[shipment.ID] = index + 1;
-    });
-    shipments.Items.map((shipment, index) => {
-      shipment['count'] = index + 1;
-      return shipment;
     });
     return shipments;
   }

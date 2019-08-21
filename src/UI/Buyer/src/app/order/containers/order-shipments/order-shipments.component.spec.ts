@@ -57,6 +57,7 @@ describe('OrderShipmentsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderShipmentsComponent);
     component = fixture.componentInstance;
+    component.shipmentCount = {};
     fixture.detectChanges();
   });
 
@@ -86,11 +87,9 @@ describe('OrderShipmentsComponent', () => {
   });
 
   describe('setShipmentCount', () => {
-    it('should set a count property on each shipment', () => {
-      const shipmentsAfterCount = component['setShipmentCount'](
-        shipmentsResolve
-      );
-      expect(shipmentsAfterCount.Items[0]['count']).toBe(1);
+    it('should set a shipment count for each shipment', () => {
+      component['setShipmentCount'](shipmentsResolve);
+      expect(component.shipmentCount[shipmentsResolve.Items[0].ID]).toBe(1);
     });
   });
 
