@@ -75,7 +75,7 @@
                   (click)="clearAllFilters()">Clear All Filters</button>
         </div>
         <div class="col-12 col-md-auto ">
-          <product-sort-filter [sortStrategy]="activatedRoute.queryParams.sortBy"
+          <product-sort-filter [sortStrategy]="activatedRoute.snapshot.queryParams.sortBy"
                                (sortStrategyChange)="changeSortStrategy($event)"></product-sort-filter>
         </div>
       </div>

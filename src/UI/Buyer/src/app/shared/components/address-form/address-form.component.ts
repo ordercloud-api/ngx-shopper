@@ -94,7 +94,7 @@ export class AddressFormComponent implements OnInit {
     }
   }
 
-  protected onSubmit() {
+  public onSubmit() {
     if (this.addressForm.status === 'INVALID') {
       return this.formErrorService.displayFormErrors(this.addressForm);
     }
@@ -105,8 +105,8 @@ export class AddressFormComponent implements OnInit {
   }
 
   // control display of error messages
-  protected hasRequiredError = (controlName: string) =>
+  hasRequiredError = (controlName: string) =>
     this.formErrorService.hasRequiredError(controlName, this.addressForm);
-  protected hasPatternError = (controlName: string) =>
+  hasPatternError = (controlName: string) =>
     this.formErrorService.hasPatternError(controlName, this.addressForm);
 }

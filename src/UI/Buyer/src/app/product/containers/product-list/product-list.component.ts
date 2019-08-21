@@ -36,11 +36,11 @@ export class ProductListComponent implements OnInit {
   lineItems: ListLineItem;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute,
     private ocMeService: OcMeService,
     private router: Router,
     private cartService: CartService,
-    private favoriteProductsService: FavoriteProductsService,
+    public favoriteProductsService: FavoriteProductsService,
     private appStateService: AppStateService,
     private modalService: ModalService
   ) {}

@@ -6,14 +6,14 @@
             class="nav-item">
           <button class="btn btn-link btn-block nav-link text-left"
                   (click)="selectShipment(shipment)"
-                  [ngClass]="{active: selectedShipment.ID === shipment.ID}">Shipment {{shipment.count}}</button>
+                  [ngClass]="{active: selectedShipment.ID === shipment.ID}">Shipment {{shipmentCount[selectedShipment.ID]}}</button>
         </li>
       </ul>
     </div>
     <div class="col-lg-7">
       <div *ngIf="selectedShipment">
         <header>
-          <h3>Shipment {{selectedShipment.count}}</h3>
+          <h3>Shipment {{shipmentCount[selectedShipment.ID]}}</h3>
         </header>
         <div class="card">
           <div class="card-body">

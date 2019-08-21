@@ -13,6 +13,7 @@ import {
 } from '@app-buyer/config/date-picker.config';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FavoriteOrdersService } from '@app-buyer/shared/services/favorites/favorites.service';
+import { OrderListColumn } from '@app-buyer/order/models/order-list-column';
 
 describe('OrderListComponent', () => {
   let component: OrderListComponent;
@@ -37,6 +38,14 @@ describe('OrderListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderListComponent);
     component = fixture.componentInstance;
+    component.columns = [
+      'ID' as OrderListColumn,
+      'Status' as OrderListColumn,
+      'DateSubmitted' as OrderListColumn,
+      'SubmittedBy' as OrderListColumn,
+      'Total' as OrderListColumn,
+    ];
+    component.columnNames = [];
     component.orders = {
       Items: [],
       Meta: { TotalCount: 0, TotalPages: 0, Page: 1, PageSize: 25 },

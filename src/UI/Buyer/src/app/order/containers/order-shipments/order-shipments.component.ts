@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { find as _find } from 'lodash';
+import { find as _find, Dictionary } from 'lodash';
 
 @Component({
   selector: 'order-shipments',
@@ -21,6 +21,7 @@ export class OrderShipmentsComponent implements OnInit {
   shipments: ListShipment;
   shipmentItems$: Observable<ListShipmentItem>;
   lineItems: ListLineItem;
+  shipmentCount: Dictionary<number> = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,22 +38,21 @@ export class OrderShipmentsComponent implements OnInit {
       )
       .subscribe(([lineItems, shipments]) => {
         this.lineItems = lineItems;
-        this.shipments = this.setShipmentCount(shipments);
-        if (this.shipments.Items.length) {
-          this.selectShipment(this.shipments.Items[0]);
+        this.setShipmentCount(shipments);
+        if (shipments.Items.length) {
+          this.selectShipment(shipments.Items[0]);
         }
       });
   }
 
   private setShipmentCount(shipments: ListShipment): ListShipment {
-    shipments.Items.map((shipment, index) => {
-      shipment['count'] = index + 1;
-      return shipment;
+    shipments.Items.forEach((shipment, index) => {
+      this.shipmentCount[shipment.ID] = index + 1;
     });
     return shipments;
   }
 
-  protected selectShipment(shipment: Shipment): void {
+  public selectShipment(shipment: Shipment): void {
     this.selectedShipment = { ...shipment };
     this.shipmentItems$ = this.ocMeService
       .ListShipmentItems(shipment.ID)

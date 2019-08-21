@@ -44,7 +44,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewChecked {
     private cartService: CartService,
     private appStateService: AppStateService,
     private changeDetectorRef: ChangeDetectorRef,
-    protected favoriteProductService: FavoriteProductsService, // used in template
+    public favoriteProductService: FavoriteProductsService, // used in template
     private router: Router
   ) {}
 
