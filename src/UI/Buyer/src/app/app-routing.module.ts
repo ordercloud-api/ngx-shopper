@@ -13,6 +13,7 @@ import { HomeComponent } from '@app-buyer/layout/home/home.component';
 import { TermsAndConditionsComponent } from '@app-buyer/static-pages/terms-and-conditions/terms-and-conditions.component';
 import { ProductsModule } from './product/product.module';
 import { ProfileModule } from './profile/profile.module';
+import { CheckoutModule } from './checkout/checkout.module';
 
 export function loadProductsModule() {
   return ProductsModule;
@@ -20,6 +21,10 @@ export function loadProductsModule() {
 
 export function loadProfileModule() {
   return ProfileModule;
+}
+
+export function loadCheckoutModule() {
+  return CheckoutModule;
 }
 
 const routes: Routes = [
@@ -37,24 +42,24 @@ const routes: Routes = [
         loadChildren: './profile/profile.module#ProfileModule',
         canActivate: [isProfiledUser],
       },
-      //   {
-      //     path: 'support',
-      //     component: SupportComponent,
-      //   },
-      //   {
-      //     path: 'faq',
-      //     component: FaqComponent,
-      //   },
-      //   {
-      //     path: 'terms-and-conditions',
-      //     component: TermsAndConditionsComponent,
-      //   },
+      {
+        path: 'support',
+        component: SupportComponent,
+      },
+      {
+        path: 'faq',
+        component: FaqComponent,
+      },
+      {
+        path: 'terms-and-conditions',
+        component: TermsAndConditionsComponent,
+      },
       {
         path: 'products',
         loadChildren: './product/product.module#ProductsModule',
       },
-      //   { path: '', loadChildren: () => import('./checkout/checkout.module').then(m => m.CheckoutModule) },
-      //   { path: 'impersonation', redirectTo: '/home' },
+      { path: '', loadChildren: './checkout/checkout.module#CheckoutModule' },
+      { path: 'impersonation', redirectTo: '/home' },
     ],
   },
 ];

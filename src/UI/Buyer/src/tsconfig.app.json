@@ -13,8 +13,6 @@
     "fullTemplateTypeCheck": true
   },
   "exclude": [
-    "test.ts", "**/*.spec.ts",
-    "app/checkout/",
-    "app/order/"
+    "test.ts", "**/*.spec.ts"
   ]
 }
