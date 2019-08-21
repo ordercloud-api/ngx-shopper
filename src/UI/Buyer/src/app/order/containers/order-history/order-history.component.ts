@@ -34,23 +34,23 @@ export class OrderHistoryComponent implements AfterViewInit {
     this.orders$ = this.listOrders();
   }
 
-  protected sortOrders(sortBy: string): void {
+  public sortOrders(sortBy: string): void {
     this.addQueryParam({ sortBy });
   }
 
-  protected changePage(page: number): void {
+  public changePage(page: number): void {
     this.addQueryParam({ page });
   }
 
-  protected filterBySearch(search: string): void {
+  public filterBySearch(search: string): void {
     this.addQueryParam({ search, page: undefined });
   }
 
-  protected filterByStatus(status: OrderStatus): void {
+  public filterByStatus(status: OrderStatus): void {
     this.addQueryParam({ status });
   }
 
-  protected filterByDate(datesubmitted: string[]): void {
+  public filterByDate(datesubmitted: string[]): void {
     this.addQueryParam({ datesubmitted });
   }
 
@@ -62,7 +62,7 @@ export class OrderHistoryComponent implements AfterViewInit {
     this.router.navigate([], { queryParams });
   }
 
-  protected filterByFavorite(favoriteOrders: boolean): void {
+  public filterByFavorite(favoriteOrders: boolean): void {
     if (favoriteOrders) {
       this.addQueryParam({ favoriteOrders: true });
     } else {

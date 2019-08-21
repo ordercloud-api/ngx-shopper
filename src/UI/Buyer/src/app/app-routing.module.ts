@@ -12,9 +12,14 @@ import {
 import { HomeComponent } from '@app-buyer/layout/home/home.component';
 import { TermsAndConditionsComponent } from '@app-buyer/static-pages/terms-and-conditions/terms-and-conditions.component';
 import { ProductsModule } from './product/product.module';
+import { ProfileModule } from './profile/profile.module';
 
 export function loadProductsModule() {
   return ProductsModule;
+}
+
+export function loadProfileModule() {
+  return ProfileModule;
 }
 
 const routes: Routes = [
@@ -27,11 +32,11 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
-      //   {
-      //     path: 'profile',
-      //     loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
-      //     canActivate: [isProfiledUser],
-      //   },
+      {
+        path: 'profile',
+        loadChildren: './profile/profile.module#ProfileModule',
+        canActivate: [isProfiledUser],
+      },
       //   {
       //     path: 'support',
       //     component: SupportComponent,

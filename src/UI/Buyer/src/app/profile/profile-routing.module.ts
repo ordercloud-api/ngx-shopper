@@ -6,9 +6,10 @@ import { ProfileComponent } from '@app-buyer/profile/containers/profile/profile.
 import { AddressListComponent } from '@app-buyer/profile/containers/address-list/address-list.component';
 import { MeUpdateComponent } from '@app-buyer/profile/containers/me-update/me-update.component';
 import { PaymentListComponent } from '@app-buyer/profile/containers/payment-list/payment-list.component';
+import { OrderModule } from '@app-buyer/order/order.module';
 
 export function LoadOrderChildren() {
-  return import('../order/order.module').then((m) => m.OrderModule);
+  return OrderModule;
 }
 
 const routes: Routes = [
@@ -20,7 +21,7 @@ const routes: Routes = [
       { path: 'details', component: MeUpdateComponent },
       { path: 'addresses', component: AddressListComponent },
       { path: 'payment-methods', component: PaymentListComponent },
-      { path: 'orders', loadChildren: LoadOrderChildren },
+      { path: 'orders', loadChildren: '../order/order.module#OrderModule' },
     ],
   },
 ];

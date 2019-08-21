@@ -4,9 +4,9 @@
     <caption class="sr-only">List of Orders</caption>
     <thead>
       <tr>
-        <th *ngIf="columns.indexOf('Favorite') > -1"></th>
+        <th *ngIf="columnNames.indexOf('Favorite') > -1"></th>
         <th (click)="updateSort('ID')"
-            *ngIf="columns.indexOf('ID') > -1">
+            *ngIf="columnNames.indexOf('ID') > -1">
           <button class="btn btn-link font-weight-bold">
             ID
             <fa-icon *ngIf="sortBy === 'ID' || sortBy === '!ID'"
@@ -14,7 +14,7 @@
           </button>
         </th>
         <th (click)="updateSort('Status')"
-            *ngIf="columns.indexOf('Status') > -1">
+            *ngIf="columnNames.indexOf('Status') > -1">
           <button class="btn btn-link font-weight-bold">
             Status
             <fa-icon *ngIf="sortBy === 'Status' || sortBy === '!Status'"
@@ -22,20 +22,20 @@
           </button>
         </th>
         <th (click)="updateSort('DateSubmitted')"
-            *ngIf="columns.indexOf('DateSubmitted') > -1">
+            *ngIf="columnNames.indexOf('DateSubmitted') > -1">
           <button class="btn btn-link font-weight-bold">
             Date Submitted
             <fa-icon *ngIf="sortBy === 'DateSubmitted' || sortBy === '!DateSubmitted'"
                      [icon]="sortBy === 'DateSubmitted' ? faCaretDown : faCaretUp"></fa-icon>
           </button>
         </th>
-        <th *ngIf="columns.indexOf('SubmittedBy') > -1">
+        <th *ngIf="columnNames.indexOf('SubmittedBy') > -1">
           <button class="btn btn-link font-weight-bold">
             Submitted By
           </button>
         </th>
         <th (click)="updateSort('Total')"
-            *ngIf="columns.indexOf('Total') > -1">
+            *ngIf="columnNames.indexOf('Total') > -1">
           <button class="btn btn-link font-weight-bold">
             Total
             <fa-icon *ngIf="sortBy === 'Total' || sortBy === '!Total'"
@@ -47,19 +47,19 @@
     <tbody>
       <tr *ngFor="let order of orders.Items"
           [routerLink]="[ order.ID ]">
-        <td *ngIf="columns.indexOf('Favorite') > -1"
+        <td *ngIf="columnNames.indexOf('Favorite') > -1"
             (click)="$event.stopPropagation()">
           <shared-toggle-favorite [favorite]="favoriteOrderService.isFavorite(order)"
                                   (favoriteChanged)="favoriteOrderService.setFavoriteValue($event, order)">
           </shared-toggle-favorite>
         </td>
-        <td *ngIf="columns.indexOf('ID')> -1">{{order.ID}}</td>
-        <td *ngIf="columns.indexOf('Status') > -1">
+        <td *ngIf="columnNames.indexOf('ID')> -1">{{order.ID}}</td>
+        <td *ngIf="columnNames.indexOf('Status') > -1">
           <order-status-icon [status]="order.Status"></order-status-icon> {{order.Status}}
         </td>
-        <td *ngIf="columns.indexOf('DateSubmitted') > -1">{{order.DateSubmitted | date: 'short' || 'N/A'}}</td>
-        <td *ngIf="columns.indexOf('SubmittedBy') > -1">{{order.FromUser.FirstName}} {{order.FromUser.LastName}}</td>
-        <td *ngIf="columns.indexOf('Total') > -1">{{order.Total | currency}}</td>
+        <td *ngIf="columnNames.indexOf('DateSubmitted') > -1">{{order.DateSubmitted | date: 'short' || 'N/A'}}</td>
+        <td *ngIf="columnNames.indexOf('SubmittedBy') > -1">{{order.FromUser.FirstName}} {{order.FromUser.LastName}}</td>
+        <td *ngIf="columnNames.indexOf('Total') > -1">{{order.Total | currency}}</td>
       </tr>
     </tbody>
   </table>
