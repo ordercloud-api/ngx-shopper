@@ -74,11 +74,7 @@ export class FacetListComponent implements OnInit {
     this.visibleFacetLength = this.facet.Values.length;
   }
 
-  selectFacet(facetName: string, facetValue: string, index: number) {
-    // get selected value
-    const facetCheckbox = (<FormArray>this.form.get('facetValues')).at(index);
-    const isSelected = !facetCheckbox.value;
-
+  selectFacet(facetName: string, facetValue: string, isSelected: boolean) {
     // build up query parameters to emit
     const queryParams = { ...this.queryParams };
     const facetQueryParams = {};

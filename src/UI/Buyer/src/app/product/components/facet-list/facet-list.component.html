@@ -16,7 +16,7 @@
     <div formArrayName="facetValues"
          class="custom-control custom-checkbox"
          *ngFor="let value of facet.Values | slice: 0: visibleFacetLength; let i = index">
-      <input (click)="selectFacet(facet.Name, value.Value, i)"
+      <input (click)="selectFacet(facet.Name, value.Value, $event.target.checked)"
              type="checkbox"
              class="custom-control-input"
              formControlName="{{i}}"
