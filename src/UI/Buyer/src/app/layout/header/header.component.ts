@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private appAuthService: AppAuthService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    @Inject(applicationConfiguration) protected appConfig: AppConfig
+    @Inject(applicationConfiguration) public appConfig: AppConfig
   ) {}
 
   ngOnInit() {

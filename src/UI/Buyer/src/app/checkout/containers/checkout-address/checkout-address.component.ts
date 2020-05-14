@@ -42,7 +42,7 @@ export class CheckoutAddressComponent extends CheckoutSectionBaseComponent
     private ocMeService: OcMeService,
     private ocOrderService: OcOrderService,
     private appStateService: AppStateService,
-    private modalService: ModalService,
+    public modalService: ModalService,
     private toastrService: ToastrService
   ) {
     super();

@@ -28,7 +28,6 @@
           <shared-quantity-input class="d-inline-block"
                                  style="max-width: 100px"
                                  [product]="product"
-                                 [existingQty]="!matchingLi ? null : matchingLi.Quantity"
                                  (addedToCart)="addToCart($event)">
           </shared-quantity-input>
           <button [disabled]="missingRequiredSpec()"

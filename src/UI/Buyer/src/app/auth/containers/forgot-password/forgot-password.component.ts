@@ -26,7 +26,7 @@ export class ForgotPasswordComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private toasterService: ToastrService,
-    @Inject(applicationConfiguration) private appConfig: AppConfig
+    @Inject(applicationConfiguration) public appConfig: AppConfig
   ) {}
 
   ngOnInit() {

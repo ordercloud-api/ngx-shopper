@@ -38,7 +38,6 @@
     <shared-line-item-card *ngFor="let li of lineItems.Items"
                            [lineitem]="li"
                            [productDetails]="li.Product"
-                           [readOnly]="true"
-                           (deletedLineItem)="deleteLineItem($event)"></shared-line-item-card>
+                           [readOnly]="true"></shared-line-item-card>
   </shared-lineitem-list-wrapper>
 </div>

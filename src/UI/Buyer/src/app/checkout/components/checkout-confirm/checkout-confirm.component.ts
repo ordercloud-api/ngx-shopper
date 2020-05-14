@@ -34,7 +34,7 @@ export class CheckoutConfirmComponent extends CheckoutSectionBaseComponent
     private cartService: CartService,
     private formBuilder: FormBuilder,
     private ocOrderService: OcOrderService,
-    @Inject(applicationConfiguration) private appConfig: AppConfig
+    @Inject(applicationConfiguration) public appConfig: AppConfig
   ) {
     super();
   }

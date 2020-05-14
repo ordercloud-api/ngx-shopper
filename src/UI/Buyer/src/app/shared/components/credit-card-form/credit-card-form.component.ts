@@ -53,9 +53,7 @@ export class CreditCardFormComponent implements OnInit {
       return;
     }
 
-    const date = `${this.cardForm.value.expMonth}${
-      this.cardForm.value.expYear
-    }`;
+    const date = `${this.cardForm.value.expMonth}${this.cardForm.value.expYear}`;
     const card = { ExpirationDate: date, ...this.cardForm.value };
     delete card.expMonth;
     delete card.expYear;
@@ -63,6 +61,6 @@ export class CreditCardFormComponent implements OnInit {
   }
 
   // control display of required error messages
-  protected hasRequiredError = (controlName: string) =>
+  hasRequiredError = (controlName: string) =>
     this.formErrorService.hasRequiredError(controlName, this.cardForm);
 }

@@ -16,6 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@app-buyer/*": ["src/app/*"]
-    }
+    },
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   }
 }

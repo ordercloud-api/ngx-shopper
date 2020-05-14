@@ -85,6 +85,6 @@ export class DateFilterComponent implements OnInit, OnDestroy {
     this.alive = false;
   }
 
-  protected hasDateError = (controlName: string) =>
+  public hasDateError = (controlName: string) =>
     this.formErrorService.hasDateError(controlName, this.form);
 }

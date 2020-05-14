@@ -39,22 +39,22 @@ export class AddressListComponent implements OnInit {
     this.reloadAddresses();
   }
 
-  protected showAddAddress() {
+  public showAddAddress() {
     this.currentAddress = null;
     this.modalService.open(this.addAddressModalID);
   }
 
-  protected showEditAddress(address: BuyerAddress) {
+  public showEditAddress(address: BuyerAddress) {
     this.currentAddress = address;
     this.modalService.open(this.addAddressModalID);
   }
 
-  protected showAreYouSure(address: BuyerAddress) {
+  public showAreYouSure(address: BuyerAddress) {
     this.currentAddress = address;
     this.modalService.open(this.areYouSureModalID);
   }
 
-  protected closeAreYouSure() {
+  public closeAreYouSure() {
     this.currentAddress = null;
     this.modalService.close(this.areYouSureModalID);
   }
@@ -64,7 +64,7 @@ export class AddressListComponent implements OnInit {
     this.reloadAddresses();
   }
 
-  protected addressFormSubmitted(address: BuyerAddress) {
+  public addressFormSubmitted(address: BuyerAddress) {
     this.modalService.close(this.addAddressModalID);
     if (this.currentAddress) {
       this.updateAddress(address);
@@ -98,7 +98,7 @@ export class AddressListComponent implements OnInit {
     );
   }
 
-  protected deleteAddress(address: BuyerAddress) {
+  public deleteAddress(address: BuyerAddress) {
     this.ocMeService.DeleteAddress(address.ID).subscribe(
       () => {
         this.closeAreYouSure();
@@ -110,10 +110,7 @@ export class AddressListComponent implements OnInit {
     );
   }
 
-  protected updateRequestOptions(newOptions: {
-    page?: number;
-    search?: string;
-  }) {
+  public updateRequestOptions(newOptions: { page?: number; search?: string }) {
     this.requestOptions = Object.assign(this.requestOptions, newOptions);
     this.reloadAddresses();
   }

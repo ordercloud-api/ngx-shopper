@@ -68,7 +68,7 @@ export class CheckoutPaymentComponent extends CheckoutSectionBaseComponent
       });
   }
 
-  selectPaymentMethod(method: PaymentMethod): void {
+  selectPaymentMethod(method?: PaymentMethod): void {
     if (method) {
       this.form.controls['selectedPaymentMethod'].setValue(method);
     }

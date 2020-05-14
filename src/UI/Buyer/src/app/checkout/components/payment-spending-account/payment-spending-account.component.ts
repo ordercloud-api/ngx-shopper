@@ -28,7 +28,7 @@ export class PaymentSpendingAccountComponent extends PaymentBaseComponent
 
   constructor(
     private ocMeService: OcMeService,
-    private modalService: ModalService
+    public modalService: ModalService
   ) {
     super();
   }

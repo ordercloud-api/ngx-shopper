@@ -35,7 +35,7 @@ export class ResetPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ocPasswordResetService: OcPasswordResetService,
     private formErrorService: AppFormErrorService,
-    @Inject(applicationConfiguration) private appConfig: AppConfig
+    @Inject(applicationConfiguration) public appConfig: AppConfig
   ) {}
 
   ngOnInit() {
@@ -78,10 +78,10 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   // control display of error messages
-  protected hasRequiredError = (controlName: string): boolean =>
+  public hasRequiredError = (controlName: string): boolean =>
     this.formErrorService.hasRequiredError(controlName, this.form);
-  protected hasPasswordMismatchError = (): boolean =>
+  public hasPasswordMismatchError = (): boolean =>
     this.formErrorService.hasPasswordMismatchError(this.form);
-  protected hasStrongPasswordError = (controlName: string): boolean =>
+  public hasStrongPasswordError = (controlName: string): boolean =>
     this.formErrorService.hasStrongPasswordError(controlName, this.form);
 }

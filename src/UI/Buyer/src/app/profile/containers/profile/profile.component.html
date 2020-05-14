@@ -32,8 +32,7 @@
       <router-outlet></router-outlet>
       <button class=" d-md-none mt-4 btn btn-danger btn-lg btn-block"
               routerLink="/home"
-              (click)="logout()"
-              *ngIf="!(anonymous$ | async)">Log Out</button>
+              (click)="logout()">Log Out</button>
     </div>
 
   </div>

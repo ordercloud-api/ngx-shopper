@@ -59,6 +59,8 @@ import {
 import { OrderPaymentListComponent } from '@app-buyer/shared/components/payment-list/order-payment-list.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { MiniCartComponent } from './components/mini-cart/mini-cart.component';
+import { PhoneFormatPipe } from './pipes/phone-format/phone-format.pipe';
+import { PhoneInputDirective } from './directives/phone-input/phone-input.directive';
 
 @NgModule({
   imports: [
@@ -132,6 +134,8 @@ import { MiniCartComponent } from './components/mini-cart/mini-cart.component';
     ModalComponent,
     OrderPaymentListComponent,
     MiniCartComponent,
+    PhoneFormatPipe,
+    PhoneInputDirective,
   ],
   declarations: [
     OrderStatusDisplayPipe,
@@ -159,6 +163,8 @@ import { MiniCartComponent } from './components/mini-cart/mini-cart.component';
     ModalComponent,
     OrderPaymentListComponent,
     NoResultsComponent,
+    PhoneFormatPipe,
+    PhoneInputDirective,
   ],
 })
 export class SharedModule {}

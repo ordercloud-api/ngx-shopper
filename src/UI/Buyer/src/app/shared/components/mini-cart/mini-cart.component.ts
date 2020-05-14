@@ -18,7 +18,7 @@ export class MiniCartComponent implements OnInit {
 
   constructor(
     private appStateService: AppStateService,
-    protected cartService: CartService // used in template
+    public cartService: CartService // used in template
   ) {}
 
   ngOnInit() {
