@@ -40,7 +40,7 @@
     "core-js": "^2.5.7",
     "jquery": "3",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "moment": "^2.20.0",
     "ngx-cookie": "^4.1.2",
     "ngx-image-zoom": "^0.4.1",
