@@ -41,7 +41,7 @@
     "jquery": "3",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",
-    "moment": "^2.20.0",
+    "moment": "^2.29.4",
     "ngx-cookie": "^4.1.2",
     "ngx-image-zoom": "^0.4.1",
     "ngx-toastr": "^9.1.1",
