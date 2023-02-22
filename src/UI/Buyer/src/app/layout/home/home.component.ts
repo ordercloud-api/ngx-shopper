@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log("testing")
     this.config.interval = 5000;
     this.config.wrap = true;
     this.featuredProducts$ = this.ocMeService.ListProducts({
